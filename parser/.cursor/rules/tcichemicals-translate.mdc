@@ -1,0 +1,14 @@
+---
+description: TCI — перевод EN-номенклатуры на русский через skill
+globs:
+  - tcichemicals/data/**/*.tsv
+alwaysApply: false
+---
+
+# TCI / перевод номенклатуры
+
+При запросе перевести номенклатуру TCI на русский — следуй skill  
+`parser/.cursor/skills/translate-nomenclature-ru/SKILL.md`.
+
+Источник EN: `tcichemicals.com/JP/en`.  
+Файл: `tcichemicals/data/nomenclature.tsv` (или `cat_*.tsv`).

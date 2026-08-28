@@ -1,0 +1,15 @@
+---
+description: TCI — цены в рублях без НДС 22%
+globs:
+  - tcichemicals/data/**/*
+  - tcichemicals/**/*.py
+alwaysApply: false
+---
+
+# TCI / цены
+
+- Цена в выгрузке: **одна**, за **минимальную фасовку** по массе (MG/G/KG).
+- Источник на сайте: Unit Price (JPY) на карточке `/JP/en/p/<код>`.
+- Пересчёт: `round((JPY × курс_ЦБ_за_1_иену) / 1.22)` — рубли **без НДС 22%**, цифры без пробелов.
+- Курс: ЦБ РФ `XML_daily.asp` (JPY за 100 иен).
+- Скрипт: `convert_prices_rub.py`.
