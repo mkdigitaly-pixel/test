@@ -1,32 +1,26 @@
-# Чеклист: первый запуск автопубликации
+# Чеклист: каналы и автопубликация
 
-Отмечайте по мере выполнения.
+## Разделение каналов (обязательно)
 
-## Telegram + Дзен
+- [ ] Создан **отдельный публичный** TG-канал для статей Дзен
+- [ ] `@Dzenkovalevabot` — админ в **обоих** каналах
+- [ ] `@zen_sync_bot` — админ только в **DZEN-канале**
+- [ ] В синхроботе `/restart` → привязан **DZEN-канал**, `@mariyaprodirect` **отвязан**
+- [ ] `.env`: `TELEGRAM_MAIN_CHANNEL_ID=@mariyaprodirect`
+- [ ] `.env`: `TELEGRAM_DZEN_CHANNEL_ID=@ваш_dzen_канал`
 
-- [ ] Создан бот в @BotFather, токен в `automation/.env`
-- [ ] Бот добавлен админом в канал `@mariyaprodirect` (или отдельный канал для статей)
-- [ ] В Дзен Студии получен код кросспостинга
-- [ ] @zen_sync_bot авторизован, выполнен `/sync`
-- [ ] zen_sync_bot — админ канала
-- [ ] Выбран режим: авто или вручную (`/changemode`)
-- [ ] В Студии настроены UTM для кросспостинга
-- [ ] Тест: короткий пост в канал → появился в Дзене за 10 мин
+## Бот
 
-## Скрипт
+- [ ] Токен в `automation/.env`
+- [ ] Тест: `python3 publish.py publish dzen <id> --dry-run` — канал DZEN, не mariyaprodirect
 
-- [ ] `pip install -r automation/requirements.txt`
-- [ ] `cp automation/.env.example automation/.env` — токены заполнены
-- [ ] `python publish.py publish 7-errors-direct --dry-run` — текст ок
-- [ ] `queue approve` → `DRY_RUN=false publish` — первая статья
+## Первая кампания по новой схеме
 
-## VK (опционально)
+- [ ] `publish dzen` → статья только в DZEN-канале
+- [ ] Ссылка в Студии → `dzen_url` в очереди
+- [ ] `publish teasers` → тизер в @mariyaprodirect + VK (с обложкой)
 
-- [ ] Токен сообщества с правом wall
-- [ ] `VK_ACCESS_TOKEN`, `VK_GROUP_ID` в `.env`
+## Свой контент TG / VK
 
-## После первой публикации
-
-- [ ] Ссылка на статью Дзен → `dzen_url` в `queue/publish-queue.yaml`
-- [ ] Тизер в @mariyaprodirect со ссылкой
-- [ ] Пост VK (скрипт или вручную)
+- [ ] Посты в `articles/tg/` и `articles/vk/` — разные файлы
+- [ ] `publish tg-post` / `publish vk-post` — не попадают в Дзен

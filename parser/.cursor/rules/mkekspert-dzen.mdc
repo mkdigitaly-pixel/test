@@ -10,7 +10,10 @@ alwaysApply: false
 Общие SEO-правила: `mkekspert-seo-content.mdc`, бренд: `references/brand.md`.
 
 ## Формат публикации
-- Файлы: `articles/dzen/YYYY-MM-DD-slug.md`
+- **Статьи Дзен:** `articles/dzen/articles/YYYY-MM-DD-slug.md` → отдельный TG-канал → Синхробот
+- **Тизеры:** `articles/dzen/teasers/tg/` и `articles/dzen/teasers/vk/` → @mariyaprodirect и VK
+- **Свой контент канала:** `articles/tg/` и `articles/vk/` — отдельно, своя разметка (`references/tg-markup.md`, `references/vk-markup.md`)
+- Схема каналов: `автоматизация-контента/docs/content-channels.md`
 - Дублировать мета-блок из SEO-правил в начале файла
 - **Заголовок для Дзена:** конкретный + цифра/ниша, до ~100 символов  
   Пример: «CPL с 8000 до 2500 ₽: кейс производства из пенопласта в Директе»

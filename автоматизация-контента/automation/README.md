@@ -1,125 +1,35 @@
-# Автопубликация mkekspert
+# Автопубликация
 
-Цепочка: **агент пишет → вы согласовываете → скрипт публикует в Telegram → Дзен подхватывает через @zen_sync_bot**.
+## Два канала Telegram
 
-У Яндекс Дзена **нет публичного API**. Официальный способ — [кросспостинг из Telegram](https://dzen.ru/help/ru/channel/cross-platform.html).
+| Канал | .env | Содержимое | Синхробот |
+|-------|------|------------|-----------|
+| `@mariyaprodirect` | `TELEGRAM_MAIN_CHANNEL_ID` | Свои посты + тизеры на Дзен | **НЕТ** |
+| Новый канал | `TELEGRAM_DZEN_CHANNEL_ID` | Только полные статьи | **ДА** |
 
-## Схема
+## Настройка DZEN-канала
 
-```
-articles/dzen/*.md
-       ↓
-queue/publish-queue.yaml  (draft → approved)
-       ↓
-publish.py → Telegram-канал
-       ↓
-@zen_sync_bot (Синхробот) → Дзен (2–10 мин)
-       ↓
-Тизер в @mariyaprodirect (отдельно, вручную или второй канал)
-```
-
-## Одноразовая настройка (≈20 мин)
-
-### 1. Telegram-бот
-
-1. [@BotFather](https://t.me/BotFather) → `/newbot` → имя, например `mkekspert_publish_bot`
-2. Скопируйте токен → `TELEGRAM_BOT_TOKEN` в `.env`
-3. Добавьте бота **администратором** в канал `@mariyaprodirect` (или отдельный канал для статей)
-
-### 2. Синхробот Дзена
-
-1. Дзен Студия → **Настройки** → **Кросспостинг** → **Telegram** → **Получить код доступа**
-2. [@zen_sync_bot](https://t.me/zen_sync_bot) → вставить код
-3. `/sync` → добавить **zen_sync_bot** админом канала (канал **публичный**)
-4. Режим публикации:
-   - **Авто** — каждый пост канала уходит в Дзен (удобно для статей)
-   - **Вручную** — пересылаете пост боту после проверки (больше контроля)
-
-## Обложки для Дзена
-
-Синхробот берёт **первую картинку** из поста Telegram как обложку статьи.
-
-**Ограничение:** в одном посте TG подпись к фото — максимум **1024 символа**. Наши статьи обычно длиннее (~3000+), поэтому:
-
-1. Скрипт публикует **полный текст** в канал → Дзен без обложки
-2. Обложку генерируем: `python generate_cover.py --slug ... --title "..."`
-3. **Добавляете обложку в Студии Дзена** (2 минуты) — или сохраняете картинку из поста бота в канале
-
-Для коротких материалов (≤1024 символа) обложка уйдёт автоматически в одном посте.
-
-### Как добавить обложку к уже опубликованной статье
-
-1. [dzen.ru/studio](https://dzen.ru/studio) → найдите статью → **Редактировать**
-2. **Обложка** → загрузить картинку
-3. Сохранить
-
-Картинку для этой статьи я отправила в `@mariyaprodirect` — пост «Обложка для статьи в Дзене». Сохраните на телефон (долгое нажатие → сохранить).
-
-
-### 3. UTM в Дзене
-
-Студия → Кросспостинг → Telegram → **Изменить значения UTM** (чтобы отличать TG и Дзен в Метрике).
-
-### 4. VK (опционально)
-
-1. [vk.com/apps?act=manage](https://vk.com/apps?act=manage) → создать приложение
-2. Получить токен сообщества с правом `wall`
-3. `VK_ACCESS_TOKEN`, `VK_GROUP_ID` в `.env`
-
-### 5. Файл .env
-
-```bash
-cd автоматизация-контента/automation
-cp .env.example .env
-# заполнить токены
-pip install -r requirements.txt
-```
-
-## Ежедневный workflow
-
-```bash
-cd автоматизация-контента/automation
-
-# Посмотреть очередь
-python publish.py queue list
-
-# Вы согласовали текст в чате →
-python publish.py queue approve 7-errors-direct
-
-# Проверка без отправки
-python publish.py publish 7-errors-direct --dry-run
-
-# Публикация (DRY_RUN=false в .env или убрать --dry-run)
-DRY_RUN=false python publish.py publish 7-errors-direct
-```
-
-После публикации:
-1. Через 2–10 мин проверить [Студию Дзена](https://dzen.ru/studio)
-2. Скопировать ссылку на статью → вписать в `dzen_url` в очереди
-3. Опубликовать тизер в @mariyaprodirect (или настроить `TELEGRAM_TEASER_CHANNEL_ID`)
+1. Создать публичный канал (например `@mkekspert_dzen`)
+2. `@Dzenkovalevabot` — админ (публикация)
+3. В [@zen_sync_bot](https://t.me/zen_sync_bot): `/restart` → привязать **новый** канал (отвязать `@mariyaprodirect`)
+4. `TELEGRAM_DZEN_CHANNEL_ID=@ваш_dzen_канал` в `.env`
 
 ## Команды
 
-| Команда | Действие |
-|---------|----------|
-| `queue list` | Список материалов |
-| `queue approve <id>` | Согласовать |
-| `publish <id> --dry-run` | Превью |
-| `publish <id>` | Отправить в TG (+ VK если настроено) |
-| `format articles/dzen/....md` | Текст как уйдёт в Дзен |
+```bash
+python3 publish.py queue approve <id>
+python3 publish.py publish dzen <id> [--dry-run]      # статья → DZEN-канал
+python3 publish.py publish teasers <id>                 # тизеры → TG + VK
+python3 publish.py publish tg-post <slug>             # свой пост → mariyaprodirect
+python3 publish.py publish vk-post <slug>             # свой пост → VK
+```
 
-## Ограничения
+Скрипт **не даст** опубликовать статью в тот же канал, что и основной (`dzen` + совпадающие ID).
 
-| Платформа | Лимит |
-|-----------|-------|
-| Telegram | 4096 символов на пост |
-| Дзен заголовок | 140 символов (первое предложение) |
-| Подпись к фото в TG | 1024 символа |
+## Порядок кампании
 
-## Альтернативы (без своего скрипта)
+1. `publish dzen` → ждём статью в Студии
+2. `dzen_url` в `queue/publish-queue.yaml`
+3. `publish teasers` → короткий пост с картинкой в @mariyaprodirect + VK
 
-- **publish-mcp** — MCP для Cursor, TG + VK из чата ([GitHub](https://github.com/devladpopov/publish-mcp))
-- **Make.com + Google Sheets** — очередь в таблице, пост в TG по расписанию
-- **SMMplanner / Postmypost** — планировщик с поддержкой TG
-
-Наш скрипт проще: очередь в репозитории, согласование одной командой, без подписки на SaaS.
+Полная схема: [`../docs/content-channels.md`](../docs/content-channels.md)

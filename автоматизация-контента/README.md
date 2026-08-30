@@ -1,49 +1,54 @@
 # Автоматизация контента mkekspert
 
-SEO-статьи, кейсы и нарезки для [mkekspert.ru](https://mkekspert.ru), [Дзен](https://dzen.ru/klientyandtrafik), [Telegram](https://t.me/mariyaprodirect).
+## Четыре потока
+
+| Поток | Папка | Куда |
+|-------|-------|------|
+| Статьи Дзен | `articles/dzen/articles/` | Отдельный TG-канал → Синхробот → Дзен |
+| Тизеры TG | `articles/dzen/teasers/tg/` | `@mariyaprodirect` |
+| Тизеры VK | `articles/dzen/teasers/vk/` | VK |
+| Свой контент | `articles/tg/`, `articles/vk/` | TG и VK отдельно, своя разметка |
+
+Подробно: [`docs/content-channels.md`](docs/content-channels.md)  
+Разметка: [`references/tg-markup.md`](references/tg-markup.md), [`references/vk-markup.md`](references/vk-markup.md)
 
 ## Структура
 
 ```
 автоматизация-контента/
-├── automation/       # скрипт публикации TG → Дзен, VK
-├── queue/            # очередь draft → approved → published
-├── briefs/           # брифы перед написанием
 ├── articles/
-│   ├── dzen/         # статьи для Дзена
-│   └── tg/           # посты для канала
-├── references/
-│   ├── brand.md              # бренд, ссылки, CTA, цифры кейсов
-│   ├── banned-phrases.md     # запрещённые нейроштампы (AI-клише)
-│   ├── program-prompts.md    # программа 3 дней (профайлинг, закреп, сторителлинг)
-│   └── utm.md                # UTM-метки
-├── prompts/                  # промпты по дням программы
-│   ├── day2-pinned-post.md
-│   └── day3-storytelling.md
-└── templates/                # шаблоны статьи и брифа
+│   ├── dzen/articles/      # полные статьи → DZEN-канал
+│   ├── dzen/teasers/tg/    # тизеры → @mariyaprodirect
+│   ├── dzen/teasers/vk/    # тизеры → VK
+│   ├── tg/                 # посты канала (свой контент)
+│   └── vk/                 # посты VK (свой контент)
+├── automation/             # publish.py, .env
+├── queue/                  # очередь кампаний
+└── docs/content-channels.md
 ```
 
-## Правила для агента (Cursor)
+## Публикация кампании (статья + тизеры)
 
-| Файл | Назначение |
-|------|------------|
-| `parser/.cursor/rules/mkekspert-seo-content.mdc` | SEO: структура, мета, чеклист |
-| `parser/.cursor/rules/mkekspert-dzen.mdc` | Формат статей Дзен + нарезка TG |
-| `parser/.cursor/skills/write-seo-article-mkekspert/` | Skill: алгоритм написания |
+```bash
+cd automation
+# 1. Статья только в DZEN-канал
+python3 publish.py publish dzen 7-errors-direct
 
-Правила подхватываются автоматически при работе в папке `автоматизация-контента/`.
+# 2. Ссылку из Студии → dzen_url в queue/publish-queue.yaml
 
-## Workflow
+# 3. Тизеры в @mariyaprodirect и VK
+python3 publish.py publish teasers 7-errors-direct
+```
 
-1. Бриф → `briefs/`
-2. Статья → `articles/dzen/`
-3. Согласование с Марией (`queue approve`)
-4. Публикация → `automation/publish.py` (TG → Дзен через @zen_sync_bot)
+## Свой пост канала / VK
 
-Подробно: [`automation/README.md`](automation/README.md)
+```bash
+python3 publish.py publish tg-post 2026-08-30-penoplast-teaser
+python3 publish.py publish vk-post my-slug
+```
 
-## Опционально позже
+## Настройка
 
-- Яндекс Wordstat MCP — реальные частоты
-- publish-mcp — автопостинг из Cursor без скрипта
-- Обложки по шаблону (генерация картинок для Дзена)
+См. [`automation/README.md`](automation/README.md) и [`checklists/automation-setup.md`](checklists/automation-setup.md)
+
+**Главное:** `@zen_sync_bot` привязать к **новому** каналу (`TELEGRAM_DZEN_CHANNEL_ID`), не к `@mariyaprodirect`.
