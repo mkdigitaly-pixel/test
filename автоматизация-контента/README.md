@@ -11,10 +11,14 @@ SEO-статьи, кейсы и нарезки для [mkekspert.ru](https://mke
 │   ├── dzen/         # статьи для Дзена
 │   └── tg/           # посты для канала
 ├── references/
-│   ├── brand.md          # бренд, ссылки, CTA, цифры кейсов
-│   ├── banned-phrases.md # запрещённые нейроштампы (AI-клише)
-│   └── utm.md            # UTM-метки
-└── templates/        # шаблоны статьи и брифа
+│   ├── brand.md              # бренд, ссылки, CTA, цифры кейсов
+│   ├── banned-phrases.md     # запрещённые нейроштампы (AI-клише)
+│   ├── program-prompts.md    # программа 3 дней (профайлинг, закреп, сторителлинг)
+│   └── utm.md                # UTM-метки
+├── prompts/                  # промпты по дням программы
+│   ├── day2-pinned-post.md
+│   └── day3-storytelling.md
+└── templates/                # шаблоны статьи и брифа
 ```
 
 ## Правила для агента (Cursor)

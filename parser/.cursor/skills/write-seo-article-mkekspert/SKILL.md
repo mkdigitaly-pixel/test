@@ -41,5 +41,10 @@ description: >-
 ### 4. Нарезка (если просят)
 - `articles/tg/YYYY-MM-DD-slug-post.md` — 1–2 поста для mariyaprodirect
 
+## Другие форматы (программа промптов)
+
+- Закреп TG, сторителлинг, профайлинг: `автоматизация-контента/references/program-prompts.md`
+- Готовые промпты: `автоматизация-контента/prompts/day2-pinned-post.md`, `day3-storytelling.md`
+
 ## Выход
 Краткий отчёт: путь к файлам, title, ключ, CTA-ссылка.
