@@ -15,7 +15,8 @@
 | Telegram — Контекст PRO | https://t.me/mariyaprodirect |
 | Дзен | https://dzen.ru/klientyandtrafik |
 | ВКонтакте | https://vk.ru/klientyandtrafik |
-| Кейс на VC.ru (пенопласт) | https://vc.ru/id5544975/2740046-snizhenie-cpl-do-3000-rublej-v-proizvodstve-izdelij-iz-penoplast |
+| VC.ru | https://vc.ru/id5544975 |
+| Кейс (пенопласт) | https://vc.ru/id5544975/2740046-snizhenie-cpl-do-3000-rublej-v-proizvodstve-izdelij-iz-penoplast |
 
 ## Одна строка под ссылками
 

@@ -15,6 +15,7 @@
 | Личка | https://t.me/Mariya1740 |
 | Дзен | https://dzen.ru/klientyandtrafik |
 | VK | https://vk.ru/klientyandtrafik |
+| VC.ru | https://vc.ru/id5544975 |
 
 ## Главный CTA (приоритет)
 1. **Бесплатный разбор рекламы** → `mkekspert.ru/razbor-direct`
