@@ -168,29 +168,44 @@ def publish_telegram(
         )
 
     if dry_run:
+        mode = "фото+текст" if cover and len(text) <= TG_CAPTION_LIMIT else (
+            "фото (заголовок) + текст" if cover else "текст"
+        )
         preview = text[:500] + ("…" if len(text) > 500 else "")
         return PublishResult(
             platform="telegram",
             ok=True,
-            message=f"[dry-run] → {channel_id}\n{preview}",
+            message=f"[dry-run] → {channel_id} ({mode})\n{preview}",
         )
 
     if cover and cover.exists():
         if len(text) <= TG_CAPTION_LIMIT:
             with cover.open("rb") as f:
-                files = {"photo": f}
-                payload = {"chat_id": channel_id, "caption": text}
-                url = f"https://api.telegram.org/bot{token}/sendPhoto"
-                resp = requests.post(url, data=payload, files=files, timeout=120)
-                data = resp.json()
-                if not data.get("ok"):
-                    raise RuntimeError(data.get("description", data))
-                mid = data["result"]["message_id"]
-                return PublishResult("telegram", True, "Фото + текст", mid)
-        # длинный текст: только сообщение (обложку — вручную в Студии Дзена)
+                resp = requests.post(
+                    f"https://api.telegram.org/bot{token}/sendPhoto",
+                    data={"chat_id": channel_id, "caption": text},
+                    files={"photo": f},
+                    timeout=120,
+                )
+            data = resp.json()
+            if not data.get("ok"):
+                raise RuntimeError(data.get("description", data))
+            return PublishResult("telegram", True, "Фото + полный текст (→Дзен с обложкой)", data["result"]["message_id"])
+
+        # длинная статья: обложка отдельно не склеится с текстом в один пост Дзена
+        title_line = text.split("\n", 1)[0]
+        with cover.open("rb") as f:
+            resp = requests.post(
+                f"https://api.telegram.org/bot{token}/sendPhoto",
+                data={"chat_id": channel_id, "caption": title_line},
+                files={"photo": f},
+                timeout=120,
+            )
+        data = resp.json()
+        if not data.get("ok"):
+            raise RuntimeError(data.get("description", data))
         print(
-            "⚠ Текст длиннее 1024 — обложка не прикрепляется одним постом. "
-            "Статья уйдёт текстом; обложку можно добавить в Студии Дзена.",
+            "⚠ Статья длинная — обложку добавьте в Студии Дзена после синхронизации.",
             file=sys.stderr,
         )
 
