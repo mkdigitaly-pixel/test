@@ -6,6 +6,8 @@ SEO-статьи, кейсы и нарезки для [mkekspert.ru](https://mke
 
 ```
 автоматизация-контента/
+├── automation/       # скрипт публикации TG → Дзен, VK
+├── queue/            # очередь draft → approved → published
 ├── briefs/           # брифы перед написанием
 ├── articles/
 │   ├── dzen/         # статьи для Дзена
@@ -35,11 +37,13 @@ SEO-статьи, кейсы и нарезки для [mkekspert.ru](https://mke
 
 1. Бриф → `briefs/`
 2. Статья → `articles/dzen/`
-3. Согласование с Марией
-4. Публикация (Tilda / Дзен / TG — вручную или через автоматизацию позже)
+3. Согласование с Марией (`queue approve`)
+4. Публикация → `automation/publish.py` (TG → Дзен через @zen_sync_bot)
+
+Подробно: [`automation/README.md`](automation/README.md)
 
 ## Опционально позже
 
 - Яндекс Wordstat MCP — реальные частоты
-- publish-mcp — автопостинг в Telegram
-- dzen skill — автопубликация в Дзен
+- publish-mcp — автопостинг из Cursor без скрипта
+- Обложки по шаблону (генерация картинок для Дзена)

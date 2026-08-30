@@ -1,0 +1,12 @@
+# Очередь публикаций
+# Статусы: draft → approved → published
+
+items:
+  - id: 7-errors-direct
+    status: draft
+    article: articles/dzen/2026-08-30-7-errors-direct.md
+    teaser: articles/tg/2026-08-30-7-errors-teaser.md
+    vk_post: articles/vk/2026-08-30-7-errors-post.md
+    # cover: assets/covers/7-errors-direct.jpg  # опционально, до 1024 символов в caption
+    dzen_url: ""  # заполнить после публикации для тизера VK/TG
+    notes: "Первое предложение в TG = заголовок в Дзене (до 140 символов)"
