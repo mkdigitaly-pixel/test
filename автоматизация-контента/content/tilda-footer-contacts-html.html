@@ -1,0 +1,208 @@
+<!--
+  Tilda: блок T123 «HTML-код»
+  Вставить в секцию #contacts (перед формой или после контактов)
+  Настройки блока: ширина контента = 1200px, отступы по вкусу
+-->
+<style>
+  .mk-social {
+    font-family: 'TildaSans', Arial, sans-serif;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 48px 24px 40px;
+    box-sizing: border-box;
+  }
+
+  .mk-social__label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #4eaf4e;
+    margin-bottom: 12px;
+  }
+
+  .mk-social__title {
+    margin: 0 0 10px;
+    font-size: clamp(26px, 4vw, 36px);
+    font-weight: 600;
+    line-height: 1.15;
+    color: #181818;
+    letter-spacing: -0.02em;
+  }
+
+  .mk-social__desc {
+    margin: 0 0 32px;
+    font-size: 16px;
+    line-height: 1.55;
+    color: #5c5c5c;
+    max-width: 560px;
+  }
+
+  .mk-social__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  @media (max-width: 768px) {
+    .mk-social__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 400px) {
+    .mk-social__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .mk-social__card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 20px 18px;
+    background: #f7f7f7;
+    border: 1px solid #ebebeb;
+    border-radius: 16px;
+    text-decoration: none;
+    color: #181818;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .mk-social__card:hover {
+    background: #fff;
+    border-color: #4eaf4e;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(24, 24, 24, 0.06);
+  }
+
+  .mk-social__icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #181818;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .mk-social__icon svg {
+    width: 18px;
+    height: 18px;
+    fill: #fff;
+  }
+
+  .mk-social__card:hover .mk-social__icon {
+    background: #4eaf4e;
+  }
+
+  .mk-social__name {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .mk-social__hint {
+    font-size: 12px;
+    line-height: 1.35;
+    color: #888;
+  }
+
+  .mk-social__cta-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 24px;
+    padding-top: 8px;
+    border-top: 1px solid #ebebeb;
+  }
+
+  .mk-social__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 32px;
+    background: #181818;
+    color: #fff !important;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 55px;
+    border: none;
+    transition: background 0.2s ease, transform 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .mk-social__cta:hover {
+    background: #4eaf4e;
+    color: #fff !important;
+    transform: translateY(-1px);
+  }
+
+  .mk-social__cta-note {
+    font-size: 14px;
+    line-height: 1.45;
+    color: #5c5c5c;
+    margin: 0;
+  }
+
+  .mk-social__cta-note a {
+    color: #181818;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .mk-social__cta-note a:hover {
+    color: #4eaf4e;
+  }
+</style>
+
+<div class="mk-social" id="mk-social-footer">
+  <span class="mk-social__label">Блог и кейсы</span>
+  <h2 class="mk-social__title">Кейсы и разборы в соцсетях</h2>
+  <p class="mk-social__desc">Цифры из реальных проектов: CPL, заявки, настройки Директа и правки сайта. Без воды — только практика.</p>
+
+  <div class="mk-social__grid">
+    <a class="mk-social__card" href="https://t.me/mariyaprodirect" target="_blank" rel="noopener noreferrer">
+      <span class="mk-social__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.78 15.29 9.4 19.8c.55 0 .79-.24 1.08-.52l2.59-2.48 5.37 3.94c.98.54 1.68.26 1.93-.9l3.52-16.5h.01c.31-1.44-.52-2.01-1.47-1.57L2.2 9.74c-1.4.55-1.38 1.33-.24 1.68l5.47 1.71L18.9 6.3c.61-.4 1.16-.18.71.25"/></svg>
+      </span>
+      <span class="mk-social__name">Telegram</span>
+      <span class="mk-social__hint">Контекст PRO · кейсы</span>
+    </a>
+
+    <a class="mk-social__card" href="https://dzen.ru/klientyandtrafik" target="_blank" rel="noopener noreferrer">
+      <span class="mk-social__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 4h16v16H4V4zm2 2v12h12V6H6zm2 2h8v2H8V8zm0 4h8v2H8v-2z"/></svg>
+      </span>
+      <span class="mk-social__name">Дзен</span>
+      <span class="mk-social__hint">Статьи и разборы</span>
+    </a>
+
+    <a class="mk-social__card" href="https://vk.ru/klientyandtrafik" target="_blank" rel="noopener noreferrer">
+      <span class="mk-social__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.785 16.241s.288-.032.436-.194c.136-.148.132-.427.132-.427s-.02-1.304.58-1.496c.591-.19 1.35.956 2.154 1.378.605.318 1.064.248 1.064.248l2.137-.03s1.117-.07.587-.95c-.043-.073-.31-.65-1.588-1.84-1.34-1.25-1.16-.525.453-1.608.983-.828 1.377-1.334 1.253-1.55-.117-.204-.84-.15-.84-.15l-2.42.015s-.18-.025-.312.056c-.13.079-.213.262-.213.262s-.382 1.02-.89 1.89c-1.07 1.82-1.5 1.916-1.674 1.804-.408-.262-.306-1.053-.306-1.616 0-1.756.266-2.487-.518-2.675-.26-.063-.451-.104-1.117-.111-.854-.009-1.578.003-1.985.208-.272.135-.482.436-.354.453.158.022.516.097.705.355.245.332.236 1.076.236 1.076s.14 2.06-.326 2.317c-.32.197-.758-.205-1.7-1.82-.482-.84-.847-1.768-.847-1.768s-.07-.173-.196-.266c-.152-.113-.365-.149-.365-.149l-2.3.015s-.345.01-.472.16c-.113.133-.009.408-.009.408s1.796 4.2 3.83 6.316c1.865 1.94 3.986 1.813 3.986 1.813h.958z"/></svg>
+      </span>
+      <span class="mk-social__name">ВКонтакте</span>
+      <span class="mk-social__hint">Клиенты и трафик</span>
+    </a>
+
+    <a class="mk-social__card" href="https://vc.ru/id5544975" target="_blank" rel="noopener noreferrer">
+      <span class="mk-social__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 5h3l2 7 2-7h3l-4 14h-2L6 5zm8 0h6v2.5h-2V17h-2V7.5h-2V5z"/></svg>
+      </span>
+      <span class="mk-social__name">VC.ru</span>
+      <span class="mk-social__hint">Кейсы B2B</span>
+    </a>
+  </div>
+
+  <div class="mk-social__cta-wrap">
+    <a class="mk-social__cta" href="https://mkekspert.ru/razbor-direct?utm_source=site&utm_medium=footer&utm_campaign=social-block">Бесплатный разбор рекламы</a>
+    <p class="mk-social__cta-note">Вопросы в Telegram: <a href="https://t.me/Mariya1740" target="_blank" rel="noopener">@Mariya1740</a> · напишите слово <strong>РАЗБОР</strong></p>
+  </div>
+</div>
