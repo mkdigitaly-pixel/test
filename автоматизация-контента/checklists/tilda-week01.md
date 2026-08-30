@@ -36,7 +36,7 @@
 | Telegram | https://t.me/mariyaprodirect |
 | Дзен | https://dzen.ru/klientyandtrafik |
 | VK | https://vk.ru/klientyandtrafik |
-| VC.ru (кейс) | https://vc.ru/id5544975/2740046-snizhenie-cpl-do-3000-rublej-v-proizvodstve-izdelij-iz-penoplast |
+| VC.ru | https://vc.ru/id5544975 |
 
 Текст блока:
 > **Кейсы и разборы в соцсетях**  
