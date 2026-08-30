@@ -32,7 +32,7 @@
   <a href="https://t.me/mariyaprodirect">Telegram</a> ·
   <a href="https://dzen.ru/klientyandtrafik">Дзен</a> ·
   <a href="https://vk.ru/klientyandtrafik">ВКонтакте</a> ·
-  <a href="https://vc.ru/id5544975/2740046-snizhenie-cpl-do-3000-rublej-v-proizvodstve-izdelij-iz-penoplast">VC.ru</a>
+  <a href="https://vc.ru/id5544975">VC.ru</a>
 </p>
 <p><a href="https://mkekspert.ru/razbor-direct">Бесплатный разбор рекламы</a></p>
 ```
