@@ -16,8 +16,9 @@ description: >-
 1. `parser/.cursor/rules/mkekspert-seo-content.mdc`
 2. Для Дзена: `parser/.cursor/rules/mkekspert-dzen.mdc`
 3. `автоматизация-контента/references/brand.md`
-4. `автоматизация-контента/references/utm.md`
-5. Шаблон: `автоматизация-контента/templates/article-dzen.md`
+4. `автоматизация-контента/references/banned-phrases.md`
+5. `автоматизация-контента/references/utm.md`
+6. Шаблон: `автоматизация-контента/templates/article-dzen.md`
 
 ## Алгоритм
 
@@ -33,6 +34,7 @@ description: >-
 
 ### 3. Проверка
 - Чеклист из mkekspert-seo-content.mdc
+- Прогон по `banned-phrases.md` — убрать нейроштампы
 - CTA + UTM из brand.md
 - Цифры только из подтверждённых кейсов (brand.md или исходник VC/клиент)
 
