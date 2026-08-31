@@ -16,6 +16,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
 COVERS = ROOT / "assets" / "covers"
+IMPORT_DIR = COVERS / "_import"
 ENV_FILE = Path(__file__).resolve().parent / ".env"
 QUEUE_FILE = ROOT / "queue" / "publish-queue.yaml"
 BRAND_VISUAL = ROOT / "references" / "brand-visual.md"
@@ -140,26 +141,95 @@ def overlay_brand_text(img: Image.Image, headline: str, subline: str) -> Image.I
     return img
 
 
-def generate_pil_fallback(headline: str, subline: str, size: tuple[int, int]) -> Image.Image:
+def hex_rgb(color: str) -> tuple[int, int, int]:
+    color = color.lstrip("#")
+    return tuple(int(color[i : i + 2], 16) for i in (0, 2, 4))
+
+
+def crop_center_square(img: Image.Image) -> Image.Image:
+    w, h = img.size
+    side = min(w, h)
+    left = (w - side) // 2
+    top = (h - side) // 2
+    return img.crop((left, top, left + side, top + side))
+
+
+def resize_cover(img: Image.Image, size: tuple[int, int]) -> Image.Image:
+    tw, th = size
+    iw, ih = img.size
+    scale = max(tw / iw, th / ih)
+    nw, nh = int(iw * scale), int(ih * scale)
+    resized = img.resize((nw, nh), Image.Resampling.LANCZOS)
+    left = (nw - tw) // 2
+    top = (nh - th) // 2
+    return resized.crop((left, top, left + tw, top + th))
+
+
+def find_import_background(slug: str) -> Path | None:
+    for ext in (".png", ".jpg", ".jpeg", ".webp"):
+        path = IMPORT_DIR / f"{slug}{ext}"
+        if path.exists():
+            return path
+    return None
+
+
+def draw_bright_background(size: tuple[int, int]) -> Image.Image:
+    """Яркий бренд-фон без GPT: градиент + абстрактные акценты."""
     w, h = size
     img = Image.new("RGB", size, BG)
     draw = ImageDraw.Draw(img)
+
+    bg0, bg1 = hex_rgb("#151515"), hex_rgb(BG)
+    green = hex_rgb(ACCENT_GREEN)
+    yellow = hex_rgb(ACCENT_YELLOW)
+
+    for y in range(h):
+        t = y / max(h - 1, 1)
+        color = tuple(int(bg0[i] * (1 - t) + bg1[i] * t) for i in range(3))
+        draw.line([(0, y), (w, y)], fill=color)
+
+    # светящиеся пятна
+    overlay = Image.new("RGBA", size, (0, 0, 0, 0))
+    odraw = ImageDraw.Draw(overlay)
+    odraw.ellipse([int(w * 0.58), int(-h * 0.1), int(w * 1.1), int(h * 0.5)], fill=(*green, 55))
+    odraw.ellipse([int(-w * 0.2), int(h * 0.35), int(w * 0.45), int(h * 1.05)], fill=(*yellow, 45))
+    img = Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB")
+    draw = ImageDraw.Draw(img)
+
+    # абстрактный рост (столбики)
+    base_y = int(h * 0.72)
+    bars = [0.22, 0.34, 0.48, 0.62, 0.78]
+    bar_w = max(18, w // 28)
+    gap = max(10, w // 48)
+    x = int(w * 0.62)
+    for i, bh in enumerate(bars):
+        top = base_y - int(h * bh * 0.35)
+        color = green if i >= 3 else (80, 80, 80)
+        draw.rounded_rectangle([x, top, x + bar_w, base_y], radius=6, fill=color)
+        x += bar_w + gap
+
+    # стрелка вверх
+    ax, ay = int(w * 0.78), int(h * 0.28)
+    draw.polygon(
+        [(ax, ay - 70), (ax + 55, ay + 10), (ax + 18, ay + 10), (ax + 18, ay + 90), (ax - 18, ay + 90), (ax - 18, ay + 10), (ax - 55, ay + 10)],
+        fill=yellow,
+    )
+
     draw.rectangle([0, 0, 14, h], fill=ACCENT_GREEN)
     draw.rectangle([0, h - 8, w, h], fill=ACCENT_YELLOW)
-    font_h = load_font(46 if w > 1000 else 40, bold=True)
-    font_s = load_font(28 if w > 1000 else 24)
-    font_b = load_font(22)
-    y = int(h * 0.25)
-    for line in textwrap.wrap(headline, width=22)[:4]:
-        draw.text((70, y), line, fill=TEXT, font=font_h)
-        y += 56
-    if subline:
-        y += 16
-        for line in textwrap.wrap(subline, width=40)[:2]:
-            draw.text((70, y), line, fill=ACCENT_YELLOW, font=font_s)
-            y += 34
-    draw.text((70, h - 50), "Мария Ковалева · mkekspert.ru", fill=ACCENT_GREEN, font=font_b)
     return img
+
+
+def generate_pil_fallback(headline: str, subline: str, size: tuple[int, int]) -> Image.Image:
+    img = draw_bright_background(size)
+    return overlay_brand_text(img, headline, subline)
+
+
+def load_background_image(path: Path, *, square: bool, target: tuple[int, int]) -> Image.Image:
+    img = Image.open(path).convert("RGB")
+    if square:
+        img = crop_center_square(img)
+    return resize_cover(img, target)
 
 
 def generate_cover(
@@ -169,11 +239,21 @@ def generate_cover(
     *,
     square: bool = False,
     use_gpt: bool = True,
+    slug: str = "",
+    import_path: Path | None = None,
 ) -> Path:
     target = SQUARE if square else LANDSCAPE
     img: Image.Image | None = None
 
-    if use_gpt and os.getenv("OPENAI_API_KEY"):
+    bg_path = import_path or (find_import_background(slug) if slug else None)
+    if bg_path:
+        try:
+            bg = load_background_image(bg_path, square=square, target=target)
+            img = overlay_brand_text(bg, headline, subline)
+        except Exception as exc:
+            print(f"⚠ import {bg_path.name}: {exc}")
+
+    if img is None and use_gpt and os.getenv("OPENAI_API_KEY"):
         try:
             bg = fetch_gpt_background(headline, subline, square=square)
             bg = bg.resize(target, Image.Resampling.LANCZOS)
@@ -196,10 +276,10 @@ def cover_paths(slug: str) -> tuple[Path, Path]:
 def ensure_covers(slug: str, headline: str, subline: str = "", *, force: bool = False) -> tuple[Path, Path]:
     landscape, square = cover_paths(slug)
     if force or not landscape.exists():
-        generate_cover(headline, subline, landscape, square=False)
+        generate_cover(headline, subline, landscape, square=False, slug=slug)
         print(f"✓ {landscape}")
     if force or not square.exists():
-        generate_cover(headline, subline, square, square=True)
+        generate_cover(headline, subline, square, square=True, slug=slug)
         print(f"✓ {square}")
     return landscape, square
 
@@ -285,6 +365,7 @@ def main() -> None:
     p.add_argument("--no-gpt", action="store_true")
     p.add_argument("--force", action="store_true")
     p.add_argument("--campaign", help="id из publish-queue.yaml")
+    p.add_argument("--import", dest="import_file", help="PNG/JPG фон (или положите в assets/covers/_import/{slug}.png)")
     args = p.parse_args()
 
     if args.campaign:
@@ -294,15 +375,22 @@ def main() -> None:
         return
 
     use_gpt = not args.no_gpt
+    import_path = Path(args.import_file) if args.import_file else None
     if args.variant in ("landscape", "both"):
         out = COVERS / f"{args.slug}.jpg"
         if args.force or not out.exists():
-            generate_cover(args.title, args.subtitle, out, square=False, use_gpt=use_gpt)
+            generate_cover(
+                args.title, args.subtitle, out,
+                square=False, use_gpt=use_gpt, slug=args.slug, import_path=import_path,
+            )
             print(out)
     if args.variant in ("vk", "both"):
         out = COVERS / f"{args.slug}-vk.jpg"
         if args.force or not out.exists():
-            generate_cover(args.title, args.subtitle, out, square=True, use_gpt=use_gpt)
+            generate_cover(
+                args.title, args.subtitle, out,
+                square=True, use_gpt=use_gpt, slug=args.slug, import_path=import_path,
+            )
             print(out)
 
 

@@ -37,19 +37,28 @@ VK-группа использует те же тёмный фон + зелён�
 
 Для VK при публикации: если есть `{id}-vk.jpg` — используем его, иначе `{id}.jpg`.
 
-## Генерация (GPT)
+## Генерация обложек
 
-**Модель:** `gpt-image-1` (fallback: DALL·E 3). Ключ: `OPENAI_API_KEY` в `automation/.env`.
+**Ключ OpenAI не нужен.** Яркие картинки делает Cloud Agent при подготовке материала (встроенная генерация GPT).
 
-Перед каждой публикацией `publish.py` вызывает `ensure_campaign_covers()` — создаёт файлы, если их нет.
+Скрипт `publish.py` перед публикацией проверяет готовые файлы в `assets/covers/`. Если их нет — собирает яркий бренд-шаблон (PIL).
+
+### Порядок приоритета
+
+1. Уже есть `{id}.jpg` / `{id}-vk.jpg` → используем
+2. Фон в `assets/covers/_import/{id}.png` → оверлей + текст
+3. `OPENAI_API_KEY` в `.env` (опционально, если появится)
+4. Авто-шаблон PIL (градиент, график, стрелка — цвета бренда)
+
+### Команды
 
 ```bash
 cd automation
 python3 publish.py cover penoplast-case          # из очереди
-python3 publish.py cover penoplast-case --force   # перегенерировать
+python3 publish.py cover penoplast-case --force   # пересобрать
 
-python3 generate_cover.py --slug tg-5-errors-reminder \
-  --title "7 ошибок в Директе" --subtitle "Заявок нет?"
+python3 generate_cover.py --slug my-post \
+  --title "Заголовок" --subtitle "Подзаголовок"
 ```
 
-Без `OPENAI_API_KEY` — fallback на PIL-шаблон (тёмный фон + текст). Для ярких обложек ключ обязателен.
+Агент кладёт сгенерированный PNG в `assets/covers/_import/{id}.png` и запускает `generate_cover.py --force`.

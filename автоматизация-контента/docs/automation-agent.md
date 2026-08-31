@@ -5,7 +5,7 @@
 ## Как это работает
 
 1. Контент согласован → `status: approved` в `queue/publish-queue.yaml`
-2. Агент генерирует **обложки GPT** (`assets/covers/{id}.jpg` + `-vk.jpg`) — см. `references/brand-visual.md`
+2. **Агент** генерирует яркие обложки и кладёт в `assets/covers/` (ключ OpenAI вам не нужен)
 3. Слоты в `queue/posting-schedule.yaml` (вт/чт 10:00 Дзен, 12:00 тизеры, ср TG, пт VK)
 4. Таймер Cloud Agent запускает `automation/run-schedule.sh` несколько раз в день (МСК)
 5. Скрипт:
@@ -19,8 +19,9 @@
 ```
 AUTO_PUBLISH=true    # расписание публикует по-настоящему
 DRY_RUN=true         # ручные команды publish — по-прежнему dry-run, если не DRY_RUN=false
-OPENAI_API_KEY=sk-…  # яркие GPT-обложки (без ключа — PIL-шаблон)
 ```
+
+`OPENAI_API_KEY` — **не обязателен**. Обложки готовит агент; скрипт использует готовые JPG или бренд-шаблон.
 
 ## Команды (для агента / отладки)
 
