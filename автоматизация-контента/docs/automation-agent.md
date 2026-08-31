@@ -10,6 +10,7 @@
    - **вт/чт 10:00** — Дзен, **12:00** — тизеры TG + VK
    - **ср 11:00** — свой пост TG (`articles/tg/`)
    - **пт 11:00** — свой пост VK (`articles/vk/`)
+4. **Темы** — анализ Promopult, Click.ru, Habr → структура + рерайт (`references/topic-research.md`)
 4. Таймер Cloud Agent запускает `automation/run-schedule.sh` несколько раз в день (МСК)
 5. Скрипт:
    - создаёт обложки, если файлов ещё нет

@@ -4,7 +4,7 @@
 **Ниша:** Яндекс Директ, B2B, малый бизнес с бюджетом  
 **Ритм:** **2 статьи в неделю** (старт), далее 1–2 по результатам  
 **Расписание:** [`plan/posting-schedule.md`](posting-schedule.md) — вт/чт 10:00 Дзен, 12:00 тизеры, ср TG, пт VK  
-**Связанные файлы:** `references/dzen-markup.md`, `references/brand.md`, `briefs/`, `queue/publish-queue.yaml`, `queue/posting-schedule.yaml`
+**Связанные файлы:** `references/dzen-markup.md`, `references/brand.md`, `references/topic-research.md`, `plan/topic-sources-backlog.md`, `briefs/`, `queue/publish-queue.yaml`, `queue/posting-schedule.yaml`
 
 ---
 

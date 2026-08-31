@@ -72,3 +72,19 @@ items:
   cover_headline: "ЕПК"
   cover_subline: "Заявки B2B"
   dzen_url: ''
+
+- id: offline-conversions
+  status: draft
+  topic: "Офлайн-конверсии и CRM — обучение стратегии Директа"
+  cover_headline: "Офлайн-конверсии"
+  cover_subline: "CRM + Директ"
+  notes: 'Источник структуры: Habr 1069424 — рерайт под B2B'
+  dzen_url: ''
+
+- id: search-retargeting
+  status: draft
+  topic: "Поисковый ретаргетинг в Директе 2026"
+  cover_headline: "Поисковый ретаргет"
+  cover_subline: "B2B 2026"
+  notes: 'Источник структуры: blog.click.ru/direct-yandex'
+  dzen_url: ''
