@@ -1,0 +1,400 @@
+# Расписание постинга (машиночитаемое)
+# Часовой пояс: Europe/Moscow
+# Документация: plan/posting-schedule.md
+
+timezone: Europe/Moscow
+
+rhythm:
+  dzen_article:
+    days: [tuesday, thursday]
+    time: "10:00"
+  teasers:
+    days: [tuesday, thursday]
+    time: "12:00"
+    after: dzen_article
+    delay_hours: 2
+  tg_own:
+    day: wednesday
+    time: "11:00"
+  vk_own:
+    day: friday
+    time: "11:00"
+  vc_manual:
+    days: [wednesday, friday]
+    time: "15:00"
+    optional: true
+
+slots:
+  # --- Неделя 1 (30.08–05.09) ---
+  - date: "2026-09-02"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: penoplast-case
+    status: scheduled
+  - date: "2026-09-02"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: penoplast-case
+    status: scheduled
+  - date: "2026-09-03"
+    time: "11:00"
+    action: publish_tg_post
+    post_id: tg-5-errors-reminder
+    status: scheduled
+
+  # --- Неделя 2 ---
+  - date: "2026-09-09"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: no-leads-direct
+    status: scheduled
+  - date: "2026-09-09"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: no-leads-direct
+    status: scheduled
+  - date: "2026-09-10"
+    time: "11:00"
+    action: publish_tg_post
+    post_id: tg-week2
+    status: scheduled
+  - date: "2026-09-11"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: autotarget-b2b
+    status: scheduled
+  - date: "2026-09-11"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: autotarget-b2b
+    status: scheduled
+  - date: "2026-09-12"
+    time: "11:00"
+    action: publish_vk_post
+    post_id: vk-week2
+    status: scheduled
+
+  # --- Неделя 3 ---
+  - date: "2026-09-16"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: shpunkt-case
+    status: scheduled
+  - date: "2026-09-16"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: shpunkt-case
+    status: scheduled
+  - date: "2026-09-17"
+    time: "11:00"
+    action: publish_tg_post
+    post_id: tg-week3
+    status: scheduled
+  - date: "2026-09-18"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: chp-upp-case
+    status: scheduled
+  - date: "2026-09-18"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: chp-upp-case
+    status: scheduled
+  - date: "2026-09-18"
+    time: "15:00"
+    action: vc_manual
+    note: vc-penoplast-ending-fix
+    status: scheduled
+  - date: "2026-09-19"
+    time: "11:00"
+    action: publish_vk_post
+    post_id: vk-week3
+    status: scheduled
+
+  # --- Неделя 4 ---
+  - date: "2026-09-23"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: metrika-goals
+    status: scheduled
+  - date: "2026-09-23"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: metrika-goals
+    status: scheduled
+  - date: "2026-09-24"
+    time: "11:00"
+    action: publish_tg_post
+    post_id: tg-week4
+    status: scheduled
+  - date: "2026-09-25"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: epk-leads
+    status: scheduled
+  - date: "2026-09-25"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: epk-leads
+    status: scheduled
+  - date: "2026-09-26"
+    time: "11:00"
+    action: publish_vk_post
+    post_id: vk-week4
+    status: scheduled
+
+  # --- Неделя 5 ---
+  - date: "2026-09-30"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: rsa-vs-search
+    status: scheduled
+  - date: "2026-09-30"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: rsa-vs-search
+    status: scheduled
+  - date: "2026-10-01"
+    time: "11:00"
+    action: publish_tg_post
+    post_id: tg-week5
+    status: scheduled
+  - date: "2026-10-02"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: budget-waste
+    status: scheduled
+  - date: "2026-10-02"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: budget-waste
+    status: scheduled
+  - date: "2026-10-03"
+    time: "11:00"
+    action: publish_vk_post
+    post_id: vk-week5
+    status: scheduled
+
+  # --- Неделя 6 ---
+  - date: "2026-10-07"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: choose-directologist
+    status: scheduled
+  - date: "2026-10-07"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: choose-directologist
+    status: scheduled
+  - date: "2026-10-08"
+    time: "11:00"
+    action: publish_tg_post
+    post_id: tg-week6
+    status: scheduled
+  - date: "2026-10-09"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: audit-direct
+    status: scheduled
+  - date: "2026-10-09"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: audit-direct
+    status: scheduled
+  - date: "2026-10-10"
+    time: "11:00"
+    action: publish_vk_post
+    post_id: vk-week6
+    status: scheduled
+
+  # --- Неделя 7 ---
+  - date: "2026-10-14"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: direct-price
+    status: scheduled
+  - date: "2026-10-14"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: direct-price
+    status: scheduled
+  - date: "2026-10-15"
+    time: "11:00"
+    action: publish_tg_post
+    post_id: tg-week7
+    status: scheduled
+  - date: "2026-10-16"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: landing-conversion
+    status: scheduled
+  - date: "2026-10-16"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: landing-conversion
+    status: scheduled
+  - date: "2026-10-17"
+    time: "11:00"
+    action: publish_vk_post
+    post_id: vk-week7
+    status: scheduled
+
+  # --- Неделя 8 ---
+  - date: "2026-10-21"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: negative-keywords
+    status: scheduled
+  - date: "2026-10-21"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: negative-keywords
+    status: scheduled
+  - date: "2026-10-22"
+    time: "11:00"
+    action: publish_tg_post
+    post_id: tg-week8
+    status: scheduled
+  - date: "2026-10-23"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: yandex-business
+    status: scheduled
+  - date: "2026-10-23"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: yandex-business
+    status: scheduled
+  - date: "2026-10-24"
+    time: "11:00"
+    action: publish_vk_post
+    post_id: vk-week8
+    status: scheduled
+
+  # --- Неделя 9 ---
+  - date: "2026-10-28"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: direct-2026
+    status: scheduled
+  - date: "2026-10-28"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: direct-2026
+    status: scheduled
+  - date: "2026-10-29"
+    time: "11:00"
+    action: publish_tg_post
+    post_id: tg-week9
+    status: scheduled
+  - date: "2026-10-30"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: crm-leads
+    status: scheduled
+  - date: "2026-10-30"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: crm-leads
+    status: scheduled
+  - date: "2026-10-31"
+    time: "11:00"
+    action: publish_vk_post
+    post_id: vk-week9
+    status: scheduled
+
+  # --- Неделя 10 ---
+  - date: "2026-11-04"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: seasonal-b2b
+    status: scheduled
+  - date: "2026-11-04"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: seasonal-b2b
+    status: scheduled
+  - date: "2026-11-05"
+    time: "11:00"
+    action: publish_tg_post
+    post_id: tg-week10
+    status: scheduled
+  - date: "2026-11-06"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: competitor-analysis
+    status: scheduled
+  - date: "2026-11-06"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: competitor-analysis
+    status: scheduled
+  - date: "2026-11-07"
+    time: "11:00"
+    action: publish_vk_post
+    post_id: vk-week10
+    status: scheduled
+
+  # --- Неделя 11 ---
+  - date: "2026-11-11"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: calltracking
+    status: scheduled
+  - date: "2026-11-11"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: calltracking
+    status: scheduled
+  - date: "2026-11-12"
+    time: "11:00"
+    action: publish_tg_post
+    post_id: tg-week11
+    status: scheduled
+  - date: "2026-11-13"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: remarketing-b2b
+    status: scheduled
+  - date: "2026-11-13"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: remarketing-b2b
+    status: scheduled
+  - date: "2026-11-14"
+    time: "11:00"
+    action: publish_vk_post
+    post_id: vk-week11
+    status: scheduled
+
+  # --- Неделя 12 ---
+  - date: "2026-11-18"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: niche-production
+    status: scheduled
+  - date: "2026-11-18"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: niche-production
+    status: scheduled
+  - date: "2026-11-19"
+    time: "11:00"
+    action: publish_tg_post
+    post_id: tg-week12
+    status: scheduled
+  - date: "2026-11-20"
+    time: "10:00"
+    action: publish_dzen
+    campaign_id: faq-direct
+    status: scheduled
+  - date: "2026-11-20"
+    time: "12:00"
+    action: publish_teasers
+    campaign_id: faq-direct
+    status: scheduled
+  - date: "2026-11-21"
+    time: "11:00"
+    action: publish_vk_post
+    post_id: vk-week12
+    status: scheduled

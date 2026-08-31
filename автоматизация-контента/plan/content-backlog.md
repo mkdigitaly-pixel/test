@@ -3,6 +3,7 @@
 **Период:** неделя 1 (30 авг — 5 сен 2026) + очередь дальше  
 **Воронка:** Дзен / VK / TG → razbor-direct → @Mariya1740 (`РАЗБОР`)  
 **SEO-план Дзена (24 статьи / 12 недель):** [`plan/dzen-seo-content-plan.md`](dzen-seo-content-plan.md)  
+**Расписание постинга:** [`plan/posting-schedule.md`](posting-schedule.md) · `queue/posting-schedule.yaml`  
 **Как согласовывать:** `ок {id}` / `правка {id}: …` / `не публикуем {id}`
 
 Правила разметки:
