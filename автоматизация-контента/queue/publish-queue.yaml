@@ -1,0 +1,13 @@
+# Очередь кампаний (материал на Дзен + тизеры)
+# Статусы: draft → approved → published
+
+items:
+  - id: 7-errors-direct
+    status: published
+    dzen_article: articles/dzen/articles/2026-08-30-7-errors-direct.md
+    dzen_teaser_tg: articles/dzen/teasers/tg/2026-08-30-7-errors.md
+    dzen_teaser_vk: articles/dzen/teasers/vk/2026-08-30-7-errors.md
+    cover: assets/covers/7-errors-direct.jpg
+    dzen_url: https://dzen.ru/a/apP6CBl_qg0z15y3
+    published_at: '2026-08-30T09:38:13+00:00'
+    notes: Опубликовано в @mariyaprodirect до разделения каналов — дальше только DZEN-канал
