@@ -832,6 +832,41 @@ def cmd_schedule_run(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_schedule_prepare_covers(args: argparse.Namespace) -> int:
+    """Обложки для слотов на сегодня (и ближайшие approved посты)."""
+    load_env()
+    data = load_schedule()
+    now = now_msk()
+    day = datetime.strptime(args.date, "%Y-%m-%d").date() if args.date else now.date()
+    n = 0
+    for slot in data.get("slots", []):
+        if slot.get("status") not in ("scheduled", "pending"):
+            continue
+        when = slot_when(slot)
+        if when.date() != day:
+            continue
+        action = slot.get("action", "")
+        cid = slot.get("campaign_id") or slot.get("post_id") or ""
+        try:
+            if action in ("publish_dzen", "publish_teasers"):
+                ensure_campaign_covers(cid, dry_run=False)
+                n += 1
+            elif action == "publish_tg_post":
+                path = resolve_post_path(cid, "tg")
+                if path.exists():
+                    ensure_post_cover(cid, path, dry_run=False)
+                    n += 1
+            elif action == "publish_vk_post":
+                path = resolve_post_path(cid, "vk")
+                if path.exists():
+                    ensure_post_cover(cid, path, dry_run=False)
+                    n += 1
+        except Exception as exc:
+            print(f"⚠ cover {cid}: {exc}", file=sys.stderr)
+    print(f"Обложки подготовлены: {n}")
+    return 0
+
+
 def cmd_schedule_sync_urls(_args: argparse.Namespace) -> int:
     load_env()
     items = load_queue()
@@ -936,6 +971,8 @@ def main() -> int:
     sch_run.add_argument("--date", help="YYYY-MM-DD")
     schs.add_parser("list", help="Показать расписание")
     schs.add_parser("sync-urls", help="Подтянуть dzen_url из API Дзена")
+    sch_prep = schs.add_parser("prepare-covers", help="Обложки для слотов на дату")
+    sch_prep.add_argument("--date", help="YYYY-MM-DD")
 
     cov = sub.add_parser("cover", help="Генерация обложек GPT/PIL")
     cov.add_argument("campaign_id", help="id кампании из очереди")
@@ -960,6 +997,8 @@ def main() -> int:
             return cmd_schedule_list(args)
         if args.schedule_cmd == "sync-urls":
             return cmd_schedule_sync_urls(args)
+        if args.schedule_cmd == "prepare-covers":
+            return cmd_schedule_prepare_covers(args)
 
     if args.command == "vk-attach-cover":
         return cmd_vk_attach_cover(args)

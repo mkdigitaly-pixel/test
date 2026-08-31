@@ -19,6 +19,7 @@ COVERS = ROOT / "assets" / "covers"
 IMPORT_DIR = COVERS / "_import"
 ENV_FILE = Path(__file__).resolve().parent / ".env"
 QUEUE_FILE = ROOT / "queue" / "publish-queue.yaml"
+POSTS_QUEUE_FILE = ROOT / "queue" / "posts-queue.yaml"
 BRAND_VISUAL = ROOT / "references" / "brand-visual.md"
 
 # Палитра mkekspert.ru + VK
@@ -348,7 +349,16 @@ def ensure_cover_for_queue_id(campaign_id: str, *, force: bool = False) -> Path 
 
 
 def ensure_cover_for_post(post_id: str, post_path: Path, *, force: bool = False) -> Path | None:
-    headline, subline = _headline_from_post(post_path)
+    headline = ""
+    subline = ""
+    if POSTS_QUEUE_FILE.exists():
+        data = yaml.safe_load(POSTS_QUEUE_FILE.read_text(encoding="utf-8")) or {}
+        item = next((i for i in data.get("items", []) if i.get("id") == post_id), None)
+        if item:
+            headline = str(item.get("cover_headline", ""))[:80]
+            subline = str(item.get("cover_subline", ""))[:60]
+    if not headline:
+        headline, subline = _headline_from_post(post_path)
     if not headline:
         headline = post_id.replace("-", " ").replace("tg ", "").replace("vk ", "").title()
     landscape, _ = ensure_covers(post_id, headline, subline, force=force)

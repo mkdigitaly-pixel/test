@@ -6,141 +6,216 @@ items:
   - id: tg-5-errors-reminder
     platform: tg
     status: approved
+    topic: "7 ошибок в Директе — напоминание + ссылка на Дзен"
     post: articles/tg/tg-5-errors-reminder.md
     cover: assets/covers/tg-5-errors-reminder.jpg
     cover_headline: "7 ошибок в Директе"
     cover_subline: "Заявок нет?"
     scheduled: "2026-09-03T11:00:00+03:00"
-    notes: Напоминание про статью 7-errors-direct
 
   - id: tg-week2
     platform: tg
-    status: draft
+    status: approved
+    topic: "5 признаков, что Директ на клики, а не на заявки"
     post: articles/tg/tg-week2.md
+    cover_headline: "Клики ≠ заявки"
+    cover_subline: "5 признаков"
     scheduled: "2026-09-10T11:00:00+03:00"
 
   - id: vk-week2
     platform: vk
-    status: draft
+    status: approved
+    topic: "Цитата кейса пенопласт CPL 8000→2500"
     post: articles/vk/vk-week2.md
+    cover_headline: "CPL 8000→2500 ₽"
+    cover_subline: "Кейс B2B"
     scheduled: "2026-09-12T11:00:00+03:00"
 
   - id: tg-week3
     platform: tg
-    status: draft
+    status: approved
+    topic: "Почему разношу Поиск и РСЯ"
     post: articles/tg/tg-week3.md
+    cover_headline: "Поиск vs РСЯ"
+    cover_subline: "Разные кампании"
     scheduled: "2026-09-17T11:00:00+03:00"
 
   - id: vk-week3
     platform: vk
-    status: draft
+    status: approved
+    topic: "Кейс ЧП/УПП 8017→1800 ₽"
     post: articles/vk/vk-week3.md
+    cover_headline: "8017→1800 ₽"
+    cover_subline: "Кейс ЧП/УПП"
     scheduled: "2026-09-19T11:00:00+03:00"
 
   - id: tg-week4
     platform: tg
-    status: draft
+    status: approved
+    topic: "3 цели в Метрике для собственника"
     post: articles/tg/tg-week4.md
+    cover_headline: "3 цели Метрики"
+    cover_subline: "Не визиты"
     scheduled: "2026-09-24T11:00:00+03:00"
 
   - id: vk-week4
     platform: vk
-    status: draft
+    status: approved
+    topic: "ЕПК в B2B — 4 пункта"
     post: articles/vk/vk-week4.md
+    cover_headline: "ЕПК в B2B"
+    cover_subline: "Включать или нет?"
     scheduled: "2026-09-26T11:00:00+03:00"
 
   - id: tg-week5
     platform: tg
-    status: draft
+    status: approved
+    topic: "РСЯ или Поиск — как понять по отчёту"
     post: articles/tg/tg-week5.md
+    cover_headline: "РСЯ или Поиск?"
+    cover_subline: "10 минут по отчёту"
     scheduled: "2026-10-01T11:00:00+03:00"
 
   - id: vk-week5
     platform: vk
-    status: draft
+    status: approved
+    topic: "3 дыры, куда уходит бюджет"
     post: articles/vk/vk-week5.md
+    cover_headline: "Куда уходит бюджет"
+    cover_subline: "3 дыры в Директе"
     scheduled: "2026-10-03T11:00:00+03:00"
 
   - id: tg-week6
     platform: tg
-    status: draft
+    status: approved
+    topic: "8 вопросов директологу"
     post: articles/tg/tg-week6.md
+    cover_headline: "8 вопросов"
+    cover_subline: "Директологу"
     scheduled: "2026-10-08T11:00:00+03:00"
 
   - id: vk-week6
     platform: vk
-    status: draft
+    status: approved
+    topic: "Как проходит бесплатный разбор"
     post: articles/vk/vk-week6.md
+    cover_headline: "Бесплатный разбор"
+    cover_subline: "Как это работает"
     scheduled: "2026-10-10T11:00:00+03:00"
 
   - id: tg-week7
     platform: tg
-    status: draft
+    status: approved
+    topic: "Дешёвый клик ≠ дешёвая заявка"
     post: articles/tg/tg-week7.md
+    cover_headline: "Дешёвый клик"
+    cover_subline: "≠ заявка"
     scheduled: "2026-10-15T11:00:00+03:00"
 
   - id: vk-week7
     platform: vk
-    status: draft
+    status: approved
+    topic: "3 правки посадочной под конверсию"
     post: articles/vk/vk-week7.md
+    cover_headline: "Посадочная"
+    cover_subline: "+конверсия"
     scheduled: "2026-10-17T11:00:00+03:00"
 
   - id: tg-week8
     platform: tg
-    status: draft
+    status: approved
+    topic: "Минус-слова — 3 типа"
     post: articles/tg/tg-week8.md
+    cover_headline: "Минус-слова"
+    cover_subline: "3 типа"
     scheduled: "2026-10-22T11:00:00+03:00"
 
   - id: vk-week8
     platform: vk
-    status: draft
+    status: approved
+    topic: "Яндекс Бизнес + Директ"
     post: articles/vk/vk-week8.md
+    cover_headline: "Бизнес + Директ"
+    cover_subline: "Зачем связка"
     scheduled: "2026-10-24T11:00:00+03:00"
 
   - id: tg-week9
     platform: tg
-    status: draft
+    status: approved
+    topic: "Директ в 2026 — дайджест"
     post: articles/tg/tg-week9.md
+    cover_headline: "Директ 2026"
+    cover_subline: "Что изменилось"
     scheduled: "2026-10-29T11:00:00+03:00"
 
   - id: vk-week9
     platform: vk
-    status: draft
+    status: approved
+    topic: "CRM и заявки из Директа"
     post: articles/vk/vk-week9.md
+    cover_headline: "CRM + Директ"
+    cover_subline: "Где теряются лиды"
     scheduled: "2026-10-31T11:00:00+03:00"
 
   - id: tg-week10
     platform: tg
-    status: draft
+    status: approved
+    topic: "Сезонность в B2B"
     post: articles/tg/tg-week10.md
+    cover_headline: "Сезонность B2B"
+    cover_subline: "Когда бюджет"
     scheduled: "2026-11-05T11:00:00+03:00"
 
   - id: vk-week10
     platform: vk
-    status: draft
+    status: approved
+    topic: "Анализ конкурентов в Директе"
     post: articles/vk/vk-week10.md
+    cover_headline: "Конкуренты"
+    cover_subline: "Без паранойи"
     scheduled: "2026-11-07T11:00:00+03:00"
 
   - id: tg-week11
     platform: tg
-    status: draft
+    status: approved
+    topic: "Коллтрекинг — с чего начать"
     post: articles/tg/tg-week11.md
+    cover_headline: "Коллтрекинг"
+    cover_subline: "С чего начать"
     scheduled: "2026-11-12T11:00:00+03:00"
 
   - id: vk-week11
     platform: vk
-    status: draft
+    status: approved
+    topic: "Ретаргетинг в B2B"
     post: articles/vk/vk-week11.md
+    cover_headline: "Ретаргет B2B"
+    cover_subline: "Когда окупается"
     scheduled: "2026-11-14T11:00:00+03:00"
 
   - id: tg-week12
     platform: tg
-    status: draft
+    status: approved
+    topic: "FAQ — 3 вопроса про Директ"
     post: articles/tg/tg-week12.md
+    cover_headline: "FAQ Директ"
+    cover_subline: "3 вопроса"
     scheduled: "2026-11-19T11:00:00+03:00"
 
   - id: vk-week12
     platform: vk
-    status: draft
+    status: approved
+    topic: "Итог квартала — чек-лист кабинета"
     post: articles/vk/vk-week12.md
+    cover_headline: "Итог квартала"
+    cover_subline: "Чек-лист"
     scheduled: "2026-11-21T11:00:00+03:00"
+
+  - id: pinned
+    platform: tg
+    status: approved
+    topic: "Закреп канала — вариант 1 (рациональный)"
+    post: articles/tg/pinned.md
+    cover_headline: "Мария Ковалева"
+    cover_subline: "Яндекс Директ B2B"
+    notes: Публикуется вручную или отдельной командой — не в posting-schedule

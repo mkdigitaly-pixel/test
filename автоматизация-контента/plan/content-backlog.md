@@ -72,20 +72,17 @@
 
 ## Свои посты канала (без Дзена)
 
-| id | Платформа | Тема | Файл | Статус |
-|----|-----------|------|------|--------|
-| `pinned` | TG | Закреп канала | `articles/tg/pinned-variants.md` | 👤 выбрать вариант 1 или 2 |
-| `directologist-checklist` | TG | Как выбрать директолога | создать | planned (день 6) |
-| `vk-penoplast-quote` | VK | Цитата из кейса + CTA | создать | planned (день 4) |
-| `vk-stories-bullets` | VK | 3 буллита для сторис | создать | planned (день 4) |
+**Темы согласованы 31.08.2026** — все в `queue/posts-queue.yaml`, статус `approved`, автопост по расписанию.
 
-Эти посты **не** идут в канал Дзена и **не** требуют `dzen_url`.
+| id | Дата | Тема | Статус |
+|----|------|------|--------|
+| `tg-5-errors-reminder` | 03.09 | 7 ошибок — напоминание | approved |
+| `tg-week2` | 10.09 | 5 признаков: клики ≠ заявки | approved |
+| `vk-week2` | 12.09 | Кейс пенопласт CPL 8000→2500 | approved |
+| `tg-week3` … `vk-week12` | по календарю | см. posts-queue.yaml | approved |
+| `pinned` | вручную | Закреп вариант 1 | approved |
 
-Команды:
-```bash
-python3 publish.py publish tg-post directologist-checklist
-python3 publish.py publish vk-post vk-penoplast-quote
-```
+Полный список тем: `queue/posts-queue.yaml` · `plan/posting-schedule.md`
 
 ---
 

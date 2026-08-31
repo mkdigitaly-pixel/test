@@ -20,3 +20,55 @@ items:
   cover_subline: Кейс B2B · пенопласт
   dzen_url: ''
   notes: Согласовано 31.08 — публикация 02.09 10:00 МСК
+
+- id: no-leads-direct
+  status: draft
+  topic: "Почему нет заявок в Директе — что проверяю в кабинете"
+  dzen_article: articles/dzen/articles/2026-09-09-no-leads-direct.md
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-09-09-no-leads.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-09-09-no-leads.md
+  cover: assets/covers/no-leads-direct.jpg
+  cover_headline: "Нет заявок?"
+  cover_subline: "Что проверить"
+  dzen_url: ''
+  notes: Неделя 2 — темы согласованы 31.08
+
+- id: autotarget-b2b
+  status: draft
+  topic: "Автотаргет в B2B — когда съедает бюджет"
+  dzen_article: articles/dzen/articles/2026-09-11-autotarget-b2b.md
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-09-11-autotarget.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-09-11-autotarget.md
+  cover: assets/covers/autotarget-b2b.jpg
+  cover_headline: "Автотаргет B2B"
+  cover_subline: "Съедает бюджет?"
+  dzen_url: ''
+  notes: Неделя 2 — темы согласованы 31.08
+
+- id: shpunkt-case
+  status: draft
+  topic: "Кейс погружение шпунта — CPL до 4000 ₽"
+  cover_headline: "CPL до 4000 ₽"
+  cover_subline: "Кейс шпунт B2B"
+  dzen_url: ''
+
+- id: chp-upp-case
+  status: draft
+  topic: "Кейс ЧП/УПП — заявка 8017→1800 ₽"
+  cover_headline: "8017→1800 ₽"
+  cover_subline: "Кейс ЧП/УПП"
+  dzen_url: ''
+
+- id: metrika-goals
+  status: draft
+  topic: "Цели Метрики под Директ B2B"
+  cover_headline: "Цели Метрики"
+  cover_subline: "Под Директ"
+  dzen_url: ''
+
+- id: epk-leads
+  status: draft
+  topic: "ЕПК под заявки в B2B"
+  cover_headline: "ЕПК"
+  cover_subline: "Заявки B2B"
+  dzen_url: ''
