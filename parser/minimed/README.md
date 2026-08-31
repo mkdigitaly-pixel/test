@@ -10,7 +10,9 @@
 ```bash
 cd parser/minimed
 pip install -r requirements.txt
-python parse_all.py
+python parse_all.py           # полный сбор (сайт + прайсы + PDF)
+python parse_all.py --offline # пересборка из price.xls и текущего TSV
+
 ```
 
 Результат: `data/nomenclature.tsv` и `data/nomenclature.xlsx`.
