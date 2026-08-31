@@ -84,7 +84,28 @@ def markdown_to_plain(md: str) -> str:
         if line.startswith("#"):
             line = re.sub(r"^#+\s*", "", line)
         line = re.sub(r"\*\*([^*]+)\*\*", r"\1", line)
+        line = re.sub(r"__([^_]+)__", r"\1", line)
+        line = re.sub(r"~~([^~]+)~~", r"\1", line)
         line = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", line)
+        lines.append(line)
+    text = "\n".join(lines)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
+
+
+def markdown_to_telegram_html(md: str) -> str:
+    """Конвертация **bold**, __italic__, ~~strike~~, `code` для parse_mode=HTML."""
+    lines: list[str] = []
+    for line in md.splitlines():
+        if line.strip() == "---":
+            continue
+        if line.startswith("#"):
+            line = re.sub(r"^#+\s*", "", line)
+        line = re.sub(r"\*\*([^*]+)\*\*", r"<b>\1</b>", line)
+        line = re.sub(r"__([^_]+)__", r"<i>\1</i>", line)
+        line = re.sub(r"~~([^~]+)~~", r"<s>\1</s>", line)
+        line = re.sub(r"`([^`]+)`", r"<code>\1</code>", line)
+        line = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', line)
         lines.append(line)
     text = "\n".join(lines)
     text = re.sub(r"\n{3,}", "\n\n", text)
@@ -95,6 +116,13 @@ def load_plain_post(path: Path) -> str:
     raw = path.read_text(encoding="utf-8")
     meta, body = parse_frontmatter(raw)
     return markdown_to_plain(body) if meta or body.startswith("#") else raw.strip()
+
+
+def load_tg_post(path: Path) -> str:
+    """TG-канал: разметка **bold** → HTML."""
+    raw = path.read_text(encoding="utf-8")
+    meta, body = parse_frontmatter(raw)
+    return markdown_to_telegram_html(body) if meta or body.startswith("#") else markdown_to_telegram_html(raw)
 
 
 def load_article(path: Path) -> Article:
@@ -181,6 +209,7 @@ def publish_telegram(
     *,
     cover: Path | None = None,
     dry_run: bool = False,
+    parse_mode: str = "",
 ) -> PublishResult:
     if len(text) > TG_MESSAGE_LIMIT:
         raise ValueError(f"Текст {len(text)} символов — лимит Telegram {TG_MESSAGE_LIMIT}.")
@@ -188,13 +217,19 @@ def publish_telegram(
     if dry_run:
         mode = "фото+текст" if cover and len(text) <= TG_CAPTION_LIMIT else "текст"
         preview = text[:400] + ("…" if len(text) > 400 else "")
-        return PublishResult("telegram", True, f"[dry-run] → {channel_id} ({mode})\n{preview}")
+        fmt = f", {parse_mode}" if parse_mode else ""
+        return PublishResult("telegram", True, f"[dry-run] → {channel_id} ({mode}{fmt})\n{preview}")
+
+    msg_extra: dict[str, Any] = {}
+    if parse_mode:
+        msg_extra["parse_mode"] = parse_mode
 
     if cover and cover.exists() and len(text) <= TG_CAPTION_LIMIT:
+        data_payload: dict[str, Any] = {"chat_id": channel_id, "caption": text, **msg_extra}
         with cover.open("rb") as f:
             resp = requests.post(
                 f"https://api.telegram.org/bot{token}/sendPhoto",
-                data={"chat_id": channel_id, "caption": text},
+                data=data_payload,
                 files={"photo": f},
                 timeout=120,
             )
@@ -204,11 +239,21 @@ def publish_telegram(
         return PublishResult("telegram", True, "Фото + текст", data["result"]["message_id"])
 
     if cover and cover.exists() and len(text) > TG_CAPTION_LIMIT:
-        print("⚠ Текст >1024 — обложка в Дзен-Студии вручную или сократите тизер.", file=sys.stderr)
+        print("⚠ Текст >1024 — фото без подписи, текст отдельным сообщением.", file=sys.stderr)
+        with cover.open("rb") as f:
+            resp = requests.post(
+                f"https://api.telegram.org/bot{token}/sendPhoto",
+                data={"chat_id": channel_id},
+                files={"photo": f},
+                timeout=120,
+            )
+        data = resp.json()
+        if not data.get("ok"):
+            raise RuntimeError(data.get("description", data))
 
     data = telegram_api(
         "sendMessage",
-        {"chat_id": channel_id, "text": text, "disable_web_page_preview": False},
+        {"chat_id": channel_id, "text": text, "disable_web_page_preview": False, **msg_extra},
         token,
     )
     return PublishResult("telegram", True, "Текст опубликован", data["result"]["message_id"])
@@ -335,8 +380,10 @@ def publish_dzen_teasers(
 
     tg_path = teaser_tg_path(item)
     if tg_path and main_ch and token:
-        text = replace_dzen_url(load_plain_post(resolve_path(tg_path)), url)
-        r = publish_telegram(text, main_ch, token, cover=cover, dry_run=dry_run)
+        text = replace_dzen_url(load_tg_post(resolve_path(tg_path)), url)
+        r = publish_telegram(
+            text, main_ch, token, cover=cover, dry_run=dry_run, parse_mode="HTML"
+        )
         print(f"TG тизер ({main_ch}): {r.message}")
 
     vk_path = teaser_vk_path(item)
@@ -359,10 +406,10 @@ def publish_standalone_tg(post_id: str, *, dry_run: bool, force: bool) -> int:
         path = item["tg_post"]
     else:
         path = f"articles/tg/{post_id}.md"
-    text = load_plain_post(resolve_path(path))
+    text = load_tg_post(resolve_path(path))
     token = os.environ["TELEGRAM_BOT_TOKEN"]
     ch = os.environ["TELEGRAM_MAIN_CHANNEL_ID"]
-    r = publish_telegram(text, ch, token, dry_run=dry_run)
+    r = publish_telegram(text, ch, token, dry_run=dry_run, parse_mode="HTML")
     print(f"TG пост ({ch}): {r.message}")
     return 0
 

@@ -42,13 +42,17 @@
 
 ## Файлы по типам
 
-| Папка | Назначение | Разметка |
-|-------|------------|----------|
-| `articles/dzen/articles/` | Статья для Дзена | Заголовок, ##, plain text для синхробота |
-| `articles/dzen/teasers/tg/` | Тизер в основной TG | Тире, коротко, ссылка на Дзен |
-| `articles/dzen/teasers/vk/` | Тизер в VK | Абзацы, эмодзи умеренно, ссылка |
-| `articles/tg/` | Посты канала | Свой стиль TG, без привязки к Дзен |
-| `articles/vk/` | Посты VK | Отдельный текст, не копипаст из TG |
+| Папка | Назначение | Правила разметки |
+|-------|------------|------------------|
+| `articles/dzen/articles/` | Статья для Дзена | `references/dzen-markup.md` |
+| `articles/dzen/teasers/tg/` | Тизер в основной TG | `references/tg-markup.md` |
+| `articles/dzen/teasers/vk/` | Тизер в VK | `references/vk-markup.md` |
+| `articles/tg/` | Посты канала (свой контент) | `references/tg-markup.md` |
+| `articles/vk/` | Посты VK (свой контент) | `references/vk-markup.md` |
+| `articles/vc/` | Черновики под VC.ru | `references/vc-markup.md` (ручная публикация) |
+
+Голос и запреты: `maria-voice.md`, `banned-phrases.md`.  
+Контент-план на согласование: `plan/content-backlog.md`.
 
 ## Очередь публикации
 
