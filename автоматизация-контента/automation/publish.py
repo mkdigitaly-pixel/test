@@ -357,6 +357,52 @@ def require_approved(item: dict[str, Any], force: bool) -> None:
         )
 
 
+def resolve_cover_path(item: dict[str, Any], *, vk: bool = False) -> Path | None:
+    rel = item.get("cover")
+    if not rel:
+        return None
+    base = ROOT / rel
+    if vk:
+        vk_path = base.with_name(f"{base.stem}-vk{base.suffix}")
+        if vk_path.exists():
+            return vk_path
+    return base if base.exists() else None
+
+
+def ensure_campaign_covers(campaign_id: str, *, dry_run: bool) -> None:
+    try:
+        from generate_cover import ensure_cover_for_queue_id
+
+        path = ensure_cover_for_queue_id(campaign_id)
+        if path:
+            print(f"Обложка: {path.relative_to(ROOT)}")
+    except Exception as exc:
+        print(f"⚠ не удалось сгенерировать обложку: {exc}", file=sys.stderr)
+
+
+def resolve_standalone_cover(post_id: str, *, vk: bool = False) -> Path | None:
+    base = ROOT / "assets" / "covers" / f"{post_id}.jpg"
+    if vk:
+        vk_path = base.with_name(f"{post_id}-vk.jpg")
+        if vk_path.exists():
+            return vk_path
+    return base if base.exists() else None
+
+
+def ensure_standalone_cover(post_id: str, path: Path) -> Path | None:
+    """Генерирует обложку для отдельного TG/VK-поста, если файла ещё нет."""
+    cover = resolve_standalone_cover(post_id)
+    if cover:
+        return cover
+    try:
+        from generate_cover import ensure_cover_for_post
+
+        return ensure_cover_for_post(post_id, path)
+    except Exception as exc:
+        print(f"⚠ обложка для {post_id}: {exc}", file=sys.stderr)
+        return None
+
+
 def publish_dzen_article(
     item: dict[str, Any], *, dry_run: bool, token: str, channel: str
 ) -> None:
@@ -365,9 +411,7 @@ def publish_dzen_article(
         raise SystemExit("В очереди нет dzen_article")
     article = load_article(resolve_path(path))
     text = format_for_dzen(article)
-    cover = None
-    if item.get("cover"):
-        cover = ROOT / item["cover"]
+    cover = resolve_cover_path(item)
     r = publish_telegram(text, channel, token, cover=cover, dry_run=dry_run)
     print(f"DZEN-канал ({channel}): {r.message}")
     if not dry_run:
@@ -381,13 +425,14 @@ def publish_dzen_teasers(
     if not url and not dry_run:
         print("⚠ dzen_url пустой — вставьте ссылку на статью в очередь", file=sys.stderr)
 
-    cover = ROOT / item["cover"] if item.get("cover") else None
+    cover_tg = resolve_cover_path(item)
+    cover_vk = resolve_cover_path(item, vk=True) or cover_tg
 
     tg_path = teaser_tg_path(item)
     if tg_path and main_ch and token:
         text = replace_dzen_url(load_tg_post(resolve_path(tg_path)), url)
         r = publish_telegram(
-            text, main_ch, token, cover=cover, dry_run=dry_run, parse_mode="HTML"
+            text, main_ch, token, cover=cover_tg, dry_run=dry_run, parse_mode="HTML"
         )
         print(f"TG тизер ({main_ch}): {r.message}")
 
@@ -396,7 +441,7 @@ def publish_dzen_teasers(
         text = replace_dzen_url(load_plain_post(resolve_path(vk_path)), url)
         user_token = os.getenv("VK_USER_TOKEN", "")
         r = publish_vk(
-            text, vk_token, vk_group, cover=cover, user_token=user_token, dry_run=dry_run
+            text, vk_token, vk_group, cover=cover_vk, user_token=user_token, dry_run=dry_run
         )
         print(f"VK тизер: {r.message}")
     elif vk_path and not dry_run:
@@ -411,10 +456,12 @@ def publish_standalone_tg(post_id: str, *, dry_run: bool, force: bool) -> int:
         path = item["tg_post"]
     else:
         path = f"articles/tg/{post_id}.md"
-    text = load_tg_post(resolve_path(path))
+    resolved = resolve_path(path)
+    text = load_tg_post(resolved)
     token = os.environ["TELEGRAM_BOT_TOKEN"]
     ch = os.environ["TELEGRAM_MAIN_CHANNEL_ID"]
-    r = publish_telegram(text, ch, token, dry_run=dry_run, parse_mode="HTML")
+    cover = resolve_standalone_cover(post_id) or ensure_standalone_cover(post_id, resolved)
+    r = publish_telegram(text, ch, token, cover=cover, dry_run=dry_run, parse_mode="HTML")
     print(f"TG пост ({ch}): {r.message}")
     return 0
 
@@ -427,8 +474,20 @@ def publish_standalone_vk(post_id: str, *, dry_run: bool, force: bool) -> int:
         path = item["vk_post"]
     else:
         path = f"articles/vk/{post_id}.md"
-    text = load_plain_post(resolve_path(path))
-    r = publish_vk(text, os.environ["VK_ACCESS_TOKEN"], os.environ["VK_GROUP_ID"], dry_run=dry_run)
+    resolved = resolve_path(path)
+    text = load_plain_post(resolved)
+    cover = resolve_standalone_cover(post_id, vk=True) or resolve_standalone_cover(post_id)
+    if not cover:
+        cover = ensure_standalone_cover(post_id, resolved)
+    user_token = os.getenv("VK_USER_TOKEN", "")
+    r = publish_vk(
+        text,
+        os.environ["VK_ACCESS_TOKEN"],
+        os.environ["VK_GROUP_ID"],
+        cover=cover,
+        user_token=user_token,
+        dry_run=dry_run,
+    )
     print(f"VK пост: {r.message}")
     return 0
 
@@ -450,6 +509,9 @@ def cmd_publish(target: str, item_id: str, *, dry_run: bool, force: bool) -> int
     item = find_queue_item(items, item_id)
     if not item:
         raise SystemExit(f"Нет записи {item_id} в очереди")
+
+    if target in ("dzen", "teasers", "teasers-vk", "all"):
+        ensure_campaign_covers(item_id, dry_run=dry_run)
 
     if target in ("dzen", "all"):
         require_approved(item, force)
@@ -557,6 +619,7 @@ def execute_schedule_slot(slot: dict[str, Any], *, dry_run: bool) -> tuple[bool,
             return False, f"нет кампании {cid}"
         if item.get("status") not in ("approved", "published") and not dry_run:
             return False, f"статус {item.get('status')} — нужен approved"
+        ensure_campaign_covers(cid, dry_run=dry_run)
         cmd_publish("dzen", cid, dry_run=dry_run, force=True)
         if not dry_run:
             items = load_queue()
@@ -576,6 +639,7 @@ def execute_schedule_slot(slot: dict[str, Any], *, dry_run: bool) -> tuple[bool,
             return False, f"нет кампании {cid}"
         if not item.get("dzen_url") and not dry_run:
             return False, "dzen_url ещё нет — повторим позже (синхробот 2–10 мин)"
+        ensure_campaign_covers(cid, dry_run=dry_run)
         cmd_publish("teasers", cid, dry_run=dry_run, force=True)
         return True, f"teasers {cid}"
 
@@ -753,7 +817,21 @@ def main() -> int:
     schs.add_parser("list", help="Показать расписание")
     schs.add_parser("sync-urls", help="Подтянуть dzen_url из API Дзена")
 
+    cov = sub.add_parser("cover", help="Генерация обложек GPT/PIL")
+    cov.add_argument("campaign_id", help="id кампании из очереди")
+    cov.add_argument("--force", action="store_true")
+
     args = parser.parse_args()
+
+    if args.command == "cover":
+        from generate_cover import ensure_cover_for_queue_id
+
+        load_env()
+        path = ensure_cover_for_queue_id(args.campaign_id, force=args.force)
+        if not path:
+            raise SystemExit("Не удалось сгенерировать обложку")
+        print(path)
+        return 0
 
     if args.command == "schedule":
         if args.schedule_cmd == "run":

@@ -1,24 +1,22 @@
-# Очередь кампаний (материал на Дзен + тизеры)
-# Статусы: draft → approved → published
-
 items:
-  - id: 7-errors-direct
-    status: published
-    dzen_article: articles/dzen/articles/2026-08-30-7-errors-direct.md
-    dzen_teaser_tg: articles/dzen/teasers/tg/2026-08-30-7-errors.md
-    dzen_teaser_vk: articles/dzen/teasers/vk/2026-08-30-7-errors.md
-    cover: assets/covers/7-errors-direct.jpg
-    dzen_url: https://dzen.ru/a/apP6CBl_qg0z15y3
-    published_at: '2026-08-30T09:38:13+00:00'
-    notes: Опубликовано в @mariyaprodirect до разделения каналов — дальше только DZEN-канал
-
-  - id: penoplast-case
-    status: approved
-    scheduled_dzen: "2026-09-02T10:00:00+03:00"
-    scheduled_teasers: "2026-09-02T12:00:00+03:00"
-    dzen_article: articles/dzen/articles/2026-08-30-penoplast-case.md
-    dzen_teaser_tg: articles/dzen/teasers/tg/2026-09-02-penoplast.md
-    dzen_teaser_vk: articles/dzen/teasers/vk/2026-09-02-penoplast.md
-    cover: assets/covers/penoplast-case.jpg
-    dzen_url: ""
-    notes: Согласовано 31.08 — публикация 02.09 10:00 МСК
+- id: 7-errors-direct
+  status: published
+  dzen_article: articles/dzen/articles/2026-08-30-7-errors-direct.md
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-08-30-7-errors.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-08-30-7-errors.md
+  cover: assets/covers/7-errors-direct.jpg
+  dzen_url: https://dzen.ru/a/apP6CBl_qg0z15y3
+  published_at: '2026-08-30T09:38:13+00:00'
+  notes: Опубликовано в @mariyaprodirect до разделения каналов — дальше только DZEN-канал
+- id: penoplast-case
+  status: approved
+  scheduled_dzen: '2026-09-02T10:00:00+03:00'
+  scheduled_teasers: '2026-09-02T12:00:00+03:00'
+  dzen_article: articles/dzen/articles/2026-08-30-penoplast-case.md
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-09-02-penoplast.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-09-02-penoplast.md
+  cover: assets/covers/penoplast-case.jpg
+  cover_headline: CPL 8000→2500 ₽
+  cover_subline: Кейс B2B · пенопласт
+  dzen_url: ''
+  notes: Согласовано 31.08 — публикация 02.09 10:00 МСК

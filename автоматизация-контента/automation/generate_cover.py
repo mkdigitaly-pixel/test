@@ -1,22 +1,40 @@
 #!/usr/bin/env python3
-"""Генерация обложки 1200×630 для статей Дзена (бренд mkekspert)."""
+"""Обложки для Дзен / TG / VK — GPT (OpenAI) + текстовый оверлей в стиле mkekspert."""
 
 from __future__ import annotations
 
 import argparse
+import base64
+import os
 import textwrap
 from pathlib import Path
 
+import requests
+import yaml
+from dotenv import load_dotenv
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
 COVERS = ROOT / "assets" / "covers"
+ENV_FILE = Path(__file__).resolve().parent / ".env"
+QUEUE_FILE = ROOT / "queue" / "publish-queue.yaml"
+BRAND_VISUAL = ROOT / "references" / "brand-visual.md"
 
+# Палитра mkekspert.ru + VK
 BG = "#181818"
-ACCENT = "#4eaf4e"
-TEXT = "#ffffff"
-SUB = "#b0b0b0"
-W, H = 1200, 630
+ACCENT_GREEN = "#4EAF4E"
+ACCENT_YELLOW = "#FFCC4A"
+TEXT = "#FFFFFF"
+SUB = "#B0B0B0"
+
+LANDSCAPE = (1200, 630)
+SQUARE = (1080, 1080)
+
+
+def load_env() -> None:
+    if ENV_FILE.exists():
+        load_dotenv(ENV_FILE)
+    load_dotenv()
 
 
 def load_font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
@@ -30,52 +48,262 @@ def load_font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont | ImageFo
     return ImageFont.load_default()
 
 
-def wrap_title(title: str, width: int = 28) -> list[str]:
-    title = title.rstrip(".")
-    lines = textwrap.wrap(title, width=width)
-    return lines[:4]  # не больше 4 строк
+def gpt_prompt(headline: str, subline: str, *, square: bool = False) -> str:
+    ratio = "1:1 square" if square else "16:9 landscape"
+    return (
+        f"Bright bold social media cover, {ratio}, dark charcoal background {BG}, "
+        f"vibrant green {ACCENT_GREEN} and golden yellow {ACCENT_YELLOW} accents, "
+        "modern B2B digital marketing style, high contrast, eye-catching in mobile feed. "
+        f'Large prominent typography area for headline "{headline}" and metric "{subline}". '
+        "Abstract growth chart, upward arrow, context advertising dashboard elements, "
+        "no human faces, no stock photo people, no watermark, clean professional Russian business aesthetic."
+    )
 
 
-def generate(title: str, subtitle: str, out: Path) -> Path:
-    img = Image.new("RGB", (W, H), BG)
+def generate_gpt_image(prompt: str, size: str = "1536x1024") -> Image.Image:
+    api_key = os.getenv("OPENAI_API_KEY", "")
+    if not api_key:
+        raise RuntimeError("OPENAI_API_KEY не задан в .env")
+
+    try:
+        from openai import OpenAI
+    except ImportError as exc:
+        raise RuntimeError("pip install openai") from exc
+
+    client = OpenAI(api_key=api_key)
+    model = os.getenv("OPENAI_IMAGE_MODEL", "gpt-image-1")
+    resp = client.images.generate(model=model, prompt=prompt, size=size, quality="high", n=1)
+    b64 = resp.data[0].b64_json
+    if not b64:
+        raise RuntimeError("OpenAI не вернул изображение")
+    import io
+
+    return Image.open(io.BytesIO(base64.b64decode(b64))).convert("RGB")
+
+
+def generate_gpt_dalle_fallback(prompt: str, size: str = "1792x1024") -> Image.Image:
+    """DALL·E 3 если gpt-image-1 недоступен."""
+    api_key = os.getenv("OPENAI_API_KEY", "")
+    from openai import OpenAI
+
+    client = OpenAI(api_key=api_key)
+    resp = client.images.generate(model="dall-e-3", prompt=prompt, size=size, quality="hd", n=1)
+    url = resp.data[0].url
+    if not url:
+        raise RuntimeError("DALL·E не вернул URL")
+    r = requests.get(url, timeout=120)
+    r.raise_for_status()
+    import io
+
+    return Image.open(io.BytesIO(r.content)).convert("RGB")
+
+
+def fetch_gpt_background(headline: str, subline: str, *, square: bool) -> Image.Image:
+    prompt = gpt_prompt(headline, subline, square=square)
+    size = "1024x1024" if square else "1536x1024"
+    try:
+        return generate_gpt_image(prompt, size=size)
+    except Exception:
+        dalle_size = "1024x1024" if square else "1792x1024"
+        return generate_gpt_dalle_fallback(prompt, size=dalle_size)
+
+
+def overlay_brand_text(img: Image.Image, headline: str, subline: str) -> Image.Image:
+    """Полупрозрачная подложка + текст для читаемости."""
+    img = img.copy()
+    w, h = img.size
+    overlay = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(overlay)
+    draw.rectangle([0, int(h * 0.55), w, h], fill=(24, 24, 24, 210))
+    draw.rectangle([0, 0, 14, h], fill=ACCENT_GREEN)
+    draw.rectangle([0, h - 8, w, h], fill=ACCENT_YELLOW)
+
+    img = Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB")
     draw = ImageDraw.Draw(img)
 
-    # зелёная полоса слева
-    draw.rectangle([0, 0, 12, H], fill=ACCENT)
-    draw.rectangle([0, H - 6, W, H], fill=ACCENT)
+    font_h = load_font(max(36, w // 22), bold=True)
+    font_s = load_font(max(22, w // 32))
+    font_b = load_font(max(18, w // 38))
 
-    font_title = load_font(46, bold=True)
-    font_sub = load_font(26)
-    font_brand = load_font(22)
+    y = int(h * 0.58)
+    for line in textwrap.wrap(headline, width=22)[:3]:
+        draw.text((max(50, w // 20), y), line, fill=TEXT, font=font_h)
+        y += int(h * 0.09)
 
-    y = 120
-    for line in wrap_title(title):
-        draw.text((80, y), line, fill=TEXT, font=font_title)
-        y += 58
+    if subline:
+        y += 8
+        for line in textwrap.wrap(subline, width=36)[:2]:
+            draw.text((max(50, w // 20), y), line, fill=ACCENT_YELLOW, font=font_s)
+            y += int(h * 0.06)
 
-    if subtitle:
-        y += 20
-        for line in textwrap.wrap(subtitle, width=42)[:2]:
-            draw.text((80, y), line, fill=SUB, font=font_sub)
-            y += 36
+    draw.text((max(50, w // 20), h - 45), "Мария Ковалева · mkekspert.ru", fill=ACCENT_GREEN, font=font_b)
+    return img
 
-    draw.text((80, H - 70), "Мария Ковалева · Яндекс Директ", fill=ACCENT, font=font_brand)
-    draw.text((80, H - 38), "mkekspert.ru", fill=SUB, font=font_brand)
+
+def generate_pil_fallback(headline: str, subline: str, size: tuple[int, int]) -> Image.Image:
+    w, h = size
+    img = Image.new("RGB", size, BG)
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([0, 0, 14, h], fill=ACCENT_GREEN)
+    draw.rectangle([0, h - 8, w, h], fill=ACCENT_YELLOW)
+    font_h = load_font(46 if w > 1000 else 40, bold=True)
+    font_s = load_font(28 if w > 1000 else 24)
+    font_b = load_font(22)
+    y = int(h * 0.25)
+    for line in textwrap.wrap(headline, width=22)[:4]:
+        draw.text((70, y), line, fill=TEXT, font=font_h)
+        y += 56
+    if subline:
+        y += 16
+        for line in textwrap.wrap(subline, width=40)[:2]:
+            draw.text((70, y), line, fill=ACCENT_YELLOW, font=font_s)
+            y += 34
+    draw.text((70, h - 50), "Мария Ковалева · mkekspert.ru", fill=ACCENT_GREEN, font=font_b)
+    return img
+
+
+def generate_cover(
+    headline: str,
+    subline: str,
+    out: Path,
+    *,
+    square: bool = False,
+    use_gpt: bool = True,
+) -> Path:
+    target = SQUARE if square else LANDSCAPE
+    img: Image.Image | None = None
+
+    if use_gpt and os.getenv("OPENAI_API_KEY"):
+        try:
+            bg = fetch_gpt_background(headline, subline, square=square)
+            bg = bg.resize(target, Image.Resampling.LANCZOS)
+            img = overlay_brand_text(bg, headline, subline)
+        except Exception as exc:
+            print(f"⚠ GPT: {exc} — fallback PIL")
+
+    if img is None:
+        img = generate_pil_fallback(headline, subline, target)
 
     out.parent.mkdir(parents=True, exist_ok=True)
     img.save(out, "JPEG", quality=92)
     return out
 
 
+def cover_paths(slug: str) -> tuple[Path, Path]:
+    return COVERS / f"{slug}.jpg", COVERS / f"{slug}-vk.jpg"
+
+
+def ensure_covers(slug: str, headline: str, subline: str = "", *, force: bool = False) -> tuple[Path, Path]:
+    landscape, square = cover_paths(slug)
+    if force or not landscape.exists():
+        generate_cover(headline, subline, landscape, square=False)
+        print(f"✓ {landscape}")
+    if force or not square.exists():
+        generate_cover(headline, subline, square, square=True)
+        print(f"✓ {square}")
+    return landscape, square
+
+
+def resolve_cover_for_item(item: dict, *, vk: bool = False) -> Path | None:
+    rel = item.get("cover", "")
+    if not rel:
+        return None
+    base = ROOT / rel
+    if vk:
+        vk_path = base.with_name(base.stem + "-vk" + base.suffix)
+        if vk_path.exists():
+            return vk_path
+    return base if base.exists() else None
+
+
+def _headline_from_post(path: Path) -> tuple[str, str]:
+    headline = ""
+    subline = ""
+    if path.exists():
+        raw = path.read_text(encoding="utf-8")
+        if raw.startswith("---"):
+            meta = yaml.safe_load(raw.split("---", 2)[1]) or {}
+            headline = str(meta.get("cover_headline") or meta.get("title", ""))[:80]
+            subline = str(meta.get("cover_subline") or "")[:60]
+        if not headline:
+            for line in raw.splitlines():
+                s = line.strip().strip("*").strip()
+                if s and not s.startswith("#") and not s.startswith("http"):
+                    headline = s[:80]
+                    break
+    return headline, subline
+
+
+def ensure_cover_for_queue_id(campaign_id: str, *, force: bool = False) -> Path | None:
+    if not QUEUE_FILE.exists():
+        return None
+    data = yaml.safe_load(QUEUE_FILE.read_text(encoding="utf-8")) or {}
+    item = next((i for i in data.get("items", []) if i.get("id") == campaign_id), None)
+    if not item:
+        return None
+
+    slug = Path(item.get("cover", f"assets/covers/{campaign_id}.jpg")).stem.replace("-vk", "")
+    headline = item.get("cover_headline", "")
+    subline = item.get("cover_subline", "")
+
+    if not headline:
+        article = item.get("dzen_article", "")
+        if article:
+            headline, subline = _headline_from_post(ROOT / article)
+    if not headline:
+        headline = campaign_id.replace("-", " ").title()
+
+    landscape, _ = ensure_covers(slug, headline, subline, force=force)
+    item["cover"] = f"assets/covers/{slug}.jpg"
+    items = data.get("items", [])
+    for i, it in enumerate(items):
+        if it.get("id") == campaign_id:
+            items[i] = item
+            break
+    QUEUE_FILE.write_text(
+        yaml.dump({"items": items}, allow_unicode=True, sort_keys=False),
+        encoding="utf-8",
+    )
+    return landscape
+
+
+def ensure_cover_for_post(post_id: str, post_path: Path, *, force: bool = False) -> Path | None:
+    headline, subline = _headline_from_post(post_path)
+    if not headline:
+        headline = post_id.replace("-", " ").replace("tg ", "").replace("vk ", "").title()
+    landscape, _ = ensure_covers(post_id, headline, subline, force=force)
+    return landscape
+
+
 def main() -> None:
+    load_env()
     p = argparse.ArgumentParser()
-    p.add_argument("--title", required=True)
-    p.add_argument("--subtitle", default="Разбор с практики, без воды")
-    p.add_argument("--slug", required=True, help="имя файла без расширения")
+    p.add_argument("--slug", required=True)
+    p.add_argument("--title", required=True, help="Крупный текст на обложке")
+    p.add_argument("--subtitle", default="")
+    p.add_argument("--variant", choices=["landscape", "vk", "both"], default="both")
+    p.add_argument("--no-gpt", action="store_true")
+    p.add_argument("--force", action="store_true")
+    p.add_argument("--campaign", help="id из publish-queue.yaml")
     args = p.parse_args()
-    out = COVERS / f"{args.slug}.jpg"
-    path = generate(args.title, args.subtitle, out)
-    print(path)
+
+    if args.campaign:
+        path = ensure_cover_for_queue_id(args.campaign, force=args.force)
+        if path:
+            print(path)
+        return
+
+    use_gpt = not args.no_gpt
+    if args.variant in ("landscape", "both"):
+        out = COVERS / f"{args.slug}.jpg"
+        if args.force or not out.exists():
+            generate_cover(args.title, args.subtitle, out, square=False, use_gpt=use_gpt)
+            print(out)
+    if args.variant in ("vk", "both"):
+        out = COVERS / f"{args.slug}-vk.jpg"
+        if args.force or not out.exists():
+            generate_cover(args.title, args.subtitle, out, square=True, use_gpt=use_gpt)
+            print(out)
 
 
 if __name__ == "__main__":
