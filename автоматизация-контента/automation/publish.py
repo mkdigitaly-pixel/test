@@ -706,7 +706,10 @@ def sync_dzen_url(campaign_id: str) -> str:
     path = article_path(item)
     if not path:
         return ""
-    article = load_article(resolve_path(path))
+    full = ROOT / path
+    if not full.exists():
+        return ""
+    article = load_article(full)
     url = fetch_dzen_url_by_title(article.title)
     if url:
         item["dzen_url"] = url
@@ -874,7 +877,8 @@ def cmd_schedule_sync_urls(_args: argparse.Namespace) -> int:
     for item in items:
         if item.get("dzen_url"):
             continue
-        if not article_path(item):
+        rel = article_path(item)
+        if not rel or not (ROOT / rel).exists():
             continue
         if sync_dzen_url(item["id"]):
             n += 1
