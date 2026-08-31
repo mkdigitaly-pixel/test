@@ -176,7 +176,7 @@ SINGULAR_FIRST = [
     (r"^Термометры\b", "Термометр"),
     (r"^Тигли\b", "Тигель"),
     (r"^Трубки\b", "Трубка"),
-    (r"^Укладки\b", "Укладка"),
+    (r"^Устройства\b", "Устройство"),
     (r"^Фильтры\b", "Фильтр"),
     (r"^Фитили\b", "Фитиль"),
     (r"^Флаконы\b", "Флакон"),
@@ -289,7 +289,8 @@ def price_without_vat(gross, vat) -> str:
             rate = float(m.group(1)) if m else VAT_DEFAULT
     if rate > 0:
         amount = amount / (1.0 + rate / 100.0)
-    return str(int(round(amount)))
+    value = int(round(amount))
+    return str(value) if value > 0 else ""
 
 
 def singular_type(group: str) -> str:
@@ -310,20 +311,15 @@ def singular_type(group: str) -> str:
     return name
 
 
-MODEL_RE = re.compile(
-    r"""
-    (
-        [А-ЯA-ZЁ]{1,6}          # буквенный префикс
-        (?:[A-ZА-ЯЁ]{0,4})?
-        [\-\s]?
-        \d[\d\./xх\*×,\-]*      # типоразмер
-        (?:[A-ZА-ЯЁ]{0,4})?
-      |
-        \d+(?:-\d+){2,}(?:-[\d,]+)*   # ГОСТ-код бюретки/пипетки 1-1-2-10-0,05
-    )
-    """,
-    re.VERBOSE,
-)
+MODEL_RES = [
+    re.compile(r"\b(ПЗК-\d+[xх\*×]\d+)\b", re.I),
+    re.compile(r"\b(\d{2}\.\d{3,}\.\d{2,})\b"),  # 20.1288.800, не ТУ 32.50.50
+    re.compile(r"\b(?!ТУ\b)(?!ГОСТ\b)(?!РУ\b)([А-ЯA-ZЁ]{1,3}\s\d{3,}(?:\s?-\s?\d+)?)\b"),
+    re.compile(
+        r"\b([А-ЯA-ZЁ]{2,6}(?:-[А-ЯA-ZЁ])?-?\d[\d./xх\*×\-]*(?:-[А-ЯA-ZЁ0-9]+)?)\b"
+    ),
+    re.compile(r"\b(\d(?:-\d+){3,5}(?:,\d+)?)\b"),  # ГОСТ 1-3-2-10-0,05
+]
 
 VOLUME_ONLY_RE = re.compile(
     r"^(?:\d+(?:[.,]\d+)?\s*(?:мкл|мл|л|мм|см|г|кг|шт)\b.*)$",
@@ -331,43 +327,43 @@ VOLUME_ONLY_RE = re.compile(
 )
 
 
+def _norm_size(text: str) -> str:
+    return cell(text.replace("×", "x").replace("*", "x").replace("х", "x"))
+
+
+def _first_model(text: str) -> str:
+    blob = cell(text)
+    for rx in MODEL_RES:
+        m = rx.search(blob)
+        if m:
+            model = _norm_size(m.group(1))
+            if len(model) >= 3 and not model.endswith(","):
+                return model
+    return ""
+
+
 def extract_model(raw_name: str, site_name: str = "") -> str:
+    for rx in MODEL_RES:
+        for source in (site_name, raw_name):
+            m = rx.search(cell(source))
+            if not m:
+                continue
+            model = _norm_size(m.group(1))
+            if len(model) >= 3 and not model.endswith(","):
+                return model
     blob = cell(raw_name)
     main = blob.split(";")[0].strip()
-    main = re.sub(r"\([^)]*\)", " ", main).strip()
-    main = re.sub(r"\s+", " ", main)
-    if not main:
-        blob2 = cell(site_name)
-        main = blob2.split(",")[0].strip()
+    main = re.sub(r"\([^)]*\)", " ", main)
+    main = re.sub(r"\s+", " ", main).strip()
     if VOLUME_ONLY_RE.match(main):
-        # объём + габарит — это типоразмер (8 мл, 16x100 мм)
         cleaned = re.sub(r",?\s*спецзаказ\s*$", "", main, flags=re.I).strip(" ,;")
-        if re.search(r"\d+\s*[xх\*×]\s*\d+", cleaned):
-            return cell(cleaned.replace("*", "x").replace("×", "x").replace("х", "x"))
+        cleaned = _norm_size(cleaned)
+        if re.search(r"\d+\s*x\s*\d+", cleaned, re.I):
+            return cell(cleaned)
+        m = re.match(r"(\d+(?:[.,]\d+)?\s*(?:мкл|мл|л))\b", cleaned, re.I)
+        if m:
+            return cell(m.group(1))
         return ""
-    # короткое обозначение целиком
-    if re.fullmatch(r"[А-ЯA-ZЁ0-9][А-ЯA-ZЁ0-9\d\./xх\*×,\-\s]{1,40}", main) and re.search(
-        r"\d", main
-    ):
-        # отсечь слишком описательные фразы
-        if len(main.split()) <= 5 and not re.search(
-            r"\b(для|из|с|со|без|под|на|по)\b", main, re.I
-        ):
-            return cell(main)
-    m = MODEL_RE.search(main)
-    if m:
-        model = cell(m.group(1))
-        model = model.replace("х", "x").replace("×", "x").replace("*", "x")
-        model = re.sub(r"\s+", " ", model)
-        if len(model) >= 3:
-            return model
-    # модель из названия сайта, если в прайсе только объём
-    if site_name:
-        m2 = MODEL_RE.search(cell(site_name))
-        if m2:
-            model = cell(m2.group(1))
-            if len(model) >= 3 and not VOLUME_ONLY_RE.match(model):
-                return model
     return ""
 
 
@@ -375,12 +371,16 @@ def strip_model(name: str, model: str) -> str:
     text = cell(name)
     if not text:
         return ""
-    text = re.sub(r"\bминимед\b", " ", text, flags=re.I)
-    text = re.sub(r"\bminimed\b", " ", text, flags=re.I)
+    text = re.sub(r"\bминимед\w*\b", " ", text, flags=re.I)
+    text = re.sub(r"\bminimed\w*\b", " ", text, flags=re.I)
     if model:
         variants = {model, model.replace("x", "х"), model.replace("х", "x")}
         for var in variants:
             text = re.sub(re.escape(var), " ", text, flags=re.I)
+        # хвост диапазона из модели (АУ 1000-1050 → убрать 1000-1050)
+        tail = re.search(r"(\d+\s*-\s*\d+)\s*$", model)
+        if tail:
+            text = re.sub(re.escape(tail.group(1)), " ", text)
     text = re.sub(r"\s+,", ",", text)
     text = re.sub(r"\s{2,}", " ", text)
     text = re.sub(r"^[\s,;./\-]+", "", text)
@@ -435,9 +435,20 @@ def build_name(site_name: str, xls_name: str, group: str, model: str) -> str:
                 name = f"{name}, {pack}"
         name = strip_model(name, model)
     name = re.sub(r"\s{2,}", " ", name).strip(" ,;")
-    # ед.ч. уже в типе; не укорачивать формулировку
+    name = re.sub(r",\s*,+", ",", name)
+    name = re.sub(r"\s{2,}", " ", name).strip(" ,;")
+    # если название начинается с кода — вынести существительное вперёд
+    if name and not re.match(r"[А-ЯЁ]", name):
+        m = re.search(r"([А-ЯЁ][А-ЯЁа-яё\-]*(?:\s+\S+){0,12})", name)
+        if m:
+            head = m.group(1).rstrip(" :;,")
+            rest = (name[: m.start()] + " " + name[m.end() :]).strip(" :;,")
+            name = cell(f"{head} {rest}".strip())
     if name and name[0].islower():
         name = name[0].upper() + name[1:]
+    # ед.ч. первого слова
+    if name:
+        name = singular_type(name)
     return name
 
 
@@ -692,7 +703,10 @@ def write_tsv(path: Path, rows: list[list[str]]) -> None:
     with path.open("w", encoding="utf-8", newline="") as f:
         f.write("\t".join(HEADERS) + "\n")
         for row in rows:
-            f.write("\t".join(row) + "\n")
+            if not row:
+                f.write("\n")
+            else:
+                f.write("\t".join(row) + "\n")
 
 
 def write_xlsx(path: Path, rows: list[list[str]]) -> None:
@@ -703,7 +717,7 @@ def write_xlsx(path: Path, rows: list[list[str]]) -> None:
     for cell_ in ws[1]:
         cell_.font = Font(bold=True)
     for row in rows:
-        ws.append(row)
+        ws.append(row if row else [""] * 7)
     ws.auto_filter.ref = f"A1:G{ws.max_row}"
     ws.freeze_panes = "A2"
     wb.save(path)
@@ -728,7 +742,7 @@ def assemble(xls_rows: list[dict], site: dict[str, dict], extra_arts: set[str]) 
         if prev_cat == cat:
             return
         if not first:
-            out.append(["", "", "", "", "", "", ""])
+            out.append([])  # пустая строка-разделитель категорий
         out.append([cat, "", "", "", "", "", ""])
         prev_cat = cat
         first = False
@@ -780,35 +794,68 @@ def assemble(xls_rows: list[dict], site: dict[str, dict], extra_arts: set[str]) 
     return out
 
 
+def site_from_tsv(path: Path) -> dict[str, dict]:
+    site: dict[str, dict] = {}
+    if not path.exists():
+        return site
+    for line in path.read_text(encoding="utf-8").splitlines()[1:]:
+        if not line.strip():
+            continue
+        cols = line.split("\t")
+        if len(cols) < 7:
+            continue
+        _model, name, cat, _price, art, url, src = cols[:7]
+        if not art or "прайс" in src:
+            continue
+        site[art] = {"name": name, "url": url, "price": None, "category": cat}
+    return site
+
+
 def main() -> None:
+    import sys
+
     DATA.mkdir(parents=True, exist_ok=True)
     CACHE.mkdir(parents=True, exist_ok=True)
     http = Http()
+    offline = "--offline" in sys.argv
 
-    xls_path = http.download(PRICE_XLS, CACHE / "price.xls")
+    xls_path = CACHE / "price.xls"
+    if not xls_path.exists():
+        xls_path = http.download(PRICE_XLS, xls_path)
     print("Разбор price.xls …")
     xls_rows = parse_price_xls(xls_path)
     print(f"  позиций в прайсе: {len(xls_rows)}")
 
-    site = crawl_site(http)
-    print(f"  карточек на сайте: {len(site)}")
+    site_cache = CACHE / "site.json"
+    tsv_path = DATA / "nomenclature.tsv"
+    if offline and tsv_path.exists():
+        site = site_from_tsv(tsv_path)
+        print(f"  карточки из TSV: {len(site)}")
+    elif site_cache.exists() and offline:
+        site = json.loads(site_cache.read_text(encoding="utf-8"))
+        print(f"  карточки из кэша: {len(site)}")
+    else:
+        site = crawl_site(http)
+        site_cache.write_text(json.dumps(site, ensure_ascii=False), encoding="utf-8")
+        print(f"  карточек на сайте: {len(site)}")
 
     extra_arts: set[str] = set()
-    for url, name in (
-        (NTRT_CATALOG_PDF, "ntrt-katalog.pdf"),
-        (NTRT_PRICE_PDF, "ntrt-pricelis.pdf"),
-        (CATALOG_PDF, "catalog.pdf"),
-    ):
-        try:
-            path = http.download(url, CACHE / name)
-            arts = pdf_articles(path)
-            print(f"  {name}: артикулов {len(arts)}")
-            extra_arts |= arts
-        except Exception as exc:
-            print(f"  {name}: {exc}")
+    if not offline:
+        for url, name in (
+            (NTRT_CATALOG_PDF, "ntrt-katalog.pdf"),
+            (NTRT_PRICE_PDF, "ntrt-pricelis.pdf"),
+            (CATALOG_PDF, "catalog.pdf"),
+        ):
+            try:
+                path = http.download(url, CACHE / name)
+                arts = pdf_articles(path)
+                print(f"  {name}: артикулов {len(arts)}")
+                extra_arts |= arts
+            except Exception as exc:
+                print(f"  {name}: {exc}")
 
     rows = assemble(xls_rows, site, extra_arts)
-    goods = [r for r in rows if r[4]]
+    goods = [r for r in rows if r and len(r) > 4 and r[4]]
     tsv = DATA / "nomenclature.tsv"
     xlsx = DATA / "nomenclature.xlsx"
     write_tsv(tsv, rows)
