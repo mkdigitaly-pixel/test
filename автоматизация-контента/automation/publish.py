@@ -214,24 +214,90 @@ def publish_telegram(
     return PublishResult("telegram", True, "Текст опубликован", data["result"]["message_id"])
 
 
-def publish_vk(text: str, token: str, group_id: str, *, dry_run: bool = False) -> PublishResult:
-    if dry_run:
-        return PublishResult("vk", True, f"[dry-run] → группа {group_id}")
-    resp = requests.post(
-        "https://api.vk.com/method/wall.post",
-        data={
-            "access_token": token,
-            "v": "5.199",
-            "owner_id": f"-{group_id}",
-            "from_group": 1,
-            "message": text,
-        },
+def vk_api(method: str, token: str, **params: Any) -> dict[str, Any]:
+    resp = requests.get(
+        f"https://api.vk.com/method/{method}",
+        params={"access_token": token, "v": "5.199", **params},
         timeout=60,
     )
     data = resp.json()
     if "error" in data:
-        raise RuntimeError(f"VK API: {data['error']}")
-    return PublishResult("vk", True, f"Пост #{data['response']['post_id']}", data["response"]["post_id"])
+        raise RuntimeError(f"VK API {method}: {data['error']}")
+    return data["response"]
+
+
+def resolve_vk_group_id(token: str, group_id: str) -> int:
+    if group_id.lstrip("-").isdigit():
+        return int(group_id.lstrip("-"))
+    data = vk_api("groups.getById", token, group_id=group_id)
+    groups = data.get("groups") or data
+    if isinstance(groups, list):
+        return int(groups[0]["id"])
+    return int(groups["id"])
+
+
+def upload_vk_wall_photo(user_token: str, group_id: int, image_path: Path) -> str:
+    """Загрузка фото на стену — только пользовательский токен (не ключ сообщества)."""
+    up_srv = vk_api("photos.getWallUploadServer", user_token, group_id=group_id)
+    with image_path.open("rb") as f:
+        up = requests.post(up_srv["upload_url"], files={"photo": f}, timeout=120).json()
+    saved = vk_api(
+        "photos.saveWallPhoto",
+        user_token,
+        group_id=group_id,
+        photo=up["photo"],
+        server=up["server"],
+        hash=up["hash"],
+    )
+    ph = saved[0]
+    return f"photo{ph['owner_id']}_{ph['id']}"
+
+
+def publish_vk(
+    text: str,
+    token: str,
+    group_id: str,
+    *,
+    cover: Path | None = None,
+    user_token: str = "",
+    dry_run: bool = False,
+) -> PublishResult:
+    gid = resolve_vk_group_id(token, group_id) if not dry_run else group_id
+    attachment = ""
+
+    if cover and cover.exists():
+        if user_token:
+            if dry_run:
+                attachment = "[dry-run photo]"
+            else:
+                attachment = upload_vk_wall_photo(user_token, int(gid), cover)
+        else:
+            print(
+                "⚠ VK: для картинки нужен VK_USER_TOKEN (ключ сообщества фото не грузит). "
+                "См. checklists/vk-photo-token.md",
+                file=sys.stderr,
+            )
+
+    if dry_run:
+        mode = "текст+фото" if attachment else "текст"
+        return PublishResult("vk", True, f"[dry-run] → группа {group_id} ({mode})")
+
+    payload: dict[str, Any] = {
+        "access_token": token,
+        "v": "5.199",
+        "owner_id": f"-{gid}",
+        "from_group": 1,
+        "message": text,
+    }
+    if attachment:
+        payload["attachments"] = attachment
+
+    resp = requests.post("https://api.vk.com/method/wall.post", data=payload, timeout=60)
+    data = resp.json()
+    if "error" in data:
+        raise RuntimeError(f"VK API wall.post: {data['error']}")
+    post_id = data["response"]["post_id"]
+    return PublishResult("vk", True, f"Пост #{post_id}", post_id)
 
 
 def require_approved(item: dict[str, Any], force: bool) -> None:
@@ -268,7 +334,7 @@ def publish_dzen_teasers(
     cover = ROOT / item["cover"] if item.get("cover") else None
 
     tg_path = teaser_tg_path(item)
-    if tg_path and main_ch:
+    if tg_path and main_ch and token:
         text = replace_dzen_url(load_plain_post(resolve_path(tg_path)), url)
         r = publish_telegram(text, main_ch, token, cover=cover, dry_run=dry_run)
         print(f"TG тизер ({main_ch}): {r.message}")
@@ -276,7 +342,10 @@ def publish_dzen_teasers(
     vk_path = teaser_vk_path(item)
     if vk_path and vk_token and vk_group:
         text = replace_dzen_url(load_plain_post(resolve_path(vk_path)), url)
-        r = publish_vk(text, vk_token, vk_group, dry_run=dry_run)
+        user_token = os.getenv("VK_USER_TOKEN", "")
+        r = publish_vk(
+            text, vk_token, vk_group, cover=cover, user_token=user_token, dry_run=dry_run
+        )
         print(f"VK тизер: {r.message}")
     elif vk_path and not dry_run:
         print("ℹ VK: задайте VK_ACCESS_TOKEN и VK_GROUP_ID в .env")
@@ -341,15 +410,18 @@ def cmd_publish(target: str, item_id: str, *, dry_run: bool, force: bool) -> int
             raise SystemExit("Заполните TELEGRAM_BOT_TOKEN и TELEGRAM_DZEN_CHANNEL_ID")
         publish_dzen_article(item, dry_run=dry_run, token=token, channel=dzen_ch)
 
-    if target in ("teasers", "all"):
-        if target == "teasers":
+    if target in ("teasers", "teasers-vk", "all"):
+        if target in ("teasers", "teasers-vk"):
             require_approved(item, force)
-        if not token or not main_ch:
-            raise SystemExit("Заполните TELEGRAM_BOT_TOKEN и TELEGRAM_MAIN_CHANNEL_ID")
-        publish_dzen_teasers(
-            item, dry_run=dry_run, token=token, main_ch=main_ch,
-            vk_token=vk_token, vk_group=vk_group,
-        )
+        vk_only = target == "teasers-vk"
+        if not vk_only:
+            if not token or not main_ch:
+                raise SystemExit("Заполните TELEGRAM_BOT_TOKEN и TELEGRAM_MAIN_CHANNEL_ID")
+        if vk_only or (token and main_ch):
+            publish_dzen_teasers(
+                item, dry_run=dry_run, token=token, main_ch=main_ch if not vk_only else "",
+                vk_token=vk_token, vk_group=vk_group,
+            )
 
     if target == "all" and not dry_run:
         item["status"] = "published"
@@ -358,6 +430,40 @@ def cmd_publish(target: str, item_id: str, *, dry_run: bool, force: bool) -> int
 
     if dry_run:
         print("\n[dry-run] Для реальной публикации: DRY_RUN=false python publish.py publish", target, item_id)
+    return 0
+
+
+def cmd_vk_attach_cover(args: argparse.Namespace) -> int:
+    load_env()
+    community = os.getenv("VK_ACCESS_TOKEN", "")
+    user = os.getenv("VK_USER_TOKEN", "")
+    group = os.getenv("VK_GROUP_ID", "")
+    if not all([community, user, group]):
+        raise SystemExit("Нужны VK_ACCESS_TOKEN, VK_USER_TOKEN, VK_GROUP_ID в .env")
+
+    items = load_queue()
+    item = find_queue_item(items, args.id)
+    if not item or not item.get("cover"):
+        raise SystemExit("Нет cover в очереди для этого id")
+    cover = ROOT / item["cover"]
+    gid = resolve_vk_group_id(community, group)
+    attachment = upload_vk_wall_photo(user, gid, cover)
+
+    resp = requests.post(
+        "https://api.vk.com/method/wall.edit",
+        data={
+            "access_token": user,
+            "v": "5.199",
+            "owner_id": -gid,
+            "post_id": args.post_id,
+            "attachments": attachment,
+        },
+        timeout=60,
+    ).json()
+    if "error" in resp:
+        raise SystemExit(f"wall.edit: {resp['error']}")
+    print(f"✓ К посту {args.post_id} прикреплено фото")
+    print(f"  https://vk.ru/wall-{gid}_{args.post_id}")
     return 0
 
 
@@ -374,8 +480,8 @@ def main() -> int:
     pub = sub.add_parser("publish")
     pub.add_argument(
         "target",
-        choices=["dzen", "teasers", "all", "tg-post", "vk-post"],
-        help="dzen=статья в DZEN-канал; teasers=тизеры в TG+VK; all=всё",
+        choices=["dzen", "teasers", "teasers-vk", "all", "tg-post", "vk-post"],
+        help="teasers-vk=только VK; teasers=TG+VK",
     )
     pub.add_argument("id")
     pub.add_argument("--dry-run", action="store_true")
