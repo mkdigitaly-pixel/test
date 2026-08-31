@@ -22,9 +22,10 @@ import os
 import re
 import sys
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
 import requests
 import yaml
@@ -32,7 +33,10 @@ from dotenv import load_dotenv
 
 ROOT = Path(__file__).resolve().parent.parent
 QUEUE_FILE = ROOT / "queue" / "publish-queue.yaml"
+SCHEDULE_FILE = ROOT / "queue" / "posting-schedule.yaml"
 ENV_FILE = Path(__file__).resolve().parent / ".env"
+MSK = ZoneInfo("Europe/Moscow")
+DZEN_CHANNEL_SLUG = "klientyandtrafik"
 
 TG_CAPTION_LIMIT = 1024
 TG_MESSAGE_LIMIT = 4096
@@ -190,7 +194,8 @@ def teaser_vk_path(item: dict[str, Any]) -> str | None:
 
 
 def replace_dzen_url(text: str, url: str) -> str:
-    return text.replace("[ссылка]", url or "[ссылка на Дзен]")
+    out = text.replace("[ссылка]", url or "[ссылка на Дзен]")
+    return out.replace("[ВСТАВЬТЕ ССЫЛКУ НА СТАТЬЮ]", url or "[ссылка на Дзен]")
 
 
 def telegram_api(method: str, payload: dict[str, Any], token: str) -> dict[str, Any]:
@@ -480,6 +485,195 @@ def cmd_publish(target: str, item_id: str, *, dry_run: bool, force: bool) -> int
     return 0
 
 
+def load_schedule() -> dict[str, Any]:
+    if not SCHEDULE_FILE.exists():
+        return {"timezone": "Europe/Moscow", "slots": []}
+    return yaml.safe_load(SCHEDULE_FILE.read_text(encoding="utf-8")) or {"slots": []}
+
+
+def save_schedule(data: dict[str, Any]) -> None:
+    SCHEDULE_FILE.parent.mkdir(parents=True, exist_ok=True)
+    SCHEDULE_FILE.write_text(yaml.dump(data, allow_unicode=True, sort_keys=False), encoding="utf-8")
+
+
+def now_msk() -> datetime:
+    return datetime.now(MSK)
+
+
+def slot_when(slot: dict[str, Any]) -> datetime:
+    return datetime.strptime(f"{slot['date']} {slot['time']}", "%Y-%m-%d %H:%M").replace(tzinfo=MSK)
+
+
+def schedule_uses_live_publish() -> bool:
+    """AUTO_PUBLISH=true в .env — расписание публикует по-настоящему."""
+    return env_bool("AUTO_PUBLISH", False)
+
+
+def fetch_dzen_url_by_title(title: str, channel: str = DZEN_CHANNEL_SLUG) -> str:
+    resp = requests.get(
+        f"https://dzen.ru/api/v3/launcher/export?channel_name={channel}",
+        headers={"User-Agent": "Mozilla/5.0"},
+        timeout=30,
+    )
+    resp.raise_for_status()
+    needle = title.lower().strip().rstrip(".")[:50]
+    for item in resp.json().get("items", []):
+        t = (item.get("title") or "").lower().strip()
+        if needle in t or t[:50] in needle:
+            link = item.get("share_link") or ""
+            if link:
+                return link
+    return ""
+
+
+def sync_dzen_url(campaign_id: str) -> str:
+    items = load_queue()
+    item = find_queue_item(items, campaign_id)
+    if not item or item.get("dzen_url"):
+        return item.get("dzen_url", "") if item else ""
+    path = article_path(item)
+    if not path:
+        return ""
+    article = load_article(resolve_path(path))
+    url = fetch_dzen_url_by_title(article.title)
+    if url:
+        item["dzen_url"] = url
+        save_queue(items)
+        print(f"✓ dzen_url для {campaign_id}: {url}")
+    return url
+
+
+def execute_schedule_slot(slot: dict[str, Any], *, dry_run: bool) -> tuple[bool, str]:
+    action = slot.get("action", "")
+    cid = slot.get("campaign_id") or slot.get("post_id") or ""
+
+    if action == "vc_manual":
+        return True, "VC вручную — пропуск"
+
+    if action == "publish_dzen":
+        items = load_queue()
+        item = find_queue_item(items, cid)
+        if not item:
+            return False, f"нет кампании {cid}"
+        if item.get("status") not in ("approved", "published") and not dry_run:
+            return False, f"статус {item.get('status')} — нужен approved"
+        cmd_publish("dzen", cid, dry_run=dry_run, force=True)
+        if not dry_run:
+            items = load_queue()
+            item = find_queue_item(items, cid)
+            if item:
+                item["dzen_published_at"] = now_msk().isoformat()
+                if item.get("status") == "approved":
+                    item["status"] = "published"
+                save_queue(items)
+        return True, f"dzen {cid}"
+
+    if action == "publish_teasers":
+        sync_dzen_url(cid)
+        items = load_queue()
+        item = find_queue_item(items, cid)
+        if not item:
+            return False, f"нет кампании {cid}"
+        if not item.get("dzen_url") and not dry_run:
+            return False, "dzen_url ещё нет — повторим позже (синхробот 2–10 мин)"
+        cmd_publish("teasers", cid, dry_run=dry_run, force=True)
+        return True, f"teasers {cid}"
+
+    if action == "publish_tg_post":
+        post_id = slot.get("post_id") or cid
+        path = ROOT / "articles" / "tg" / f"{post_id}.md"
+        if not path.exists():
+            return False, f"нет файла {path.relative_to(ROOT)}"
+        publish_standalone_tg(post_id, dry_run=dry_run, force=True)
+        return True, f"tg-post {post_id}"
+
+    if action == "publish_vk_post":
+        post_id = slot.get("post_id") or cid
+        path = ROOT / "articles" / "vk" / f"{post_id}.md"
+        if not path.exists():
+            return False, f"нет файла {path.relative_to(ROOT)}"
+        publish_standalone_vk(post_id, dry_run=dry_run, force=True)
+        return True, f"vk-post {post_id}"
+
+    return False, f"неизвестное действие {action}"
+
+
+def cmd_schedule_run(args: argparse.Namespace) -> int:
+    load_env()
+    dry = args.dry_run or (not schedule_uses_live_publish())
+    if dry and not args.dry_run:
+        print("ℹ AUTO_PUBLISH не включён — dry-run. Задайте AUTO_PUBLISH=true в .env")
+
+    data = load_schedule()
+    slots: list[dict[str, Any]] = data.get("slots", [])
+    now = now_msk()
+    if args.date:
+        day = datetime.strptime(args.date, "%Y-%m-%d").date()
+    else:
+        day = now.date()
+
+    ran = 0
+    for slot in slots:
+        status = slot.get("status", "scheduled")
+        if status not in ("scheduled", "pending"):
+            continue
+        when = slot_when(slot)
+        if when.date() != day:
+            continue
+        if not args.force and when > now:
+            continue
+
+        label = f"{slot['date']} {slot['time']} {slot.get('action')} {slot.get('campaign_id') or slot.get('post_id', '')}"
+        print(f"\n→ {label}")
+        try:
+            ok, msg = execute_schedule_slot(slot, dry_run=dry)
+            print(f"  {'✓' if ok else '✗'} {msg}")
+            if ok:
+                slot["status"] = "done"
+                slot["completed_at"] = now.isoformat()
+                ran += 1
+            elif status == "scheduled" and slot.get("action") == "publish_teasers":
+                slot["status"] = "pending"
+                print("  ↻ pending — повтор при следующем запуске")
+            else:
+                slot["status"] = "failed"
+                slot["error"] = msg
+        except Exception as exc:
+            slot["status"] = "failed"
+            slot["error"] = str(exc)
+            print(f"  ✗ {exc}")
+
+    save_schedule(data)
+    print(f"\nГотово: {ran} слотов" + (" (dry-run)" if dry else ""))
+    return 0
+
+
+def cmd_schedule_sync_urls(_args: argparse.Namespace) -> int:
+    load_env()
+    items = load_queue()
+    n = 0
+    for item in items:
+        if item.get("dzen_url"):
+            continue
+        if not article_path(item):
+            continue
+        if sync_dzen_url(item["id"]):
+            n += 1
+    print(f"Обновлено dzen_url: {n}")
+    return 0
+
+
+def cmd_schedule_list(_args: argparse.Namespace) -> int:
+    data = load_schedule()
+    now = now_msk()
+    for slot in data.get("slots", []):
+        when = slot_when(slot)
+        mark = "← сейчас" if slot.get("status") in ("scheduled", "pending") and when <= now else ""
+        cid = slot.get("campaign_id") or slot.get("post_id", "")
+        print(f"{slot['date']} {slot['time']} [{slot.get('status')}] {slot.get('action')} {cid} {mark}")
+    return 0
+
+
 def cmd_vk_attach_cover(args: argparse.Namespace) -> int:
     load_env()
     community = os.getenv("VK_ACCESS_TOKEN", "")
@@ -550,7 +744,24 @@ def main() -> int:
     p_cov.add_argument("post_id", type=int, help="Номер поста, напр. 204")
     p_cov.add_argument("id", help="id в очереди (для пути к cover)")
 
+    sch = sub.add_parser("schedule", help="Автопубликация по posting-schedule.yaml")
+    schs = sch.add_subparsers(dest="schedule_cmd", required=True)
+    sch_run = schs.add_parser("run", help="Выполнить слоты на сегодня (или --date)")
+    sch_run.add_argument("--dry-run", action="store_true")
+    sch_run.add_argument("--force", action="store_true", help="Игнорировать время слота")
+    sch_run.add_argument("--date", help="YYYY-MM-DD")
+    schs.add_parser("list", help="Показать расписание")
+    schs.add_parser("sync-urls", help="Подтянуть dzen_url из API Дзена")
+
     args = parser.parse_args()
+
+    if args.command == "schedule":
+        if args.schedule_cmd == "run":
+            return cmd_schedule_run(args)
+        if args.schedule_cmd == "list":
+            return cmd_schedule_list(args)
+        if args.schedule_cmd == "sync-urls":
+            return cmd_schedule_sync_urls(args)
 
     if args.command == "vk-attach-cover":
         return cmd_vk_attach_cover(args)

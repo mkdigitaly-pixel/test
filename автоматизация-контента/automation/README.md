@@ -14,22 +14,22 @@
 3. В [@zen_sync_bot](https://t.me/zen_sync_bot): `/restart` → привязать **новый** канал (отвязать `@mariyaprodirect`)
 4. `TELEGRAM_DZEN_CHANNEL_ID=@ваш_dzen_канал` в `.env`
 
+## Порядок кампании
+
+1. Согласование: `queue approve <id>` или `ок <id>` в чате
+2. **Автомат** по `posting-schedule.yaml` — `schedule run` / `run-schedule.sh`
+3. `dzen_url` подтягивается из API Дзена (`schedule sync-urls`)
+
+Подробно: [`docs/automation-agent.md`](../docs/automation-agent.md)
+
 ## Команды
 
 ```bash
 python3 publish.py queue approve <id>
-python3 publish.py publish dzen <id> [--dry-run]      # статья → DZEN-канал
-python3 publish.py publish teasers <id>                 # тизеры → TG + VK
-python3 publish.py publish tg-post <slug>             # свой пост → mariyaprodirect
-python3 publish.py publish vk-post <slug>             # свой пост → VK
+./run-schedule.sh                    # автопубликация на сегодня
+python3 publish.py schedule list
+python3 publish.py publish dzen <id> [--dry-run]      # вручную
+python3 publish.py publish teasers <id>
+python3 publish.py publish tg-post <slug>
+python3 publish.py publish vk-post <slug>
 ```
-
-Скрипт **не даст** опубликовать статью в тот же канал, что и основной (`dzen` + совпадающие ID).
-
-## Порядок кампании
-
-1. `publish dzen` → ждём статью в Студии
-2. `dzen_url` в `queue/publish-queue.yaml`
-3. `publish teasers` → короткий пост с картинкой в @mariyaprodirect + VK
-
-Полная схема: [`../docs/content-channels.md`](../docs/content-channels.md)
