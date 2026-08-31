@@ -11,6 +11,7 @@
 2. **Кейс?** — взять цифры из `references/case-sources.md` ([context-sea.ru/cases](https://context-sea.ru/cases/)), CTA только из `brand.md`
 3. Один `id` кампании = одна запись в `queue/publish-queue.yaml`
 4. Проверить матрицу в `plan/dzen-seo-content-plan.md` — нет ли дубля темы
+5. **Тема из внешних источников?** — `references/topic-research.md`, бриф с `source_structure`, рерайт 100% уникальный
 
 ---
 
@@ -69,3 +70,4 @@
 - [ ] Нет нейроштампов (`banned-phrases.md`)
 - [ ] Цифры только из реальных кейсов (`brand.md`)
 - [ ] CTA razbor-direct с utm_campaign
+- [ ] Рерайт: нет цепочек 8+ слов из источника (`python3 check_uniqueness.py …`)

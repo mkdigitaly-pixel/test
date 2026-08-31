@@ -10,11 +10,11 @@
 
 | id | Тема (наш угол) | Источник (структура) | Куда | Статус |
 |----|-----------------|----------------------|------|--------|
-| `no-leads-direct` | Почему нет заявок: чек-лист кабинета | Click: первая РК; Habr: офлайн-конверсии (блок) | Дзен 09.09 | draft |
-| `autotarget-b2b` | Автотаргет в B2B: когда резать | Promopult: виды РК; Click: 10 конв/нед | Дзен 11.09 | draft |
-| `offline-conversions` | Офлайн-конверсии: CRM + звонки для обучения ЕПК | [Habr 1069424](https://habr.com/ru/articles/1069424/) H2 §1, §6 | Дзен нед 5 или TG | **новый** |
-| `search-retargeting` | Поисковый ретаргетинг в 2026 для B2B | [Click](https://blog.click.ru/category/direct-yandex/) | Дзен / TG | **новый** |
-| `tg-week2` | 5 признаков: клики ≠ заявки | Habr: минусация + диагностика | TG 10.09 | approved |
+| `no-leads-direct` | Почему нет заявок: чек-лист кабинета | Click: [чек-лист РК](https://blog.click.ru/direct-yandex/kak-nastroit-kontekstnuyu-reklamu-v-yandeks-direkt-chek-list/); Habr: [1069424](https://habr.com/ru/articles/1069424/) §1 офлайн | Дзен 09.09 | brief готов |
+| `autotarget-b2b` | Автотаргет в B2B: когда резать | Click: [автостратегии](https://blog.click.ru/direct-yandex/avtomaticheskie-strategii-yandeks-direkta/); Promopult: [ЕПК](https://blog.promopult.ru/ppc/edinaya-performans-kampaniya-yandeksa.html) | Дзен 11.09 | brief готов |
+| `offline-conversions` | Офлайн-конверсии: CRM + звонки для обучения ЕПК | [Habr 1069424](https://habr.com/ru/articles/1069424/) H2 §1, §6 | Дзен нед 5 | **новый** |
+| `search-retargeting` | Поисковый ретаргетинг в 2026 для B2B | Click direct-yandex | Дзен / TG | **новый** |
+| `bot-protection-direct` | Фейковые заявки: что проверяю в B2B | [Habr 835262](https://habr.com/ru/articles/835262/), [813593](https://habr.com/ru/articles/813593/) — без кода и сервисов | Дзен / TG | **новый** |
 
 ---
 
