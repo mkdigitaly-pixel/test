@@ -20,71 +20,57 @@ items:
   cover_subline: Кейс B2B · пенопласт
   dzen_url: ''
   notes: Согласовано 31.08 — публикация 02.09 10:00 МСК
-
 - id: no-leads-direct
-  status: draft
-  topic: "Почему нет заявок в Директе — что проверяю в кабинете"
+  status: approved
+  topic: Почему нет заявок в Директе — что проверяю в кабинете
   dzen_article: articles/dzen/articles/2026-09-09-no-leads-direct.md
   dzen_teaser_tg: articles/dzen/teasers/tg/2026-09-09-no-leads.md
   dzen_teaser_vk: articles/dzen/teasers/vk/2026-09-09-no-leads.md
   cover: assets/covers/no-leads-direct.jpg
-  cover_headline: "Нет заявок?"
-  cover_subline: "Что проверить"
+  cover_headline: Нет заявок?
+  cover_subline: Что проверить
   dzen_url: ''
-  notes: Неделя 2 — темы согласованы 31.08
-
+  notes: Согласовано 31.08 — публикация 09.09 10:00 МСК
 - id: autotarget-b2b
   status: draft
-  topic: "Автотаргет в B2B — когда съедает бюджет"
+  topic: Кейс погружение шпунта — CPL до 4000 ₽
   dzen_article: articles/dzen/articles/2026-09-11-autotarget-b2b.md
   dzen_teaser_tg: articles/dzen/teasers/tg/2026-09-11-autotarget.md
   dzen_teaser_vk: articles/dzen/teasers/vk/2026-09-11-autotarget.md
   cover: assets/covers/autotarget-b2b.jpg
-  cover_headline: "Автотаргет B2B"
-  cover_subline: "Съедает бюджет?"
+  cover_headline: CPL до 4000 ₽
+  cover_subline: Кейс шпунт B2B
   dzen_url: ''
-  notes: Неделя 2 — темы согласованы 31.08
-
-- id: shpunkt-case
-  status: draft
-  topic: "Кейс погружение шпунта — CPL до 4000 ₽"
-  cover_headline: "CPL до 4000 ₽"
-  cover_subline: "Кейс шпунт B2B"
-  dzen_url: ''
-
+  notes: Согласовано 31.08 — публикация 11.09 10:00 МСК
 - id: chp-upp-case
   status: draft
-  topic: "Кейс ЧП/УПП — заявка 8017→1800 ₽"
-  cover_headline: "8017→1800 ₽"
-  cover_subline: "Кейс ЧП/УПП"
+  topic: Кейс ЧП/УПП — заявка 8017→1800 ₽
+  cover_headline: 8017→1800 ₽
+  cover_subline: Кейс ЧП/УПП
   dzen_url: ''
-
 - id: metrika-goals
   status: draft
-  topic: "Цели Метрики под Директ B2B"
-  cover_headline: "Цели Метрики"
-  cover_subline: "Под Директ"
+  topic: Цели Метрики под Директ B2B
+  cover_headline: Цели Метрики
+  cover_subline: Под Директ
   dzen_url: ''
-
 - id: epk-leads
   status: draft
-  topic: "ЕПК под заявки в B2B"
-  cover_headline: "ЕПК"
-  cover_subline: "Заявки B2B"
+  topic: ЕПК под заявки в B2B
+  cover_headline: ЕПК
+  cover_subline: Заявки B2B
   dzen_url: ''
-
 - id: offline-conversions
   status: draft
-  topic: "Офлайн-конверсии и CRM — обучение стратегии Директа"
-  cover_headline: "Офлайн-конверсии"
-  cover_subline: "CRM + Директ"
+  topic: Офлайн-конверсии и CRM — обучение стратегии Директа
+  cover_headline: Офлайн-конверсии
+  cover_subline: CRM + Директ
   notes: 'Источник структуры: Habr 1069424 — рерайт под B2B'
   dzen_url: ''
-
 - id: search-retargeting
   status: draft
-  topic: "Поисковый ретаргетинг в Директе 2026"
-  cover_headline: "Поисковый ретаргет"
-  cover_subline: "B2B 2026"
+  topic: Поисковый ретаргетинг в Директе 2026
+  cover_headline: Поисковый ретаргет
+  cover_subline: B2B 2026
   notes: 'Источник структуры: blog.click.ru/direct-yandex'
   dzen_url: ''
