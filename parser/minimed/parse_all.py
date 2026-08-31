@@ -271,6 +271,54 @@ def parse_money(raw) -> float | None:
         return None
 
 
+PACK_RATIO_RE = re.compile(r"уп\.?|упак", re.I)
+PIECE_RATIO_RE = re.compile(r"шт", re.I)
+
+
+def parse_dual_prices(root) -> tuple[float | None, float | None]:
+    """Цена за 1 шт. и за 1 уп. внутри карточки / блока."""
+    piece = pack = None
+    if root is None:
+        return None, None
+    for wrap in root.select(".price"):
+        ratio_el = wrap.select_one(".price__ratio")
+        val_el = wrap.select_one(".value")
+        if not val_el:
+            continue
+        amount = parse_money(val_el.get_text())
+        if amount is None:
+            continue
+        ratio = ratio_el.get_text(" ", strip=True) if ratio_el else ""
+        if PACK_RATIO_RE.search(ratio):
+            pack = amount
+        elif PIECE_RATIO_RE.search(ratio):
+            piece = amount
+    return piece, pack
+
+
+def pick_catalog_price(piece: float | None, pack: float | None) -> tuple[float | None, str]:
+    """Если есть и шт., и упаковка — брать упаковку."""
+    if pack is not None:
+        return pack, "упак"
+    if piece is not None:
+        return piece, "шт"
+    return None, ""
+
+
+def jsonld_offer_qty(offers: dict) -> float | None:
+    qty = offers.get("eligibleQuantity")
+    if isinstance(qty, dict):
+        qty = qty.get("value") or qty.get("minValue")
+    return parse_money(qty)
+
+
+def choose_price(xls_wholesale, vat, site_price, site_unit: str) -> str:
+    """Оптовая без НДС. Цена за упаковку с сайта, если она там есть."""
+    if site_unit == "упак" and site_price is not None:
+        return price_without_vat(site_price, vat)
+    return price_without_vat(xls_wholesale if xls_wholesale not in (None, "") else site_price, vat)
+
+
 def price_without_vat(gross, vat) -> str:
     amount = parse_money(gross)
     if amount is None or amount <= 0:
@@ -834,11 +882,17 @@ def parse_listing(html: str) -> list[dict]:
         art_el = card.select_one(".product__article")
         if art_el:
             art = norm_art(re.sub(r"артикул:\s*", "", art_el.get_text(" ", strip=True), flags=re.I))
-        price = None
-        val = card.select_one(".product__price .value")
-        if val:
-            price = parse_money(val.get_text())
-        items.append({"name": name, "url": href, "article": art, "price": price})
+        piece, pack = parse_dual_prices(card.select_one(".product__price") or card)
+        price, price_unit = pick_catalog_price(piece, pack)
+        items.append(
+            {
+                "name": name,
+                "url": href,
+                "article": art,
+                "price": price,
+                "price_unit": price_unit,
+            }
+        )
     if items:
         return items
     # JSON-LD fallback
@@ -860,12 +914,18 @@ def parse_listing(html: str) -> list[dict]:
                 offers = node.get("offers") or {}
                 if isinstance(offers, list):
                     offers = offers[0] if offers else {}
+                if not isinstance(offers, dict):
+                    offers = {}
+                qty = jsonld_offer_qty(offers)
+                price = parse_money(offers.get("price"))
+                price_unit = "упак" if qty is not None and qty > 1 else "шт"
                 items.append(
                     {
                         "name": cell(node.get("name")),
                         "url": urljoin(BASE, str(node.get("url"))),
                         "article": norm_art(node.get("mpn") or node.get("sku") or ""),
-                        "price": parse_money(offers.get("price")),
+                        "price": price,
+                        "price_unit": price_unit if price is not None else "",
                     }
                 )
     return items
@@ -901,6 +961,7 @@ def crawl_site(http: Http) -> dict[str, dict]:
                     "name": item["name"],
                     "url": item["url"],
                     "price": item["price"],
+                    "price_unit": item.get("price_unit") or "",
                     "category": category,
                 }
                 if art not in by_art:
@@ -930,6 +991,7 @@ def parse_price_xls(path: Path) -> list[dict]:
                 group = name
             continue
         vat = sh.cell_value(r, 2)
+        unit = cell(sh.cell_value(r, 4)).lower()
         wholesale = sh.cell_value(r, 5)
         cat = "/".join(p for p in (root, group) if p)
         rows.append(
@@ -940,6 +1002,7 @@ def parse_price_xls(path: Path) -> list[dict]:
                 "group": group,
                 "category": cat,
                 "vat": vat,
+                "unit": unit,
                 "wholesale": wholesale,
             }
         )
@@ -1020,7 +1083,12 @@ def assemble(
         model = extract_model(rec["xls_name"], site_rec.get("name", ""))
         name = build_name(site_rec.get("name", ""), rec["xls_name"], rec["group"] or rec["root"], model)
         cat = rec["category"] or site_rec.get("category") or rec["root"]
-        price = price_without_vat(rec["wholesale"] or site_rec.get("price"), rec["vat"])
+        price = choose_price(
+            rec["wholesale"],
+            rec["vat"],
+            site_rec.get("price"),
+            site_rec.get("price_unit") or "",
+        )
         url = site_rec.get("url") or ""
         if url:
             source = "minimed.ru"
@@ -1041,7 +1109,7 @@ def assemble(
     for cat, rec, art in extras:
         model = extract_model("", rec.get("name", ""))
         name = build_name(rec.get("name", ""), "", cat.split("/")[-1], model)
-        price = price_without_vat(rec.get("price"), VAT_DEFAULT)
+        price = choose_price(None, VAT_DEFAULT, rec.get("price"), rec.get("price_unit") or "")
         emit_group(cat)
         out.append(
             [
@@ -1142,7 +1210,7 @@ def site_from_tsv(path: Path) -> dict[str, dict]:
         _model, name, cat, _price, art, url, src = cols[:7]
         if not art or "прайс" in src or "PDF" in src:
             continue
-        site[art] = {"name": name, "url": url, "price": None, "category": cat}
+        site[art] = {"name": name, "url": url, "price": None, "price_unit": "", "category": cat}
     return site
 
 
@@ -1166,13 +1234,27 @@ def main() -> None:
     if offline and tsv_path.exists():
         site = site_from_tsv(tsv_path)
         print(f"  карточки из TSV: {len(site)}")
+        if site_cache.exists():
+            cached = json.loads(site_cache.read_text(encoding="utf-8"))
+            n_pack = 0
+            for art, rec in cached.items():
+                if art in site:
+                    if rec.get("price") is not None:
+                        site[art]["price"] = rec["price"]
+                        site[art]["price_unit"] = rec.get("price_unit") or ""
+                        if site[art]["price_unit"] == "упак":
+                            n_pack += 1
+                else:
+                    site[art] = rec
+            print(f"  цены из кэша сайта: {sum(1 for r in site.values() if r.get('price') is not None)} (упак. {n_pack})")
     elif site_cache.exists() and offline:
         site = json.loads(site_cache.read_text(encoding="utf-8"))
         print(f"  карточки из кэша: {len(site)}")
     else:
         site = crawl_site(http)
         site_cache.write_text(json.dumps(site, ensure_ascii=False), encoding="utf-8")
-        print(f"  карточек на сайте: {len(site)}")
+        n_pack = sum(1 for r in site.values() if r.get("price_unit") == "упак")
+        print(f"  карточек на сайте: {len(site)} (с ценой за упаковку: {n_pack})")
 
     extra_arts: set[str] = set()
     pdf_products: list[dict] = []
