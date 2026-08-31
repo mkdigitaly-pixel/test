@@ -731,7 +731,13 @@ def ntrt_fallback(category: str) -> str:
     return NTRT + "/catalog"
 
 
-def assemble(xls_rows: list[dict], site: dict[str, dict], extra_arts: set[str]) -> list[list[str]]:
+def assemble(
+    xls_rows: list[dict],
+    site: dict[str, dict],
+    extra_arts: set[str],
+    pdf_products: list[dict] | None = None,
+) -> list[list[str]]:
+    pdf_products = pdf_products or []
     used = set()
     out: list[list[str]] = []
     prev_cat = None
@@ -789,8 +795,49 @@ def assemble(xls_rows: list[dict], site: dict[str, dict], extra_arts: set[str]) 
         )
         used.add(art)
 
-    # PDF нужен для проверки покрытия: не добавляем безымянные 8-значные номера.
-    _ = extra_arts
+    # типоразмеры из catalog.pdf, которых нет в прайсе/на сайте
+    pdf_by_cat: dict[str, list] = {}
+    for rec in pdf_products:
+        art = rec.get("article") or ""
+        if not art or art in used or art + "А" in used or art + "A" in used:
+            continue
+        name = rec.get("name") or ""
+        if name == "Технические характеристики пипеток":
+            rec = dict(rec)
+            rec["name"] = "Пипетка градуированная"
+            name = rec["name"]
+        low = name.lower()
+        if any(
+            x in low
+            for x in (
+                "приобрета",
+                "изготовлен",
+                "поставля",
+                "применяет",
+                "в состав",
+                "толщина",
+                "предназнач",
+                "диаметр гнезд",
+                "наружный диаметр",
+            )
+        ) or name.lower().startswith(("диаметр", "наружный", "высота ", "ширина")):
+            continue
+        pdf_by_cat.setdefault(rec.get("category") or "PDF-каталог", []).append(rec)
+        used.add(art)
+    for cat, items in pdf_by_cat.items():
+        emit_group(cat)
+        for rec in items:
+            out.append(
+                [
+                    cell(rec.get("model")),
+                    cell(rec.get("name")),
+                    cell(cat),
+                    "",
+                    rec["article"],
+                    rec.get("url") or CATALOG_PDF,
+                    rec.get("source") or "minimed.ru (PDF-каталог)",
+                ]
+            )
     return out
 
 
@@ -805,7 +852,7 @@ def site_from_tsv(path: Path) -> dict[str, dict]:
         if len(cols) < 7:
             continue
         _model, name, cat, _price, art, url, src = cols[:7]
-        if not art or "прайс" in src:
+        if not art or "прайс" in src or "PDF" in src:
             continue
         site[art] = {"name": name, "url": url, "price": None, "category": cat}
     return site
@@ -840,11 +887,23 @@ def main() -> None:
         print(f"  карточек на сайте: {len(site)}")
 
     extra_arts: set[str] = set()
+    pdf_products: list[dict] = []
+    catalog_path = CACHE / "catalog.pdf"
+    if catalog_path.exists() or not offline:
+        try:
+            if not catalog_path.exists():
+                catalog_path = http.download(CATALOG_PDF, catalog_path)
+            from pdf_catalog import parse_catalog_pdf
+
+            print("Разбор catalog.pdf …")
+            pdf_products = parse_catalog_pdf(catalog_path, CATALOG_PDF)
+            print(f"  позиций в PDF-каталоге: {len(pdf_products)}")
+        except Exception as exc:
+            print(f"  catalog.pdf: {exc}")
     if not offline:
         for url, name in (
             (NTRT_CATALOG_PDF, "ntrt-katalog.pdf"),
             (NTRT_PRICE_PDF, "ntrt-pricelis.pdf"),
-            (CATALOG_PDF, "catalog.pdf"),
         ):
             try:
                 path = http.download(url, CACHE / name)
@@ -854,7 +913,7 @@ def main() -> None:
             except Exception as exc:
                 print(f"  {name}: {exc}")
 
-    rows = assemble(xls_rows, site, extra_arts)
+    rows = assemble(xls_rows, site, extra_arts, pdf_products)
     goods = [r for r in rows if r and len(r) > 4 and r[4]]
     tsv = DATA / "nomenclature.tsv"
     xlsx = DATA / "nomenclature.xlsx"
