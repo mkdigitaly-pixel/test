@@ -473,11 +473,27 @@ def strip_model(name: str, model: str) -> str:
                 variants.add(token.replace("/", "-"))
                 variants.add(re.sub(r"\s+", " ", token.replace("/", "-")))
         for var in variants:
-            text = re.sub(re.escape(var), " ", text, flags=re.I)
+            if var:
+                text = re.sub(re.escape(var), " ", text, flags=re.I)
+        # хвосты после неполного вырезания: «Спиртовка с тубусом -Т»
+        parts = [p for p in model.split("-") if p.strip()]
+        for i in range(1, len(parts)):
+            tail = "-" + "-".join(parts[i:])
+            if re.fullmatch(
+                r"-(?:[А-ЯA-ZЁа-яё]{1,8}\d*(?:\s+\d+[/-]\d+)?)(?:-[А-ЯA-ZЁа-яё0-9/ ]+)*",
+                tail,
+            ):
+                text = re.sub(
+                    r"(?<![^\s,])" + re.escape(tail) + r"(?=\s|,|$)",
+                    " ",
+                    text,
+                    flags=re.I,
+                )
         # хвост диапазона из модели (АУ 1000-1050 → убрать 1000-1050)
         tail = re.search(r"(\d+\s*-\s*\d+)\s*$", model)
         if tail:
             text = re.sub(re.escape(tail.group(1)), " ", text)
+    text = re.sub(r"\s+-\s*(?=,|$)", " ", text)
     text = re.sub(r"\s+,", ",", text)
     text = re.sub(r"\s{2,}", " ", text)
     text = re.sub(r"^[\s,;./\-]+", "", text)
@@ -668,6 +684,30 @@ def build_name(site_name: str, xls_name: str, group: str, model: str) -> str:
             name = body
             if tail:
                 name = f"{name}, {tail}"
+    if group and "Спиртовк" in group and xls_name:
+        xls_main = cell(xls_name).split(";")[0]
+        extras: list[str] = []
+        for part in xls_main.split(",")[1:]:
+            part = strip_model(cell(part), model)
+            mvol = re.match(r"V\s*=\s*(\d+(?:[.,]\d+)?\s*мл)\b", part, flags=re.I)
+            if mvol:
+                part = mvol.group(1)
+            if not part:
+                continue
+            if part.lower() in name.lower():
+                continue
+            words = [w for w in re.split(r"[\s./,]+", part.lower()) if len(w) > 3]
+            if words and all(w[:5] in name.lower() for w in words):
+                continue
+            extras.append(part)
+        if extras:
+            pack_m = re.search(r"(?:,\s*)?(уп\.?\s*.+)$", name, flags=re.I)
+            if pack_m:
+                core = name[: pack_m.start()].rstrip(" ,")
+                pack = pack_m.group(0).lstrip(" ,")
+                name = cell(f"{core}, {', '.join(extras)}, {pack}")
+            else:
+                name = cell(f"{name}, {', '.join(extras)}")
     name = re.sub(r"\s{2,}", " ", name).strip(" ,;")
     name = re.sub(r",\s*,+", ",", name)
     return name
