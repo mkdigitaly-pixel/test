@@ -10,8 +10,8 @@
 | Свой контент | `articles/tg/`, `articles/vk/` | TG и VK отдельно, своя разметка |
 
 Подробно: [`docs/content-channels.md`](docs/content-channels.md)  
-Контент-план: [`plan/content-backlog.md`](plan/content-backlog.md)  
-Разметка: [`dzen-markup`](references/dzen-markup.md) · [`tg-markup`](references/tg-markup.md) · [`vk-markup`](references/vk-markup.md) · [`vc-markup`](references/vc-markup.md)
+Контент-план: [`plan/content-backlog.md`](plan/content-backlog.md) · SEO Дзен: [`plan/dzen-seo-content-plan.md`](plan/dzen-seo-content-plan.md)  
+Разметка: [`dzen-markup`](references/dzen-markup.md) · [`dzen-seo-rules`](references/dzen-seo-rules.md) · [`tg-markup`](references/tg-markup.md) · [`vk-markup`](references/vk-markup.md) · [`vc-markup`](references/vc-markup.md)
 
 ## Структура
 
