@@ -311,8 +311,15 @@ def singular_type(group: str) -> str:
     return name
 
 
+# пикнометр ПЖ2-1-КШ 5/13 (конус после объёма, иначе обрезается на «ПЖ2-1-»)
+KSH_MODEL_RE = re.compile(
+    r"([А-ЯA-ZЁ]{1,6}\d*(?:-\d+)+\s*-\s*КШ\s*\d+\s*[/-]\s*\d+)",
+    re.I,
+)
+
 MODEL_RES = [
     re.compile(r"\b(ПЗК-\d+[xх\*×]\d+)\b", re.I),
+    KSH_MODEL_RE,
     re.compile(r"\b(\d{2}\.\d{3,}\.\d{2,})\b"),  # 20.1288.800, не ТУ 32.50.50
     re.compile(r"\b(?!ТУ\b)(?!ГОСТ\b)(?!РУ\b)(?!РЗН\b)([А-ЯA-ZЁ]{1,3}\s\d{3,}(?:\s?-\s?\d+)?)\b"),
     # ГОСТ 25336 и аналоги: К-1-50-29/32, П-2-50-22, В-1-25, Кн-1-50-14/23, КГУ-2-1-100-19/26-14/23
@@ -341,9 +348,18 @@ def _norm_size(text: str) -> str:
     return cell(t.replace("×", "x").replace("*", "x").replace("х", "x"))
 
 
+def _norm_model_token(text: str) -> str:
+    t = _norm_size(text)
+    t = re.sub(r"\s*-\s*", "-", t)
+    t = re.sub(r"(КШ)(?=\s*\d)", r"\1 ", t, flags=re.I)
+    t = re.sub(r"\s+", " ", t).strip()
+    t = re.sub(r"(КШ\s+\d+)\s*-\s*(\d+)\s*$", r"\1/\2", t, flags=re.I)
+    return cell(t)
+
+
 def _is_plausible_model(model: str) -> bool:
     t = cell(model)
-    if len(t) < 3 or t.endswith(","):
+    if len(t) < 3 or t.endswith((",", "-", "/")):
         return False
     up = t.upper()
     if up.startswith(("ТУ", "ГОСТ", "ОСТ", "ISO", "РЗН", "ИНН", "РУ ")):
@@ -361,7 +377,7 @@ def _first_model(text: str) -> str:
     for rx in MODEL_RES:
         m = rx.search(blob)
         if m:
-            model = _norm_size(m.group(1))
+            model = _norm_model_token(m.group(1)) if "КШ" in m.group(1).upper() else _norm_size(m.group(1))
             if _is_plausible_model(model):
                 return model
     return ""
@@ -376,16 +392,37 @@ def _xls_head_model(raw_name: str) -> str:
     head = main.split(",")[0].strip()
     if VOLUME_ONLY_RE.match(head):
         return ""
+    compact = re.sub(r"\s*-\s*", "-", head)
+    compact = re.sub(r"\s*/\s*", "/", compact)
+    compact = re.sub(r"\s+", " ", compact).strip()
+    ksh = KSH_MODEL_RE.search(compact) or KSH_MODEL_RE.search(head)
+    if ksh:
+        model = _norm_model_token(ksh.group(1))
+        if _is_plausible_model(model):
+            return model
+    # компактный типоразмер: 1-50-2, II-250-2-МТО, СЛ-1-М-Т, ПЖ2-1-КШ 5/13
+    if (
+        len(compact) <= 40
+        and re.search(r"\d", compact)
+        and re.fullmatch(
+            r"[A-ZА-ЯЁа-яёa-z0-9]+(?:[-/][A-ZА-ЯЁа-яёa-z0-9]+)+(?:\s+\d+[/-]\d+)?",
+            compact,
+            flags=re.I,
+        )
+    ):
+        model = _norm_model_token(compact) if "КШ" in compact.upper() else _norm_size(compact)
+        if _is_plausible_model(model):
+            return model
     if re.fullmatch(
         r"[А-ЯA-ZЁа-яёa-z]{1,8}(?:-[А-ЯA-ZЁа-яёa-z])?-?\d[\d./xх\*×\-]*",
-        head,
+        compact,
         flags=re.I,
     ):
-        return _norm_size(head) if _is_plausible_model(head) else ""
-    if re.fullmatch(r"\d[аaАA]?(?:-\d+)+(?:/\d+)?(?:-\d+(?:/\d+)?)*", head):
-        return _norm_size(head) if _is_plausible_model(head) else ""
-    if re.fullmatch(r"[А-ЯA-ZЁ]{1,4}\s+\d[\d./\-]*", head):
-        return _norm_size(head) if _is_plausible_model(head) else ""
+        return _norm_size(compact) if _is_plausible_model(compact) else ""
+    if re.fullmatch(r"\d[аaАA]?(?:-\d+)+(?:/\d+)?(?:-\d+(?:/\d+)?)*", compact):
+        return _norm_size(compact) if _is_plausible_model(compact) else ""
+    if re.fullmatch(r"[А-ЯA-ZЁ]{1,4}\s+\d[\d./\-]*", compact):
+        return _norm_size(compact) if _is_plausible_model(compact) else ""
     return ""
 
 
@@ -424,6 +461,17 @@ def strip_model(name: str, model: str) -> str:
         variants = {model, model.replace("x", "х"), model.replace("х", "x")}
         spaced = re.sub(r"\s*-\s*", " -", model)
         variants.add(spaced)
+        variants.add(model.replace("/", "-"))
+        variants.add(model.replace("-", "/"))
+        if "КШ" in model.upper():
+            variants.add(re.sub(r"\s+", "", model, flags=re.I))
+            variants.add(re.sub(r"(КШ)\s+", r"\1 ", model, flags=re.I))
+            ksh = re.search(r"КШ\s*\d+\s*[/-]\s*\d+", model, flags=re.I)
+            if ksh:
+                token = ksh.group(0)
+                variants.add(token)
+                variants.add(token.replace("/", "-"))
+                variants.add(re.sub(r"\s+", " ", token.replace("/", "-")))
         for var in variants:
             text = re.sub(re.escape(var), " ", text, flags=re.I)
         # хвост диапазона из модели (АУ 1000-1050 → убрать 1000-1050)
