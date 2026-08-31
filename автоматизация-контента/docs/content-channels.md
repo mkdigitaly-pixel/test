@@ -54,9 +54,14 @@
 Голос и запреты: `maria-voice.md`, `banned-phrases.md`.  
 Контент-план на согласование: `plan/content-backlog.md`.
 
-## Очередь публикации
+## Очереди публикации
 
-Один материал (кампания) = одна запись в `queue/publish-queue.yaml`:
+**Кампании Дзен** (статья + тизеры) → `queue/publish-queue.yaml`  
+**Свои посты TG/VK** → `queue/posts-queue.yaml`
+
+Согласование для обеих: `ок <id>` → `python publish.py queue approve <id>`
+
+### Кампания Дзен
 
 ```yaml
 - id: 7-errors-direct
@@ -65,10 +70,23 @@
   dzen_teaser_tg: articles/dzen/teasers/tg/2026-08-30-7-errors.md
   dzen_teaser_vk: articles/dzen/teasers/vk/2026-08-30-7-errors.md
   cover: assets/covers/7-errors-direct.jpg
-  dzen_url: ""   # после появления статьи в Дзене
+  dzen_url: ""
 ```
 
-Посты **только для TG-канала** или **только для VK** — отдельные файлы в `articles/tg/` и `articles/vk/`, публикуются отдельно (`publish tg-post …` / `publish vk-post …`).
+### Свой пост TG или VK
+
+```yaml
+- id: tg-5-errors-reminder
+  platform: tg          # tg | vk
+  status: approved
+  post: articles/tg/tg-5-errors-reminder.md
+  cover: assets/covers/tg-5-errors-reminder.jpg
+  cover_headline: "7 ошибок в Директе"
+  cover_subline: "Заявок нет?"
+```
+
+Посты **только для TG** или **только для VK** — отдельные файлы в `articles/tg/` и `articles/vk/`.  
+Автопубликация по расписанию: среда 11:00 TG, пятница 11:00 VK — см. `queue/posting-schedule.yaml`.
 
 ## Порядок публикации кампании
 

@@ -33,6 +33,7 @@ from dotenv import load_dotenv
 
 ROOT = Path(__file__).resolve().parent.parent
 QUEUE_FILE = ROOT / "queue" / "publish-queue.yaml"
+POSTS_QUEUE_FILE = ROOT / "queue" / "posts-queue.yaml"
 SCHEDULE_FILE = ROOT / "queue" / "posting-schedule.yaml"
 ENV_FILE = Path(__file__).resolve().parent / ".env"
 MSK = ZoneInfo("Europe/Moscow")
@@ -164,6 +165,28 @@ def save_queue(items: list[dict[str, Any]]) -> None:
         yaml.dump({"items": items}, allow_unicode=True, sort_keys=False),
         encoding="utf-8",
     )
+
+
+def load_posts_queue() -> list[dict[str, Any]]:
+    if not POSTS_QUEUE_FILE.exists():
+        return []
+    data = yaml.safe_load(POSTS_QUEUE_FILE.read_text(encoding="utf-8")) or {}
+    return data.get("items", [])
+
+
+def save_posts_queue(items: list[dict[str, Any]]) -> None:
+    POSTS_QUEUE_FILE.parent.mkdir(parents=True, exist_ok=True)
+    POSTS_QUEUE_FILE.write_text(
+        yaml.dump({"items": items}, allow_unicode=True, sort_keys=False),
+        encoding="utf-8",
+    )
+
+
+def find_posts_item(items: list[dict[str, Any]], item_id: str) -> dict[str, Any] | None:
+    for item in items:
+        if item.get("id") == item_id:
+            return item
+    return None
 
 
 def find_queue_item(items: list[dict[str, Any]], item_id: str) -> dict[str, Any] | None:
@@ -357,6 +380,73 @@ def require_approved(item: dict[str, Any], force: bool) -> None:
         )
 
 
+def require_post_approved(item: dict[str, Any] | None, post_id: str, force: bool) -> None:
+    if force:
+        return
+    if not item:
+        raise SystemExit(
+            f"Нет {post_id} в queue/posts-queue.yaml. Добавьте запись и: python publish.py queue approve {post_id}"
+        )
+    if item.get("status") != "approved":
+        raise SystemExit(
+            f"Статус «{item.get('status')}». Сначала: python publish.py queue approve {post_id}"
+        )
+
+
+def resolve_post_path(post_id: str, platform: str) -> Path:
+    posts = load_posts_queue()
+    item = find_posts_item(posts, post_id)
+    if item and item.get("post"):
+        return ROOT / item["post"]
+    sub = "tg" if platform == "tg" else "vk"
+    return ROOT / "articles" / sub / f"{post_id}.md"
+
+
+def ensure_post_cover(post_id: str, post_path: Path, *, dry_run: bool) -> None:
+    if dry_run:
+        return
+    posts = load_posts_queue()
+    item = find_posts_item(posts, post_id)
+    if item and item.get("cover"):
+        cover = ROOT / item["cover"]
+        if cover.exists():
+            vk_cover = cover.with_name(f"{cover.stem}-vk{cover.suffix}")
+            if item.get("platform") == "vk" and not vk_cover.exists():
+                try:
+                    from generate_cover import ensure_covers
+
+                    headline = item.get("cover_headline", "")
+                    subline = item.get("cover_subline", "")
+                    if not headline:
+                        from generate_cover import _headline_from_post
+
+                        headline, subline = _headline_from_post(post_path)
+                    ensure_covers(cover.stem.replace("-vk", ""), headline, subline)
+                except Exception as exc:
+                    print(f"⚠ обложка VK: {exc}", file=sys.stderr)
+            return
+    try:
+        from generate_cover import ensure_cover_for_post
+
+        ensure_cover_for_post(post_id, post_path)
+    except Exception as exc:
+        print(f"⚠ обложка {post_id}: {exc}", file=sys.stderr)
+
+
+def mark_post_published(post_id: str) -> None:
+    posts = load_posts_queue()
+    item = find_posts_item(posts, post_id)
+    if not item:
+        return
+    item["status"] = "published"
+    item["published_at"] = datetime.now(timezone.utc).isoformat()
+    for i, it in enumerate(posts):
+        if it.get("id") == post_id:
+            posts[i] = item
+            break
+    save_posts_queue(posts)
+
+
 def resolve_cover_path(item: dict[str, Any], *, vk: bool = False) -> Path | None:
     rel = item.get("cover")
     if not rel:
@@ -449,32 +539,50 @@ def publish_dzen_teasers(
 
 
 def publish_standalone_tg(post_id: str, *, dry_run: bool, force: bool) -> int:
-    items = load_queue()
-    item = find_queue_item(items, post_id)
-    if item and item.get("tg_post"):
-        require_approved(item, force)
-        path = item["tg_post"]
+    posts = load_posts_queue()
+    post_item = find_posts_item(posts, post_id)
+    require_post_approved(post_item, post_id, force)
+
+    campaign_items = load_queue()
+    campaign = find_queue_item(campaign_items, post_id)
+    if campaign and campaign.get("tg_post"):
+        require_approved(campaign, force)
+        path = campaign["tg_post"]
+    elif post_item and post_item.get("post"):
+        path = post_item["post"]
     else:
         path = f"articles/tg/{post_id}.md"
+
     resolved = resolve_path(path)
+    ensure_post_cover(post_id, resolved, dry_run=dry_run)
     text = load_tg_post(resolved)
     token = os.environ["TELEGRAM_BOT_TOKEN"]
     ch = os.environ["TELEGRAM_MAIN_CHANNEL_ID"]
     cover = resolve_standalone_cover(post_id) or ensure_standalone_cover(post_id, resolved)
     r = publish_telegram(text, ch, token, cover=cover, dry_run=dry_run, parse_mode="HTML")
     print(f"TG пост ({ch}): {r.message}")
+    if not dry_run and post_item:
+        mark_post_published(post_id)
     return 0
 
 
 def publish_standalone_vk(post_id: str, *, dry_run: bool, force: bool) -> int:
-    items = load_queue()
-    item = find_queue_item(items, post_id)
-    if item and item.get("vk_post") and not item.get("dzen_teaser_vk"):
-        require_approved(item, force)
-        path = item["vk_post"]
+    posts = load_posts_queue()
+    post_item = find_posts_item(posts, post_id)
+    require_post_approved(post_item, post_id, force)
+
+    campaign_items = load_queue()
+    campaign = find_queue_item(campaign_items, post_id)
+    if campaign and campaign.get("vk_post") and not campaign.get("dzen_teaser_vk"):
+        require_approved(campaign, force)
+        path = campaign["vk_post"]
+    elif post_item and post_item.get("post"):
+        path = post_item["post"]
     else:
         path = f"articles/vk/{post_id}.md"
+
     resolved = resolve_path(path)
+    ensure_post_cover(post_id, resolved, dry_run=dry_run)
     text = load_plain_post(resolved)
     cover = resolve_standalone_cover(post_id, vk=True) or resolve_standalone_cover(post_id)
     if not cover:
@@ -489,6 +597,8 @@ def publish_standalone_vk(post_id: str, *, dry_run: bool, force: bool) -> int:
         dry_run=dry_run,
     )
     print(f"VK пост: {r.message}")
+    if not dry_run and post_item:
+        mark_post_published(post_id)
     return 0
 
 
@@ -645,17 +755,27 @@ def execute_schedule_slot(slot: dict[str, Any], *, dry_run: bool) -> tuple[bool,
 
     if action == "publish_tg_post":
         post_id = slot.get("post_id") or cid
-        path = ROOT / "articles" / "tg" / f"{post_id}.md"
+        posts = load_posts_queue()
+        post_item = find_posts_item(posts, post_id)
+        if post_item and post_item.get("status") not in ("approved", "published") and not dry_run:
+            return False, f"статус {post_item.get('status')} — нужен approved (ок {post_id})"
+        path = resolve_post_path(post_id, "tg")
         if not path.exists():
             return False, f"нет файла {path.relative_to(ROOT)}"
+        ensure_post_cover(post_id, path, dry_run=dry_run)
         publish_standalone_tg(post_id, dry_run=dry_run, force=True)
         return True, f"tg-post {post_id}"
 
     if action == "publish_vk_post":
         post_id = slot.get("post_id") or cid
-        path = ROOT / "articles" / "vk" / f"{post_id}.md"
+        posts = load_posts_queue()
+        post_item = find_posts_item(posts, post_id)
+        if post_item and post_item.get("status") not in ("approved", "published") and not dry_run:
+            return False, f"статус {post_item.get('status')} — нужен approved (ок {post_id})"
+        path = resolve_post_path(post_id, "vk")
         if not path.exists():
             return False, f"нет файла {path.relative_to(ROOT)}"
+        ensure_post_cover(post_id, path, dry_run=dry_run)
         publish_standalone_vk(post_id, dry_run=dry_run, force=True)
         return True, f"vk-post {post_id}"
 
@@ -846,22 +966,38 @@ def main() -> int:
 
     if args.command == "queue":
         if args.queue_cmd == "list":
+            print("=== Кампании Дзен (publish-queue) ===")
             for item in load_queue():
                 print(
                     f"- {item['id']}: {item.get('status', '?')} | "
                     f"dzen: {article_path(item) or '—'}"
                 )
+            print("\n=== Свои посты TG/VK (posts-queue) ===")
+            for item in load_posts_queue():
+                print(
+                    f"- {item['id']}: {item.get('status', '?')} | "
+                    f"{item.get('platform', '?')} | {item.get('post', '—')}"
+                )
             return 0
         if args.queue_cmd == "approve":
             items = load_queue()
             item = find_queue_item(items, args.id)
-            if not item:
-                return 1
-            item["status"] = "approved"
-            item["approved_at"] = datetime.now(timezone.utc).isoformat()
-            save_queue(items)
-            print(f"✓ {args.id} → approved")
-            return 0
+            if item:
+                item["status"] = "approved"
+                item["approved_at"] = datetime.now(timezone.utc).isoformat()
+                save_queue(items)
+                print(f"✓ кампания {args.id} → approved")
+                return 0
+            posts = load_posts_queue()
+            post = find_posts_item(posts, args.id)
+            if post:
+                post["status"] = "approved"
+                post["approved_at"] = datetime.now(timezone.utc).isoformat()
+                save_posts_queue(posts)
+                print(f"✓ пост {args.id} → approved")
+                return 0
+            print(f"✗ нет id {args.id} в publish-queue или posts-queue")
+            return 1
 
     if args.command == "format":
         article = load_article(resolve_path(args.article))
