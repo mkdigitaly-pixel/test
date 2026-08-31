@@ -2,6 +2,7 @@
 # lsi: 
 # intent: info | commercial | case
 # competitors_gap: 
+# source_url:   # для кейсов — ссылка на context-sea.ru (цифры), CTA только mkekspert
 
 ## Целевая аудитория
 

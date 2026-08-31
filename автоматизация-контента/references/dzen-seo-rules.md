@@ -8,8 +8,9 @@
 ## Перед написанием
 
 1. Бриф в `briefs/`: главный ключ, LSI (3–7), интент, гэп vs топ-5 Яндекса
-2. Один `id` кампании = одна запись в `queue/publish-queue.yaml`
-3. Проверить матрицу в `plan/dzen-seo-content-plan.md` — нет ли дубля темы
+2. **Кейс?** — взять цифры из `references/case-sources.md` ([context-sea.ru/cases](https://context-sea.ru/cases/)), CTA только из `brand.md`
+3. Один `id` кампании = одна запись в `queue/publish-queue.yaml`
+4. Проверить матрицу в `plan/dzen-seo-content-plan.md` — нет ли дубля темы
 
 ---
 

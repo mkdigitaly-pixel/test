@@ -62,6 +62,25 @@
 
 ---
 
+## Банк кейсов (context-sea.ru)
+
+**Каталог:** [context-sea.ru/cases](https://context-sea.ru/cases/) — **17 кейсов** с цифрами.  
+**Правило:** данные и ниша — с сайта; **контакты только mkekspert** (razbor-direct, @Mariya1740).  
+Полная таблица: `references/case-sources.md`.
+
+| Приоритет | id | Ниша | Цифры (кратко) |
+|-----------|-----|------|----------------|
+| 🔴 нед 1 | `penoplast-case` | пенопласт B2B Москва | CPL 8000→2500–3000 ₽, 59 заявок |
+| 🔴 нед 3 | `chp-upp-case` | ЧП и УПП | 8017→1800 ₽, 40–50 заявок |
+| 🟡 нед 3 | `shpunkt-case` | погружение шпунта | CPL до 4000 ₽, чистка семантики |
+| 🟡 нед 5 | `modular-buildings` | модульные здания | 148 конверсий, 4465 ₽ |
+| 🟡 нед 7 | `orgsteklo-b2b` | оргстекло оптом | 255 конверсий, 173 ₽ |
+| 🟢 резерв | `penoplast-spb`, `press-forms`, `foundation-leads`, `industrial-equipment`, … | см. case-sources | по очереди после нед 12 |
+
+`facade-leads` (~13 800 ₽) — **вне context-sea**, оставить в резерве до уточнения источника.
+
+---
+
 ## Матрица статей (очередь SEO)
 
 Статусы: `published` | `draft` | `brief` | `planned` | `idea`
@@ -72,7 +91,7 @@
 | 2 | `penoplast-case` | яндекс директ производство заявки | коммерция | P2 | кейс | **draft** | 1 |
 | 3 | `no-leads-direct` | почему нет заявок в директе | инфо | P1 | гайд | planned | 2 |
 | 4 | `autotarget-b2b` | автотаргетинг яндекс директ b2b | инфо | P1 | разбор | planned | 2 |
-| 5 | `facade-leads` | яндекс директ b2b лиды | коммерция | P2 | кейс | planned | 3 |
+| 5 | `shpunkt-case` | яндекс директ строительство b2b | коммерция | P2 | кейс | planned | 3 |
 | 6 | `chp-upp-case` | стоимость заявки яндекс директ | коммерция | P2 | кейс | planned | 3 |
 | 7 | `metrika-goals` | настройка целей яндекс метрика директ | инфо | P4 | how-to | planned | 4 |
 | 8 | `epk-leads` | единая перфоманс кампания заявки | инфо | P4 | гайд | planned | 4 |
@@ -101,7 +120,7 @@
 |--------|------|----------|----------|--------------|
 | 1 | 30.08–05.09 | ✅ `7-errors-direct` | `penoplast-case` | после каждой |
 | 2 | 06–12.09 | `no-leads-direct` | `autotarget-b2b` | +2 |
-| 3 | 13–19.09 | `facade-leads` | `chp-upp-case` | +2 |
+| 3 | 13–19.09 | `shpunkt-case` | `chp-upp-case` | +2 |
 | 4 | 20–26.09 | `metrika-goals` | `epk-leads` | +2 |
 | 5 | 27.09–03.10 | `rsa-vs-search` | `budget-waste` | +2 |
 | 6 | 04–10.10 | `choose-directologist` | `audit-direct` | +2 |
@@ -163,7 +182,7 @@ utm_campaign: ""
 ```
 7-errors-direct  ←──┬── no-leads-direct, budget-waste, autotarget-b2b
                     │
-penoplast-case   ←──┼── facade-leads, chp-upp-case, niche-production
+penoplast-case   ←──┼── shpunkt-case, chp-upp-case, modular-buildings, penoplast-spb
                     │
 metrika-goals    ←──┴── epk-leads, calltracking, crm-leads
 ```
@@ -201,17 +220,11 @@ idea → brief (briefs/) → draft (articles/dzen/articles/) → 👤 approve
 
 ---
 
-## Следующие шаги (согласование)
+## Следующие шаги
 
-**Шаг 1.** Подтвердите план:
-- `ок seo-план` — работаем по календарю
-- или правки: `убрать {id}`, `добавить тему …`, `1 статья в неделю`
+**Статус:** план согласован ✅ · кейсы — [context-sea.ru/cases](https://context-sea.ru/cases/), контакты mkekspert.
 
-**Шаг 2.** Приоритет ближайших 2 недель:
-- `ок penoplast-case` (неделя 1)
-- `ok no-leads-direct` + `ok autotarget-b2b` (неделя 2)
-
-**Шаг 3.** Агент готовит брифы и черновики по очереди → вы `ок` → публикация.
+**Сейчас:** финализировать `penoplast-case` → публикация → неделя 2 (гайды) → неделя 3 (шпунт + ЧП/УПП).
 
 ---
 
