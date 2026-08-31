@@ -314,11 +314,16 @@ def singular_type(group: str) -> str:
 MODEL_RES = [
     re.compile(r"\b(ПЗК-\d+[xх\*×]\d+)\b", re.I),
     re.compile(r"\b(\d{2}\.\d{3,}\.\d{2,})\b"),  # 20.1288.800, не ТУ 32.50.50
-    re.compile(r"\b(?!ТУ\b)(?!ГОСТ\b)(?!РУ\b)([А-ЯA-ZЁ]{1,3}\s\d{3,}(?:\s?-\s?\d+)?)\b"),
+    re.compile(r"\b(?!ТУ\b)(?!ГОСТ\b)(?!РУ\b)(?!РЗН\b)([А-ЯA-ZЁ]{1,3}\s\d{3,}(?:\s?-\s?\d+)?)\b"),
+    # ГОСТ 25336 и аналоги: К-1-50-29/32, П-2-50-22, В-1-25, Кн-1-50-14/23, КГУ-2-1-100-19/26-14/23
     re.compile(
-        r"\b([А-ЯA-ZЁ]{2,6}(?:-[А-ЯA-ZЁ])?-?\d[\d./xх\*×\-]*(?:-[А-ЯA-ZЁ0-9]+)?)\b"
+        r"\b([А-ЯA-ZЁ][А-ЯA-ZЁа-яa-zё]{0,5}(?:-[А-ЯA-ZЁа-яa-zё])?-?\d[\d./xх\*×\-]*"
+        r"(?:-[А-ЯA-ZЁа-яa-zё0-9][\d./xх\*×\-]*)*)\b"
     ),
     re.compile(r"\b(\d(?:-\d+){3,5}(?:,\d+)?)\b"),  # ГОСТ 1-3-2-10-0,05
+    # мерные / Къельдаля / Бунзена: 2а-25-2, 1-50-14/23, 2-100-22
+    re.compile(r"(?<!\d)(\d[аaАA]-\d+(?:-\d+)+)\b"),
+    re.compile(r"(?<!\d)(\d(?:-\d+){1,3}(?:/\d+)?(?:-\d+(?:/\d+)?)*)\b"),
 ]
 
 VOLUME_ONLY_RE = re.compile(
@@ -327,31 +332,73 @@ VOLUME_ONLY_RE = re.compile(
 )
 
 
+def _norm_dashes(text: str) -> str:
+    return cell(text).replace("–", "-").replace("—", "-").replace("−", "-")
+
+
 def _norm_size(text: str) -> str:
-    return cell(text.replace("×", "x").replace("*", "x").replace("х", "x"))
+    t = _norm_dashes(text)
+    return cell(t.replace("×", "x").replace("*", "x").replace("х", "x"))
+
+
+def _is_plausible_model(model: str) -> bool:
+    t = cell(model)
+    if len(t) < 3 or t.endswith(","):
+        return False
+    up = t.upper()
+    if up.startswith(("ТУ", "ГОСТ", "ОСТ", "ISO", "РЗН", "ИНН", "РУ ")):
+        return False
+    if re.fullmatch(r"\d{1,3}/\d{1,4}", t):
+        return False
+    # номер ТУ 9464-019-29508133-2015, не типоразмер
+    if re.fullmatch(r"\d+(?:-\d+){2,}", t) and len(re.sub(r"\D", "", t)) >= 12:
+        return False
+    return True
 
 
 def _first_model(text: str) -> str:
-    blob = cell(text)
+    blob = _norm_dashes(text)
     for rx in MODEL_RES:
         m = rx.search(blob)
         if m:
             model = _norm_size(m.group(1))
-            if len(model) >= 3 and not model.endswith(","):
+            if _is_plausible_model(model):
                 return model
     return ""
 
 
+def _xls_head_model(raw_name: str) -> str:
+    """В прайсе модель стоит первым полем: «К-1-50-29/32; уп. 12/192 шт.»."""
+    blob = _norm_dashes(raw_name)
+    if not blob:
+        return ""
+    main = blob.split(";")[0].strip()
+    head = main.split(",")[0].strip()
+    if VOLUME_ONLY_RE.match(head):
+        return ""
+    if re.fullmatch(
+        r"[А-ЯA-ZЁа-яёa-z]{1,8}(?:-[А-ЯA-ZЁа-яёa-z])?-?\d[\d./xх\*×\-]*",
+        head,
+        flags=re.I,
+    ):
+        return _norm_size(head) if _is_plausible_model(head) else ""
+    if re.fullmatch(r"\d[аaАA]?(?:-\d+)+(?:/\d+)?(?:-\d+(?:/\d+)?)*", head):
+        return _norm_size(head) if _is_plausible_model(head) else ""
+    if re.fullmatch(r"[А-ЯA-ZЁ]{1,4}\s+\d[\d./\-]*", head):
+        return _norm_size(head) if _is_plausible_model(head) else ""
+    return ""
+
+
 def extract_model(raw_name: str, site_name: str = "") -> str:
-    for rx in MODEL_RES:
-        for source in (site_name, raw_name):
-            m = rx.search(cell(source))
-            if not m:
-                continue
-            model = _norm_size(m.group(1))
-            if len(model) >= 3 and not model.endswith(","):
-                return model
-    blob = cell(raw_name)
+    head = _xls_head_model(raw_name)
+    if head:
+        return head
+    # прайс надёжнее карточки: в TSV модель уже могла быть вырезана из названия
+    for source in (raw_name, site_name):
+        found = _first_model(source)
+        if found:
+            return found
+    blob = _norm_dashes(raw_name)
     main = blob.split(";")[0].strip()
     main = re.sub(r"\([^)]*\)", " ", main)
     main = re.sub(r"\s+", " ", main).strip()
@@ -375,6 +422,8 @@ def strip_model(name: str, model: str) -> str:
     text = re.sub(r"\bminimed\w*\b", " ", text, flags=re.I)
     if model:
         variants = {model, model.replace("x", "х"), model.replace("х", "x")}
+        spaced = re.sub(r"\s*-\s*", " -", model)
+        variants.add(spaced)
         for var in variants:
             text = re.sub(re.escape(var), " ", text, flags=re.I)
         # хвост диапазона из модели (АУ 1000-1050 → убрать 1000-1050)
@@ -391,6 +440,121 @@ def strip_model(name: str, model: str) -> str:
     return cell(text)
 
 
+def _singular_shape(word: str) -> str:
+    w = cell(word)
+    if not w:
+        return ""
+    for pat, repl in ADJ_PLURAL:
+        nxt = re.sub(pat, repl, w, flags=re.I)
+        if nxt != w:
+            return nxt
+    if re.search(r"(ые|ие)$", w, flags=re.I) and w[0].islower():
+        return re.sub(r"ые$", "ая", re.sub(r"ие$", "яя", w, flags=re.I), flags=re.I)
+    return w
+
+
+def name_from_group(group: str) -> str:
+    """Колбы лабораторные (круглодонные: исполнение 1 - со шлифом, тип К)
+    → Колба круглодонная со шлифом."""
+    text = cell(group)
+    if "/" in text:
+        text = text.rsplit("/", 1)[-1]
+    m = re.match(
+        r"^([А-ЯЁа-яёA-Za-z][А-ЯЁа-яёA-Za-z\-]*(?:\s+[А-ЯЁа-яёA-Za-z\-]+)*)\s*(?:\(([^)]*)\))?(.*)$",
+        text,
+    )
+    if not m:
+        return singular_type(text)
+    head = m.group(1).strip()
+    inside = (m.group(2) or "").strip()
+    after = (m.group(3) or "").strip()
+    noun = singular_type(head).split()[0] if singular_type(head) else head
+    if not inside:
+        body = singular_type(head)
+        return cell(f"{body} {after}".strip())
+    if ":" in inside:
+        shape, rest = inside.split(":", 1)
+    else:
+        shape, rest = inside, ""
+    shape = shape.strip()
+    rest = rest.strip()
+    rest = re.sub(r"исполнение\s*\d+\s*[аaАA]?\s*-?\s*", "", rest, flags=re.I)
+    rest = re.sub(r",?\s*тип\s+[А-ЯA-ZЁа-яё0-9\-]+\s*", "", rest, flags=re.I)
+    rest = re.sub(r"\s{2,}", " ", rest).strip(" ,;-")
+    bits = [noun]
+    if shape:
+        # имя собственное (Къельдаля, Бунзена, Энглера) — как есть
+        if shape[0].isupper() and not re.search(r"(ые|ие|ый|ой|ая)$", shape, flags=re.I):
+            bits.append(shape)
+        else:
+            shaped = _singular_shape(shape)
+            if shaped.lower() not in {"лабораторная", "лабораторные"}:
+                bits.append(shaped)
+    if rest:
+        bits.append(rest)
+    if after:
+        bits.append(after.strip(" ,;"))
+    return cell(" ".join(b for b in bits if b))
+
+
+def _peel_pack_marks(name: str) -> tuple[str, str]:
+    text = cell(name)
+    pack = ""
+    m = re.search(r"(?:,\s*)?(уп\.?\s*.+)$", text, flags=re.I)
+    if m:
+        pack = m.group(0).strip(" ,;")
+        text = text[: m.start()].strip(" ,;")
+    marks: list[str] = []
+    for rx in (
+        r"\b[бс]/дел\.?",
+        r"\bс\s*дел(?:ением|ениями)?\.?",
+        r"\bбез\s+делений\b",
+        r"\bб/дел\.?",
+        r"\bТС\b",
+    ):
+        mm = re.search(rx, text, flags=re.I)
+        if mm:
+            marks.append(mm.group(0).strip())
+            text = re.sub(rx, " ", text, flags=re.I)
+    text = re.sub(r"\b(ТУ|ГОСТ|ОСТ)\s*[\d.\-/]+", " ", text, flags=re.I)
+    text = re.sub(r"[,;()]+", " ", text)
+    text = re.sub(r"\s{2,}", " ", text).strip(" ,;")
+    seen: set[str] = set()
+    tail: list[str] = []
+    for item in marks:
+        key = item.lower()
+        if key not in seen:
+            seen.add(key)
+            tail.append(item)
+    if pack:
+        tail.append(pack)
+    return text, ", ".join(tail)
+
+
+def _group_body(group: str) -> str:
+    if re.search(r"исполнение", group or "", flags=re.I):
+        return name_from_group(group) or singular_type(group)
+    return singular_type(group)
+
+
+def _should_use_group_name(name: str, group: str) -> bool:
+    leaf = group.rsplit("/", 1)[-1] if group else ""
+    if not re.search(r"исполнение", leaf, flags=re.I):
+        return False
+    core, _ = _peel_pack_marks(name)
+    words = [w for w in core.split() if w]
+    if not words:
+        return True
+    group_name = name_from_group(group)
+    group_words = {w.lower() for w in group_name.split() if w}
+    name_words = {w.lower() for w in words}
+    if name_words and name_words <= group_words:
+        return True
+    if re.search(r"\b(ТУ|ГОСТ|ОСТ)\b", name, flags=re.I) and len(words) <= 2:
+        return True
+    return False
+
+
 def build_name(site_name: str, xls_name: str, group: str, model: str) -> str:
     if site_name:
         name = strip_model(site_name, model)
@@ -405,7 +569,7 @@ def build_name(site_name: str, xls_name: str, group: str, model: str) -> str:
             else:
                 extra.append(part)
         if VOLUME_ONLY_RE.match(main) or (model and main.replace(" ", "") == model.replace(" ", "")):
-            body = singular_type(group)
+            body = _group_body(group)
             bits = [body]
             if VOLUME_ONLY_RE.match(main):
                 bits.append(main)
@@ -422,7 +586,7 @@ def build_name(site_name: str, xls_name: str, group: str, model: str) -> str:
             m = re.search(r"\(([^)]+)\)", xls)
             if m:
                 desc = m.group(1).strip()
-            body = singular_type(group)
+            body = _group_body(group)
             bits = [body]
             leftover = strip_model(main, model)
             leftover = leftover.strip(" ;,")
@@ -449,6 +613,15 @@ def build_name(site_name: str, xls_name: str, group: str, model: str) -> str:
     # ед.ч. первого слова
     if name:
         name = singular_type(name)
+    if group and _should_use_group_name(name, group):
+        body = name_from_group(group)
+        if body:
+            _, tail = _peel_pack_marks(name)
+            name = body
+            if tail:
+                name = f"{name}, {tail}"
+    name = re.sub(r"\s{2,}", " ", name).strip(" ,;")
+    name = re.sub(r",\s*,+", ",", name)
     return name
 
 
@@ -841,6 +1014,33 @@ def assemble(
     return out
 
 
+def pdf_from_tsv(path: Path) -> list[dict]:
+    """Сохранить строки PDF-каталога при офлайн-пересборке без catalog.pdf."""
+    out: list[dict] = []
+    if not path.exists():
+        return out
+    for line in path.read_text(encoding="utf-8").splitlines()[1:]:
+        if not line.strip():
+            continue
+        cols = line.split("\t")
+        if len(cols) < 7:
+            continue
+        model, name, cat, _price, art, url, src = cols[:7]
+        if not art or "PDF" not in src:
+            continue
+        out.append(
+            {
+                "model": model,
+                "name": name,
+                "category": cat,
+                "article": art,
+                "url": url,
+                "source": src,
+            }
+        )
+    return out
+
+
 def site_from_tsv(path: Path) -> dict[str, dict]:
     site: dict[str, dict] = {}
     if not path.exists():
@@ -900,6 +1100,10 @@ def main() -> None:
             print(f"  позиций в PDF-каталоге: {len(pdf_products)}")
         except Exception as exc:
             print(f"  catalog.pdf: {exc}")
+    if not pdf_products and offline:
+        pdf_products = pdf_from_tsv(tsv_path)
+        if pdf_products:
+            print(f"  позиции PDF из TSV: {len(pdf_products)}")
     if not offline:
         for url, name in (
             (NTRT_CATALOG_PDF, "ntrt-katalog.pdf"),
