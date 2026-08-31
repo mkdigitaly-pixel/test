@@ -449,6 +449,14 @@ def cmd_vk_attach_cover(args: argparse.Namespace) -> int:
     gid = resolve_vk_group_id(community, group)
     attachment = upload_vk_wall_photo(user, gid, cover)
 
+    message = ""
+    vk_path = teaser_vk_path(item)
+    if vk_path:
+        message = replace_dzen_url(load_plain_post(resolve_path(vk_path)), item.get("dzen_url", ""))
+    else:
+        post = vk_api("wall.getById", user, posts=f"-{gid}_{args.post_id}")
+        message = post["items"][0].get("text", "")
+
     resp = requests.post(
         "https://api.vk.com/method/wall.edit",
         data={
@@ -456,6 +464,7 @@ def cmd_vk_attach_cover(args: argparse.Namespace) -> int:
             "v": "5.199",
             "owner_id": -gid,
             "post_id": args.post_id,
+            "message": message,
             "attachments": attachment,
         },
         timeout=60,
@@ -490,7 +499,14 @@ def main() -> int:
     fmt = sub.add_parser("format")
     fmt.add_argument("article", help="путь от автоматизация-контента/")
 
+    p_cov = sub.add_parser("vk-attach-cover", help="Добавить обложку к существующему посту VK")
+    p_cov.add_argument("post_id", type=int, help="Номер поста, напр. 204")
+    p_cov.add_argument("id", help="id в очереди (для пути к cover)")
+
     args = parser.parse_args()
+
+    if args.command == "vk-attach-cover":
+        return cmd_vk_attach_cover(args)
 
     if args.command == "queue":
         if args.queue_cmd == "list":
