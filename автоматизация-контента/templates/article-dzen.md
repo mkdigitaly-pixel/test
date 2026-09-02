@@ -38,6 +38,6 @@ platform: dzen  # dzen | tilda | tg
 ---
 
 **Нужен разбор вашей рекламы?**  
-Бесплатный аудит Яндекс Директ → [оставить заявку]({{cta_url}}?utm_source=dzen&utm_medium=article&utm_campaign={{utm_campaign}})
+[Бесплатный аудит Яндекс Директ](https://mkekspert.ru/razbor-direct?utm_source=dzen&utm_medium=article&utm_campaign={{utm_campaign}})
 
-Больше кейсов в Telegram → [Контекст PRO](https://t.me/mariyaprodirect)
+[Канал в Telegram](https://t.me/mariyaprodirect) — больше кейсов

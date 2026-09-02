@@ -97,8 +97,8 @@ B2B + сезон — отдельные группы под горячий и т
 
 Если хотите — посмотрю ваш кабинет, семантику, Метрику и сайт. Скажу, где теряется бюджет и с чего начать.
 
-Бесплатный разбор: mkekspert.ru/razbor-direct?utm_source=dzen&utm_medium=article&utm_campaign=penoplast-case
+[Бесплатный разбор Яндекс Директ](https://mkekspert.ru/razbor-direct?utm_source=dzen&utm_medium=article&utm_campaign=penoplast-case)
 
-Telegram: @Mariya1740 — напишите **РАЗБОР**
+[Канал в Telegram](https://t.me/mariyaprodirect) — больше кейсов
 
-Канал: t.me/mariyaprodirect
+[@Mariya1740](https://t.me/Mariya1740) — напишите **РАЗБОР**

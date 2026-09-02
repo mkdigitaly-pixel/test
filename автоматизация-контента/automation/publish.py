@@ -210,6 +210,130 @@ def split_text_at_paragraphs(text: str, limit: int) -> list[str]:
     return chunks
 
 
+def _inline_dzen_html(line: str) -> str:
+    line = re.sub(r"\*\*([^*]+)\*\*", r"<b>\1</b>", line)
+    line = re.sub(r"__([^_]+)__", r"<i>\1</i>", line)
+    line = re.sub(r"~~([^~]+)~~", r"<s>\1</s>", line)
+    line = re.sub(r"`([^`]+)`", r"\1", line)
+    return re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', line)
+
+
+def markdown_to_dzen_html(md: str, *, base_dir: Path | None = None) -> str:
+    """HTML для Дзена (RSS / вставка в Студию): whitelist по dzen.ru/help RSS."""
+    blocks: list[str] = []
+    lines = md.splitlines()
+    i = 0
+    list_buf: list[str] = []
+    list_ordered = False
+
+    def flush_list() -> None:
+        nonlocal list_buf, list_ordered
+        if not list_buf:
+            return
+        tag = "ol" if list_ordered else "ul"
+        items = "".join(f"<li>{_inline_dzen_html(item)}</li>" for item in list_buf)
+        blocks.append(f"<{tag}>{items}</{tag}>")
+        list_buf = []
+        list_ordered = False
+
+    while i < len(lines):
+        line = lines[i]
+        stripped = line.strip()
+        if stripped == "---":
+            i += 1
+            continue
+
+        if stripped.startswith("|") and i + 1 < len(lines) and _is_table_separator(lines[i + 1]):
+            flush_list()
+            table_lines = [line]
+            i += 1
+            while i < len(lines) and lines[i].strip().startswith("|"):
+                table_lines.append(lines[i])
+                i += 1
+            for row in _format_markdown_table(table_lines):
+                blocks.append(f"<p>{_inline_dzen_html(row)}</p>")
+            continue
+
+        if stripped.startswith("### "):
+            flush_list()
+            blocks.append(f"<h3>{_inline_dzen_html(stripped[4:])}</h3>")
+            i += 1
+            continue
+        if stripped.startswith("## "):
+            flush_list()
+            blocks.append(f"<h2>{_inline_dzen_html(stripped[3:])}</h2>")
+            i += 1
+            continue
+        if stripped.startswith("# "):
+            flush_list()
+            blocks.append(f"<h2>{_inline_dzen_html(stripped[2:])}</h2>")
+            i += 1
+            continue
+
+        img_match = re.match(r"^!\[([^\]]*)\]\(([^)]+)\)\s*$", stripped)
+        if img_match:
+            flush_list()
+            alt, rel = img_match.group(1), img_match.group(2)
+            src = str(_resolve_image_path(rel, base_dir) or rel)
+            cap = f"<figcaption>{alt}</figcaption>" if alt else ""
+            blocks.append(f'<figure><img src="{src}"/>{cap}</figure>')
+            i += 1
+            continue
+
+        if stripped.startswith("> "):
+            flush_list()
+            blocks.append(f"<blockquote><p>{_inline_dzen_html(stripped[2:])}</p></blockquote>")
+            i += 1
+            continue
+
+        if re.match(r"^\d+\.\s+", stripped):
+            flush_list()
+            if list_buf and not list_ordered:
+                flush_list()
+            list_ordered = True
+            list_buf.append(re.sub(r"^\d+\.\s+", "", stripped))
+            i += 1
+            continue
+
+        if stripped.startswith("— ") or stripped.startswith("- "):
+            if list_buf and list_ordered:
+                flush_list()
+            list_buf.append(stripped[2:])
+            i += 1
+            continue
+
+        if not stripped:
+            flush_list()
+            i += 1
+            continue
+
+        flush_list()
+        blocks.append(f"<p>{_inline_dzen_html(stripped)}</p>")
+        i += 1
+
+    flush_list()
+    return "\n".join(blocks)
+
+
+def article_to_dzen_html(path: Path) -> str:
+    raw = path.read_text(encoding="utf-8")
+    meta, body_md = parse_frontmatter(raw)
+    title = str(meta.get("h1") or meta.get("title") or "").strip()
+    body_html = markdown_to_dzen_html(body_md, base_dir=path.parent)
+    if title:
+        return f"<h1>{title}</h1>\n{body_html}"
+    return body_html
+
+
+def write_dzen_html_export(article_path: Path) -> Path:
+    html_body = article_to_dzen_html(article_path)
+    out_dir = ROOT / "articles" / "dzen" / "html"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / f"{article_path.stem}.html"
+    out_path.write_text(html_body + "\n", encoding="utf-8")
+    return out_path
+
+
 def markdown_to_telegram_html(md: str) -> str:
     """Конвертация **bold**, __italic__, ~~strike~~, `code` для parse_mode=HTML."""
     lines: list[str] = []
@@ -1182,6 +1306,9 @@ def main() -> int:
     fmt = sub.add_parser("format")
     fmt.add_argument("article", help="путь от автоматизация-контента/")
 
+    fmt_html = sub.add_parser("format-dzen-html", help="HTML для вставки в Студию Дзена")
+    fmt_html.add_argument("article", help="путь от автоматизация-контента/")
+
     p_cov = sub.add_parser("vk-attach-cover", help="Добавить обложку к существующему посту VK")
     p_cov.add_argument("post_id", type=int, help="Номер поста, напр. 204")
     p_cov.add_argument("id", help="id в очереди (для пути к cover)")
@@ -1260,6 +1387,12 @@ def main() -> int:
                 return 0
             print(f"✗ нет id {args.id} в publish-queue или posts-queue")
             return 1
+
+    if args.command == "format-dzen-html":
+        path = resolve_path(args.article)
+        out = write_dzen_html_export(path)
+        print(out)
+        return 0
 
     if args.command == "format":
         article = load_article(resolve_path(args.article))

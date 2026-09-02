@@ -12,7 +12,7 @@
 Подробно: [`docs/content-channels.md`](docs/content-channels.md)  
 Контент-план: [`plan/content-backlog.md`](plan/content-backlog.md) · SEO Дзен: [`plan/dzen-seo-content-plan.md`](plan/dzen-seo-content-plan.md) · **Расписание:** [`plan/posting-schedule.md`](plan/posting-schedule.md)  
 **Поиск тем и рерайт:** [`references/topic-research.md`](references/topic-research.md) · бэклог: [`plan/topic-sources-backlog.md`](plan/topic-sources-backlog.md)  
-Разметка: [`dzen-markup`](references/dzen-markup.md) · [`dzen-seo-rules`](references/dzen-seo-rules.md) · [`tg-markup`](references/tg-markup.md) · [`vk-markup`](references/vk-markup.md) · [`vc-markup`](references/vc-markup.md)
+Разметка: [`dzen-markup`](references/dzen-markup.md) · [`dzen-prompt`](references/dzen-prompt.md) · [`dzen-github-sources`](references/dzen-github-sources.md) · [`dzen-seo-rules`](references/dzen-seo-rules.md) · [`tg-markup`](references/tg-markup.md) · [`vk-markup`](references/vk-markup.md) · [`vc-markup`](references/vc-markup.md)
 
 ## Структура
 

@@ -1,9 +1,11 @@
 # Разметка Дзен (dzen.ru/klientyandtrafik)
 
-Источники: [справка Дзена — статья](https://dzen.ru/help/ru/channel/article.html), [требования к контенту](https://dzen.ru/help/ru/requirements/content_requirements.html), [анатомия статьи](https://dzen.ru/a/ZcI5V_Ok_wryFiHu).
+Источники: [справка Дзена — статья](https://dzen.ru/help/ru/channel/article.html), [RSS/HTML](https://dzen.ru/help/ru/website/rss-modify.html), [требования к контенту](https://dzen.ru/help/ru/requirements/content_requirements.html).  
+GitHub и промпт: `dzen-github-sources.md`, `dzen-prompt.md`.  
+Эталон структуры: [статья Свистушкиной](https://dzen.ru/a/ang5i_6noirlj6-z) (H2, короткие абзацы, **анкорные ссылки**).
 
 Файлы: `articles/dzen/articles/YYYY-MM-DD-slug.md`  
-Публикация: `TELEGRAM_DZEN_CHANNEL` → `@zen_sync_bot` → Дзен.
+Публикация: `TELEGRAM_DZEN_CHANNEL` → `@zen_sync_bot` → Дзен → **доводка в Студии** (обложка, H2, жирный, ссылки).
 
 ---
 
@@ -40,7 +42,44 @@
 
 **Важно:** если отправить фото без подписи и текст отдельным сообщением — в Дзене получится кривая вёрстка (обложка отдельно, текст без структуры). Скрипт этого больше не делает.
 
-**После синхробота в Студии Дзена:** обложка (`assets/covers/{id}.jpg`), H2/H3, жирный, иллюстрации в теле.
+**После синхробота в Студии Дзена:** обложка (`assets/covers/{id}.jpg`), H2/H3, жирный, **гиперссылки с анкором**, иллюстрации в теле.
+
+HTML для вставки в редактор (все теги по спеке Дзена):
+
+```bash
+cd automation && python3 publish.py format-dzen-html articles/dzen/articles/SLUG.md
+```
+
+→ `articles/dzen/html/SLUG.html`
+
+---
+
+## Ссылки (кликабельный анкор, не URL в строке)
+
+| Плохо | Хорошо |
+|-------|--------|
+| `mkekspert.ru/razbor-direct?utm_source=dzen...` | `[Бесплатный разбор Яндекс Директ](https://mkekspert.ru/razbor-direct?utm_source=dzen&utm_medium=article&utm_campaign=slug)` |
+| `t.me/mariyaprodirect` | `[Канал в Telegram](https://t.me/mariyaprodirect)` |
+| `@Mariya1740` без ссылки | `[@Mariya1740](https://t.me/Mariya1740)` — напишите **РАЗБОР** |
+
+Правила:
+- В markdown-исходнике — только `[текст](url)`; голый URL в теле **запрещён**
+- Анкор = действие или смысл («Бесплатный разбор», «Канал»), не домен
+- UTM остаётся в `href`, читатель его не видит
+- `@zen_sync_bot` не переносит кликабельность из TG → в Студии: выделить анкор → «Гиперссылка»
+- В RSS/HTML (будущее): `<a href="...">анкор</a>` — whitelist Дзена
+
+Пример CTA (как в [эталоне](https://dzen.ru/a/ang5i_6noirlj6-z), но без эмодзи в заголовках):
+
+```
+Если хотите — посмотрю ваш кабинет и сайт.
+
+[Бесплатный разбор Яндекс Директ](https://mkekspert.ru/razbor-direct?utm_source=dzen&utm_medium=article&utm_campaign={utm_campaign})
+
+[Канал в Telegram](https://t.me/mariyaprodirect) — больше кейсов
+
+[@Mariya1740](https://t.me/Mariya1740) — напишите **РАЗБОР**
+```
 
 ---
 
@@ -118,14 +157,7 @@ platform: dzen
 
 ## CTA в конце статьи
 
-```
-Нужен разбор вашей рекламы?
-Бесплатный аудит Яндекс Директ → mkekspert.ru/razbor-direct?utm_source=dzen&utm_medium=article&utm_campaign={utm_campaign}
-
-Больше кейсов в Telegram → t.me/mariyaprodirect
-```
-
-Без агрессивной рекламы и кучи внешних ссылок (модерация).
+См. блок «Ссылки» выше — только markdown-ссылки с анкором, без голых URL.
 
 ---
 
@@ -136,7 +168,8 @@ platform: dzen
 - [ ] Есть ≥ 3 блока H2
 - [ ] Крючок в первых 2 абзацах
 - [ ] Цифры только из реальных кейсов
-- [ ] CTA razbor-direct + UTM
+- [ ] Ссылки — `[анкор](url)`, не голый домен
+- [ ] CTA razbor-direct + UTM (в href, не в тексте)
 - [ ] Обложка готова
 - [ ] Нет фраз из `banned-phrases.md`
 - [ ] Голос: `maria-voice.md`

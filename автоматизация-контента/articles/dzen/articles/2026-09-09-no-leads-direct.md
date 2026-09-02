@@ -91,8 +91,8 @@ cover_subline: "Что проверить"
 
 На бесплатном разборе смотрю кабинет, Метрику и посадочную и говорю, с чего начать в вашей нише.
 
-mkekspert.ru/razbor-direct?utm_source=dzen&utm_medium=article&utm_campaign=no-leads-direct
+[Бесплатный разбор Яндекс Директ](https://mkekspert.ru/razbor-direct?utm_source=dzen&utm_medium=article&utm_campaign=no-leads-direct)
 
-@Mariya1740 — **РАЗБОР**
+[Канал в Telegram](https://t.me/mariyaprodirect)
 
-Канал: t.me/mariyaprodirect
+[@Mariya1740](https://t.me/Mariya1740) — **РАЗБОР**

@@ -62,8 +62,8 @@ platform: dzen
 
 Если хотите — посмотрю ваш кабинет и сайт, скажу, с чего начать.
 
-Запись на бесплатный разбор: mkekspert.ru/razbor-direct?utm_source=dzen&utm_medium=article&utm_campaign=7-errors-direct-human
+[Бесплатный разбор Яндекс Директ](https://mkekspert.ru/razbor-direct?utm_source=dzen&utm_medium=article&utm_campaign=7-errors-direct-human)
 
-Telegram: @Mariya1740 — напишите **РАЗБОР**
+[Канал в Telegram](https://t.me/mariyaprodirect)
 
-Канал: t.me/mariyaprodirect
+[@Mariya1740](https://t.me/Mariya1740) — **РАЗБОР**

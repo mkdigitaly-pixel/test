@@ -84,8 +84,8 @@ cover_subline: "Съедает бюджет?"
 
 Если не уверены, что у вас в отчёте — напишите, разберём кабинет.
 
-mkekspert.ru/razbor-direct?utm_source=dzen&utm_medium=article&utm_campaign=autotarget-b2b
+[Бесплатный разбор Яндекс Директ](https://mkekspert.ru/razbor-direct?utm_source=dzen&utm_medium=article&utm_campaign=autotarget-b2b)
 
-@Mariya1740 — **РАЗБОР**
+[Канал в Telegram](https://t.me/mariyaprodirect)
 
-Канал: t.me/mariyaprodirect
+[@Mariya1740](https://t.me/Mariya1740) — **РАЗБОР**
