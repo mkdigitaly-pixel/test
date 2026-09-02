@@ -18,13 +18,10 @@ items:
   cover: assets/covers/penoplast-case.jpg
   cover_headline: CPL 8000→2500 ₽
   cover_subline: Кейс B2B · пенопласт
-  dzen_url: ''
-  notes: '02.09: старый sync дал кривую вёрстку (фото отдельно, без жирного). Удалить
-    кривые посты в Дзене. Опубликовать из articles/dzen/html/2026-08-30-penoplast-case.html
-    или feed.xml (RSS). После публикации — dzen_url для тизеров.'
-  dzen_published_at: '2026-09-02T10:00:47.446797+03:00'
-  dzen_republished_at: '2026-09-02T10:15:00+03:00'
-  dzen_studio_pending: true
+  dzen_url: https://dzen.ru/a/apfN02AJxASZFuo3
+  dzen_republished_at: '2026-09-02T11:40:00+03:00'
+  notes: '02.09: перепубликация фото+заголовок+reply (как 7-errors). Удалить старые
+    кривые посты в Дзене. Жирный/анкоры — RSS или Студия.'
   dzen_html_path: articles/dzen/html/2026-08-30-penoplast-case.html
 - id: no-leads-direct
   status: approved
