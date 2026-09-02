@@ -30,7 +30,7 @@ cd automation && python3 publish.py publish dzen penoplast-case
 ### Одноразовая настройка (инфраструктура)
 
 1. RSS в Студии Дзена → URL из `DZEN_RSS_FEED_URL` (после первого `publish dzen` агент выведет ссылку)
-2. `DZEN_RSS_DEPLOY_GIT=true` — деплой без Tilda/mkekspert.ru
+2. `DZEN_RSS_DEPLOY_GIT=true` + правило **DDOS-Guard** (см. `checklists/dzen-rss-tilda.md`)
 3. `DZEN_RSS_DRAFT=false` — без ручного клика «опубликовать» в Студии
 
 ### Переменные `.env`

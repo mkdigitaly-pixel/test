@@ -182,7 +182,7 @@ def deploy_rss_public(
             results.append(f"deploy выполнен — проверьте {check_url}")
         elif "mkekspert.ru" in check_url:
             results.append(
-                f"⚠ {check_url} ещё 404 — настройте DZEN_SFTP_* или DDOS-Guard proxy (см. checklists/dzen-rss-infra.md)"
+                f"⚠ {check_url} ещё 404 — настройте DDOS-Guard (Tilda): checklists/dzen-rss-tilda.md"
             )
     return results
 

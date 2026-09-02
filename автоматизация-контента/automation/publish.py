@@ -1487,8 +1487,8 @@ def cmd_dzen_rss_setup(args: argparse.Namespace) -> int:
         print("  Студия → Настройки → Свой сайт → Настроить трансляцию → вставить URL выше")
     elif not args.dry_run:
         print("\n✗ Лента на mkekspert.ru пока недоступна")
-        print("  Добавьте в .env: DZEN_SFTP_HOST, DZEN_SFTP_USER, DZEN_SFTP_PASSWORD")
-        print("  или настройте прокси DDOS-Guard → checklists/dzen-rss-infra.md")
+        print("  Tilda не отдаёт XML из корня — одно правило DDOS-Guard:")
+        print("  checklists/dzen-rss-tilda.md")
         return 1
     return 0
 

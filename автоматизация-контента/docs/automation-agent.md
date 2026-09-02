@@ -37,10 +37,10 @@ schedule sync-urls + poll  →  dzen_url в очередь
 | Что | Кто | Когда |
 |-----|-----|-------|
 | `.env` — токены TG/VK, `AUTO_PUBLISH=true` | агент / env-setup | один раз |
-| RSS-лента в Студии Дзена → URL из `DZEN_RSS_FEED_URL` | агент даёт URL после первого push | один раз |
+| RSS-лента в Студии Дзена | один раз по `checklists/dzen-rss-tilda.md` (DDOS-Guard + Tilda) |
 | `VK_USER_TOKEN` для обложек | агент / vkhost | один раз |
 
-Tilda **не** нужна для RSS — лента на GitHub raw (ветка = текущая ветка репо).
+Tilda **не** отдаёт `dzen-feed.xml` — лента в git + **DDOS-Guard** на `mkekspert.ru`. Инструкция: `checklists/dzen-rss-tilda.md`.
 
 ## `.env` (ключевые)
 
