@@ -14,7 +14,11 @@ from xml.etree import ElementTree as ET
 ROOT = Path(__file__).resolve().parent.parent
 FEED_FILE = ROOT / "articles" / "dzen" / "feed.xml"
 SITE_URL = os.getenv("DZEN_RSS_SITE_URL", "https://mkekspert.ru")
-FEED_LINK = os.getenv("DZEN_RSS_FEED_URL", f"{SITE_URL}/dzen-feed.xml")
+FEED_LINK = os.getenv(
+    "DZEN_RSS_FEED_URL",
+    "https://raw.githubusercontent.com/mkdigitaly-pixel/test/cursor/content-formatting-plan-0a4f/"
+    "автоматизация-контента/articles/dzen/feed.xml",
+)
 COVER_BASE = os.getenv(
     "DZEN_COVER_BASE_URL",
     "https://raw.githubusercontent.com/mkdigitaly-pixel/test/cursor/content-formatting-plan-0a4f/"

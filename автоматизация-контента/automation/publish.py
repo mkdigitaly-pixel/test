@@ -659,47 +659,24 @@ def notify_dzen_rss_channel(
         publish_telegram_document(channel_id, token, html_path, caption=title, dry_run=dry_run)
 
 
-def publish_telegram_cover_and_reply(
-    text: str,
-    channel_id: str,
-    token: str,
-    *,
-    cover: Path,
-    caption: str,
-    dry_run: bool = False,
-) -> PublishResult:
-    """Обложка с короткой подписью + полный текст reply — как у 7-errors в Дзене."""
-    if dry_run:
-        preview = text[:400] + ("…" if len(text) > 400 else "")
-        return PublishResult(
-            "telegram",
-            True,
-            f"[dry-run] → {channel_id} (фото+заголовок, reply {len(text)} зн.)\n{preview}",
-        )
-    with cover.open("rb") as f:
-        resp = requests.post(
-            f"https://api.telegram.org/bot{token}/sendPhoto",
-            data={"chat_id": channel_id, "caption": caption[:TG_CAPTION_LIMIT]},
-            files={"photo": f},
-            timeout=120,
-        )
-    data = resp.json()
-    if not data.get("ok"):
-        raise RuntimeError(data.get("description", data))
-    photo_id = data["result"]["message_id"]
-    payload: dict[str, Any] = {
-        "chat_id": channel_id,
-        "text": text,
-        "reply_to_message_id": photo_id,
-        "disable_web_page_preview": False,
-    }
-    data = telegram_api("sendMessage", payload, token)
-    return PublishResult(
-        "telegram",
-        True,
-        f"Фото+заголовок + текст reply ({len(text)} зн.)",
-        data["result"]["message_id"],
-    )
+def dzen_routing(text: str, mode: str) -> tuple[bool, bool]:
+    """(sync в TG, RSS). Длинные статьи — только RSS: zen_sync даёт 2 поста при фото+текст."""
+    mode = mode.lower()
+    long = len(text) > TG_CAPTION_LIMIT
+    if mode == "rss":
+        return False, True
+    if mode == "sync":
+        if long:
+            print(
+                f"⚠ sync невозможен для {len(text)} зн. — переключаюсь на RSS",
+                file=sys.stderr,
+            )
+            return False, True
+        return True, False
+    if mode == "both":
+        return not long, True
+    # auto: короткие → sync (фото+текст в одном сообщении), длинные → rss
+    return (not long, long)
 
 
 def publish_dzen_telegram(
@@ -724,23 +701,11 @@ def publish_dzen_telegram(
             return publish_telegram(text, channel_id, token, cover=images[0], dry_run=dry_run)
         return publish_telegram_media_group(images, text, channel_id, token, dry_run=dry_run)
 
-    # Длинная статья: обложка + заголовок в подписи, полный текст reply (как 7-errors)
-    if len(text) > TG_CAPTION_LIMIT and images and len(images) == 1:
-        title_line = text.split("\n", 1)[0].strip()
-        return publish_telegram_cover_and_reply(
-            text,
-            channel_id,
-            token,
-            cover=images[0],
-            caption=title_line,
-            dry_run=dry_run,
-        )
-
     if len(text) > TG_CAPTION_LIMIT and images:
         cover_hint = images[0] if images else "assets/covers/"
         print(
-            "ℹ Длинная статья: текст одним сообщением (без отдельного фото). "
-            f"Обложку и иллюстрации добавьте в Студии Дзена: {cover_hint}",
+            f"ℹ Длинная статья ({len(text)} зн.): zen_sync не принимает фото+текст в одном посте — "
+            f"используйте RSS (обложка: {cover_hint})",
             file=sys.stderr,
         )
 
@@ -985,9 +950,10 @@ def publish_dzen_article(
 
     html_path = write_dzen_html_export(path, cover_rel=cover_rel or None)
     body_html = html_path.read_text(encoding="utf-8")
-    mode = os.getenv("DZEN_PUBLISH_MODE", "sync").lower()
+    mode = os.getenv("DZEN_PUBLISH_MODE", "auto").lower()
+    use_sync, use_rss = dzen_routing(text, mode)
 
-    if not dry_run and mode in ("rss", "both"):
+    if not dry_run and use_rss:
         upsert_article_item(
             campaign_id=item["id"],
             article_path=path,
@@ -997,7 +963,7 @@ def publish_dzen_article(
             cover_rel=cover_rel or None,
         )
 
-    if mode in ("sync", "both"):
+    if use_sync:
         if not token or not channel:
             raise SystemExit("Заполните TELEGRAM_BOT_TOKEN и TELEGRAM_DZEN_CHANNEL_ID")
         r = publish_dzen_telegram(
@@ -1011,9 +977,17 @@ def publish_dzen_article(
         print(f"DZEN-канал ({channel}): {r.message}")
         if not dry_run:
             print("  → Синхробот подхватит в Дзен за 2–10 мин")
-            print("  ℹ Жирный/H2/анкоры — через RSS или вручную в Студии")
-        if mode == "sync":
+        if not use_rss:
             return
+
+    if not use_rss:
+        return
+
+    if len(text) > TG_CAPTION_LIMIT:
+        print(
+            f"Дзен: длинная статья ({len(text)} зн.) → RSS, без поста в zen_sync-канал "
+            "(фото+текст = 2 поста в Дзене)"
+        )
 
     draft = os.getenv("DZEN_RSS_DRAFT", "true").lower() in ("1", "true", "yes")
     deployed = deploy_feed_copy() if not dry_run else None
@@ -1175,8 +1149,10 @@ def cmd_publish(target: str, item_id: str, *, dry_run: bool, force: bool) -> int
 
     if target in ("dzen", "all"):
         require_approved(item, force)
-        mode = os.getenv("DZEN_PUBLISH_MODE", "sync").lower()
-        if mode in ("sync", "both"):
+        mode = os.getenv("DZEN_PUBLISH_MODE", "auto").lower()
+        article = load_article(resolve_path(article_path(item) or "")) if article_path(item) else None
+        use_sync = article and dzen_routing(format_for_dzen(article), mode)[0]
+        if use_sync:
             if dzen_ch == main_ch and dzen_ch:
                 raise SystemExit(
                     "TELEGRAM_DZEN_CHANNEL_ID и TELEGRAM_MAIN_CHANNEL_ID совпадают — "
