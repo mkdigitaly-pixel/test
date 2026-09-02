@@ -6,6 +6,7 @@ from __future__ import annotations
 import html
 import os
 import re
+import shutil
 import subprocess
 import time
 from datetime import datetime, timezone
@@ -13,10 +14,12 @@ from pathlib import Path
 from typing import Any
 from xml.etree import ElementTree as ET
 
+import yaml
+
 ROOT = Path(__file__).resolve().parent.parent
 FEED_FILE = ROOT / "articles" / "dzen" / "feed.xml"
 COVERS_DIR = ROOT / "assets" / "covers"
-SITE_URL = os.getenv("DZEN_RSS_SITE_URL", "https://mkekspert.ru")
+SITE_URL = os.getenv("DZEN_RSS_SITE_URL", "https://blog.mkekspert.ru")
 
 
 def _git_root() -> Path:
@@ -53,13 +56,16 @@ COVER_BASE = os.getenv("DZEN_COVER_BASE_URL") or f"{SITE_URL.rstrip('/')}/dzen-c
 DZEN_CHANNEL_SLUG = os.getenv("DZEN_CHANNEL_SLUG", "klientyandtrafik")
 MIN_FEED_ITEMS = int(os.getenv("DZEN_RSS_MIN_ITEMS", "10"))
 
-# ЧПУ на mkekspert.ru (страницы из sitemap, не /blog/* — их нет на Tilda)
-ARTICLE_SITE_LINKS: dict[str, str] = {
-    "penoplast-case": "/press-forms",
-    "7-errors-direct": "/portfolio",
-    "no-leads-direct": "/razbor-direct",
-    "autotarget-b2b": "/portfolio",
-}
+# Архивные item из API Дзена — ссылки на основной сайт (Tilda)
+ARCHIVE_SITE_LINKS: list[str] = [
+    "/portfolio",
+    "/rotang",
+    "/press-forms",
+    "/urist",
+    "/stomatologiya",
+    "/lifts",
+    "/razbor-direct",
+]
 
 
 def rss_draft_mode() -> bool:
@@ -163,33 +169,228 @@ def deploy_rss_public(
     cover_rel: str | None = None,
     dry_run: bool = False,
 ) -> list[str]:
-    """Публикация RSS: SFTP на mkekspert.ru → локальная копия → git push."""
+    """Публикация RSS: GitHub Pages (blog.mkekspert.ru) → git push ветки кода → SFTP (опц.)."""
     results: list[str] = []
-    sftp_msg = deploy_feed_sftp(dry_run=dry_run)
-    if sftp_msg:
-        results.append(sftp_msg)
-    local = deploy_feed_copy()
-    if local:
-        results.append(f"local: {local}")
+    gh_msg = deploy_gh_pages(campaign_id=campaign_id, dry_run=dry_run)
+    if gh_msg:
+        results.append(gh_msg)
     git_msg = deploy_feed_git(campaign_id=campaign_id, cover_rel=cover_rel, dry_run=dry_run)
     if git_msg:
         results.append(git_msg)
+    local = deploy_feed_copy()
+    if local:
+        results.append(f"local: {local}")
+    if os.getenv("DZEN_RSS_DEPLOY_SFTP", "false").lower() in ("1", "true", "yes"):
+        sftp_msg = deploy_feed_sftp(dry_run=dry_run)
+        if sftp_msg:
+            results.append(sftp_msg)
     check_url = FEED_LINK
     if not dry_run and check_url:
         if verify_feed_public(check_url):
             results.append(f"feed OK: {check_url}")
-        elif sftp_msg:
-            results.append(f"deploy выполнен — проверьте {check_url}")
-        elif "mkekspert.ru" in check_url:
+        elif gh_msg and "gh-pages" in gh_msg:
             results.append(
-                f"⚠ {check_url} ещё 404 — настройте DDOS-Guard (Tilda): checklists/dzen-rss-tilda.md"
+                f"deploy выполнен — DNS/GitHub Pages: checklists/dzen-rss-tilda.md → {check_url}"
             )
     return results
 
 
-def article_site_link(campaign_id: str, slug: str) -> str:
-    path = ARTICLE_SITE_LINKS.get(campaign_id, f"/portfolio")
-    return f"{SITE_URL.rstrip('/')}{path}"
+def article_site_link(campaign_id: str, slug: str = "") -> str:
+    """Публичная страница статьи на blog.mkekspert.ru (ссылка из RSS для Дзена)."""
+    return f"{SITE_URL.rstrip('/')}/articles/{campaign_id}.html"
+
+
+def _article_html_page(campaign_id: str, body_html: str) -> str:
+    """Полная HTML-страница статьи для GitHub Pages."""
+    link = article_site_link(campaign_id)
+    title_m = re.search(r"<h1>(.*?)</h1>", body_html, re.DOTALL)
+    title = html.unescape(re.sub(r"<[^>]+>", "", title_m.group(1))) if title_m else campaign_id
+    return f"""<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{html.escape(title)} — МК Эксперт</title>
+<meta property="og:title" content="{html.escape(title)}">
+<link rel="canonical" href="{html.escape(link)}">
+<style>
+body{{font-family:system-ui,sans-serif;max-width:720px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#1a1a1a}}
+h1,h2,h3{{color:#111}}
+a{{color:#2563eb}}
+img{{max-width:100%;height:auto;border-radius:8px}}
+figure{{margin:1.5em 0}}
+</style>
+</head>
+<body>
+<article>
+{body_html}
+</article>
+<p style="margin-top:3rem;color:#666;font-size:0.9rem">
+<a href="https://mkekspert.ru">mkekspert.ru</a> — контекстная реклама
+</p>
+</body>
+</html>
+"""
+
+
+def _queue_items() -> list[dict[str, Any]]:
+    queue_file = ROOT / "queue" / "publish-queue.yaml"
+    if not queue_file.is_file():
+        return []
+    data = yaml.safe_load(queue_file.read_text(encoding="utf-8")) or {}
+    return list(data.get("items") or [])
+
+
+def _article_body_html(item: dict[str, Any]) -> str:
+    """HTML тела статьи: готовый export или генерация из markdown."""
+    rel = str(item.get("dzen_article") or "")
+    if not rel:
+        return ""
+    art_path = ROOT / rel
+    html_export = ROOT / "articles" / "dzen" / "html" / f"{art_path.stem}.html"
+    if html_export.is_file():
+        body = html_export.read_text(encoding="utf-8")
+    elif art_path.is_file():
+        from publish import article_to_dzen_html
+
+        body = article_to_dzen_html(art_path)
+        cover_rel = str(item.get("cover") or "")
+        if cover_rel:
+            body = prepend_cover_html(body, cover_public_url(cover_rel))
+    else:
+        return ""
+    return body.replace(
+        "https://mkekspert.ru/dzen-covers/",
+        f"{COVER_BASE.rstrip('/')}/",
+    )
+
+
+def _collect_gh_pages_files() -> dict[str, bytes]:
+    """Файлы для ветки gh-pages: feed, CNAME, covers, HTML статей."""
+    files: dict[str, bytes] = {}
+    if FEED_FILE.is_file():
+        files["dzen-feed.xml"] = FEED_FILE.read_bytes()
+    files["CNAME"] = b"blog.mkekspert.ru\n"
+    if COVERS_DIR.is_dir():
+        for cover in COVERS_DIR.glob("*.jpg"):
+            files[f"covers/{cover.name}"] = cover.read_bytes()
+    for item in _queue_items():
+        cid = str(item.get("id") or "")
+        if not cid:
+            continue
+        body = _article_body_html(item)
+        if not body:
+            continue
+        files[f"articles/{cid}.html"] = _article_html_page(cid, body).encode("utf-8")
+    return files
+
+
+def deploy_gh_pages(*, campaign_id: str = "", dry_run: bool = False) -> str:
+    """Деплой на GitHub Pages (ветка gh-pages) → blog.mkekspert.ru."""
+    if os.getenv("DZEN_RSS_DEPLOY_GH_PAGES", "true").lower() not in ("1", "true", "yes"):
+        return ""
+    files = _collect_gh_pages_files()
+    if not files:
+        return "gh-pages: нет файлов для деплоя"
+
+    git_root = _git_root()
+    worktree = git_root / ".gh-pages-deploy"
+    label = campaign_id or "blog"
+
+    try:
+        subprocess.run(["git", "fetch", "origin"], cwd=git_root, capture_output=True, timeout=120)
+    except (subprocess.CalledProcessError, subprocess.TimeoutExpired, FileNotFoundError):
+        pass
+
+    remote_check = subprocess.run(
+        ["git", "ls-remote", "--heads", "origin", "gh-pages"],
+        cwd=git_root,
+        capture_output=True,
+        text=True,
+        timeout=60,
+    )
+    branch_exists = bool(remote_check.stdout.strip())
+
+    if worktree.exists():
+        subprocess.run(
+            ["git", "worktree", "remove", "--force", str(worktree)],
+            cwd=git_root,
+            capture_output=True,
+        )
+
+    try:
+        if branch_exists:
+            subprocess.run(
+                ["git", "worktree", "add", str(worktree), "origin/gh-pages"],
+                cwd=git_root,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+        else:
+            subprocess.run(
+                ["git", "worktree", "add", "--orphan", "-b", "gh-pages", str(worktree)],
+                cwd=git_root,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+    except subprocess.CalledProcessError as exc:
+        err = (exc.stderr or exc.stdout or str(exc)).strip()
+        print(f"⚠ gh-pages worktree: {err}")
+        return ""
+
+    for entry in worktree.iterdir():
+        if entry.name == ".git":
+            continue
+        if entry.is_dir():
+            shutil.rmtree(entry)
+        else:
+            entry.unlink()
+
+    for rel_path, content in files.items():
+        dest = worktree / rel_path
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_bytes(content)
+
+    if dry_run:
+        subprocess.run(
+            ["git", "worktree", "remove", "--force", str(worktree)],
+            cwd=git_root,
+            capture_output=True,
+        )
+        return f"[dry-run] gh-pages: {len(files)} файлов → {FEED_LINK}"
+
+    subprocess.run(["git", "add", "-A"], cwd=worktree, check=True)
+    status = subprocess.check_output(
+        ["git", "status", "--porcelain"],
+        cwd=worktree,
+        text=True,
+    ).strip()
+    if not status:
+        subprocess.run(
+            ["git", "worktree", "remove", "--force", str(worktree)],
+            cwd=git_root,
+            capture_output=True,
+        )
+        return f"gh-pages: без изменений ({FEED_LINK})"
+
+    subprocess.run(
+        ["git", "commit", "-m", f"deploy(blog): {label}"],
+        cwd=worktree,
+        check=True,
+    )
+    subprocess.run(
+        ["git", "push", "-u", "origin", "gh-pages"],
+        cwd=worktree,
+        check=True,
+    )
+    subprocess.run(
+        ["git", "worktree", "remove", "--force", str(worktree)],
+        cwd=git_root,
+        capture_output=True,
+    )
+    return f"gh-pages → {FEED_LINK} ({len(files)} файлов)"
 
 
 def fetch_dzen_channel_items(limit: int = 20) -> list[dict[str, Any]]:
@@ -313,15 +514,6 @@ def rebuild_full_feed(
         )
 
     if len(blocks) < MIN_FEED_ITEMS:
-        archive_links = [
-            "/portfolio",
-            "/rotang",
-            "/press-forms",
-            "/urist",
-            "/stomatologiya",
-            "/lifts",
-            "/razbor-direct",
-        ]
         for idx, dzen_item in enumerate(fetch_dzen_channel_items(MIN_FEED_ITEMS * 2)):
             pub_id = str(dzen_item.get("publication_id") or dzen_item.get("id") or idx)
             guid = f"mkekspert-dzen-archive-{pub_id}"
@@ -332,7 +524,7 @@ def rebuild_full_feed(
             if not title or len(text) < 120:
                 continue
             seen_guids.add(guid)
-            link_path = archive_links[len(blocks) % len(archive_links)]
+            link_path = ARCHIVE_SITE_LINKS[len(blocks) % len(ARCHIVE_SITE_LINKS)]
             blocks.append(
                 build_item_xml_str(
                     guid=guid,

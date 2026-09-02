@@ -1442,7 +1442,7 @@ def _load_article_meta(path: Path) -> dict[str, Any]:
 
 
 def cmd_dzen_rss_setup(args: argparse.Namespace) -> int:
-    """Пересборка feed, деплой на mkekspert.ru, проверка перед подключением в Студии."""
+    """Пересборка feed, деплой на blog.mkekspert.ru, проверка перед подключением в Студии."""
     from dzen_rss import (
         FEED_FILE,
         FEED_LINK,
@@ -1484,11 +1484,11 @@ def cmd_dzen_rss_setup(args: argparse.Namespace) -> int:
 
     if not args.dry_run and verify_feed_public(FEED_LINK):
         print("\n✓ Лента доступна — можно отправлять в Студии")
-        print("  Студия → Настройки → Свой сайт → Настроить трансляцию → вставить URL выше")
+        print("  Студия → Настройки → Свой сайт → blog.mkekspert.ru → трансляция RSS")
     elif not args.dry_run:
-        print("\n✗ Лента на mkekspert.ru пока недоступна")
-        print("  Tilda не отдаёт XML из корня — одно правило DDOS-Guard:")
-        print("  checklists/dzen-rss-tilda.md")
+        print("\n✗ Лента на blog.mkekspert.ru пока недоступна")
+        print("  Настройте DNS + GitHub Pages: checklists/dzen-rss-tilda.md")
+        print(f"  Ожидаемый URL: {FEED_LINK}")
         return 1
     return 0
 

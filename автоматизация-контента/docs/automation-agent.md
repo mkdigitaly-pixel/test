@@ -9,7 +9,7 @@
     ↓
 вт/чт 10:00  publish_dzen
     ├─ HTML + feed.xml
-    ├─ git push (публичный RSS на raw.githubusercontent.com)
+    ├─ gh-pages → blog.mkekspert.ru
     └─ Дзен забирает ленту
     ↓
 schedule sync-urls + poll  →  dzen_url в очередь
@@ -37,10 +37,10 @@ schedule sync-urls + poll  →  dzen_url в очередь
 | Что | Кто | Когда |
 |-----|-----|-------|
 | `.env` — токены TG/VK, `AUTO_PUBLISH=true` | агент / env-setup | один раз |
-| RSS-лента в Студии Дзена | один раз по `checklists/dzen-rss-tilda.md` (DDOS-Guard + Tilda) |
+| RSS-лента в Студии Дзена | один раз по `checklists/dzen-rss-tilda.md` (blog.mkekspert.ru) |
 | `VK_USER_TOKEN` для обложек | агент / vkhost | один раз |
 
-Tilda **не** отдаёт `dzen-feed.xml` — лента в git + **DDOS-Guard** на `mkekspert.ru`. Инструкция: `checklists/dzen-rss-tilda.md`.
+**mkekspert.ru** остаётся на Tilda. Статьи и RSS — на **blog.mkekspert.ru** (GitHub Pages). Инструкция: `checklists/dzen-rss-tilda.md`.
 
 ## `.env` (ключевые)
 
@@ -48,7 +48,7 @@ Tilda **не** отдаёт `dzen-feed.xml` — лента в git + **DDOS-Guard
 AUTO_PUBLISH=true
 DZEN_PUBLISH_MODE=auto
 DZEN_RSS_DRAFT=false          # автопубликация, без клика в Студии
-DZEN_RSS_DEPLOY_GIT=true      # push feed + обложек после каждой статьи
+DZEN_RSS_DEPLOY_GH_PAGES=true # blog.mkekspert.ru после каждой статьи
 ```
 
 Полный шаблон: `automation/.env.example`

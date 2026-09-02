@@ -23,14 +23,14 @@ cd automation && python3 publish.py publish dzen penoplast-case
 
 Агент автоматически:
 1. Генерирует `articles/dzen/feed.xml` с HTML
-2. Пушит feed + обложки в git → публичный URL
+2. Деплоит feed + обложки + HTML на **blog.mkekspert.ru** (GitHub Pages)
 3. Дзен забирает RSS
 4. Подтягивает `dzen_url` → публикует тизеры TG/VK
 
 ### Одноразовая настройка (инфраструктура)
 
-1. RSS в Студии Дзена → URL из `DZEN_RSS_FEED_URL` (после первого `publish dzen` агент выведет ссылку)
-2. `DZEN_RSS_DEPLOY_GIT=true` + правило **DDOS-Guard** (см. `checklists/dzen-rss-tilda.md`)
+1. DNS + GitHub Pages для **blog.mkekspert.ru** — см. `checklists/dzen-rss-tilda.md`
+2. RSS в Студии Дзена → `https://blog.mkekspert.ru/dzen-feed.xml`
 3. `DZEN_RSS_DRAFT=false` — без ручного клика «опубликовать» в Студии
 
 ### Переменные `.env`
@@ -39,8 +39,8 @@ cd automation && python3 publish.py publish dzen penoplast-case
 |------------|--------------|------------|
 | `DZEN_PUBLISH_MODE` | `auto` | `auto` / `rss` / `sync` |
 | `DZEN_RSS_DRAFT` | `false` | `false` = автопубликация |
-| `DZEN_RSS_DEPLOY_GIT` | `true` | git push после publish |
-| `DZEN_RSS_FEED_URL` | raw GitHub ветки | URL для Дзена |
+| `DZEN_RSS_DEPLOY_GH_PAGES` | `true` | деплой на blog.mkekspert.ru |
+| `DZEN_RSS_FEED_URL` | blog.mkekspert.ru | URL для Дзена |
 | `DZEN_URL_POLL_BURST_MINUTES` | `15` | ожидание URL перед тизерами |
 
 Подробнее: `docs/automation-agent.md`
