@@ -30,7 +30,8 @@ TEXT = "#FFFFFF"
 SUB = "#B0B0B0"
 
 LANDSCAPE = (1200, 630)
-SQUARE = (1080, 1080)
+VK_PORTRAIT = (1080, 1350)  # 4:5 — без обрезки в квадрат
+SQUARE = (1080, 1080)  # legacy, не использовать для VK-ленты
 
 
 def load_env() -> None:
@@ -50,8 +51,13 @@ def load_font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont | ImageFo
     return ImageFont.load_default()
 
 
-def gpt_prompt(headline: str, subline: str, *, square: bool = False) -> str:
-    ratio = "1:1 square" if square else "16:9 landscape"
+def gpt_prompt(headline: str, subline: str, *, vk: bool = False, square: bool = False) -> str:
+    if vk:
+        ratio = "4:5 vertical portrait"
+    elif square:
+        ratio = "1:1 square"
+    else:
+        ratio = "16:9 landscape"
     return (
         f"Bright bold social media cover, {ratio}, dark charcoal background {BG}, "
         f"vibrant green {ACCENT_GREEN} and golden yellow {ACCENT_YELLOW} accents, "
@@ -100,14 +106,18 @@ def generate_gpt_dalle_fallback(prompt: str, size: str = "1792x1024") -> Image.I
     return Image.open(io.BytesIO(r.content)).convert("RGB")
 
 
-def fetch_gpt_background(headline: str, subline: str, *, square: bool) -> Image.Image:
-    prompt = gpt_prompt(headline, subline, square=square)
-    size = "1024x1024" if square else "1536x1024"
+def fetch_gpt_background(headline: str, subline: str, *, vk: bool = False, square: bool = False) -> Image.Image:
+    prompt = gpt_prompt(headline, subline, vk=vk, square=square)
+    if vk:
+        size, dalle = "1024x1536", "1024x1792"
+    elif square:
+        size, dalle = "1024x1024", "1024x1024"
+    else:
+        size, dalle = "1536x1024", "1792x1024"
     try:
         return generate_gpt_image(prompt, size=size)
     except Exception:
-        dalle_size = "1024x1024" if square else "1792x1024"
-        return generate_gpt_dalle_fallback(prompt, size=dalle_size)
+        return generate_gpt_dalle_fallback(prompt, size=dalle)
 
 
 def overlay_brand_text(img: Image.Image, headline: str, subline: str) -> Image.Image:
@@ -226,8 +236,26 @@ def generate_pil_fallback(headline: str, subline: str, size: tuple[int, int]) ->
     return overlay_brand_text(img, headline, subline)
 
 
-def load_background_image(path: Path, *, square: bool, target: tuple[int, int]) -> Image.Image:
+def resize_contain(img: Image.Image, size: tuple[int, int], *, bg: str = BG) -> Image.Image:
+    """Вписать целиком без обрезки (для VK из горизонтальной обложки)."""
+    tw, th = size
+    iw, ih = img.size
+    scale = min(tw / iw, th / ih)
+    nw, nh = max(1, int(iw * scale)), max(1, int(ih * scale))
+    resized = img.resize((nw, nh), Image.Resampling.LANCZOS)
+    canvas = Image.new("RGB", size, bg)
+    canvas.paste(resized, ((tw - nw) // 2, (th - nh) // 2))
+    return canvas
+
+
+def landscape_to_vk_cover(landscape: Image.Image) -> Image.Image:
+    return resize_contain(landscape, VK_PORTRAIT)
+
+
+def load_background_image(path: Path, *, vk: bool = False, square: bool = False, target: tuple[int, int]) -> Image.Image:
     img = Image.open(path).convert("RGB")
+    if vk:
+        return resize_contain(img, target)
     if square:
         img = crop_center_square(img)
     return resize_cover(img, target)
@@ -238,25 +266,38 @@ def generate_cover(
     subline: str,
     out: Path,
     *,
+    vk: bool = False,
     square: bool = False,
     use_gpt: bool = True,
     slug: str = "",
     import_path: Path | None = None,
+    from_landscape: Path | None = None,
 ) -> Path:
-    target = SQUARE if square else LANDSCAPE
+    if vk:
+        target = VK_PORTRAIT
+    elif square:
+        target = SQUARE
+    else:
+        target = LANDSCAPE
     img: Image.Image | None = None
+
+    if from_landscape and from_landscape.exists():
+        img = landscape_to_vk_cover(Image.open(from_landscape).convert("RGB"))
+        out.parent.mkdir(parents=True, exist_ok=True)
+        img.save(out, "JPEG", quality=92)
+        return out
 
     bg_path = import_path or (find_import_background(slug) if slug else None)
     if bg_path:
         try:
-            bg = load_background_image(bg_path, square=square, target=target)
+            bg = load_background_image(bg_path, vk=vk, square=square, target=target)
             img = overlay_brand_text(bg, headline, subline)
         except Exception as exc:
             print(f"⚠ import {bg_path.name}: {exc}")
 
     if img is None and use_gpt and os.getenv("OPENAI_API_KEY"):
         try:
-            bg = fetch_gpt_background(headline, subline, square=square)
+            bg = fetch_gpt_background(headline, subline, vk=vk, square=square)
             bg = bg.resize(target, Image.Resampling.LANCZOS)
             img = overlay_brand_text(bg, headline, subline)
         except Exception as exc:
@@ -275,14 +316,20 @@ def cover_paths(slug: str) -> tuple[Path, Path]:
 
 
 def ensure_covers(slug: str, headline: str, subline: str = "", *, force: bool = False) -> tuple[Path, Path]:
-    landscape, square = cover_paths(slug)
+    landscape, vk_cover = cover_paths(slug)
     if force or not landscape.exists():
         generate_cover(headline, subline, landscape, square=False, slug=slug)
         print(f"✓ {landscape}")
-    if force or not square.exists():
-        generate_cover(headline, subline, square, square=True, slug=slug)
-        print(f"✓ {square}")
-    return landscape, square
+    if force or not vk_cover.exists():
+        if landscape.exists():
+            generate_cover(headline, subline, vk_cover, from_landscape=landscape)
+        else:
+            generate_cover(headline, subline, vk_cover, vk=True, slug=slug)
+        print(f"✓ {vk_cover}")
+    elif force and landscape.exists():
+        generate_cover(headline, subline, vk_cover, from_landscape=landscape)
+        print(f"✓ {vk_cover} (из landscape)")
+    return landscape, vk_cover
 
 
 def resolve_cover_for_item(item: dict, *, vk: bool = False) -> Path | None:
@@ -396,11 +443,15 @@ def main() -> None:
             print(out)
     if args.variant in ("vk", "both"):
         out = COVERS / f"{args.slug}-vk.jpg"
+        landscape = COVERS / f"{args.slug}.jpg"
         if args.force or not out.exists():
-            generate_cover(
-                args.title, args.subtitle, out,
-                square=True, use_gpt=use_gpt, slug=args.slug, import_path=import_path,
-            )
+            if landscape.exists():
+                generate_cover(args.title, args.subtitle, out, from_landscape=landscape)
+            else:
+                generate_cover(
+                    args.title, args.subtitle, out,
+                    vk=True, use_gpt=use_gpt, slug=args.slug, import_path=import_path,
+                )
             print(out)
 
 

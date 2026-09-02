@@ -1441,7 +1441,7 @@ def cmd_vk_attach_cover(args: argparse.Namespace) -> int:
     item = find_queue_item(items, args.id)
     if not item or not item.get("cover"):
         raise SystemExit("Нет cover в очереди для этого id")
-    cover = ROOT / item["cover"]
+    cover = resolve_cover_path(item, vk=True) or ROOT / item["cover"]
     gid = resolve_vk_group_id(community, group)
     attachment = upload_vk_wall_photo(user, gid, cover)
 
