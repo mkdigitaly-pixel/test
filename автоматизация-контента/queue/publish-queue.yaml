@@ -23,11 +23,8 @@ items:
   - 0,1% → 3%
   dzen_url: https://dzen.ru/a/apfN02AJxASZFuo3
   dzen_republished_at: '2026-09-02T11:40:00+03:00'
-  notes: '02.09: zen_sync не умеет 1 пост с фото+длинным текстом. penoplast → RSS.
-    Удалить дубли в Дзене. Подключить feed.xml в Студии (см. dzen-markup.md).'
+  notes: RSS + schedule; dzen_url и тизеры — автоматически
   dzen_html_path: articles/dzen/html/2026-08-30-penoplast-case.html
-  dzen_rss_pending: true
-  dzen_feed_url: https://raw.githubusercontent.com/mkdigitaly-pixel/test/cursor/content-formatting-plan-0a4f/автоматизация-контента/articles/dzen/feed.xml
 - id: no-leads-direct
   status: approved
   topic: Почему нет заявок в Директе — что проверяю в кабинете

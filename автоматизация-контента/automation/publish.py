@@ -22,6 +22,7 @@ import json
 import os
 import re
 import sys
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -940,7 +941,7 @@ def ensure_standalone_cover(post_id: str, path: Path) -> Path | None:
 def publish_dzen_article(
     item: dict[str, Any], *, dry_run: bool, token: str, channel: str
 ) -> None:
-    from dzen_rss import FEED_FILE, FEED_LINK, cover_public_url, deploy_feed_copy, upsert_article_item
+    from dzen_rss import FEED_FILE, FEED_LINK, cover_public_url, deploy_rss_public, rss_draft_mode, upsert_article_item
 
     rel = article_path(item)
     if not rel:
@@ -996,14 +997,16 @@ def publish_dzen_article(
             "(фото+текст = 2 поста в Дзене)"
         )
 
-    draft = os.getenv("DZEN_RSS_DRAFT", "true").lower() in ("1", "true", "yes")
-    deployed = deploy_feed_copy() if not dry_run else None
+    draft = rss_draft_mode()
+    deployed: list[str] = []
+    if not dry_run:
+        deployed = deploy_rss_public(campaign_id=item["id"], cover_rel=cover_rel or None, dry_run=dry_run)
 
     print("Дзен: RSS + HTML (автоматически, с разметкой)")
     print(f"  HTML: {html_path}")
     print(f"  RSS:  {FEED_FILE}")
-    if deployed:
-        print(f"  Deploy: {deployed}")
+    for line in deployed:
+        print(f"  Deploy: {line}")
     print(f"  Публичная лента: {FEED_LINK}")
     print(f"  Обложка: {cover_public_url(cover_rel) or cover or '—'}")
     print(f"  Режим: {'черновик (native-draft)' if draft else 'автопубликация'}")
@@ -1020,23 +1023,18 @@ def publish_dzen_article(
             feed_url=FEED_LINK,
             dry_run=dry_run,
         )
-        print(f"  TG ({notify_ch}): HTML-файл + уведомление")
+        print(f"  TG ({notify_ch}): уведомление о публикации")
     elif notify and not notify_ch:
         print(
-            "  ℹ DZEN_TG_NOTIFY=true, но DZEN_TG_NOTIFY_CHANNEL пуст — "
-            "не шлём в zen_sync-канал (создаст пост без разметки)",
+            "  ℹ DZEN_TG_NOTIFY=true, но DZEN_TG_NOTIFY_CHANNEL пуст — уведомление пропущено",
             file=sys.stderr,
         )
 
     if not dry_run:
-        item["dzen_rss_pending"] = True
+        item["dzen_rss_pending"] = not draft
         item["dzen_html_path"] = str(html_path.relative_to(ROOT))
         item["dzen_feed_url"] = FEED_LINK
-        print(
-            "\n  Дзен забирает RSS сам (подключить ленту в Студии один раз).\n"
-            "  @zen_sync_bot не переносит жирный/H2 — полный текст в TG не шлём.\n"
-            "  Удалите кривые посты от старого синхробота (фото отдельно)."
-        )
+        print("  → Дзен заберёт RSS автоматически; dzen_url подтянется через schedule sync-urls")
 
 
 def publish_dzen_teasers(
@@ -1044,7 +1042,9 @@ def publish_dzen_teasers(
 ) -> None:
     url = item.get("dzen_url", "")
     if not url and not dry_run:
-        print("⚠ dzen_url пустой — вставьте ссылку на статью в очередь", file=sys.stderr)
+        url = sync_dzen_url(item["id"])
+    if not url and not dry_run:
+        print("⚠ dzen_url ещё нет — schedule повторит тизеры автоматически", file=sys.stderr)
 
     cover_tg = resolve_cover_path(item)
     cover_vk = resolve_cover_path(item, vk=True) or cover_tg
@@ -1250,9 +1250,33 @@ def sync_dzen_url(campaign_id: str) -> str:
     url = fetch_dzen_url_by_title(article.title)
     if url:
         item["dzen_url"] = url
+        item["dzen_rss_pending"] = False
         save_queue(items)
         print(f"✓ dzen_url для {campaign_id}: {url}")
     return url
+
+
+def wait_for_dzen_url(
+    campaign_id: str,
+    *,
+    max_minutes: int | None = None,
+    interval_sec: int | None = None,
+) -> str:
+    """Ожидание появления статьи в Дзене (RSS → API export)."""
+    max_minutes = max_minutes if max_minutes is not None else int(os.getenv("DZEN_URL_POLL_MAX_MINUTES", "15"))
+    interval_sec = interval_sec if interval_sec is not None else int(os.getenv("DZEN_URL_POLL_INTERVAL_SEC", "60"))
+    deadline = time.time() + max(1, max_minutes) * 60
+    while time.time() < deadline:
+        url = sync_dzen_url(campaign_id)
+        if url:
+            return url
+        remaining = int(deadline - time.time())
+        if remaining <= 0:
+            break
+        sleep_for = min(interval_sec, remaining)
+        print(f"  ↻ dzen_url: ждём {sleep_for}с (осталось ~{remaining // 60} мин)")
+        time.sleep(sleep_for)
+    return ""
 
 
 def execute_schedule_slot(slot: dict[str, Any], *, dry_run: bool) -> tuple[bool, str]:
@@ -1288,9 +1312,10 @@ def execute_schedule_slot(slot: dict[str, Any], *, dry_run: bool) -> tuple[bool,
         if not item:
             return False, f"нет кампании {cid}"
         if not item.get("dzen_url") and not dry_run:
-            mode = os.getenv("DZEN_PUBLISH_MODE", "rss").lower()
-            hint = "RSS 10–60 мин" if mode == "rss" else "синхробот 2–10 мин"
-            return False, f"dzen_url ещё нет — повторим позже ({hint})"
+            burst = int(os.getenv("DZEN_URL_POLL_BURST_MINUTES", "15"))
+            url = wait_for_dzen_url(cid, max_minutes=burst)
+            if not url:
+                return False, f"dzen_url ещё нет — pending (автоповтор schedule)"
         ensure_campaign_covers(cid, dry_run=dry_run)
         cmd_publish("teasers", cid, dry_run=dry_run, force=True)
         return True, f"teasers {cid}"

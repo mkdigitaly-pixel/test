@@ -8,45 +8,42 @@ GitHub и промпт: `dzen-github-sources.md`, `dzen-prompt.md`.
 
 ---
 
-## Главное: как публиковать автоматически С разметкой
+## Главное: автоматическая публикация С разметкой
 
-**`@zen_sync_bot` не переносит жирный, H2 и кликабельные ссылки** — это [официальное ограничение Дзена](https://dzen.ru/help/ru/channel/cross-platform.html), не баг скрипта. Неважно, публичный канал или черновик.
+**`@zen_sync_bot` не переносит жирный, H2 и ссылки** — только RSS + HTML.
 
-| Способ | Разметка в Дзене | Автомат |
-|--------|------------------|---------|
-| **RSS + HTML** (`DZEN_PUBLISH_MODE=rss`) | ✅ `<b>`, `<h2>`, `<a>`, обложка | ✅ по расписанию |
-| TG → `@zen_sync_bot` (`sync`, ≤1024 зн.) | ❌ plain text | ✅ |
-
-**Рекомендуемый поток:**
+| Способ | Разметка | Автомат |
+|--------|----------|---------|
+| **RSS + HTML** (`auto` / `rss`) | ✅ | ✅ по расписанию |
+| TG → zen_sync (`sync`, ≤1024 зн.) | ❌ | ✅ |
 
 ```bash
-cd automation && DRY_RUN=false python3 publish.py publish dzen penoplast-case
+cd automation && python3 publish.py publish dzen penoplast-case
 ```
 
-1. Скрипт пишет `articles/dzen/feed.xml` с HTML (`content:encoded`)
-2. Дзен забирает ленту сам (подключить в Студии **один раз**)
-3. Статья появляется с жирным, H2, ссылками и обложкой
+Агент автоматически:
+1. Генерирует `articles/dzen/feed.xml` с HTML
+2. Пушит feed + обложки в git → публичный URL
+3. Дзен забирает RSS
+4. Подтягивает `dzen_url` → публикует тизеры TG/VK
 
-**Не слать полный текст в zen_sync-канал** — получите пост без разметки (и отдельное фото при длинном тексте).
+### Одноразовая настройка (инфраструктура)
 
-### Одноразовая настройка RSS в Студии Дзена
-
-1. Залить `feed.xml` на публичный URL, напр. `https://mkekspert.ru/dzen-feed.xml`  
-   (или `DZEN_RSS_DEPLOY_PATH` на сервере + `DZEN_RSS_FEED_URL` в `.env`)
-2. Задать `DZEN_COVER_BASE_URL` — публичные URL обложек (≥700 px)
-3. Студия Дзена → Настройки → RSS → указать URL ленты
-4. `DZEN_RSS_DRAFT=true` — черновики в Студии; `false` — автопубликация
+1. RSS в Студии Дзена → URL из `DZEN_RSS_FEED_URL` (после первого `publish dzen` агент выведет ссылку)
+2. `DZEN_RSS_DEPLOY_GIT=true` — деплой без Tilda/mkekspert.ru
+3. `DZEN_RSS_DRAFT=false` — без ручного клика «опубликовать» в Студии
 
 ### Переменные `.env`
 
 | Переменная | По умолчанию | Назначение |
 |------------|--------------|------------|
-| `DZEN_PUBLISH_MODE` | `rss` | `rss` или `sync` (только ≤1024, без разметки) |
-| `DZEN_RSS_DRAFT` | `true` | `native-draft` в RSS → черновик в Студии |
-| `DZEN_RSS_FEED_URL` | `https://mkekspert.ru/dzen-feed.xml` | URL для Дзена |
-| `DZEN_COVER_BASE_URL` | — | Публичный путь к `assets/covers/` |
-| `DZEN_RSS_DEPLOY_PATH` | — | Куда копировать `feed.xml` на сервере |
-| `DZEN_TG_NOTIFY` | `false` | Уведомление в TG (только канал **без** zen_sync) |
+| `DZEN_PUBLISH_MODE` | `auto` | `auto` / `rss` / `sync` |
+| `DZEN_RSS_DRAFT` | `false` | `false` = автопубликация |
+| `DZEN_RSS_DEPLOY_GIT` | `true` | git push после publish |
+| `DZEN_RSS_FEED_URL` | raw GitHub ветки | URL для Дзена |
+| `DZEN_URL_POLL_BURST_MINUTES` | `15` | ожидание URL перед тизерами |
+
+Подробнее: `docs/automation-agent.md`
 
 ---
 
@@ -81,18 +78,18 @@ cd automation && DRY_RUN=false python3 publish.py publish dzen penoplast-case
 python3 publish.py format-dzen-html articles/dzen/articles/SLUG.md
 ```
 
-→ `articles/dzen/html/SLUG.html` (для ручной вставки, если RSS ещё не подключён)
+→ `articles/dzen/html/SLUG.html` (резерв для отладки)
 
 ---
 
-## Чеклист перед публикацией
+## Чеклист (агент)
 
 - [ ] `title` ≤ 140 символов
-- [ ] ≥ 3 блока H2
-- [ ] Ссылки — `[анкор](url)`
-- [ ] Обложка готова, `DZEN_COVER_BASE_URL` настроен
-- [ ] RSS подключён в Студии (или готов HTML для вставки)
-- [ ] После появления в Дзене — `dzen_url` в очереди → тизеры
+- [ ] ≥ 3 блока H2, ссылки `[анкор](url)`
+- [ ] Обложка в `assets/covers/`
+- [ ] `status: approved` в очереди
+
+`dzen_url` и тизеры — автоматически через `schedule`.
 
 ---
 
