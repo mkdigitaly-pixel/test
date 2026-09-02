@@ -2,7 +2,7 @@
 """
 Публикация mkekspert: 4 потока контента.
 
-  dzen/articles  → TELEGRAM_DZEN_CHANNEL → @zen_sync_bot → Дзен
+  dzen/articles  → RSS/HTML (по умолчанию) или TELEGRAM_DZEN_CHANNEL → @zen_sync_bot (только ≤1024)
   dzen/teasers/tg → TELEGRAM_MAIN_CHANNEL (@mariyaprodirect)
   dzen/teasers/vk → VK
   articles/tg, articles/vk → отдельные команды
@@ -325,8 +325,12 @@ def article_to_dzen_html(path: Path) -> str:
     return body_html
 
 
-def write_dzen_html_export(article_path: Path) -> Path:
+def write_dzen_html_export(article_path: Path, *, cover_rel: str | None = None) -> Path:
     html_body = article_to_dzen_html(article_path)
+    if cover_rel:
+        from dzen_rss import cover_public_url, prepend_cover_html
+
+        html_body = prepend_cover_html(html_body, cover_public_url(cover_rel))
     out_dir = ROOT / "articles" / "dzen" / "html"
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / f"{article_path.stem}.html"
@@ -847,24 +851,63 @@ def ensure_standalone_cover(post_id: str, path: Path) -> Path | None:
 def publish_dzen_article(
     item: dict[str, Any], *, dry_run: bool, token: str, channel: str
 ) -> None:
-    path = article_path(item)
-    if not path:
+    from dzen_rss import FEED_FILE, cover_public_url, upsert_article_item
+
+    rel = article_path(item)
+    if not rel:
         raise SystemExit("В очереди нет dzen_article")
-    article = load_article(resolve_path(path))
+    path = resolve_path(rel)
+    raw = path.read_text(encoding="utf-8")
+    meta, _ = parse_frontmatter(raw)
+    title = str(meta.get("h1") or meta.get("title") or "").strip()
+    description = str(meta.get("description") or title).strip()
+    article = load_article(path)
     text = format_for_dzen(article)
+    cover_rel = str(item.get("cover") or "")
     cover = resolve_cover_path(item)
-    r = publish_dzen_telegram(
-        text,
-        channel,
-        token,
-        cover=cover,
-        inline_images=article.inline_images,
-        dry_run=dry_run,
-    )
-    print(f"DZEN-канал ({channel}): {r.message}")
+
+    html_path = write_dzen_html_export(path, cover_rel=cover_rel or None)
+    body_html = html_path.read_text(encoding="utf-8")
+    mode = os.getenv("DZEN_PUBLISH_MODE", "rss").lower()
+
     if not dry_run:
-        print("  → Синхробот подхватит в Дзен за 2–10 мин")
-        print("  → H2, жирный и обложку — 2–3 мин в Студии Дзена после синхробота")
+        upsert_article_item(
+            campaign_id=item["id"],
+            article_path=path,
+            title=title,
+            description=description,
+            body_html=body_html,
+            cover_rel=cover_rel or None,
+        )
+
+    use_sync = mode == "sync" and len(text) <= TG_CAPTION_LIMIT
+    if use_sync:
+        r = publish_telegram(
+            text,
+            channel,
+            token,
+            cover=cover,
+            dry_run=dry_run,
+            long_post_with_cover=False,
+        )
+        print(f"DZEN-канал ({channel}): {r.message} [sync ≤1024]")
+        if not dry_run:
+            print("  → Синхробот подхватит в Дзен за 2–10 мин (без жирного/H2)")
+        return
+
+    # RSS + HTML: не шлём фото/текст в DZEN-канал (zen_sync ломает вёрстку)
+    print("Дзен: RSS + HTML (форматирование сохраняется)")
+    print(f"  HTML: {html_path}")
+    print(f"  RSS:  {FEED_FILE}")
+    print(f"  Обложка: {cover_public_url(cover_rel) or cover or '—'}")
+    if not dry_run:
+        item["dzen_studio_pending"] = True
+        item["dzen_html_path"] = str(html_path.relative_to(ROOT))
+        print(
+            "\n  Студия Дзена → черновики из RSS (если лента подключена)\n"
+            "  или: открыть HTML → Ctrl+A → вставить в редактор статьи\n"
+            "  Удалить кривые посты от старого синхробота (фото отдельно)"
+        )
 
 
 def publish_dzen_teasers(
@@ -984,14 +1027,23 @@ def cmd_publish(target: str, item_id: str, *, dry_run: bool, force: bool) -> int
 
     if target in ("dzen", "all"):
         require_approved(item, force)
-        if dzen_ch == main_ch and dzen_ch:
-            raise SystemExit(
-                "TELEGRAM_DZEN_CHANNEL_ID и TELEGRAM_MAIN_CHANNEL_ID совпадают — "
-                "разделите каналы. См. docs/content-channels.md"
-            )
-        if not token or not dzen_ch:
-            raise SystemExit("Заполните TELEGRAM_BOT_TOKEN и TELEGRAM_DZEN_CHANNEL_ID")
+        mode = os.getenv("DZEN_PUBLISH_MODE", "rss").lower()
+        article = load_article(resolve_path(article_path(item) or "")) if article_path(item) else None
+        sync_len = (
+            article
+            and len(format_for_dzen(article)) <= TG_CAPTION_LIMIT
+        )
+        if mode == "sync" and sync_len:
+            if dzen_ch == main_ch and dzen_ch:
+                raise SystemExit(
+                    "TELEGRAM_DZEN_CHANNEL_ID и TELEGRAM_MAIN_CHANNEL_ID совпадают — "
+                    "разделите каналы. См. docs/content-channels.md"
+                )
+            if not token or not dzen_ch:
+                raise SystemExit("Заполните TELEGRAM_BOT_TOKEN и TELEGRAM_DZEN_CHANNEL_ID")
         publish_dzen_article(item, dry_run=dry_run, token=token, channel=dzen_ch)
+        if not dry_run:
+            save_queue(items)
 
     if target in ("teasers", "teasers-vk", "all"):
         if target in ("teasers", "teasers-vk"):
