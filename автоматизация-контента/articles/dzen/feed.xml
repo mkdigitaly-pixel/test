@@ -4,19 +4,19 @@
   xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
     <title>mkekspert — Дзен</title>
-    <link>https://mkekspert.ru</link>
+    <link>https://blog.mkekspert.ru</link>
     <language>ru</language>
     <item>
       <title>Реклама в Директе крутится, а заявок нет: что я смотрю в кабинете в первую очередь</title>
-      <link>https://mkekspert.ru/portfolio</link>
+      <link>https://blog.mkekspert.ru/articles/7-errors-direct.html</link>
       <guid isPermaLink="false">mkekspert-dzen-7-errors-direct</guid>
-      <pubDate>Wed, 02 Sep 2026 10:58:50 +0000</pubDate>
+      <pubDate>Wed, 02 Sep 2026 11:29:12 +0000</pubDate>
       <description>Разбор типичных косяков в Яндекс Директе — не теория, а то, что вижу на аудитах у владельцев и маркетологов. Семантика, Метрика, автотаргет, сайт.</description>
       <category>format-article</category>
       <category>index</category>
       <category>comment-none</category>
-      <enclosure url="https://mkekspert.ru/dzen-covers/7-errors-direct.jpg" type="image/jpeg"/>
-      <content:encoded><![CDATA[<figure><img src="https://mkekspert.ru/dzen-covers/7-errors-direct.jpg"/></figure>
+      <enclosure url="https://blog.mkekspert.ru/covers/7-errors-direct.jpg" type="image/jpeg"/>
+      <content:encoded><![CDATA[<figure><img src="https://blog.mkekspert.ru/covers/7-errors-direct.jpg"/></figure>
 <h1>Реклама в Директе крутится, а заявок нет: что я смотрю в кабинете в первую очередь</h1>
 <h2>Реклама в Директе крутится, а заявок нет: что я смотрю в кабинете в первую очередь</h2>
 <p>Часто пишут: «Мария, Директ запущен, деньги уходят, заявок нет». Открываю кабинет — и почти всегда дело не в том, что «Яндекс плохой». Где-то рвётся связка: настройки → сайт → как вы считаете результат.</p>
@@ -52,15 +52,15 @@
     </item>
     <item>
       <title>CPL с 8000 до 2500 ₽: кейс производства из пенопласта в Яндекс Директе</title>
-      <link>https://mkekspert.ru/press-forms</link>
+      <link>https://blog.mkekspert.ru/articles/penoplast-case.html</link>
       <guid isPermaLink="false">mkekspert-dzen-penoplast-case</guid>
-      <pubDate>Wed, 02 Sep 2026 10:58:50 +0000</pubDate>
+      <pubDate>Wed, 02 Sep 2026 11:29:12 +0000</pubDate>
       <description>Как снизить стоимость заявки в 3 раза и вырасти с 15 до 59 заявок в месяц: семантика, кампании, Метрика и сайт. Разбор для B2B.</description>
       <category>format-article</category>
       <category>index</category>
       <category>comment-none</category>
-      <enclosure url="https://mkekspert.ru/dzen-covers/penoplast-case.jpg" type="image/jpeg"/>
-      <content:encoded><![CDATA[<figure><img src="https://mkekspert.ru/dzen-covers/penoplast-case.jpg"/></figure>
+      <enclosure url="https://blog.mkekspert.ru/covers/penoplast-case.jpg" type="image/jpeg"/>
+      <content:encoded><![CDATA[<figure><img src="https://blog.mkekspert.ru/covers/penoplast-case.jpg"/></figure>
 <h1>CPL с 8000 до 2500 ₽: кейс производства из пенопласта в Яндекс Директе</h1>
 <p>Производитель из пенополистирола — объёмные буквы, фасадный декор, стенды, оформление — тратил на Директ 150 000 ₽ в месяц и получал 10–15 заявок по 8000 ₽. Конверсия сайта 0,1%. После пересборки кампаний и нормальной аналитики: до 59 заявок в месяц, CPL 2500–3000 ₽, конверсия 3%.</p>
 <p>Ниже — что меняла и в каком порядке. Полезно, если у вас B2B-производство, сезонный спрос и «широкая» семантика, где покупка смешана с «своими руками» и вакансиями.</p>
@@ -107,15 +107,15 @@
     </item>
     <item>
       <title>Почему нет заявок в Яндекс Директе: что я проверяю в кабинете за 30 минут</title>
-      <link>https://mkekspert.ru/razbor-direct</link>
+      <link>https://blog.mkekspert.ru/articles/no-leads-direct.html</link>
       <guid isPermaLink="false">mkekspert-dzen-no-leads-direct</guid>
-      <pubDate>Wed, 02 Sep 2026 10:58:50 +0000</pubDate>
+      <pubDate>Wed, 02 Sep 2026 11:29:12 +0000</pubDate>
       <description>Директ тратит бюджет, а в CRM пусто — пошаговый разбор для B2B: цели Метрики, офлайн-конверсии, семантика, посадочная и обучение стратегии.</description>
       <category>format-article</category>
       <category>index</category>
       <category>comment-none</category>
-      <enclosure url="https://mkekspert.ru/dzen-covers/no-leads-direct.jpg" type="image/jpeg"/>
-      <content:encoded><![CDATA[<figure><img src="https://mkekspert.ru/dzen-covers/no-leads-direct.jpg"/></figure>
+      <enclosure url="https://blog.mkekspert.ru/covers/no-leads-direct.jpg" type="image/jpeg"/>
+      <content:encoded><![CDATA[<figure><img src="https://blog.mkekspert.ru/covers/no-leads-direct.jpg"/></figure>
 <h1>Почему нет заявок в Яндекс Директе: что я проверяю в кабинете за 30 минут</h1>
 <p>Бюджет уходит, клики есть, а в CRM — ноль или пара «подумаю». На разборах это самый частый запрос. Не «как настроить Директ с нуля», а «почему не работает то, что уже крутится».</p>
 <p>Ниже — порядок, в котором я смотрю кабинет у B2B: производство, стройка, оборудование, услуги с длинным циклом. Не теория, а чек-лист из практики.</p>
@@ -164,15 +164,15 @@
     </item>
     <item>
       <title>Автотаргет в Яндекс Директе для B2B: когда помогает, а когда съедает бюджет</title>
-      <link>https://mkekspert.ru/portfolio</link>
+      <link>https://blog.mkekspert.ru/articles/autotarget-b2b.html</link>
       <guid isPermaLink="false">mkekspert-dzen-autotarget-b2b</guid>
-      <pubDate>Wed, 02 Sep 2026 10:58:50 +0000</pubDate>
+      <pubDate>Wed, 02 Sep 2026 11:29:12 +0000</pubDate>
       <description>Разбор автотаргетинга в контексте для производства и услуг: когда оставляю, когда режу, как смотреть отчёты и связку с автостратегией.</description>
       <category>format-article</category>
       <category>index</category>
       <category>comment-none</category>
-      <enclosure url="https://mkekspert.ru/dzen-covers/autotarget-b2b.jpg" type="image/jpeg"/>
-      <content:encoded><![CDATA[<figure><img src="https://mkekspert.ru/dzen-covers/autotarget-b2b.jpg"/></figure>
+      <enclosure url="https://blog.mkekspert.ru/covers/autotarget-b2b.jpg" type="image/jpeg"/>
+      <content:encoded><![CDATA[<figure><img src="https://blog.mkekspert.ru/covers/autotarget-b2b.jpg"/></figure>
 <h1>Автотаргет в Яндекс Директе для B2B: когда помогает, а когда съедает бюджет</h1>
 <p>Автотаргет в Директе любят спорить. Одни говорят: «выключите всё, только ручная семантика». Другие оставляют по умолчанию и удивляются вакансиям в отчёте.</p>
 <p>Я работаю с B2B — производство, стройка, оборудование. Автотаргет не зло и не панацея. Это расширение аудитории без ваших ключей. В узкой нише с дорогим кликом он часто тянет мусор, если его не ограничивать.</p>
@@ -217,9 +217,9 @@
     </item>
     <item>
       <title>CPL с 8000 до 2500 ₽: кейс производства из пенопласта в Яндекс Директе</title>
-      <link>https://mkekspert.ru/stomatologiya</link>
+      <link>https://blog.mkekspert.ru/stomatologiya</link>
       <guid isPermaLink="false">mkekspert-dzen-archive-native:6a97cdd36009c4049916ea37</guid>
-      <pubDate>Wed, 02 Sep 2026 10:58:51 +0000</pubDate>
+      <pubDate>Wed, 02 Sep 2026 11:29:13 +0000</pubDate>
       <description>Производитель из пенополистирола — объёмные буквы, фасадный декор, стенды, оформление — тратил на Директ 150 000 ₽ в месяц и получал 10–15 заявок по 8000 ₽. Конверсия сайта 0,1%. После пересборки кампаний и нормальной аналитики: до 59 заявок в месяц, CPL 2500–3000 ₽, конверсия 3%. Ниже — что меняла </description>
       <category>format-article</category>
       <category>index</category>
@@ -229,9 +229,9 @@
     </item>
     <item>
       <title>Реклама в Директе крутится, а заявок нет: что я смотрю в кабинете в первую очередь</title>
-      <link>https://mkekspert.ru/lifts</link>
+      <link>https://blog.mkekspert.ru/lifts</link>
       <guid isPermaLink="false">mkekspert-dzen-archive-native:6a93fa08197faa0d33d79cb7</guid>
-      <pubDate>Wed, 02 Sep 2026 10:58:51 +0000</pubDate>
+      <pubDate>Wed, 02 Sep 2026 11:29:13 +0000</pubDate>
       <description>Реклама в Директе крутится, а заявок нет: что я смотрю в кабинете в первую очередь.
 Часто пишут: «Мария, Директ запущен, деньги уходят, заявок нет». Открываю кабинет — и почти всегда дело не в том, что «Яндекс плохой»...</description>
       <category>format-article</category>
@@ -243,9 +243,9 @@
     </item>
     <item>
       <title>Продвижение фасадного остекления B2B в Москве: кейс контекстной рекламы с лидами по 13 800 ₽</title>
-      <link>https://mkekspert.ru/razbor-direct</link>
+      <link>https://blog.mkekspert.ru/razbor-direct</link>
       <guid isPermaLink="false">mkekspert-dzen-archive-native:6a7d6483a0a80d0929041aad</guid>
-      <pubDate>Wed, 02 Sep 2026 10:58:51 +0000</pubDate>
+      <pubDate>Wed, 02 Sep 2026 11:29:13 +0000</pubDate>
       <description>Как настроить контекстную рекламу для фасадного остекления и получать целевые заявки от девелоперов и генподрядчиков — разбираем на реальном примере-Длительный цикл принятия решения Если вы продвигаете фасадное остекление, алюминиевые витражи или монтаж фасадов в Москве и Московской области, то наве</description>
       <category>format-article</category>
       <category>index</category>
@@ -255,9 +255,9 @@
     </item>
     <item>
       <title>Автотаргетинг в Яндекс.Директе для B2B: когда отключать, а когда оставлять</title>
-      <link>https://mkekspert.ru/portfolio</link>
+      <link>https://blog.mkekspert.ru/portfolio</link>
       <guid isPermaLink="false">mkekspert-dzen-archive-native:6a26534063499652df2a28b1</guid>
-      <pubDate>Wed, 02 Sep 2026 10:58:51 +0000</pubDate>
+      <pubDate>Wed, 02 Sep 2026 11:29:13 +0000</pubDate>
       <description>Автотаргетинг в Поиске часто включают «на всякий случай» — и потом удивляются, почему в отчёте появляются запросы про вакансии, обучение и чужие ниши. В B2B это особенно больно: клик дорогой, заявка редкая. Разбираю на примере реального кабинета агентства, что делает автотаргет с бюджетом и что я де</description>
       <category>format-article</category>
       <category>index</category>
@@ -267,9 +267,9 @@
     </item>
     <item>
       <title>ЧП и УПП: как выйти на 40–50 заявок по 1500-1800 ₽ в B2B-нише</title>
-      <link>https://mkekspert.ru/rotang</link>
+      <link>https://blog.mkekspert.ru/rotang</link>
       <guid isPermaLink="false">mkekspert-dzen-archive-native:6a22c1c7f33ea031decaeab6</guid>
-      <pubDate>Wed, 02 Sep 2026 10:58:51 +0000</pubDate>
+      <pubDate>Wed, 02 Sep 2026 11:29:13 +0000</pubDate>
       <description>Производитель частотных преобразователей и устройств плавного пуска; B2B, вся Россия; запросы на покупку постоянно смешиваются с информационными; фид с сайта выгрузить нельзя. Рассказываю, как мы вышли на стабильные обращения и какие цифры сейчас держим.  С производителем работаем давно — сначала по</description>
       <category>format-article</category>
       <category>index</category>
@@ -279,9 +279,9 @@
     </item>
     <item>
       <title>Снижение CPL в 3 раза: с 8 000 ₽. до 2500 ₽. в изготовлении изделий из пенопласта и получение заявок с чеком от 400 000₽</title>
-      <link>https://mkekspert.ru/press-forms</link>
+      <link>https://blog.mkekspert.ru/press-forms</link>
       <guid isPermaLink="false">mkekspert-dzen-archive-native:6a17e6a9171f2a59fcb40781</guid>
-      <pubDate>Wed, 02 Sep 2026 10:58:51 +0000</pubDate>
+      <pubDate>Wed, 02 Sep 2026 11:29:13 +0000</pubDate>
       <description>Дано: компания-производитель изделий из пенополистирола: объемные буквы, цифры, фигуры, фасадный декор, выставочные стенды, новогодние и праздничные оформления, рекламные конструкции. Основные клиенты: ивент‑агентства, рекламные агентства, застройщики, торговые центры, частные заказчики для праздник</description>
       <category>format-article</category>
       <category>index</category>
