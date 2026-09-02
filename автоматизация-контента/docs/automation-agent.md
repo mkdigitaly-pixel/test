@@ -21,11 +21,17 @@
 ## Настройка `.env`
 
 ```
-AUTO_PUBLISH=true    # расписание публикует по-настоящему
-DRY_RUN=true         # ручные команды publish — по-прежнему dry-run, если не DRY_RUN=false
+AUTO_PUBLISH=true
+DRY_RUN=true
+DZEN_PUBLISH_MODE=rss          # автомат с разметкой (не zen_sync)
+DZEN_RSS_FEED_URL=https://mkekspert.ru/dzen-feed.xml
+DZEN_COVER_BASE_URL=...        # публичные URL обложек
 ```
 
-`OPENAI_API_KEY` — **не обязателен**. Обложки готовит агент; скрипт использует готовые JPG или бренд-шаблон.
+**Дзен:** RSS-лента (`feed.xml`) — единственный автоматический путь с жирным/H2/ссылками.  
+`@zen_sync_bot` разметку не переносит (официально). Подключить RSS в Студии один раз → `references/dzen-markup.md`.
+
+`OPENAI_API_KEY` — не обязателен.
 
 ## Команды (для агента / отладки)
 

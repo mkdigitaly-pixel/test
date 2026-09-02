@@ -66,8 +66,8 @@ Express middleware под [официальный RSS](https://yandex.ru/support
 
 | Путь | Формат | Разметка |
 |------|--------|----------|
-| **Сейчас:** TG → `@zen_sync_bot` | plain text в канале | H2, жирный, **кликабельные ссылки** — в Студии после синхробота (2–3 мин) |
-| **Будущее / сайт:** RSS | HTML в `content:encoded` | `publish.py format-dzen-html` → файл для вставки или RSS |
+| **RSS** (`DZEN_PUBLISH_MODE=rss`) | HTML в `content:encoded` | ✅ жирный, H2, ссылки, обложка — автомат |
+| TG → `@zen_sync_bot` (`sync`, ≤1024) | plain text | ❌ только текст, без разметки |
 
 Команда HTML для Студии:
 

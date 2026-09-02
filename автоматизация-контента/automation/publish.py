@@ -597,6 +597,68 @@ def publish_telegram_media_group(
     return PublishResult("telegram", True, f"Альбом ({len(images)} фото)", message_id)
 
 
+def publish_telegram_document(
+    channel_id: str,
+    token: str,
+    doc_path: Path,
+    *,
+    caption: str = "",
+    dry_run: bool = False,
+) -> PublishResult:
+    if dry_run:
+        return PublishResult(
+            "telegram",
+            True,
+            f"[dry-run] → {channel_id} (документ {doc_path.name})\n{caption[:200]}",
+        )
+    data_payload: dict[str, Any] = {"chat_id": channel_id}
+    if caption:
+        data_payload["caption"] = caption[:TG_CAPTION_LIMIT]
+    with doc_path.open("rb") as f:
+        resp = requests.post(
+            f"https://api.telegram.org/bot{token}/sendDocument",
+            data=data_payload,
+            files={"document": f},
+            timeout=120,
+        )
+    data = resp.json()
+    if not data.get("ok"):
+        raise RuntimeError(data.get("description", data))
+    return PublishResult("telegram", True, f"Документ {doc_path.name}", data["result"]["message_id"])
+
+
+def notify_dzen_rss_channel(
+    channel_id: str,
+    token: str,
+    *,
+    title: str,
+    html_path: Path,
+    cover: Path | None,
+    feed_url: str,
+    dry_run: bool,
+) -> None:
+    """Служебное уведомление в DZEN-канал: HTML-файл + обложка. Не полный текст (zen_sync без разметки)."""
+    caption = (
+        f"📄 {title}\n\n"
+        "Статья в RSS — Дзен подхватит с разметкой (жирный, H2, ссылки, обложка).\n"
+        f"Лента: {feed_url}\n\n"
+        "⚠ Не публикуйте сюда полный текст — @zen_sync_bot съест разметку."
+    )
+    if cover and cover.exists():
+        publish_telegram(
+            caption,
+            channel_id,
+            token,
+            cover=cover,
+            dry_run=dry_run,
+            long_post_with_cover=False,
+        )
+    else:
+        publish_telegram(caption, channel_id, token, dry_run=dry_run)
+    if html_path.exists():
+        publish_telegram_document(channel_id, token, html_path, caption=title, dry_run=dry_run)
+
+
 def publish_dzen_telegram(
     text: str,
     channel_id: str,
@@ -851,7 +913,7 @@ def ensure_standalone_cover(post_id: str, path: Path) -> Path | None:
 def publish_dzen_article(
     item: dict[str, Any], *, dry_run: bool, token: str, channel: str
 ) -> None:
-    from dzen_rss import FEED_FILE, cover_public_url, upsert_article_item
+    from dzen_rss import FEED_FILE, FEED_LINK, cover_public_url, deploy_feed_copy, upsert_article_item
 
     rel = article_path(item)
     if not rel:
@@ -895,18 +957,46 @@ def publish_dzen_article(
             print("  → Синхробот подхватит в Дзен за 2–10 мин (без жирного/H2)")
         return
 
-    # RSS + HTML: не шлём фото/текст в DZEN-канал (zen_sync ломает вёрстку)
-    print("Дзен: RSS + HTML (форматирование сохраняется)")
+    draft = os.getenv("DZEN_RSS_DRAFT", "true").lower() in ("1", "true", "yes")
+    deployed = deploy_feed_copy() if not dry_run else None
+
+    print("Дзен: RSS + HTML (автоматически, с разметкой)")
     print(f"  HTML: {html_path}")
     print(f"  RSS:  {FEED_FILE}")
+    if deployed:
+        print(f"  Deploy: {deployed}")
+    print(f"  Публичная лента: {FEED_LINK}")
     print(f"  Обложка: {cover_public_url(cover_rel) or cover or '—'}")
-    if not dry_run:
-        item["dzen_studio_pending"] = True
-        item["dzen_html_path"] = str(html_path.relative_to(ROOT))
+    print(f"  Режим: {'черновик (native-draft)' if draft else 'автопубликация'}")
+
+    notify_ch = os.getenv("DZEN_TG_NOTIFY_CHANNEL", "").strip()
+    notify = os.getenv("DZEN_TG_NOTIFY", "false").lower() in ("1", "true", "yes")
+    if notify and notify_ch and token:
+        notify_dzen_rss_channel(
+            notify_ch,
+            token,
+            title=title,
+            html_path=html_path,
+            cover=cover,
+            feed_url=FEED_LINK,
+            dry_run=dry_run,
+        )
+        print(f"  TG ({notify_ch}): HTML-файл + уведомление")
+    elif notify and not notify_ch:
         print(
-            "\n  Студия Дзена → черновики из RSS (если лента подключена)\n"
-            "  или: открыть HTML → Ctrl+A → вставить в редактор статьи\n"
-            "  Удалить кривые посты от старого синхробота (фото отдельно)"
+            "  ℹ DZEN_TG_NOTIFY=true, но DZEN_TG_NOTIFY_CHANNEL пуст — "
+            "не шлём в zen_sync-канал (создаст пост без разметки)",
+            file=sys.stderr,
+        )
+
+    if not dry_run:
+        item["dzen_rss_pending"] = True
+        item["dzen_html_path"] = str(html_path.relative_to(ROOT))
+        item["dzen_feed_url"] = FEED_LINK
+        print(
+            "\n  Дзен забирает RSS сам (подключить ленту в Студии один раз).\n"
+            "  @zen_sync_bot не переносит жирный/H2 — полный текст в TG не шлём.\n"
+            "  Удалите кривые посты от старого синхробота (фото отдельно)."
         )
 
 
@@ -1162,7 +1252,9 @@ def execute_schedule_slot(slot: dict[str, Any], *, dry_run: bool) -> tuple[bool,
         if not item:
             return False, f"нет кампании {cid}"
         if not item.get("dzen_url") and not dry_run:
-            return False, "dzen_url ещё нет — повторим позже (синхробот 2–10 мин)"
+            mode = os.getenv("DZEN_PUBLISH_MODE", "rss").lower()
+            hint = "RSS 10–60 мин" if mode == "rss" else "синхробот 2–10 мин"
+            return False, f"dzen_url ещё нет — повторим позже ({hint})"
         ensure_campaign_covers(cid, dry_run=dry_run)
         cmd_publish("teasers", cid, dry_run=dry_run, force=True)
         return True, f"teasers {cid}"

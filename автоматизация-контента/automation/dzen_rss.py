@@ -22,6 +22,22 @@ COVER_BASE = os.getenv(
 )
 
 
+def rss_draft_mode() -> bool:
+    """native-draft в RSS → черновик в Студии; без него — автопубликация."""
+    return os.getenv("DZEN_RSS_DRAFT", "true").lower() in ("1", "true", "yes")
+
+
+def deploy_feed_copy() -> Path | None:
+    """Копия feed.xml на публичный путь (если задан DZEN_RSS_DEPLOY_PATH)."""
+    dest_raw = os.getenv("DZEN_RSS_DEPLOY_PATH", "").strip()
+    if not dest_raw or not FEED_FILE.exists():
+        return None
+    dest = Path(dest_raw)
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(FEED_FILE.read_text(encoding="utf-8"), encoding="utf-8")
+    return dest
+
+
 def _slug_from_path(path: Path) -> str:
     return re.sub(r"^\d{4}-\d{2}-\d{2}-", "", path.stem)
 
@@ -52,8 +68,10 @@ def build_item_xml_str(
     description: str,
     content_html: str,
     cover_url: str,
-    draft: bool = True,
+    draft: bool | None = None,
 ) -> str:
+    if draft is None:
+        draft = rss_draft_mode()
     desc = html.escape(description[:500])
     title_esc = html.escape(title)
     lines = [
