@@ -9,7 +9,7 @@ items:
   published_at: '2026-08-30T09:38:13+00:00'
   notes: Опубликовано в @mariyaprodirect до разделения каналов — дальше только DZEN-канал
 - id: penoplast-case
-  status: approved
+  status: published
   scheduled_dzen: '2026-09-02T10:00:00+03:00'
   scheduled_teasers: '2026-09-02T12:00:00+03:00'
   dzen_article: articles/dzen/articles/2026-08-30-penoplast-case.md
@@ -19,7 +19,9 @@ items:
   cover_headline: CPL 8000→2500 ₽
   cover_subline: Кейс B2B · пенопласт
   dzen_url: ''
-  notes: Согласовано 31.08 — публикация 02.09 10:00 МСК
+  notes: Согласовано 31.08 — публикация 02.09 10:00 МСК. Переопубликовано 02.09 с фиксом вёрстки (одно сообщение). Обложку/H2 — в Студии Дзена.
+  dzen_published_at: '2026-09-02T10:00:47.446797+03:00'
+  dzen_republished_at: '2026-09-02T10:15:00+03:00'
 - id: no-leads-direct
   status: approved
   topic: Почему нет заявок в Директе — что проверяю в кабинете

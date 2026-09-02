@@ -18,10 +18,11 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import re
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
@@ -50,6 +51,7 @@ class Article:
     body: str
     utm_campaign: str
     source_path: Path
+    inline_images: list[Path] = field(default_factory=list)
 
 
 @dataclass
@@ -81,21 +83,131 @@ def parse_frontmatter(text: str) -> tuple[dict[str, Any], str]:
     return meta, parts[2].lstrip("\n")
 
 
-def markdown_to_plain(md: str) -> str:
-    lines: list[str] = []
-    for line in md.splitlines():
-        if line.strip() == "---":
+def _is_table_separator(line: str) -> bool:
+    return bool(re.match(r"^\|[\s\-:|]+\|$", line.strip()))
+
+
+def _parse_table_row(line: str) -> list[str]:
+    return [cell.strip() for cell in line.strip().strip("|").split("|")]
+
+
+def _format_markdown_table(table_lines: list[str]) -> list[str]:
+    if len(table_lines) < 2:
+        return table_lines
+    headers = _parse_table_row(table_lines[0])
+    rows: list[str] = []
+    for line in table_lines[2:]:
+        if not line.strip().startswith("|"):
+            break
+        cells = _parse_table_row(line)
+        if len(cells) != len(headers):
             continue
+        if len(cells) == 3:
+            rows.append(f"— {cells[0]}: было {cells[1]}, стало {cells[2]}")
+        elif len(cells) == 2:
+            rows.append(f"— {cells[0]}: {cells[1]}")
+        else:
+            rows.append("— " + " · ".join(cells))
+    return rows or table_lines
+
+
+def _resolve_image_path(rel: str, base_dir: Path | None) -> Path | None:
+    candidates: list[Path] = []
+    path = Path(rel)
+    if path.is_absolute():
+        candidates.append(path)
+    if base_dir:
+        candidates.append(base_dir / rel)
+    candidates.append(ROOT / rel)
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return None
+
+
+def _strip_inline_markdown(line: str) -> str:
+    line = re.sub(r"\*\*([^*]+)\*\*", r"\1", line)
+    line = re.sub(r"__([^_]+)__", r"\1", line)
+    line = re.sub(r"~~([^~]+)~~", r"\1", line)
+    line = re.sub(r"`([^`]+)`", r"\1", line)
+    return re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r"\1", line)
+
+
+def markdown_to_dzen(md: str, *, base_dir: Path | None = None) -> tuple[str, list[Path]]:
+    """Plain text для @zen_sync_bot: H2/H3, таблицы → списки, без markdown-мусора."""
+    lines_out: list[str] = []
+    inline_images: list[Path] = []
+    lines = md.splitlines()
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        if line.strip() == "---":
+            i += 1
+            continue
+
+        if line.strip().startswith("|") and i + 1 < len(lines) and _is_table_separator(lines[i + 1]):
+            table_lines = [line]
+            i += 1
+            while i < len(lines) and lines[i].strip().startswith("|"):
+                table_lines.append(lines[i])
+                i += 1
+            lines_out.extend(_format_markdown_table(table_lines))
+            lines_out.append("")
+            continue
+
+        img_match = re.match(r"^!\[([^\]]*)\]\(([^)]+)\)\s*$", line.strip())
+        if img_match:
+            image_path = _resolve_image_path(img_match.group(2), base_dir)
+            if image_path:
+                inline_images.append(image_path)
+            i += 1
+            continue
+
         if line.startswith("#"):
-            line = re.sub(r"^#+\s*", "", line)
-        line = re.sub(r"\*\*([^*]+)\*\*", r"\1", line)
-        line = re.sub(r"__([^_]+)__", r"\1", line)
-        line = re.sub(r"~~([^~]+)~~", r"\1", line)
-        line = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", line)
-        lines.append(line)
-    text = "\n".join(lines)
+            header = re.sub(r"^#+\s*", "", line).strip()
+            if lines_out and lines_out[-1] != "":
+                lines_out.append("")
+            lines_out.append(header)
+            lines_out.append("")
+            i += 1
+            continue
+
+        lines_out.append(_strip_inline_markdown(line))
+        i += 1
+
+    text = "\n".join(lines_out)
     text = re.sub(r"\n{3,}", "\n\n", text)
-    return text.strip()
+    return text.strip(), inline_images
+
+
+def markdown_to_plain(md: str) -> str:
+    text, _ = markdown_to_dzen(md)
+    return text
+
+
+def split_text_at_paragraphs(text: str, limit: int) -> list[str]:
+    if len(text) <= limit:
+        return [text]
+    chunks: list[str] = []
+    current = ""
+    for para in re.split(r"\n\n+", text):
+        candidate = f"{current}\n\n{para}".strip() if current else para
+        if len(candidate) <= limit:
+            current = candidate
+            continue
+        if current:
+            chunks.append(current)
+        if len(para) <= limit:
+            current = para
+            continue
+        start = 0
+        while start < len(para):
+            chunks.append(para[start : start + limit])
+            start += limit
+        current = ""
+    if current:
+        chunks.append(current)
+    return chunks
 
 
 def markdown_to_telegram_html(md: str) -> str:
@@ -136,11 +248,17 @@ def load_article(path: Path) -> Article:
     title = str(meta.get("h1") or meta.get("title") or "").strip()
     if not title:
         raise ValueError(f"Нет title/h1 в {path}")
-    body = markdown_to_plain(body_md)
+    body, inline_images = markdown_to_dzen(body_md, base_dir=path.parent)
     if body.startswith(title):
         body = body[len(title) :].lstrip("\n")
     utm = str(meta.get("utm_campaign") or "article")
-    return Article(title=title, body=body, utm_campaign=utm, source_path=path)
+    return Article(
+        title=title,
+        body=body,
+        utm_campaign=utm,
+        source_path=path,
+        inline_images=inline_images,
+    )
 
 
 def format_for_dzen(article: Article) -> str:
@@ -285,6 +403,99 @@ def publish_telegram(
         token,
     )
     return PublishResult("telegram", True, "Текст опубликован", data["result"]["message_id"])
+
+
+def publish_telegram_media_group(
+    images: list[Path],
+    caption: str,
+    channel_id: str,
+    token: str,
+    *,
+    dry_run: bool = False,
+) -> PublishResult:
+    if not images:
+        raise ValueError("Нет изображений для media group")
+    if len(caption) > TG_CAPTION_LIMIT:
+        raise ValueError(f"Подпись {len(caption)} символов — лимит {TG_CAPTION_LIMIT}.")
+
+    if dry_run:
+        preview = caption[:400] + ("…" if len(caption) > 400 else "")
+        names = ", ".join(p.name for p in images[:3])
+        return PublishResult(
+            "telegram",
+            True,
+            f"[dry-run] → {channel_id} (album {len(images)}: {names})\n{preview}",
+        )
+
+    media: list[dict[str, Any]] = []
+    files: dict[str, Any] = {}
+    for idx, image in enumerate(images[:10]):
+        key = f"photo{idx}"
+        media.append({"type": "photo", "media": f"attach://{key}"})
+        files[key] = image.open("rb")
+    media[0]["caption"] = caption
+
+    try:
+        resp = requests.post(
+            f"https://api.telegram.org/bot{token}/sendMediaGroup",
+            data={"chat_id": channel_id, "media": json.dumps(media)},
+            files=files,
+            timeout=120,
+        )
+    finally:
+        for handle in files.values():
+            handle.close()
+
+    data = resp.json()
+    if not data.get("ok"):
+        raise RuntimeError(data.get("description", data))
+    message_id = data["result"][0]["message_id"] if data.get("result") else None
+    return PublishResult("telegram", True, f"Альбом ({len(images)} фото)", message_id)
+
+
+def publish_dzen_telegram(
+    text: str,
+    channel_id: str,
+    token: str,
+    *,
+    cover: Path | None = None,
+    inline_images: list[Path] | None = None,
+    dry_run: bool = False,
+) -> PublishResult:
+    """Публикация в DZEN-канал с учётом лимитов @zen_sync_bot."""
+    images: list[Path] = []
+    if cover and cover.exists():
+        images.append(cover)
+    for image in inline_images or []:
+        if image.exists() and image not in images:
+            images.append(image)
+
+    if len(text) <= TG_CAPTION_LIMIT and images:
+        if len(images) == 1:
+            return publish_telegram(text, channel_id, token, cover=images[0], dry_run=dry_run)
+        return publish_telegram_media_group(images, text, channel_id, token, dry_run=dry_run)
+
+    if len(text) > TG_CAPTION_LIMIT and images:
+        cover_hint = images[0] if images else "assets/covers/"
+        print(
+            "ℹ Длинная статья: текст одним сообщением (без отдельного фото). "
+            f"Обложку и иллюстрации добавьте в Студии Дзена: {cover_hint}",
+            file=sys.stderr,
+        )
+
+    if len(text) <= TG_MESSAGE_LIMIT:
+        return publish_telegram(text, channel_id, token, dry_run=dry_run)
+
+    chunks = split_text_at_paragraphs(text, TG_MESSAGE_LIMIT)
+    print(
+        f"⚠ Текст {len(text)} символов — {len(chunks)} сообщений (лимит TG 4096). "
+        "Сократите статью или разбейте на части.",
+        file=sys.stderr,
+    )
+    result: PublishResult | None = None
+    for chunk in chunks:
+        result = publish_telegram(chunk, channel_id, token, dry_run=dry_run)
+    return result or PublishResult("telegram", False, "Пустой текст")
 
 
 def vk_api(method: str, token: str, **params: Any) -> dict[str, Any]:
@@ -502,10 +713,18 @@ def publish_dzen_article(
     article = load_article(resolve_path(path))
     text = format_for_dzen(article)
     cover = resolve_cover_path(item)
-    r = publish_telegram(text, channel, token, cover=cover, dry_run=dry_run)
+    r = publish_dzen_telegram(
+        text,
+        channel,
+        token,
+        cover=cover,
+        inline_images=article.inline_images,
+        dry_run=dry_run,
+    )
     print(f"DZEN-канал ({channel}): {r.message}")
     if not dry_run:
         print("  → Синхробот подхватит в Дзен за 2–10 мин")
+        print("  → H2, жирный и обложку — 2–3 мин в Студии Дзена после синхробота")
 
 
 def publish_dzen_teasers(
