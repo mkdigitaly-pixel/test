@@ -1434,6 +1434,65 @@ def cmd_schedule_prepare_covers(args: argparse.Namespace) -> int:
     return 0
 
 
+def _load_article_meta(path: Path) -> dict[str, Any]:
+    raw = path.read_text(encoding="utf-8")
+    if raw.startswith("---"):
+        return yaml.safe_load(raw.split("---", 2)[1]) or {}
+    return {}
+
+
+def cmd_dzen_rss_setup(args: argparse.Namespace) -> int:
+    """Пересборка feed, деплой на mkekspert.ru, проверка перед подключением в Студии."""
+    from dzen_rss import (
+        FEED_FILE,
+        FEED_LINK,
+        COVER_BASE,
+        deploy_rss_public,
+        rebuild_full_feed,
+        validate_feed_for_dzen,
+        verify_feed_public,
+    )
+
+    load_env()
+    items = load_queue()
+    path = rebuild_full_feed(
+        items,
+        article_to_html=article_to_dzen_html,
+        load_meta=_load_article_meta,
+    )
+    print(f"✓ Лента: {path}")
+
+    for item in items:
+        rel = item.get("dzen_article")
+        if rel:
+            write_dzen_html_export(ROOT / rel, cover_rel=item.get("cover"))
+
+    issues = validate_feed_for_dzen()
+    if issues:
+        print("\n⚠ Проверка ленты:")
+        for issue in issues:
+            print(f"  - {issue}")
+    else:
+        print("✓ Лента проходит проверки для Дзена")
+
+    deployed = deploy_rss_public(campaign_id="rss-setup", dry_run=args.dry_run)
+    for line in deployed:
+        print(f"  Deploy: {line}")
+
+    print(f"\nURL для Студии Дзена:\n  {FEED_LINK}")
+    print(f"Обложки:\n  {COVER_BASE}/")
+
+    if not args.dry_run and verify_feed_public(FEED_LINK):
+        print("\n✓ Лента доступна — можно отправлять в Студии")
+        print("  Студия → Настройки → Свой сайт → Настроить трансляцию → вставить URL выше")
+    elif not args.dry_run:
+        print("\n✗ Лента на mkekspert.ru пока недоступна")
+        print("  Добавьте в .env: DZEN_SFTP_HOST, DZEN_SFTP_USER, DZEN_SFTP_PASSWORD")
+        print("  или настройте прокси DDOS-Guard → checklists/dzen-rss-infra.md")
+        return 1
+    return 0
+
+
 def cmd_schedule_sync_urls(_args: argparse.Namespace) -> int:
     load_env()
     items = load_queue()
@@ -1549,6 +1608,11 @@ def main() -> int:
     cov.add_argument("campaign_id", help="id кампании из очереди")
     cov.add_argument("--force", action="store_true")
 
+    rss = sub.add_parser("dzen-rss", help="RSS для Дзена: сборка и деплой на mkekspert.ru")
+    rss_sub = rss.add_subparsers(dest="dzen_rss_cmd", required=True)
+    rss_setup = rss_sub.add_parser("setup", help="Пересобрать feed, задеплоить, вывести URL для Студии")
+    rss_setup.add_argument("--dry-run", action="store_true")
+
     args = parser.parse_args()
 
     if args.command == "cover":
@@ -1560,6 +1624,11 @@ def main() -> int:
             raise SystemExit("Не удалось сгенерировать обложку")
         print(path)
         return 0
+
+    if args.command == "dzen-rss":
+        if args.dzen_rss_cmd == "setup":
+            return cmd_dzen_rss_setup(args)
+        return 1
 
     if args.command == "schedule":
         if args.schedule_cmd == "run":

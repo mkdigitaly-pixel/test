@@ -48,8 +48,18 @@ def _default_github_raw_base() -> str:
     return f"https://raw.githubusercontent.com/{repo}/{branch}/автоматизация-контента"
 
 
-FEED_LINK = os.getenv("DZEN_RSS_FEED_URL") or f"{_default_github_raw_base()}/articles/dzen/feed.xml"
-COVER_BASE = os.getenv("DZEN_COVER_BASE_URL") or f"{_default_github_raw_base()}/assets/covers"
+FEED_LINK = os.getenv("DZEN_RSS_FEED_URL") or f"{SITE_URL.rstrip('/')}/dzen-feed.xml"
+COVER_BASE = os.getenv("DZEN_COVER_BASE_URL") or f"{SITE_URL.rstrip('/')}/dzen-covers"
+DZEN_CHANNEL_SLUG = os.getenv("DZEN_CHANNEL_SLUG", "klientyandtrafik")
+MIN_FEED_ITEMS = int(os.getenv("DZEN_RSS_MIN_ITEMS", "10"))
+
+# ЧПУ на mkekspert.ru (страницы из sitemap, не /blog/* — их нет на Tilda)
+ARTICLE_SITE_LINKS: dict[str, str] = {
+    "penoplast-case": "/press-forms",
+    "7-errors-direct": "/portfolio",
+    "no-leads-direct": "/razbor-direct",
+    "autotarget-b2b": "/portfolio",
+}
 
 
 def rss_draft_mode() -> bool:
@@ -153,20 +163,194 @@ def deploy_rss_public(
     cover_rel: str | None = None,
     dry_run: bool = False,
 ) -> list[str]:
-    """Публикация RSS-артефактов: локальная копия + git push."""
+    """Публикация RSS: SFTP на mkekspert.ru → локальная копия → git push."""
     results: list[str] = []
+    sftp_msg = deploy_feed_sftp(dry_run=dry_run)
+    if sftp_msg:
+        results.append(sftp_msg)
     local = deploy_feed_copy()
     if local:
         results.append(f"local: {local}")
     git_msg = deploy_feed_git(campaign_id=campaign_id, cover_rel=cover_rel, dry_run=dry_run)
     if git_msg:
         results.append(git_msg)
-        if not dry_run and "push" in git_msg:
-            if verify_feed_public():
-                results.append("feed: доступен по URL")
-            else:
-                results.append("feed: push выполнен, CDN обновляется (1–2 мин)")
+    check_url = FEED_LINK
+    if not dry_run and check_url:
+        if verify_feed_public(check_url):
+            results.append(f"feed OK: {check_url}")
+        elif sftp_msg:
+            results.append(f"deploy выполнен — проверьте {check_url}")
+        elif "mkekspert.ru" in check_url:
+            results.append(
+                f"⚠ {check_url} ещё 404 — настройте DZEN_SFTP_* или DDOS-Guard proxy (см. checklists/dzen-rss-infra.md)"
+            )
     return results
+
+
+def article_site_link(campaign_id: str, slug: str) -> str:
+    path = ARTICLE_SITE_LINKS.get(campaign_id, f"/portfolio")
+    return f"{SITE_URL.rstrip('/')}{path}"
+
+
+def fetch_dzen_channel_items(limit: int = 20) -> list[dict[str, Any]]:
+    import requests
+
+    try:
+        resp = requests.get(
+            f"https://dzen.ru/api/v3/launcher/export?channel_name={DZEN_CHANNEL_SLUG}",
+            headers={"User-Agent": "Mozilla/5.0"},
+            timeout=30,
+        )
+        resp.raise_for_status()
+        return list(resp.json().get("items", []))[:limit]
+    except Exception as exc:
+        print(f"⚠ Dzen export API: {exc}")
+        return []
+
+
+def _text_to_html(text: str) -> str:
+    parts = [f"<p>{html.escape(p.strip())}</p>" for p in text.split("\n") if p.strip()]
+    return "\n".join(parts) if parts else "<p></p>"
+
+
+def validate_feed_for_dzen(feed_path: Path | None = None) -> list[str]:
+    """Проверка ленты перед отправкой в Студию. Пустой список = ок."""
+    path = feed_path or FEED_FILE
+    issues: list[str] = []
+    if not path.exists():
+        return ["feed.xml не найден"]
+    raw = path.read_text(encoding="utf-8")
+    items = re.findall(r"<item>.*?</item>", raw, re.DOTALL)
+    if len(items) < MIN_FEED_ITEMS:
+        issues.append(f"в ленте {len(items)} материалов — Дзен просит минимум {MIN_FEED_ITEMS} при первом подключении")
+    if rss_draft_mode() and "native-draft" not in raw:
+        issues.append("DZEN_RSS_DRAFT=true, но нет native-draft в ленте")
+    if not rss_draft_mode() and "native-draft" in raw:
+        issues.append("DZEN_RSS_DRAFT=false, но в ленте есть native-draft — пересоберите feed")
+    feed_host = SITE_URL.replace("https://", "").replace("http://", "").rstrip("/")
+    if FEED_LINK and feed_host not in FEED_LINK:
+        issues.append(f"URL ленты {FEED_LINK} не на домене {feed_host} — Дзен отклонит")
+    for item in items:
+        if len(re.findall(r"<content:encoded>", item)) and len(item) < 400:
+            issues.append("подозрительно короткий content:encoded в одном из item")
+            break
+    return issues
+
+
+def deploy_feed_sftp(*, dry_run: bool = False) -> str:
+    """Загрузка feed.xml и обложек на mkekspert.ru по SFTP."""
+    host = os.getenv("DZEN_SFTP_HOST", "").strip()
+    user = os.getenv("DZEN_SFTP_USER", "").strip()
+    password = os.getenv("DZEN_SFTP_PASSWORD", "").strip()
+    remote_feed = os.getenv("DZEN_SFTP_REMOTE_FEED", "/dzen-feed.xml").strip()
+    remote_covers = os.getenv("DZEN_SFTP_REMOTE_COVERS", "/dzen-covers").strip()
+    if not all([host, user, password]) or not FEED_FILE.exists():
+        return ""
+    if dry_run:
+        return f"[dry-run] sftp {host}:{remote_feed}"
+
+    import ftplib
+
+    try:
+        with ftplib.FTP(host, timeout=60) as ftp:
+            ftp.login(user=user, passwd=password)
+            with FEED_FILE.open("rb") as f:
+                ftp.storbinary(f"STOR {remote_feed}", f)
+            try:
+                ftp.mkd(remote_covers)
+            except ftplib.error_perm:
+                pass
+            ftp.cwd(remote_covers)
+            for cover in COVERS_DIR.glob("*.jpg"):
+                with cover.open("rb") as f:
+                    ftp.storbinary(f"STOR {cover.name}", f)
+    except Exception as exc:
+        print(f"⚠ SFTP deploy: {exc}")
+        return ""
+    return f"sftp://{host}{remote_feed}"
+
+
+def rebuild_full_feed(
+    queue_items: list[dict[str, Any]],
+    *,
+    article_to_html: Any,
+    load_meta: Any,
+) -> Path:
+    """Полная пересборка feed.xml из очереди + архив Дзена (до 10+ item)."""
+    blocks: list[str] = []
+    seen_guids: set[str] = set()
+
+    for item in queue_items:
+        rel = item.get("dzen_article")
+        if not rel:
+            continue
+        path = ROOT / rel
+        if not path.exists():
+            continue
+        meta = load_meta(path)
+        title = str(meta.get("h1") or meta.get("title") or "").strip()
+        description = str(meta.get("description") or title).strip()
+        body_html = article_to_html(path)
+        cid = str(item.get("id", ""))
+        slug = _slug_from_path(path)
+        guid = f"mkekspert-dzen-{cid}"
+        if guid in seen_guids:
+            continue
+        seen_guids.add(guid)
+        cover_rel = str(item.get("cover") or "")
+        cover_url = cover_public_url(cover_rel or None)
+        content = prepend_cover_html(body_html, cover_url)
+        blocks.append(
+            build_item_xml_str(
+                guid=guid,
+                title=title,
+                link=article_site_link(cid, slug),
+                pub_date=datetime.now(timezone.utc),
+                description=description,
+                content_html=content,
+                cover_url=cover_url,
+            )
+        )
+
+    if len(blocks) < MIN_FEED_ITEMS:
+        archive_links = [
+            "/portfolio",
+            "/rotang",
+            "/press-forms",
+            "/urist",
+            "/stomatologiya",
+            "/lifts",
+            "/razbor-direct",
+        ]
+        for idx, dzen_item in enumerate(fetch_dzen_channel_items(MIN_FEED_ITEMS * 2)):
+            pub_id = str(dzen_item.get("publication_id") or dzen_item.get("id") or idx)
+            guid = f"mkekspert-dzen-archive-{pub_id}"
+            if guid in seen_guids:
+                continue
+            title = str(dzen_item.get("title") or "").strip()
+            text = str(dzen_item.get("text") or "").strip()
+            if not title or len(text) < 120:
+                continue
+            seen_guids.add(guid)
+            link_path = archive_links[len(blocks) % len(archive_links)]
+            blocks.append(
+                build_item_xml_str(
+                    guid=guid,
+                    title=title,
+                    link=f"{SITE_URL.rstrip('/')}{link_path}",
+                    pub_date=datetime.now(timezone.utc),
+                    description=text[:300],
+                    content_html=_text_to_html(text),
+                    cover_url="",
+                )
+            )
+            if len(blocks) >= MIN_FEED_ITEMS:
+                break
+
+    xml = render_feed(blocks[:50])
+    FEED_FILE.parent.mkdir(parents=True, exist_ok=True)
+    FEED_FILE.write_text(xml, encoding="utf-8")
+    return FEED_FILE
 
 
 def _slug_from_path(path: Path) -> str:
@@ -260,7 +444,7 @@ def upsert_article_item(
 ) -> Path:
     slug = _slug_from_path(article_path)
     guid = f"mkekspert-dzen-{campaign_id}"
-    link = f"{SITE_URL.rstrip('/')}/blog/{slug}"
+    link = article_site_link(campaign_id, slug)
     cover_url = cover_public_url(cover_rel)
     content = prepend_cover_html(body_html, cover_url)
     new_block = build_item_xml_str(
