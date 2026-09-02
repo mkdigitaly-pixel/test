@@ -480,12 +480,19 @@ def publish_telegram(
     cover: Path | None = None,
     dry_run: bool = False,
     parse_mode: str = "",
+    long_post_with_cover: bool = True,
 ) -> PublishResult:
+    """TG: до 4096 знаков (Premium). Фото+длинный текст — reply к обложке."""
     if len(text) > TG_MESSAGE_LIMIT:
         raise ValueError(f"Текст {len(text)} символов — лимит Telegram {TG_MESSAGE_LIMIT}.")
 
     if dry_run:
-        mode = "фото+текст" if cover and len(text) <= TG_CAPTION_LIMIT else "текст"
+        if cover and len(text) <= TG_CAPTION_LIMIT:
+            mode = "фото+текст"
+        elif cover and long_post_with_cover:
+            mode = f"фото+reply ({len(text)} зн.)"
+        else:
+            mode = "текст"
         preview = text[:400] + ("…" if len(text) > 400 else "")
         fmt = f", {parse_mode}" if parse_mode else ""
         return PublishResult("telegram", True, f"[dry-run] → {channel_id} ({mode}{fmt})\n{preview}")
@@ -508,25 +515,34 @@ def publish_telegram(
             raise RuntimeError(data.get("description", data))
         return PublishResult("telegram", True, "Фото + текст", data["result"]["message_id"])
 
+    reply_to: int | None = None
     if cover and cover.exists() and len(text) > TG_CAPTION_LIMIT:
-        print("⚠ Текст >1024 — фото без подписи, текст отдельным сообщением.", file=sys.stderr)
-        with cover.open("rb") as f:
-            resp = requests.post(
-                f"https://api.telegram.org/bot{token}/sendPhoto",
-                data={"chat_id": channel_id},
-                files={"photo": f},
-                timeout=120,
-            )
-        data = resp.json()
-        if not data.get("ok"):
-            raise RuntimeError(data.get("description", data))
+        if long_post_with_cover:
+            with cover.open("rb") as f:
+                resp = requests.post(
+                    f"https://api.telegram.org/bot{token}/sendPhoto",
+                    data={"chat_id": channel_id},
+                    files={"photo": f},
+                    timeout=120,
+                )
+            data = resp.json()
+            if not data.get("ok"):
+                raise RuntimeError(data.get("description", data))
+            reply_to = data["result"]["message_id"]
+        else:
+            print("⚠ Текст >1024 — публикуем без обложки.", file=sys.stderr)
 
-    data = telegram_api(
-        "sendMessage",
-        {"chat_id": channel_id, "text": text, "disable_web_page_preview": False, **msg_extra},
-        token,
-    )
-    return PublishResult("telegram", True, "Текст опубликован", data["result"]["message_id"])
+    payload: dict[str, Any] = {
+        "chat_id": channel_id,
+        "text": text,
+        "disable_web_page_preview": False,
+        **msg_extra,
+    }
+    if reply_to:
+        payload["reply_to_message_id"] = reply_to
+    data = telegram_api("sendMessage", payload, token)
+    mode = "Фото + длинный текст (reply)" if reply_to else "Текст опубликован"
+    return PublishResult("telegram", True, mode, data["result"]["message_id"])
 
 
 def publish_telegram_media_group(
