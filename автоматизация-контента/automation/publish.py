@@ -749,8 +749,15 @@ def resolve_vk_group_id(token: str, group_id: str) -> int:
 def upload_vk_wall_photo(user_token: str, group_id: int, image_path: Path) -> str:
     """Загрузка фото на стену — только пользовательский токен (не ключ сообщества)."""
     up_srv = vk_api("photos.getWallUploadServer", user_token, group_id=group_id)
+    mime = "image/jpeg" if image_path.suffix.lower() in {".jpg", ".jpeg"} else "image/png"
     with image_path.open("rb") as f:
-        up = requests.post(up_srv["upload_url"], files={"photo": f}, timeout=120).json()
+        up = requests.post(
+            up_srv["upload_url"],
+            files={"photo": (image_path.name or "cover.jpg", f, mime)},
+            timeout=120,
+        ).json()
+    if not up.get("photo"):
+        raise RuntimeError(f"VK upload: пустой photo (server={up.get('server')}, hash={up.get('hash')})")
     saved = vk_api(
         "photos.saveWallPhoto",
         user_token,

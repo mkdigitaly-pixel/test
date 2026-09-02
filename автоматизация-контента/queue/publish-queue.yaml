@@ -18,6 +18,9 @@ items:
   cover: assets/covers/penoplast-case.jpg
   cover_headline: CPL 8000→2500 ₽
   cover_subline: Кейс B2B · пенопласт
+  cover_vk_stats:
+  - 59 заявок/мес
+  - 0,1% → 3%
   dzen_url: https://dzen.ru/a/apfN02AJxASZFuo3
   dzen_republished_at: '2026-09-02T11:40:00+03:00'
   notes: '02.09: zen_sync не умеет 1 пост с фото+длинным текстом. penoplast → RSS.

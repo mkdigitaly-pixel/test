@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import base64
 import os
+import re
 import textwrap
 from pathlib import Path
 
@@ -231,7 +232,235 @@ def draw_bright_background(size: tuple[int, int]) -> Image.Image:
     return img
 
 
+def _format_num(s: str) -> str:
+    digits = re.sub(r"\D", "", s)
+    if not digits:
+        return s.strip()
+    return f"{int(digits):,}".replace(",", " ")
+
+
+def _parse_cover_copy(headline: str, subline: str, *, stats: list[str] | None = None) -> dict[str, str | list[str]]:
+    h = headline.replace("–", "→").replace("->", "→")
+    m = re.search(r"(\d[\d\s]*)\s*→\s*(\d[\d\s]*)", h)
+    tag = "КЕЙС B2B"
+    niche = ""
+    if subline:
+        parts = [p.strip() for p in re.split(r"[·•]", subline) if p.strip()]
+        for p in parts:
+            if re.search(r"b2b|кейс", p, re.I):
+                tag = p.upper() if len(p) < 20 else "КЕЙС B2B"
+            else:
+                niche = p
+    metric_label = "CPL заявки"
+    if re.search(r"cpl", h, re.I):
+        metric_label = "CPL заявки"
+    elif re.search(r"заяв", h, re.I):
+        metric_label = "заявки"
+    hook = niche or subline or "Яндекс Директ"
+    extra_stats = [s.strip() for s in (stats or []) if s and s.strip()]
+    if m:
+        was_raw = int(re.sub(r"\D", "", m.group(1)) or "0")
+        now_raw = int(re.sub(r"\D", "", m.group(2)) or "0")
+        multiplier = ""
+        if was_raw > 0 and now_raw > 0 and was_raw > now_raw:
+            ratio = was_raw / now_raw
+            multiplier = f"×{ratio:.0f}" if ratio >= 1.5 else ""
+        return {
+            "mode": "metric",
+            "tag": tag,
+            "was": _format_num(m.group(1)),
+            "now": _format_num(m.group(2)),
+            "metric_label": metric_label,
+            "niche": niche,
+            "hook": f"{niche} · Директ" if niche else "Разбор рекламы",
+            "multiplier": multiplier,
+            "stats": extra_stats,
+        }
+    return {
+        "mode": "text",
+        "tag": tag,
+        "title": headline.rstrip(".?!"),
+        "subtitle": subline,
+        "hook": hook,
+        "stats": extra_stats,
+    }
+
+
+def _text_width(draw: ImageDraw.ImageDraw, text: str, font: ImageFont.FreeTypeFont | ImageFont.ImageFont) -> float:
+    return draw.textlength(text, font=font)
+
+
+def _draw_text_centered(
+    draw: ImageDraw.ImageDraw,
+    text: str,
+    y: int,
+    font: ImageFont.FreeTypeFont | ImageFont.ImageFont,
+    fill: str | tuple[int, int, int],
+    canvas_w: int,
+) -> None:
+    x = int((canvas_w - _text_width(draw, text, font)) // 2)
+    draw.text((x, y), text, fill=fill, font=font)
+
+
+def _draw_strikethrough(
+    draw: ImageDraw.ImageDraw,
+    text: str,
+    x: int,
+    y: int,
+    font: ImageFont.FreeTypeFont | ImageFont.ImageFont,
+    fill: str | tuple[int, int, int],
+) -> None:
+    draw.text((x, y), text, fill=fill, font=font)
+    tw = _text_width(draw, text, font)
+    mid_y = y + font.size // 2
+    draw.line([(x, mid_y), (x + int(tw), mid_y)], fill=fill, width=max(3, font.size // 18))
+
+
+def _draw_stat_chip(
+    draw: ImageDraw.ImageDraw,
+    x: int,
+    y: int,
+    w: int,
+    h: int,
+    value: str,
+    label: str,
+    *,
+    accent: str = ACCENT_GREEN,
+    value_fill: str = TEXT,
+) -> None:
+    draw.rounded_rectangle([x, y, x + w, y + h], radius=22, fill="#1a1a1a", outline=accent, width=2)
+    font_v = load_font(34, bold=True)
+    font_l = load_font(24)
+    draw.text((x + 24, y + 18), value, fill=value_fill, font=font_v)
+    draw.text((x + 24, y + 58), label, fill="#9a9a9a", font=font_l)
+
+
+def draw_vk_smm_cover(headline: str, subline: str, *, stats: list[str] | None = None) -> Image.Image:
+    """Вертикальная обложка 4:5 под ленту VK — нативный SMM-макет."""
+    w, h = VK_PORTRAIT
+    green = hex_rgb(ACCENT_GREEN)
+    yellow = hex_rgb(ACCENT_YELLOW)
+    meta = _parse_cover_copy(headline, subline, stats=stats)
+
+    img = Image.new("RGB", (w, h), "#0c0c0c")
+    draw = ImageDraw.Draw(img)
+
+    # градиент + мягкое свечение
+    for y in range(h):
+        t = y / max(h - 1, 1)
+        base = int(10 + 18 * t)
+        draw.line([(0, y), (w, y)], fill=(base, base, base + 3))
+
+    glow = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    gd = ImageDraw.Draw(glow)
+    gd.ellipse([w - 640, -240, w + 120, 520], fill=(*green, 70))
+    gd.ellipse([-280, int(h * 0.42), 420, h + 200], fill=(*yellow, 50))
+    gd.ellipse([int(w * 0.15), int(h * 0.55), int(w * 0.95), int(h * 0.98)], fill=(40, 40, 40, 90))
+    img = Image.alpha_composite(img.convert("RGBA"), glow).convert("RGB")
+    draw = ImageDraw.Draw(img)
+
+    # бренд-полосы
+    draw.rectangle([0, 0, 14, h], fill=ACCENT_GREEN)
+    draw.rectangle([0, h - 8, w, h], fill=ACCENT_YELLOW)
+
+    pad = 52
+
+    # тег + ниша
+    font_tag = load_font(28, bold=True)
+    tag = str(meta.get("tag", "КЕЙС"))
+    tag_w = int(_text_width(draw, tag, font_tag)) + 44
+    draw.rounded_rectangle([pad, 44, pad + tag_w, 98], radius=24, fill=green)
+    draw.text((pad + 22, 54), tag, fill="#0a1a0a", font=font_tag)
+
+    if meta["mode"] == "metric":
+        niche = str(meta.get("niche") or "Яндекс Директ")
+        font_niche = load_font(34, bold=True)
+        niche_cap = niche[0].upper() + niche[1:] if niche else ""
+        draw.text((pad + tag_w + 20, 56), niche_cap, fill="#d8d8d8", font=font_niche)
+
+        # мини-график справа вверху
+        chart_x, chart_y = w - pad - 180, 70
+        bars = [28, 42, 56, 78, 96]
+        bar_w = 22
+        for i, bh in enumerate(bars):
+            color = green if i >= 3 else (55, 55, 55)
+            bx = chart_x + i * (bar_w + 10)
+            draw.rounded_rectangle([bx, chart_y + 100 - bh, bx + bar_w, chart_y + 100], radius=5, fill=color)
+
+        # блок «было» — компактно, по центру
+        font_was = load_font(52, bold=True)
+        font_was_lbl = load_font(26)
+        was_text = f"{meta['was']} ₽"
+        was_y = 200
+        was_x = int((w - _text_width(draw, was_text, font_was)) // 2)
+        _draw_strikethrough(draw, was_text, was_x, was_y, font_was, "#c07070")
+        _draw_text_centered(draw, "было", was_y - 34, font_was_lbl, "#666666", w)
+
+        # стрелка вниз = снижение стоимости (хорошо)
+        ax = w // 2
+        draw.rounded_rectangle([ax - 34, 290, ax + 34, 360], radius=18, fill="#1f1f1f", outline=green, width=2)
+        draw.polygon([(ax, 338), (ax + 16, 312), (ax - 16, 312)], fill=green)
+
+        # герой — результат
+        font_now = load_font(128, bold=True)
+        font_metric = load_font(38, bold=True)
+        now_text = f"{meta['now']} ₽"
+        now_y = 400
+        _draw_text_centered(draw, now_text, now_y, font_now, TEXT, w)
+        _draw_text_centered(draw, str(meta["metric_label"]), now_y + 138, font_metric, ACCENT_YELLOW, w)
+
+        # бейдж ×3
+        multiplier = str(meta.get("multiplier") or "")
+        chip_y = 580
+        if multiplier:
+            badge = f"{multiplier} дешевле"
+            font_badge = load_font(36, bold=True)
+            badge_w = int(_text_width(draw, badge, font_badge)) + 56
+            badge_x = (w - badge_w) // 2
+            draw.rounded_rectangle([badge_x, chip_y, badge_x + badge_w, chip_y + 64], radius=32, fill=yellow)
+            draw.text((badge_x + 28, chip_y + 12), badge, fill="#1a1400", font=font_badge)
+            chip_y += 88
+
+        # доп. метрики кейса
+        stat_lines = list(meta.get("stats") or [])
+        if not stat_lines:
+            stat_lines = ["59 заявок/мес", "0,1% → 3%"]
+        chip_h = 96
+        gap = 20
+        if len(stat_lines) >= 2:
+            chip_w = (w - pad * 2 - gap) // 2
+            _draw_stat_chip(draw, pad, chip_y, chip_w, chip_h, stat_lines[0], "после перезапуска")
+            _draw_stat_chip(
+                draw, pad + chip_w + gap, chip_y, chip_w, chip_h,
+                stat_lines[1], "конверсия сайта", accent=ACCENT_YELLOW, value_fill=ACCENT_YELLOW,
+            )
+        elif stat_lines:
+            chip_w = w - pad * 2
+            _draw_stat_chip(draw, pad, chip_y, chip_w, chip_h, stat_lines[0], "результат")
+
+        # подпись канала
+        draw.text((pad, h - 96), "Мария Ковалева · Яндекс Директ", fill=ACCENT_GREEN, font=load_font(30, bold=True))
+        draw.text((pad, h - 58), "mkekspert.ru · кейс на Дзен", fill="#707070", font=load_font(26))
+    else:
+        font_title = load_font(68, bold=True)
+        font_sub = load_font(38, bold=True)
+        y = 200
+        for line in textwrap.wrap(str(meta["title"]), width=14)[:3]:
+            _draw_text_centered(draw, line, y, font_title, TEXT, w)
+            y += 82
+        if meta.get("subtitle"):
+            for line in textwrap.wrap(str(meta["subtitle"]), width=22)[:2]:
+                _draw_text_centered(draw, line, y + 16, font_sub, ACCENT_YELLOW, w)
+                y += 50
+        draw.text((pad, h - 88), "Мария Ковалева · Яндекс Директ", fill=ACCENT_GREEN, font=load_font(30, bold=True))
+        draw.text((pad, h - 52), "mkekspert.ru", fill="#666666", font=load_font(26))
+
+    return img
+
+
 def generate_pil_fallback(headline: str, subline: str, size: tuple[int, int]) -> Image.Image:
+    if size == VK_PORTRAIT:
+        return draw_vk_smm_cover(headline, subline)
     img = draw_bright_background(size)
     return overlay_brand_text(img, headline, subline)
 
@@ -272,6 +501,7 @@ def generate_cover(
     slug: str = "",
     import_path: Path | None = None,
     from_landscape: Path | None = None,
+    vk_stats: list[str] | None = None,
 ) -> Path:
     if vk:
         target = VK_PORTRAIT
@@ -304,7 +534,10 @@ def generate_cover(
             print(f"⚠ GPT: {exc} — fallback PIL")
 
     if img is None:
-        img = generate_pil_fallback(headline, subline, target)
+        if vk:
+            img = draw_vk_smm_cover(headline, subline, stats=vk_stats)
+        else:
+            img = generate_pil_fallback(headline, subline, target)
 
     out.parent.mkdir(parents=True, exist_ok=True)
     img.save(out, "JPEG", quality=92)
@@ -315,20 +548,17 @@ def cover_paths(slug: str) -> tuple[Path, Path]:
     return COVERS / f"{slug}.jpg", COVERS / f"{slug}-vk.jpg"
 
 
-def ensure_covers(slug: str, headline: str, subline: str = "", *, force: bool = False) -> tuple[Path, Path]:
+def ensure_covers(slug: str, headline: str, subline: str = "", *, force: bool = False, vk_stats: list[str] | None = None) -> tuple[Path, Path]:
     landscape, vk_cover = cover_paths(slug)
     if force or not landscape.exists():
         generate_cover(headline, subline, landscape, square=False, slug=slug)
         print(f"✓ {landscape}")
     if force or not vk_cover.exists():
-        if landscape.exists():
-            generate_cover(headline, subline, vk_cover, from_landscape=landscape)
-        else:
-            generate_cover(headline, subline, vk_cover, vk=True, slug=slug)
+        generate_cover(headline, subline, vk_cover, vk=True, slug=slug, use_gpt=False, vk_stats=vk_stats)
         print(f"✓ {vk_cover}")
-    elif force and landscape.exists():
-        generate_cover(headline, subline, vk_cover, from_landscape=landscape)
-        print(f"✓ {vk_cover} (из landscape)")
+    elif force:
+        generate_cover(headline, subline, vk_cover, vk=True, slug=slug, use_gpt=False, vk_stats=vk_stats)
+        print(f"✓ {vk_cover}")
     return landscape, vk_cover
 
 
@@ -373,6 +603,7 @@ def ensure_cover_for_queue_id(campaign_id: str, *, force: bool = False) -> Path 
     slug = Path(item.get("cover", f"assets/covers/{campaign_id}.jpg")).stem.replace("-vk", "")
     headline = item.get("cover_headline", "")
     subline = item.get("cover_subline", "")
+    vk_stats = item.get("cover_vk_stats") or None
 
     if not headline:
         article = item.get("dzen_article", "")
@@ -381,7 +612,7 @@ def ensure_cover_for_queue_id(campaign_id: str, *, force: bool = False) -> Path 
     if not headline:
         headline = campaign_id.replace("-", " ").title()
 
-    landscape, _ = ensure_covers(slug, headline, subline, force=force)
+    landscape, _ = ensure_covers(slug, headline, subline, force=force, vk_stats=vk_stats)
     item["cover"] = f"assets/covers/{slug}.jpg"
     items = data.get("items", [])
     for i, it in enumerate(items):
@@ -443,15 +674,11 @@ def main() -> None:
             print(out)
     if args.variant in ("vk", "both"):
         out = COVERS / f"{args.slug}-vk.jpg"
-        landscape = COVERS / f"{args.slug}.jpg"
         if args.force or not out.exists():
-            if landscape.exists():
-                generate_cover(args.title, args.subtitle, out, from_landscape=landscape)
-            else:
-                generate_cover(
-                    args.title, args.subtitle, out,
-                    vk=True, use_gpt=use_gpt, slug=args.slug, import_path=import_path,
-                )
+            generate_cover(
+                args.title, args.subtitle, out,
+                vk=True, use_gpt=use_gpt, slug=args.slug, import_path=import_path,
+            )
             print(out)
 
 
