@@ -273,6 +273,29 @@ a{color:#1d4ed8;text-underline-offset:3px}
 """
 
 
+BLOG_METRIKA_ID = os.getenv("DZEN_BLOG_METRIKA_ID", "97606312").strip()
+
+
+def _metrika_snippet() -> str:
+    """Счётчик Метрики основного сайта — один на mkekspert.ru и blog."""
+    if not BLOG_METRIKA_ID:
+        return ""
+    cid = html.escape(BLOG_METRIKA_ID, quote=True)
+    return f"""<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function(m,e,t,r,i,k,a){{
+m[i]=m[i]||function(){{(m[i].a=m[i].a||[]).push(arguments)}};
+m[i].l=1*new Date();
+for (var j = 0; j < document.scripts.length; j++) {{if (document.scripts[j].src === r) {{ return; }}}}
+k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+}})(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+ym({BLOG_METRIKA_ID}, 'init', {{webvisor:true, clickmap:true, referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true}});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/{cid}" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+"""
+
+
 def _site_chrome(inner: str, *, title: str, description: str, canonical: str, extra_head: str = "") -> str:
     zen = os.getenv("DZEN_ZEN_VERIFICATION", "").strip()
     yandex = os.getenv("DZEN_YANDEX_VERIFICATION", "").strip()
@@ -281,6 +304,7 @@ def _site_chrome(inner: str, *, title: str, description: str, canonical: str, ex
         metas += f'<meta name="zen-verification" content="{html.escape(zen)}" />\n'
     if yandex:
         metas += f'<meta name="yandex-verification" content="{html.escape(yandex)}" />\n'
+    metrika = _metrika_snippet()
     return f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -300,7 +324,7 @@ def _site_chrome(inner: str, *, title: str, description: str, canonical: str, ex
 <link rel="apple-touch-icon" href="/favicon-120.png">
 <link rel="alternate" type="application/rss+xml" title="МК Эксперт — RSS" href="/dzen-feed.xml">
 {extra_head}<style>{BLOG_CSS}</style>
-</head>
+{metrika}</head>
 <body>
 <header class="site top">
 <a class="brand" href="/">МК Эксперт</a>
