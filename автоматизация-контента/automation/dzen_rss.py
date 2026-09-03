@@ -201,43 +201,188 @@ def article_site_link(campaign_id: str, slug: str = "") -> str:
     return f"{SITE_URL.rstrip('/')}/articles/{campaign_id}.html"
 
 
-def _article_html_page(campaign_id: str, body_html: str) -> str:
-    """Полная HTML-страница статьи для GitHub Pages."""
-    link = article_site_link(campaign_id)
-    title_m = re.search(r"<h1>(.*?)</h1>", body_html, re.DOTALL)
-    title = html.unescape(re.sub(r"<[^>]+>", "", title_m.group(1))) if title_m else campaign_id
+def _parse_md_meta(path: Path) -> dict[str, Any]:
+    if not path.is_file():
+        return {}
+    raw = path.read_text(encoding="utf-8")
+    if not raw.startswith("---"):
+        return {}
+    parts = raw.split("---", 2)
+    if len(parts) < 3:
+        return {}
+    return yaml.safe_load(parts[1]) or {}
+
+
+def _blog_post_meta(item: dict[str, Any]) -> dict[str, Any] | None:
+    """Метаданные поста для блога и SEO (approved / published с текстом)."""
+    cid = str(item.get("id") or "")
+    rel = str(item.get("dzen_article") or "")
+    status = str(item.get("status") or "")
+    if not cid or not rel or status not in ("approved", "published"):
+        return None
+    art_path = ROOT / rel
+    html_export = ROOT / "articles" / "dzen" / "html" / f"{art_path.stem}.html"
+    if not art_path.is_file() and not html_export.is_file():
+        return None
+    meta = _parse_md_meta(art_path)
+    title = str(meta.get("h1") or meta.get("title") or item.get("topic") or cid).strip()
+    description = str(meta.get("description") or title).strip()
+    cover_rel = str(item.get("cover") or "")
+    return {
+        "id": cid,
+        "title": title,
+        "description": description,
+        "cover_url": cover_public_url(cover_rel) if cover_rel else "",
+        "cover_name": Path(cover_rel).name if cover_rel else "",
+        "url": article_site_link(cid),
+        "status": status,
+        "published_at": str(item.get("published_at") or item.get("scheduled_dzen") or ""),
+        "keyword": str(meta.get("main_keyword") or "").strip(),
+    }
+
+
+BLOG_CSS = """
+:root{--ink:#141414;--muted:#5a5a5a;--accent:#1a7a3a;--line:#e5e5e0;--paper:#fff}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;background:#f3f1eb;color:var(--ink);line-height:1.55}
+a{color:#1d4ed8;text-underline-offset:3px}
+.site{max-width:960px;margin:0 auto;padding:1.5rem 1.25rem 4rem}
+.top{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:0.75rem 1.5rem;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--line);font-family:system-ui,sans-serif}
+.brand{font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);font-weight:700;text-decoration:none}
+.nav{display:flex;flex-wrap:wrap;gap:0.85rem 1.1rem;font-size:0.9rem}
+.nav a{color:var(--muted);text-decoration:none}
+.nav a:hover{color:var(--ink)}
+.hero h1{font-size:clamp(1.75rem,3.5vw,2.35rem);line-height:1.15;margin:0 0 0.6rem}
+.hero p{margin:0 0 2rem;color:var(--muted);font-size:1.05rem;max-width:36rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem}
+.post{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:4px;overflow:hidden;text-decoration:none;color:inherit;transition:border-color .15s}
+.post:hover{border-color:#bbb}
+.post img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;background:#ddd}
+.post-body{padding:1rem 1.1rem 1.2rem;display:flex;flex-direction:column;gap:0.45rem;flex:1}
+.post-body h2{font-size:1.05rem;line-height:1.3;margin:0;font-weight:700}
+.post-body p{margin:0;font-size:0.92rem;color:var(--muted);font-family:system-ui,sans-serif}
+.article-wrap{max-width:720px;margin:0 auto}
+.article-wrap .cover{width:100%;border-radius:4px;margin:0 0 1.5rem;aspect-ratio:16/9;object-fit:cover}
+.article-wrap h1{font-size:clamp(1.5rem,3vw,2rem);line-height:1.2;margin:0 0 1rem}
+.article-wrap h2,.article-wrap h3{margin-top:1.6em}
+.article-wrap img{max-width:100%;height:auto;border-radius:4px}
+.article-wrap figure{margin:1.5em 0}
+.cta{margin-top:2.5rem;padding-top:1.25rem;border-top:1px solid var(--line);font-family:system-ui,sans-serif;font-size:0.9rem;color:var(--muted)}
+.meta-line{font-family:system-ui,sans-serif;font-size:0.85rem;color:var(--muted);margin:0 0 1rem}
+@media (max-width:560px){.grid{grid-template-columns:1fr}}
+"""
+
+
+def _site_chrome(inner: str, *, title: str, description: str, canonical: str, extra_head: str = "") -> str:
+    zen = os.getenv("DZEN_ZEN_VERIFICATION", "").strip()
+    yandex = os.getenv("DZEN_YANDEX_VERIFICATION", "").strip()
+    metas = ""
+    if zen:
+        metas += f'<meta name="zen-verification" content="{html.escape(zen)}" />\n'
+    if yandex:
+        metas += f'<meta name="yandex-verification" content="{html.escape(yandex)}" />\n'
     return f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{html.escape(title)} — МК Эксперт</title>
+{metas}<title>{html.escape(title)}</title>
+<meta name="description" content="{html.escape(description)}">
 <meta property="og:title" content="{html.escape(title)}">
+<meta property="og:description" content="{html.escape(description)}">
 <meta property="og:site_name" content="МК Эксперт">
-<link rel="canonical" href="{html.escape(link)}">
+<meta property="og:url" content="{html.escape(canonical)}">
+<meta property="og:type" content="website">
+<link rel="canonical" href="{html.escape(canonical)}">
 <link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="icon" type="image/png" sizes="120x120" href="/favicon-120.png">
-<style>
-body{{font-family:system-ui,sans-serif;max-width:720px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#1a1a1a}}
-.brand{{font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;color:#1a7a3a;font-weight:700;margin:0 0 1rem}}
-h1,h2,h3{{color:#111}}
-a{{color:#2563eb}}
-img{{max-width:100%;height:auto;border-radius:8px}}
-figure{{margin:1.5em 0}}
-</style>
+<link rel="apple-touch-icon" href="/favicon-120.png">
+<link rel="alternate" type="application/rss+xml" title="МК Эксперт — RSS" href="/dzen-feed.xml">
+{extra_head}<style>{BLOG_CSS}</style>
 </head>
 <body>
-<p class="brand">МК Эксперт</p>
-<article>
-{body_html}
-</article>
-<p style="margin-top:3rem;color:#666;font-size:0.9rem">
-<a href="https://mkekspert.ru">mkekspert.ru</a> — контекстная реклама ·
-<a href="https://mkekspert.ru/razbor-direct">бесплатный разбор</a>
-</p>
+<header class="site top">
+<a class="brand" href="/">МК Эксперт</a>
+<nav class="nav" aria-label="Меню">
+<a href="/">Блог</a>
+<a href="https://mkekspert.ru">Сайт</a>
+<a href="https://mkekspert.ru/razbor-direct">Разбор Директа</a>
+<a href="https://dzen.ru/klientyandtrafik">Дзен</a>
+</nav>
+</header>
+{inner}
 </body>
 </html>
 """
+
+
+def _article_html_page(campaign_id: str, body_html: str, post: dict[str, Any] | None = None) -> str:
+    """Полная HTML-страница статьи для GitHub Pages (SEO + обложка)."""
+    post = post or {}
+    link = article_site_link(campaign_id)
+    title = str(post.get("title") or "")
+    if not title:
+        title_m = re.search(r"<h1>(.*?)</h1>", body_html, re.DOTALL)
+        title = html.unescape(re.sub(r"<[^>]+>", "", title_m.group(1))) if title_m else campaign_id
+    description = str(post.get("description") or title).strip()
+    cover_url = str(post.get("cover_url") or "")
+    # убрать дубль обложки из тела, если покажем её отдельно
+    body = body_html
+    if cover_url:
+        body = re.sub(
+            r"<figure>\s*<img[^>]*src=\"[^\"]*\"[^>]*/?>\s*</figure>\s*",
+            "",
+            body,
+            count=1,
+        )
+    cover_block = (
+        f'<img class="cover" src="{html.escape(cover_url)}" alt="{html.escape(title)}" width="1200" height="675">'
+        if cover_url
+        else ""
+    )
+    schema = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": title,
+        "description": description,
+        "mainEntityOfPage": link,
+        "author": {"@type": "Person", "name": "Мария Ковалева"},
+        "publisher": {
+            "@type": "Organization",
+            "name": "МК Эксперт",
+            "logo": {"@type": "ImageObject", "url": f"{SITE_URL.rstrip('/')}/favicon-120.png"},
+        },
+        "inLanguage": "ru-RU",
+    }
+    if cover_url:
+        schema["image"] = [cover_url]
+    if post.get("published_at"):
+        schema["datePublished"] = str(post["published_at"])[:10]
+    og_image = f'<meta property="og:image" content="{html.escape(cover_url)}">\n' if cover_url else ""
+    og_image += '<meta property="og:type" content="article">\n'
+    extra = og_image + f'<script type="application/ld+json">{json.dumps(schema, ensure_ascii=False)}</script>\n'
+    inner = f"""
+<main class="site article-wrap">
+{cover_block}
+<p class="meta-line"><a href="/">← Все статьи</a> · Яндекс Директ · B2B</p>
+<article>
+{body}
+</article>
+<p class="cta">
+<a href="https://mkekspert.ru/razbor-direct?utm_source=blog&utm_medium=article&utm_campaign={html.escape(campaign_id)}">Бесплатный разбор Директа</a>
+· <a href="https://mkekspert.ru">mkekspert.ru</a>
+· <a href="https://t.me/Mariya1740">Telegram</a>
+</p>
+</main>
+"""
+    return _site_chrome(
+        inner,
+        title=f"{title} — МК Эксперт",
+        description=description,
+        canonical=link,
+        extra_head=extra,
+    )
 
 
 def _queue_items() -> list[dict[str, Any]]:
@@ -275,24 +420,59 @@ def _article_body_html(item: dict[str, Any]) -> str:
 BLOG_SITE_DIR = ROOT / "articles" / "dzen" / "blog-site"
 
 
+def _blog_posts() -> list[dict[str, Any]]:
+    posts: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for item in _queue_items():
+        post = _blog_post_meta(item)
+        if not post or post["id"] in seen:
+            continue
+        seen.add(post["id"])
+        posts.append(post)
+    # published first, then approved
+    posts.sort(key=lambda p: (0 if p["status"] == "published" else 1, p["title"]))
+    return posts
+
+
 def _blog_index_html() -> str:
-    """Главная blog.mkekspert.ru — бренд в поиске + подтверждение домена в Дзене."""
-    zen = os.getenv("DZEN_ZEN_VERIFICATION", "").strip()
-    yandex = os.getenv("DZEN_YANDEX_VERIFICATION", "").strip()
-    metas = ""
-    if zen:
-        metas += f'<meta name="zen-verification" content="{html.escape(zen)}" />\n'
-    if yandex:
-        metas += f'<meta name="yandex-verification" content="{html.escape(yandex)}" />\n'
+    """Главная blog.mkekspert.ru — лента статей с обложками (SEO + Дзен)."""
     site = SITE_URL.rstrip("/")
-    schema = {
+    posts = _blog_posts()
+    cards = []
+    for p in posts:
+        img = (
+            f'<img src="{html.escape(p["cover_url"])}" alt="" loading="lazy" width="640" height="400">'
+            if p["cover_url"]
+            else ""
+        )
+        cards.append(
+            f'<a class="post" href="/articles/{html.escape(p["id"])}.html">'
+            f"{img}"
+            f'<div class="post-body"><h2>{html.escape(p["title"])}</h2>'
+            f'<p>{html.escape(p["description"][:180])}{"…" if len(p["description"]) > 180 else ""}</p>'
+            f"</div></a>"
+        )
+    grid = "\n".join(cards) if cards else "<p>Статьи появятся после публикации.</p>"
+    item_list = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": i + 1,
+                "url": p["url"],
+                "name": p["title"],
+            }
+            for i, p in enumerate(posts)
+        ],
+    }
+    org = {
         "@context": "https://schema.org",
         "@graph": [
             {
                 "@type": "Organization",
                 "@id": f"{site}/#organization",
                 "name": "МК Эксперт",
-                "alternateName": ["МК-Эксперт", "mkekspert", "Мария Ковалева"],
                 "url": "https://mkekspert.ru",
                 "logo": f"{site}/favicon-120.png",
                 "sameAs": [
@@ -302,99 +482,85 @@ def _blog_index_html() -> str:
                 ],
             },
             {
-                "@type": "WebSite",
-                "@id": f"{site}/#website",
+                "@type": "Blog",
+                "@id": f"{site}/#blog",
                 "name": "МК Эксперт — блог",
                 "url": site,
+                "description": "Кейсы и разборы Яндекс Директа для B2B",
                 "publisher": {"@id": f"{site}/#organization"},
                 "inLanguage": "ru-RU",
             },
+            item_list,
         ],
     }
-    schema_json = json.dumps(schema, ensure_ascii=False)
-    return f"""<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-{metas}<title>МК Эксперт — блог о Яндекс Директе</title>
-<meta name="description" content="Кейсы и разборы Яндекс Директа для B2B: CPL, заявки, Метрика. Эксперт — Мария Ковалева, mkekspert.ru">
-<meta property="og:title" content="МК Эксперт — блог">
-<meta property="og:site_name" content="МК Эксперт">
-<meta property="og:url" content="{html.escape(site)}/">
-<link rel="canonical" href="{html.escape(site)}/">
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-<link rel="icon" type="image/png" sizes="120x120" href="/favicon-120.png">
-<link rel="apple-touch-icon" href="/favicon-120.png">
-<link rel="alternate" type="application/rss+xml" title="МК Эксперт — RSS" href="/dzen-feed.xml">
-<script type="application/ld+json">{schema_json}</script>
-<style>
-:root{{--ink:#111;--muted:#555;--accent:#1a7a3a;--bg:#f6f7f4}}
-*{{box-sizing:border-box}}
-body{{margin:0;font-family:Georgia,"Times New Roman",serif;background:linear-gradient(165deg,#eef2ea 0%,#f8f6f1 45%,#e8eef5 100%);color:var(--ink);min-height:100vh}}
-.wrap{{max-width:680px;margin:0 auto;padding:3rem 1.25rem 4rem}}
-.brand{{font-family:system-ui,sans-serif;font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:0 0 0.75rem}}
-h1{{font-size:clamp(1.8rem,4vw,2.4rem);line-height:1.15;margin:0 0 0.75rem;font-weight:700}}
-.lead{{font-size:1.1rem;line-height:1.55;color:var(--muted);margin:0 0 2rem}}
-.links{{display:flex;flex-wrap:wrap;gap:0.75rem 1.25rem;font-family:system-ui,sans-serif;font-size:0.95rem}}
-.links a{{color:#1d4ed8;text-underline-offset:3px}}
-.card{{margin-top:2.5rem;padding:1.25rem 1.35rem;background:rgba(255,255,255,0.72);border:1px solid rgba(0,0,0,0.06);border-radius:12px}}
-.card h2{{font-size:1.05rem;margin:0 0 0.5rem;font-family:system-ui,sans-serif}}
-.card p{{margin:0;color:var(--muted);font-size:0.95rem;line-height:1.5}}
-</style>
-</head>
-<body>
-<main class="wrap">
-<p class="brand">МК Эксперт</p>
+    extra = f'<script type="application/ld+json">{json.dumps(org, ensure_ascii=False)}</script>\n'
+    inner = f"""
+<main class="site">
+<section class="hero">
 <h1>Блог о Яндекс Директе для B2B</h1>
-<p class="lead">Кейсы, разборы кабинета и практика без воды. Основной сайт и заявки — на mkekspert.ru.</p>
-<nav class="links" aria-label="Разделы">
-<a href="/dzen-feed.xml">RSS для Дзена</a>
-<a href="https://mkekspert.ru">Сайт mkekspert.ru</a>
-<a href="https://mkekspert.ru/razbor-direct">Бесплатный разбор</a>
-<a href="https://dzen.ru/klientyandtrafik">Канал в Дзене</a>
-</nav>
-<section class="card">
-<h2>Для поиска и Дзена</h2>
-<p>Этот поддомен — публичные статьи и RSS. Коммерческие страницы и заявки остаются на основном сайте.</p>
+<p>Кейсы с цифрами, разборы кабинета и практика. Без воды — только то, что работает в Директе.</p>
 </section>
+<section class="grid" aria-label="Статьи">
+{grid}
+</section>
+<p class="cta">Нужен разбор кабинета? <a href="https://mkekspert.ru/razbor-direct?utm_source=blog&utm_medium=index&utm_campaign=home">Записаться на бесплатный разбор</a></p>
 </main>
-</body>
-</html>
 """
+    return _site_chrome(
+        inner,
+        title="МК Эксперт — блог о Яндекс Директе",
+        description="Кейсы и разборы Яндекс Директа для B2B: CPL, заявки, Метрика. Мария Ковалева, mkekspert.ru",
+        canonical=f"{site}/",
+        extra_head=extra,
+    )
+
+
+def _blog_sitemap_xml(posts: list[dict[str, Any]]) -> str:
+    site = SITE_URL.rstrip("/")
+    urls = [f"{site}/"] + [p["url"] for p in posts]
+    lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ]
+    for u in urls:
+        lines.append(f"  <url><loc>{html.escape(u)}</loc></url>")
+    lines.append("</urlset>")
+    return "\n".join(lines) + "\n"
 
 
 def _collect_gh_pages_files() -> dict[str, bytes]:
-    """Файлы для ветки gh-pages: feed, CNAME, covers, HTML статей, подтверждение домена."""
+    """Файлы для ветки gh-pages: блог, feed, covers, SEO."""
     files: dict[str, bytes] = {}
     if FEED_FILE.is_file():
         files["dzen-feed.xml"] = FEED_FILE.read_bytes()
     files["CNAME"] = b"blog.mkekspert.ru\n"
+    files["robots.txt"] = (
+        "User-agent: *\nAllow: /\nSitemap: https://blog.mkekspert.ru/sitemap.xml\n"
+    ).encode()
+    posts = _blog_posts()
     files["index.html"] = _blog_index_html().encode("utf-8")
+    files["sitemap.xml"] = _blog_sitemap_xml(posts).encode("utf-8")
     if BLOG_SITE_DIR.is_dir():
         for path in BLOG_SITE_DIR.rglob("*"):
             if not path.is_file() or path.name.startswith("."):
                 continue
             rel = path.relative_to(BLOG_SITE_DIR).as_posix()
-            # index.html из папки перекрывает сгенерированный только если нет метатега в env
-            if rel == "index.html" and (
-                os.getenv("DZEN_ZEN_VERIFICATION", "").strip()
-                or os.getenv("DZEN_YANDEX_VERIFICATION", "").strip()
-            ):
+            if rel == "index.html":
                 continue
             files[rel] = path.read_bytes()
     if COVERS_DIR.is_dir():
         for cover in COVERS_DIR.glob("*.jpg"):
             files[f"covers/{cover.name}"] = cover.read_bytes()
     for item in _queue_items():
-        cid = str(item.get("id") or "")
-        if not cid:
+        post = _blog_post_meta(item)
+        if not post:
             continue
         body = _article_body_html(item)
         if not body:
             continue
-        files[f"articles/{cid}.html"] = _article_html_page(cid, body).encode("utf-8")
+        files[f"articles/{post['id']}.html"] = _article_html_page(
+            post["id"], body, post
+        ).encode("utf-8")
     return files
 
 
