@@ -35,12 +35,14 @@ slots:
   time: '12:00'
   action: publish_teasers
   campaign_id: penoplast-case
-  status: scheduled
+  status: done
+  completed_at: '2026-09-02T12:00:08.587189+03:00'
 - date: '2026-09-03'
   time: '11:00'
   action: publish_tg_post
   post_id: tg-5-errors-reminder
-  status: scheduled
+  status: done
+  completed_at: '2026-09-03T11:00:29.254596+03:00'
 - date: '2026-09-09'
   time: '10:00'
   action: publish_dzen
