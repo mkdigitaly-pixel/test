@@ -199,126 +199,122 @@ def overlay_brand_text(img: Image.Image, headline: str, subline: str) -> Image.I
         return img
 
     if cover_style in ("modern_neon_3d", "neon_3d", "neon_pills"):
-        img = img.copy().convert("RGB")
+        img = img.copy().convert("RGBA")
         w, h = img.size
-        draw = ImageDraw.Draw(img)
 
-        def parse_chips(s: str) -> list[str]:
-            if not s:
-                return []
-            # Пробуем вытащить слова как в референсе: "таргет · контекст · SMM · сайт ..."
-            parts = [p.strip() for p in re.split(r"[·•/|,]+", s) if p.strip()]
-            # Чуть нормализуем длину, чтобы не уходило за пределы.
-            return parts[:6]
-
-        def draw_pill(
-            x: int,
-            y: int,
-            pw: int,
-            ph: int,
-            *,
-            fill_hex: str,
-            label: str,
-            label_color_hex: str,
+        def _pill(
+            canvas: "ImageDraw.ImageDraw",
+            x: int, y: int, pw: int, ph: int,
+            fill_hex: str, label: str, label_color_hex: str = BG_IVORY,
         ) -> None:
             fill = hex_rgb(fill_hex)
             label_color = hex_rgb(label_color_hex)
-            r = int(ph * 0.5)
+            r = int(ph * 0.48)
+            shadow = tuple(max(0, c - 60) for c in fill)
+            hi     = tuple(min(255, c + 50) for c in fill)
+            off = max(5, ph // 12)
+            canvas.rounded_rectangle([x+off, y+off, x+pw+off, y+ph+off], radius=r, fill=(*shadow, 120))
+            canvas.rounded_rectangle([x, y, x+pw, y+ph], radius=r, fill=(*fill, 255))
+            bx1, by1 = x + int(pw*0.08), y + int(ph*0.10)
+            bx2, by2 = x + pw - int(pw*0.08), y + int(ph*0.42)
+            canvas.rounded_rectangle([bx1, by1, bx2, by2], radius=r, fill=(*hi, 160))
+            canvas.rounded_rectangle([x, y, x+pw, y+ph], radius=r, outline=(*shadow, 200), width=2)
+            fsz = max(20, int(ph * 0.32))
+            font = load_font(fsz, bold=True)
+            parts = textwrap.wrap(label, width=13)[:2] or [label]
+            total_h = sum(canvas.textbbox((0,0), p, font=font)[3] - canvas.textbbox((0,0), p, font=font)[1] for p in parts)
+            cy = y + (ph - total_h) // 2
+            for part in parts:
+                bbox2 = canvas.textbbox((0,0), part, font=font)
+                tw2 = bbox2[2] - bbox2[0]
+                th2 = bbox2[3] - bbox2[1]
+                canvas.text((x + (pw - tw2)//2, cy), part, fill=(*label_color, 255), font=font)
+                cy += th2
 
-            shadow_off = max(4, int(min(pw, ph) * 0.05))
-            fill_dark = tuple(max(0, c - 55) for c in fill)
-            fill_hi = tuple(min(255, c + 45) for c in fill)
+        pill_layer = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        pd = ImageDraw.Draw(pill_layer)
 
-            # тень
-            draw.rounded_rectangle(
-                [x + shadow_off, y + shadow_off, x + pw + shadow_off, y + ph + shadow_off],
-                radius=r,
-                fill=fill_dark,
-            )
-            # тело
-            draw.rounded_rectangle([x, y, x + pw, y + ph], radius=r, fill=fill)
-            # блик сверху
-            draw.rounded_rectangle(
-                [x + int(pw * 0.06), y + int(ph * 0.10), x + pw - int(pw * 0.06), y + int(ph * 0.40)],
-                radius=r,
-                fill=fill_hi,
-            )
-            # тонкая обводка тёмным
-            draw.rounded_rectangle([x, y, x + pw, y + ph], radius=r, outline=fill_dark, width=2)
-
-            # текст
-            font_sz = max(18, int(ph * 0.30))
-            font = load_font(font_sz, bold=True)
-            lines = textwrap.wrap(label, width=12)[:2] or [label]
-
-            line_heights = []
-            total_h = 0
-            for ln in lines:
-                bbox = draw.textbbox((0, 0), ln, font=font)
-                th = bbox[3] - bbox[1]
-                line_heights.append(th)
-                total_h += th
-
-            cur_y = y + (ph - total_h) // 2
-            for i, ln in enumerate(lines):
-                bbox = draw.textbbox((0, 0), ln, font=font)
-                tw = bbox[2] - bbox[0]
-                cur_x = x + (pw - tw) // 2
-                draw.text((cur_x, cur_y), ln, fill=label_color, font=font)
-                cur_y += line_heights[i]
-
-        # Чипы берём из subline (как в примере: таргет/контекст/SMM/сайт...)
-        chips = parse_chips(subline)
+        chips = [p.strip() for p in re.split(r"[·•/|,]+", subline) if p.strip()][:6] if subline else []
         if not chips:
-            # Если subline не заполнен, пытаемся не ломать композицию:
-            # рисуем “служебные” чипы (они будут заменены, когда subline появится).
-            chips = ["таргет", "контекст", "SMM", "сайт", "блог"]
+            chips = ["таргет", "контекст", "SMM", "сайт", "блогер"]
 
-        # 3D-пилюли (позиции под обе разметки — 16:9 и 4:5)
-        # Цвета: терракота / изумруд / золото — из brandbook/tokens.json
-        pill_specs = [
-            (0.07, 0.18, 0.30, 0.12, ACCENT_TERRA, BG_IVORY),
-            (0.63, 0.12, 0.30, 0.12, ACCENT_GOLD,  BG_IVORY),
-            (0.62, 0.68, 0.32, 0.12, ACCENT_EMER,  BG_IVORY),
-            (0.08, 0.70, 0.28, 0.12, ACCENT_GOLD,  BG_IVORY),
-            (0.34, 0.46, 0.32, 0.16, ACCENT_TERRA, BG_IVORY),
-        ]
+        is_portrait = h > w
+        if is_portrait:
+            # Пилюли только в верхней зоне (0..45%) — заголовок + карточка внизу
+            pill_specs = [
+                (0.05, 0.04, 0.46, 0.09, ACCENT_TERRA),   # верх-лево
+                (0.50, 0.04, 0.44, 0.09, ACCENT_GOLD),    # верх-право
+                (0.05, 0.17, 0.38, 0.09, ACCENT_EMER),    # 2-лево
+                (0.50, 0.17, 0.44, 0.09, ACCENT_GOLD),    # 2-право
+                (0.05, 0.30, 0.44, 0.09, ACCENT_TERRA),   # 3-лево
+                (0.50, 0.30, 0.44, 0.09, ACCENT_EMER),    # 3-право
+            ]
+        else:
+            # Пилюли по углам — заголовок слева-сверху по центру
+            pill_specs = [
+                (0.66, 0.06, 0.30, 0.14, ACCENT_GOLD),    # право-верх
+                (0.66, 0.26, 0.30, 0.14, ACCENT_TERRA),   # право-середина
+                (0.66, 0.66, 0.30, 0.14, ACCENT_EMER),    # право-низ
+                (0.04, 0.72, 0.28, 0.14, ACCENT_GOLD),    # лево-низ
+                (0.34, 0.72, 0.30, 0.14, ACCENT_TERRA),   # центр-низ
+            ]
 
         for i, chip in enumerate(chips):
             if i >= len(pill_specs):
                 break
-            px, py, pw_rel, ph_rel, fill_hex, label_hex = pill_specs[i]
-            pw = int(w * pw_rel)
-            ph = int(h * ph_rel)
-            x = int(w * px)
-            y = int(h * py)
-            draw_pill(x, y, pw, ph, fill_hex=fill_hex, label=chip, label_color_hex=label_hex)
+            px, py, pw_r, ph_r, fcol = pill_specs[i]
+            _pill(pd, int(w*px), int(h*py), int(w*pw_r), int(h*ph_r), fcol, chip)
 
-        # Большой заголовок — как “якорь”, как на референсе.
-        # Его можно скрыть через COVER_NO_TEXT=1 (при этом чипы остаются).
+        # Сначала заголовок (под пилюлями), потом пилюли поверх — но текст поверх всего
         if not no_text:
-            font_title = load_font(max(58, int(w * 0.085)), bold=True)
-            lines = textwrap.wrap(headline.strip(), width=(14 if h > w else 22))[:3] or [headline]
+            txt_layer = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+            td = ImageDraw.Draw(txt_layer)
 
-            # тень + основной текст
-            y0 = int(h * 0.23)
-            step = int(h * 0.08)
-            for j, ln in enumerate(lines):
-                bbox = draw.textbbox((0, 0), ln, font=font_title)
-                tw = bbox[2] - bbox[0]
-                tx = (w - tw) // 2
-                ty = y0 + j * step
-                draw.text((tx + 5, ty + 5), ln, fill=hex_rgb(BG_WARM), font=font_title)
-                draw.text((tx, ty), ln, fill=TEXT_GRAPHITE, font=font_title)
+            pad = max(40, int(w * 0.04))
+            # Портрет: шрифт чуть меньше, чтобы не вылезал за край
+            font_sz = max(44, int(w * 0.072)) if not is_portrait else max(52, int(w * 0.095))
+            font_title = load_font(font_sz, bold=True)
 
-            # Подпись бренда
-            font_brand = load_font(max(20, int(w * 0.022)), bold=True)
-            brand = "mkekspert.ru"
-            bbox = draw.textbbox((0, 0), brand, font=font_brand)
-            tw = bbox[2] - bbox[0]
-            draw.text(((w - tw) // 2, h - 70), brand, fill=ACCENT_TERRA, font=font_brand)
+            # Ширина враппинга: учитываем реальную ширину canvas
+            wrap_w = int((w - pad * 2) / (font_sz * 0.55)) if font_sz > 0 else 18
+            lines = textwrap.wrap(headline.strip(), width=max(10, wrap_w))[:3] or [headline]
+            ty = int(h * (0.52 if is_portrait else 0.16))
+            step = int(font_sz * 1.15)
+            for ln in lines:
+                td.text((pad + 4, ty + 4), ln, fill=(*hex_rgb(BG_WARM), 180), font=font_title)
+                td.text((pad, ty), ln, fill=(*hex_rgb(TEXT_GRAPHITE), 255), font=font_title)
+                ty += step
 
-        return img
+            if subline:
+                card_y = ty + int(h * 0.03)
+                card_h = int(h * 0.16)
+                card_w = int(w * (0.54 if not is_portrait else 0.88))
+                card_x = pad
+                td.rounded_rectangle(
+                    [card_x, card_y, card_x + card_w, card_y + card_h],
+                    radius=18,
+                    fill=(*hex_rgb(BG_IVORY), 220),
+                    outline=(*hex_rgb(ACCENT_TERRA), 200),
+                    width=2,
+                )
+                font_card_h = load_font(max(18, int(h * 0.028)), bold=True)
+                font_card_b = load_font(max(14, int(h * 0.022)))
+                td.text((card_x + 20, card_y + 12), "В итоге —", fill=(*hex_rgb(ACCENT_TERRA), 255), font=font_card_h)
+                body_lines = textwrap.wrap(subline, width=38 if not is_portrait else 28)[:2]
+                by = card_y + 12 + int(h * 0.032)
+                for bl in body_lines:
+                    td.text((card_x + 20, by), bl, fill=(*hex_rgb(TEXT_DARK_BEI), 230), font=font_card_b)
+                    by += int(h * 0.028)
+
+            font_br = load_font(max(20, int(w * 0.022)), bold=True)
+            br = "mkekspert.ru"
+            td.text((pad, h - int(h*0.06)), br, fill=(*hex_rgb(ACCENT_TERRA), 220), font=font_br)
+
+            img = Image.alpha_composite(img, txt_layer)
+
+        # Пилюли рисуются последними — поверх всего
+        img = Image.alpha_composite(img, pill_layer)
+        return img.convert("RGB")
 
     img = img.copy()
     w, h = img.size
