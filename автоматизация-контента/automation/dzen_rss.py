@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import html
+import json
 import os
 import re
 import shutil
@@ -212,9 +213,13 @@ def _article_html_page(campaign_id: str, body_html: str) -> str:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{html.escape(title)} — МК Эксперт</title>
 <meta property="og:title" content="{html.escape(title)}">
+<meta property="og:site_name" content="МК Эксперт">
 <link rel="canonical" href="{html.escape(link)}">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="120x120" href="/favicon-120.png">
 <style>
 body{{font-family:system-ui,sans-serif;max-width:720px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#1a1a1a}}
+.brand{{font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;color:#1a7a3a;font-weight:700;margin:0 0 1rem}}
 h1,h2,h3{{color:#111}}
 a{{color:#2563eb}}
 img{{max-width:100%;height:auto;border-radius:8px}}
@@ -222,11 +227,13 @@ figure{{margin:1.5em 0}}
 </style>
 </head>
 <body>
+<p class="brand">МК Эксперт</p>
 <article>
 {body_html}
 </article>
 <p style="margin-top:3rem;color:#666;font-size:0.9rem">
-<a href="https://mkekspert.ru">mkekspert.ru</a> — контекстная реклама
+<a href="https://mkekspert.ru">mkekspert.ru</a> — контекстная реклама ·
+<a href="https://mkekspert.ru/razbor-direct">бесплатный разбор</a>
 </p>
 </body>
 </html>
@@ -269,8 +276,7 @@ BLOG_SITE_DIR = ROOT / "articles" / "dzen" / "blog-site"
 
 
 def _blog_index_html() -> str:
-    """Главная blog.mkekspert.ru — для подтверждения домена в Дзене (метатег)."""
-    # Дзен: zen-verification; Вебмастер: yandex-verification
+    """Главная blog.mkekspert.ru — бренд в поиске + подтверждение домена в Дзене."""
     zen = os.getenv("DZEN_ZEN_VERIFICATION", "").strip()
     yandex = os.getenv("DZEN_YANDEX_VERIFICATION", "").strip()
     metas = ""
@@ -278,22 +284,82 @@ def _blog_index_html() -> str:
         metas += f'<meta name="zen-verification" content="{html.escape(zen)}" />\n'
     if yandex:
         metas += f'<meta name="yandex-verification" content="{html.escape(yandex)}" />\n'
+    site = SITE_URL.rstrip("/")
+    schema = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Organization",
+                "@id": f"{site}/#organization",
+                "name": "МК Эксперт",
+                "alternateName": ["МК-Эксперт", "mkekspert", "Мария Ковалева"],
+                "url": "https://mkekspert.ru",
+                "logo": f"{site}/favicon-120.png",
+                "sameAs": [
+                    "https://dzen.ru/klientyandtrafik",
+                    "https://t.me/mariyaprodirect",
+                    "https://vk.ru/klientyandtrafik",
+                ],
+            },
+            {
+                "@type": "WebSite",
+                "@id": f"{site}/#website",
+                "name": "МК Эксперт — блог",
+                "url": site,
+                "publisher": {"@id": f"{site}/#organization"},
+                "inLanguage": "ru-RU",
+            },
+        ],
+    }
+    schema_json = json.dumps(schema, ensure_ascii=False)
     return f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-{metas}<title>МК Эксперт — блог</title>
-<link rel="alternate" type="application/rss+xml" title="RSS" href="/dzen-feed.xml">
+{metas}<title>МК Эксперт — блог о Яндекс Директе</title>
+<meta name="description" content="Кейсы и разборы Яндекс Директа для B2B: CPL, заявки, Метрика. Эксперт — Мария Ковалева, mkekspert.ru">
+<meta property="og:title" content="МК Эксперт — блог">
+<meta property="og:site_name" content="МК Эксперт">
+<meta property="og:url" content="{html.escape(site)}/">
+<link rel="canonical" href="{html.escape(site)}/">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="120x120" href="/favicon-120.png">
+<link rel="apple-touch-icon" href="/favicon-120.png">
+<link rel="alternate" type="application/rss+xml" title="МК Эксперт — RSS" href="/dzen-feed.xml">
+<script type="application/ld+json">{schema_json}</script>
 <style>
-body{{font-family:system-ui,sans-serif;max-width:640px;margin:3rem auto;padding:0 1rem;line-height:1.6;color:#1a1a1a}}
-a{{color:#2563eb}}
+:root{{--ink:#111;--muted:#555;--accent:#1a7a3a;--bg:#f6f7f4}}
+*{{box-sizing:border-box}}
+body{{margin:0;font-family:Georgia,"Times New Roman",serif;background:linear-gradient(165deg,#eef2ea 0%,#f8f6f1 45%,#e8eef5 100%);color:var(--ink);min-height:100vh}}
+.wrap{{max-width:680px;margin:0 auto;padding:3rem 1.25rem 4rem}}
+.brand{{font-family:system-ui,sans-serif;font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:0 0 0.75rem}}
+h1{{font-size:clamp(1.8rem,4vw,2.4rem);line-height:1.15;margin:0 0 0.75rem;font-weight:700}}
+.lead{{font-size:1.1rem;line-height:1.55;color:var(--muted);margin:0 0 2rem}}
+.links{{display:flex;flex-wrap:wrap;gap:0.75rem 1.25rem;font-family:system-ui,sans-serif;font-size:0.95rem}}
+.links a{{color:#1d4ed8;text-underline-offset:3px}}
+.card{{margin-top:2.5rem;padding:1.25rem 1.35rem;background:rgba(255,255,255,0.72);border:1px solid rgba(0,0,0,0.06);border-radius:12px}}
+.card h2{{font-size:1.05rem;margin:0 0 0.5rem;font-family:system-ui,sans-serif}}
+.card p{{margin:0;color:var(--muted);font-size:0.95rem;line-height:1.5}}
 </style>
 </head>
 <body>
-<h1>МК Эксперт</h1>
-<p>Статьи о Яндекс Директе. Основной сайт — <a href="https://mkekspert.ru">mkekspert.ru</a>.</p>
-<p><a href="/dzen-feed.xml">RSS для Дзена</a></p>
+<main class="wrap">
+<p class="brand">МК Эксперт</p>
+<h1>Блог о Яндекс Директе для B2B</h1>
+<p class="lead">Кейсы, разборы кабинета и практика без воды. Основной сайт и заявки — на mkekspert.ru.</p>
+<nav class="links" aria-label="Разделы">
+<a href="/dzen-feed.xml">RSS для Дзена</a>
+<a href="https://mkekspert.ru">Сайт mkekspert.ru</a>
+<a href="https://mkekspert.ru/razbor-direct">Бесплатный разбор</a>
+<a href="https://dzen.ru/klientyandtrafik">Канал в Дзене</a>
+</nav>
+<section class="card">
+<h2>Для поиска и Дзена</h2>
+<p>Этот поддомен — публичные статьи и RSS. Коммерческие страницы и заявки остаются на основном сайте.</p>
+</section>
+</main>
 </body>
 </html>
 """
