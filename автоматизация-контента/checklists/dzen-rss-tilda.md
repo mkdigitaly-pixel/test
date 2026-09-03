@@ -50,14 +50,47 @@ DZEN_RSS_DEPLOY_GH_PAGES=true
 
 ---
 
-## Шаг 5. Дзен (один раз)
+## Шаг 5. Дзен: подтвердить домен (один раз)
 
-1. [dzen.ru/studio](https://dzen.ru/studio)
-2. **Настройки** → **Свой сайт**
-3. Домен: **`blog.mkekspert.ru`** (не mkekspert.ru)
-4. Подтвердить домен (файл или метатег на blog — GitHub Pages)
-5. **Настроить трансляцию** → URL: `https://blog.mkekspert.ru/dzen-feed.xml`
-6. Отправить на проверку
+1. [dzen.ru/studio](https://dzen.ru/studio) → **Настройки** → **Свой сайт**
+2. Домен: **`blog.mkekspert.ru`** (не mkekspert.ru)
+3. Выберите способ подтверждения:
+
+### Способ А — метатег (удобнее)
+
+Дзен покажет что-то вроде:
+
+```html
+<meta name="yandex-verification" content="XXXXXXXXXXXX" />
+```
+
+**Пришлите агенту** значение `content` (или весь тег) — агент пропишет в `.env`:
+
+```
+DZEN_YANDEX_VERIFICATION=XXXXXXXXXXXX
+```
+
+и выполнит `python3 publish.py dzen-rss setup`.  
+Проверка: https://blog.mkekspert.ru/ — в исходном коде страницы должен быть метатег.  
+Затем в Студии нажмите **Подтвердить**.
+
+### Способ Б — HTML-файл
+
+Дзен даст имя файла, например `yandex_XXXXXXXX.html`, и содержимое.
+
+Сохраните файл в:
+
+`автоматизация-контента/articles/dzen/blog-site/yandex_XXXXXXXX.html`
+
+Агент задеплоит → откроется `https://blog.mkekspert.ru/yandex_XXXXXXXX.html` → в Студии **Подтвердить**.
+
+---
+
+## Шаг 6. RSS в Дзене
+
+1. После подтверждения домена → **Настроить трансляцию**
+2. URL: `https://blog.mkekspert.ru/dzen-feed.xml`
+3. Отправить на проверку
 
 **Зачем:** Дзен забирает статьи с разметкой автоматически; расписание — у агента.
 

@@ -265,12 +265,54 @@ def _article_body_html(item: dict[str, Any]) -> str:
     )
 
 
+BLOG_SITE_DIR = ROOT / "articles" / "dzen" / "blog-site"
+
+
+def _blog_index_html() -> str:
+    """Главная blog.mkekspert.ru — для подтверждения домена в Дзене (метатег)."""
+    verify = os.getenv("DZEN_YANDEX_VERIFICATION", "").strip()
+    meta = (
+        f'<meta name="yandex-verification" content="{html.escape(verify)}" />\n'
+        if verify
+        else ""
+    )
+    return f"""<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{meta}<title>МК Эксперт — блог</title>
+<link rel="alternate" type="application/rss+xml" title="RSS" href="/dzen-feed.xml">
+<style>
+body{{font-family:system-ui,sans-serif;max-width:640px;margin:3rem auto;padding:0 1rem;line-height:1.6;color:#1a1a1a}}
+a{{color:#2563eb}}
+</style>
+</head>
+<body>
+<h1>МК Эксперт</h1>
+<p>Статьи о Яндекс Директе. Основной сайт — <a href="https://mkekspert.ru">mkekspert.ru</a>.</p>
+<p><a href="/dzen-feed.xml">RSS для Дзена</a></p>
+</body>
+</html>
+"""
+
+
 def _collect_gh_pages_files() -> dict[str, bytes]:
-    """Файлы для ветки gh-pages: feed, CNAME, covers, HTML статей."""
+    """Файлы для ветки gh-pages: feed, CNAME, covers, HTML статей, подтверждение домена."""
     files: dict[str, bytes] = {}
     if FEED_FILE.is_file():
         files["dzen-feed.xml"] = FEED_FILE.read_bytes()
     files["CNAME"] = b"blog.mkekspert.ru\n"
+    files["index.html"] = _blog_index_html().encode("utf-8")
+    if BLOG_SITE_DIR.is_dir():
+        for path in BLOG_SITE_DIR.rglob("*"):
+            if not path.is_file() or path.name.startswith("."):
+                continue
+            rel = path.relative_to(BLOG_SITE_DIR).as_posix()
+            # index.html из папки перекрывает сгенерированный только если нет метатега в env
+            if rel == "index.html" and os.getenv("DZEN_YANDEX_VERIFICATION", "").strip():
+                continue
+            files[rel] = path.read_bytes()
     if COVERS_DIR.is_dir():
         for cover in COVERS_DIR.glob("*.jpg"):
             files[f"covers/{cover.name}"] = cover.read_bytes()
@@ -321,8 +363,15 @@ def deploy_gh_pages(*, campaign_id: str = "", dry_run: bool = False) -> str:
     try:
         if branch_exists:
             subprocess.run(
-                ["git", "worktree", "add", str(worktree), "origin/gh-pages"],
+                ["git", "worktree", "add", "--detach", str(worktree), "origin/gh-pages"],
                 cwd=git_root,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            subprocess.run(
+                ["git", "checkout", "-B", "gh-pages"],
+                cwd=worktree,
                 check=True,
                 capture_output=True,
                 text=True,
@@ -380,11 +429,28 @@ def deploy_gh_pages(*, campaign_id: str = "", dry_run: bool = False) -> str:
         cwd=worktree,
         check=True,
     )
-    subprocess.run(
-        ["git", "push", "-u", "origin", "gh-pages"],
+    push = subprocess.run(
+        ["git", "push", "-u", "origin", "HEAD:gh-pages"],
         cwd=worktree,
-        check=True,
+        capture_output=True,
+        text=True,
     )
+    if push.returncode != 0:
+        # ветка только для деплоя сайта — перезаписываем содержимое
+        push = subprocess.run(
+            ["git", "push", "--force-with-lease", "origin", "HEAD:gh-pages"],
+            cwd=worktree,
+            capture_output=True,
+            text=True,
+        )
+        if push.returncode != 0:
+            print(f"⚠ gh-pages push: {(push.stderr or push.stdout).strip()}")
+            subprocess.run(
+                ["git", "worktree", "remove", "--force", str(worktree)],
+                cwd=git_root,
+                capture_output=True,
+            )
+            return ""
     subprocess.run(
         ["git", "worktree", "remove", "--force", str(worktree)],
         cwd=git_root,
