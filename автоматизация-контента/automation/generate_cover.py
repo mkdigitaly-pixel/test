@@ -216,6 +216,127 @@ def overlay_brand_text(img: Image.Image, headline: str, subline: str) -> Image.I
         draw.text((x, h - 42), "mkekspert.ru", fill=MW_GRAPHITE, font=font_b)
         return img
 
+    if cover_style in ("modern_neon_3d", "neon_3d", "neon_pills"):
+        img = img.copy().convert("RGB")
+        w, h = img.size
+        draw = ImageDraw.Draw(img)
+
+        def parse_chips(s: str) -> list[str]:
+            if not s:
+                return []
+            # Пробуем вытащить слова как в референсе: "таргет · контекст · SMM · сайт ..."
+            parts = [p.strip() for p in re.split(r"[·•/|,]+", s) if p.strip()]
+            # Чуть нормализуем длину, чтобы не уходило за пределы.
+            return parts[:6]
+
+        def draw_pill(
+            x: int,
+            y: int,
+            pw: int,
+            ph: int,
+            *,
+            fill_hex: str,
+            label: str,
+            label_color_hex: str,
+        ) -> None:
+            fill = hex_rgb(fill_hex)
+            label_color = hex_rgb(label_color_hex)
+            r = int(ph * 0.5)
+
+            shadow_off = max(4, int(min(pw, ph) * 0.05))
+            fill_dark = tuple(max(0, c - 55) for c in fill)
+            fill_hi = tuple(min(255, c + 45) for c in fill)
+
+            # тень
+            draw.rounded_rectangle(
+                [x + shadow_off, y + shadow_off, x + pw + shadow_off, y + ph + shadow_off],
+                radius=r,
+                fill=fill_dark,
+            )
+            # тело
+            draw.rounded_rectangle([x, y, x + pw, y + ph], radius=r, fill=fill)
+            # блик сверху
+            draw.rounded_rectangle(
+                [x + int(pw * 0.06), y + int(ph * 0.10), x + pw - int(pw * 0.06), y + int(ph * 0.40)],
+                radius=r,
+                fill=fill_hi,
+            )
+            # тонкая обводка тёмным
+            draw.rounded_rectangle([x, y, x + pw, y + ph], radius=r, outline=fill_dark, width=2)
+
+            # текст
+            font_sz = max(18, int(ph * 0.30))
+            font = load_font(font_sz, bold=True)
+            lines = textwrap.wrap(label, width=12)[:2] or [label]
+
+            line_heights = []
+            total_h = 0
+            for ln in lines:
+                bbox = draw.textbbox((0, 0), ln, font=font)
+                th = bbox[3] - bbox[1]
+                line_heights.append(th)
+                total_h += th
+
+            cur_y = y + (ph - total_h) // 2
+            for i, ln in enumerate(lines):
+                bbox = draw.textbbox((0, 0), ln, font=font)
+                tw = bbox[2] - bbox[0]
+                cur_x = x + (pw - tw) // 2
+                draw.text((cur_x, cur_y), ln, fill=label_color, font=font)
+                cur_y += line_heights[i]
+
+        # Чипы берём из subline (как в примере: таргет/контекст/SMM/сайт...)
+        chips = parse_chips(subline)
+        if not chips:
+            # Если subline не заполнен, пытаемся не ломать композицию:
+            # рисуем “служебные” чипы (они будут заменены, когда subline появится).
+            chips = ["таргет", "контекст", "SMM", "сайт", "блог"]
+
+        # 3D-пилюли (позиции под обе разметки — 16:9 и 4:5)
+        pill_specs = [
+            (0.07, 0.18, 0.30, 0.12, ACCENT_GREEN, "#0A1A0A"),
+            (0.63, 0.12, 0.30, 0.12, ACCENT_YELLOW, "#1A1200"),
+            (0.62, 0.68, 0.32, 0.12, ACCENT_GREEN, "#0A1A0A"),
+            (0.08, 0.70, 0.28, 0.12, ACCENT_YELLOW, "#1A1200"),
+            (0.34, 0.46, 0.32, 0.16, ACCENT_YELLOW, "#1A1200"),
+        ]
+
+        for i, chip in enumerate(chips):
+            if i >= len(pill_specs):
+                break
+            px, py, pw_rel, ph_rel, fill_hex, label_hex = pill_specs[i]
+            pw = int(w * pw_rel)
+            ph = int(h * ph_rel)
+            x = int(w * px)
+            y = int(h * py)
+            draw_pill(x, y, pw, ph, fill_hex=fill_hex, label=chip, label_color_hex=label_hex)
+
+        # Большой заголовок — как “якорь”, как на референсе.
+        # Его можно скрыть через COVER_NO_TEXT=1 (при этом чипы остаются).
+        if not no_text:
+            font_title = load_font(max(58, int(w * 0.085)), bold=True)
+            lines = textwrap.wrap(headline.strip(), width=(14 if h > w else 22))[:3] or [headline]
+
+            # тень + основной текст
+            y0 = int(h * 0.23)
+            step = int(h * 0.08)
+            for j, ln in enumerate(lines):
+                bbox = draw.textbbox((0, 0), ln, font=font_title)
+                tw = bbox[2] - bbox[0]
+                tx = (w - tw) // 2
+                ty = y0 + j * step
+                draw.text((tx + 5, ty + 5), ln, fill=(0, 0, 0), font=font_title)
+                draw.text((tx, ty), ln, fill=TEXT, font=font_title)
+
+            # Подпись бренда
+            font_brand = load_font(max(20, int(w * 0.022)), bold=True)
+            brand = "mkekspert.ru"
+            bbox = draw.textbbox((0, 0), brand, font=font_brand)
+            tw = bbox[2] - bbox[0]
+            draw.text(((w - tw) // 2, h - 70), brand, fill=ACCENT_GREEN, font=font_brand)
+
+        return img
+
     img = img.copy()
     w, h = img.size
     overlay = Image.new("RGBA", (w, h), (0, 0, 0, 0))
@@ -360,6 +481,43 @@ def draw_minimal_warm_background(size: tuple[int, int]) -> Image.Image:
     draw.rounded_rectangle([int(w * 0.06), int(h * 0.10), int(w * 0.94), int(h * 0.92)], radius=26, outline=gold, width=2)
     # диагональная “полоса”
     draw.line([(int(w * 0.10), int(h * 0.68)), (int(w * 0.40), int(h * 0.38))], fill=terr, width=6)
+    return img
+
+
+def draw_modern_neon_3d_background(size: tuple[int, int]) -> Image.Image:
+    """Похожий на референс стиль: градиент + неоновая дуга (без текста/чипов)."""
+    w, h = size
+
+    # “Современный” градиент из тёмной базы mkekspert + зелёный оттенок.
+    base0 = hex_rgb(BG)
+    base1 = hex_rgb(ACCENT_GREEN)
+    teal = tuple(int(base0[i] * 0.70 + base1[i] * 0.30) for i in range(3))
+
+    img = Image.new("RGB", size, BG)
+    draw = ImageDraw.Draw(img)
+    for y in range(h):
+        t = y / max(h - 1, 1)
+        color = tuple(int(base0[i] * (1 - t) + teal[i] * t) for i in range(3))
+        draw.line([(0, y), (w, y)], fill=color)
+
+    overlay = Image.new("RGBA", size, (0, 0, 0, 0))
+    odraw = ImageDraw.Draw(overlay)
+
+    green = hex_rgb(ACCENT_GREEN)
+    yellow = hex_rgb(ACCENT_YELLOW)
+
+    # Свечение “объектов”
+    odraw.ellipse([int(w * 0.55), int(-h * 0.20), int(w * 1.10), int(h * 0.60)], fill=(*green, 70))
+    odraw.ellipse([int(-w * 0.10), int(h * 0.20), int(w * 0.65), int(h * 1.10)], fill=(*yellow, 55))
+    odraw.ellipse([int(w * 0.25), int(h * 0.55), int(w * 0.95), int(h * 1.15)], fill=(60, 60, 60, 70))
+
+    # Неоновая дуга (в духе кольца на референсе)
+    ring_w = max(10, w // 45)
+    odraw.arc([int(w * 0.05), int(h * 0.00), int(w * 0.95), int(h * 0.95)], start=200, end=320, fill=(*green, 160), width=ring_w)
+    odraw.arc([int(w * 0.10), int(h * 0.05), int(w * 0.90), int(h * 0.90)], start=40, end=150, fill=(*yellow, 130), width=max(8, w // 55))
+
+    # Лёгкий “глоу” поверх всего для современности
+    img = Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB")
     return img
 
 
@@ -663,6 +821,13 @@ def generate_cover(
             img = overlay_brand_text(bg, headline, subline)
         except Exception as exc:
             print(f"⚠ minimal_warm: {exc}")
+
+    if img is None and cover_style in ("modern_neon_3d", "neon_3d", "neon_pills"):
+        try:
+            bg = draw_modern_neon_3d_background(target)
+            img = overlay_brand_text(bg, headline, subline)
+        except Exception as exc:
+            print(f"⚠ modern_neon_3d: {exc}")
 
     if img is None and use_gpt and os.getenv("OPENAI_API_KEY"):
         try:
