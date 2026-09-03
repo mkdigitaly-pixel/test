@@ -270,18 +270,20 @@ BLOG_SITE_DIR = ROOT / "articles" / "dzen" / "blog-site"
 
 def _blog_index_html() -> str:
     """Главная blog.mkekspert.ru — для подтверждения домена в Дзене (метатег)."""
-    verify = os.getenv("DZEN_YANDEX_VERIFICATION", "").strip()
-    meta = (
-        f'<meta name="yandex-verification" content="{html.escape(verify)}" />\n'
-        if verify
-        else ""
-    )
+    # Дзен: zen-verification; Вебмастер: yandex-verification
+    zen = os.getenv("DZEN_ZEN_VERIFICATION", "").strip()
+    yandex = os.getenv("DZEN_YANDEX_VERIFICATION", "").strip()
+    metas = ""
+    if zen:
+        metas += f'<meta name="zen-verification" content="{html.escape(zen)}" />\n'
+    if yandex:
+        metas += f'<meta name="yandex-verification" content="{html.escape(yandex)}" />\n'
     return f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-{meta}<title>МК Эксперт — блог</title>
+{metas}<title>МК Эксперт — блог</title>
 <link rel="alternate" type="application/rss+xml" title="RSS" href="/dzen-feed.xml">
 <style>
 body{{font-family:system-ui,sans-serif;max-width:640px;margin:3rem auto;padding:0 1rem;line-height:1.6;color:#1a1a1a}}
@@ -310,7 +312,10 @@ def _collect_gh_pages_files() -> dict[str, bytes]:
                 continue
             rel = path.relative_to(BLOG_SITE_DIR).as_posix()
             # index.html из папки перекрывает сгенерированный только если нет метатега в env
-            if rel == "index.html" and os.getenv("DZEN_YANDEX_VERIFICATION", "").strip():
+            if rel == "index.html" and (
+                os.getenv("DZEN_ZEN_VERIFICATION", "").strip()
+                or os.getenv("DZEN_YANDEX_VERIFICATION", "").strip()
+            ):
                 continue
             files[rel] = path.read_bytes()
     if COVERS_DIR.is_dir():
