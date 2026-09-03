@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import json
 import os
 import re
 import textwrap
@@ -30,6 +31,9 @@ ACCENT_YELLOW = "#FFCC4A"
 TEXT = "#FFFFFF"
 SUB = "#B0B0B0"
 
+# Единый источник палитры/токенов
+TOKENS_FILE = ROOT / "brandbook" / "tokens.json"
+
 # --- Minimalist warm (в стиле Pinterest-ссылки пользователя) ---
 # Используем тёплую “земляную” палитру и минимальную геометрию.
 MW_BG0 = "#F5F5F2"      # warm off-white
@@ -42,6 +46,42 @@ MW_GRAPHITE = "#3D3D3D"
 LANDSCAPE = (1200, 630)
 VK_PORTRAIT = (1080, 1350)  # 4:5 — без обрезки в квадрат
 SQUARE = (1080, 1080)  # legacy, не использовать для VK-ленты
+
+
+def _apply_brand_tokens() -> None:
+    """
+    Подтягиваем палитру из `brandbook/tokens.json`, чтобы брендбук
+    был источником правды для генерации обложек.
+    """
+    global BG, ACCENT_GREEN, ACCENT_YELLOW, TEXT, SUB
+    global MW_BG0, MW_BG1, MW_TERRACOTTA, MW_PINK, MW_GOLD, MW_GRAPHITE
+
+    if not TOKENS_FILE.exists():
+        return
+
+    try:
+        tokens = json.loads(TOKENS_FILE.read_text(encoding="utf-8"))
+    except Exception:
+        return
+
+    colors = tokens.get("colors") or {}
+
+    BG = colors.get("bg", BG)
+    ACCENT_GREEN = colors.get("brandGreen", ACCENT_GREEN)
+    ACCENT_YELLOW = colors.get("brandYellow", ACCENT_YELLOW)
+    TEXT = colors.get("text", TEXT)
+    SUB = colors.get("subText", SUB)
+
+    sec = colors.get("secondary") or {}
+    MW_BG0 = sec.get("warmOffWhite", MW_BG0)
+    MW_BG1 = sec.get("warmSand", MW_BG1)
+    MW_TERRACOTTA = sec.get("terracotta", MW_TERRACOTTA)
+    MW_PINK = sec.get("milkyBeige", MW_PINK)
+    MW_GOLD = sec.get("gold", MW_GOLD)
+    MW_GRAPHITE = sec.get("charcoal", MW_GRAPHITE)
+
+
+_apply_brand_tokens()
 
 
 def load_env() -> None:
