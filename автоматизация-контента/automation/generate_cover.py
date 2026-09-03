@@ -24,64 +24,46 @@ QUEUE_FILE = ROOT / "queue" / "publish-queue.yaml"
 POSTS_QUEUE_FILE = ROOT / "queue" / "posts-queue.yaml"
 BRAND_VISUAL = ROOT / "references" / "brand-visual.md"
 
-# Палитра mkekspert.ru + VK
-BG = "#181818"
-ACCENT_GREEN = "#4EAF4E"
-ACCENT_YELLOW = "#FFCC4A"
-TEXT = "#FFFFFF"
-SUB = "#B0B0B0"
-
 # Единый источник палитры/токенов
 TOKENS_FILE = ROOT / "brandbook" / "tokens.json"
 
-# --- Minimalist warm (в стиле Pinterest-ссылки пользователя) ---
-# Используем тёплую “земляную” палитру и минимальную геометрию.
-MW_BG0 = "#F5F5F2"      # warm off-white
-MW_BG1 = "#D4A373"      # warm beige
-MW_TERRACOTTA = "#A85A32"
-MW_PINK = "#F5D6C6"
-MW_GOLD = "#D4AF37"
-MW_GRAPHITE = "#3D3D3D"
+# ---------------------------------------------------------------------------
+# Палитра brandbook v2 (тёплая — из brandbook/colors.md)
+# Фоновые
+BG_WARM       = "#D4A373"   # охра — главный фон
+BG_PINK       = "#F5D6C6"   # пудрово-розовый
+BG_IVORY      = "#FDFBF7"   # слоновая кость
+BG_GRAY       = "#D3D0CB"   # тёплый серый
 
-LANDSCAPE = (1200, 630)
-VK_PORTRAIT = (1080, 1350)  # 4:5 — без обрезки в квадрат
-SQUARE = (1080, 1080)  # legacy, не использовать для VK-ленты
+# Акцентные
+ACCENT_TERRA  = "#A85A32"   # терракота — главный акцент
+ACCENT_EMER   = "#2A6F4C"   # изумруд — денежный акцент
+ACCENT_GOLD   = "#D4AF37"   # золото — премиум
 
+# Текст
+TEXT_GRAPHITE = "#3D3D3D"   # основной текст
+TEXT_DARK_BEI = "#8B6B4A"   # подписи/мелкий текст
 
-def _apply_brand_tokens() -> None:
-    """
-    Подтягиваем палитру из `brandbook/tokens.json`, чтобы брендбук
-    был источником правды для генерации обложек.
-    """
-    global BG, ACCENT_GREEN, ACCENT_YELLOW, TEXT, SUB
-    global MW_BG0, MW_BG1, MW_TERRACOTTA, MW_PINK, MW_GOLD, MW_GRAPHITE
+# Legacy-алиасы (нужны для старых мест в коде)
+BG            = BG_WARM
+ACCENT_GREEN  = ACCENT_EMER
+ACCENT_YELLOW = ACCENT_GOLD
+TEXT          = TEXT_GRAPHITE
+SUB           = TEXT_DARK_BEI
 
-    if not TOKENS_FILE.exists():
-        return
+# MW-алиасы (minimal_warm style)
+MW_BG0        = BG_IVORY
+MW_BG1        = BG_WARM
+MW_TERRACOTTA = ACCENT_TERRA
+MW_PINK       = BG_PINK
+MW_GOLD       = ACCENT_GOLD
+MW_GRAPHITE   = TEXT_GRAPHITE
 
-    try:
-        tokens = json.loads(TOKENS_FILE.read_text(encoding="utf-8"))
-    except Exception:
-        return
-
-    colors = tokens.get("colors") or {}
-
-    BG = colors.get("bg", BG)
-    ACCENT_GREEN = colors.get("brandGreen", ACCENT_GREEN)
-    ACCENT_YELLOW = colors.get("brandYellow", ACCENT_YELLOW)
-    TEXT = colors.get("text", TEXT)
-    SUB = colors.get("subText", SUB)
-
-    sec = colors.get("secondary") or {}
-    MW_BG0 = sec.get("warmOffWhite", MW_BG0)
-    MW_BG1 = sec.get("warmSand", MW_BG1)
-    MW_TERRACOTTA = sec.get("terracotta", MW_TERRACOTTA)
-    MW_PINK = sec.get("milkyBeige", MW_PINK)
-    MW_GOLD = sec.get("gold", MW_GOLD)
-    MW_GRAPHITE = sec.get("charcoal", MW_GRAPHITE)
+LANDSCAPE   = (1200, 630)
+VK_PORTRAIT = (1080, 1350)  # 4:5
+SQUARE      = (1080, 1080)
 
 
-_apply_brand_tokens()
 
 
 def load_env() -> None:
@@ -293,12 +275,13 @@ def overlay_brand_text(img: Image.Image, headline: str, subline: str) -> Image.I
             chips = ["таргет", "контекст", "SMM", "сайт", "блог"]
 
         # 3D-пилюли (позиции под обе разметки — 16:9 и 4:5)
+        # Цвета: терракота / изумруд / золото — из brandbook/tokens.json
         pill_specs = [
-            (0.07, 0.18, 0.30, 0.12, ACCENT_GREEN, "#0A1A0A"),
-            (0.63, 0.12, 0.30, 0.12, ACCENT_YELLOW, "#1A1200"),
-            (0.62, 0.68, 0.32, 0.12, ACCENT_GREEN, "#0A1A0A"),
-            (0.08, 0.70, 0.28, 0.12, ACCENT_YELLOW, "#1A1200"),
-            (0.34, 0.46, 0.32, 0.16, ACCENT_YELLOW, "#1A1200"),
+            (0.07, 0.18, 0.30, 0.12, ACCENT_TERRA, BG_IVORY),
+            (0.63, 0.12, 0.30, 0.12, ACCENT_GOLD,  BG_IVORY),
+            (0.62, 0.68, 0.32, 0.12, ACCENT_EMER,  BG_IVORY),
+            (0.08, 0.70, 0.28, 0.12, ACCENT_GOLD,  BG_IVORY),
+            (0.34, 0.46, 0.32, 0.16, ACCENT_TERRA, BG_IVORY),
         ]
 
         for i, chip in enumerate(chips):
@@ -325,15 +308,15 @@ def overlay_brand_text(img: Image.Image, headline: str, subline: str) -> Image.I
                 tw = bbox[2] - bbox[0]
                 tx = (w - tw) // 2
                 ty = y0 + j * step
-                draw.text((tx + 5, ty + 5), ln, fill=(0, 0, 0), font=font_title)
-                draw.text((tx, ty), ln, fill=TEXT, font=font_title)
+                draw.text((tx + 5, ty + 5), ln, fill=hex_rgb(BG_WARM), font=font_title)
+                draw.text((tx, ty), ln, fill=TEXT_GRAPHITE, font=font_title)
 
             # Подпись бренда
             font_brand = load_font(max(20, int(w * 0.022)), bold=True)
             brand = "mkekspert.ru"
             bbox = draw.textbbox((0, 0), brand, font=font_brand)
             tw = bbox[2] - bbox[0]
-            draw.text(((w - tw) // 2, h - 70), brand, fill=ACCENT_GREEN, font=font_brand)
+            draw.text(((w - tw) // 2, h - 70), brand, fill=ACCENT_TERRA, font=font_brand)
 
         return img
 
@@ -485,41 +468,37 @@ def draw_minimal_warm_background(size: tuple[int, int]) -> Image.Image:
 
 
 def draw_modern_neon_3d_background(size: tuple[int, int]) -> Image.Image:
-    """Похожий на референс стиль: градиент + неоновая дуга (без текста/чипов)."""
+    """Тёплый фон (охра → слоновая кость) + мягкая декоративная дуга под пилюли."""
     w, h = size
+    c0 = hex_rgb(BG_IVORY)
+    c1 = hex_rgb(BG_WARM)
 
-    # “Современный” градиент из тёмной базы mkekspert + зелёный оттенок.
-    base0 = hex_rgb(BG)
-    base1 = hex_rgb(ACCENT_GREEN)
-    teal = tuple(int(base0[i] * 0.70 + base1[i] * 0.30) for i in range(3))
-
-    img = Image.new("RGB", size, BG)
+    img = Image.new("RGB", size, BG_IVORY)
     draw = ImageDraw.Draw(img)
     for y in range(h):
         t = y / max(h - 1, 1)
-        color = tuple(int(base0[i] * (1 - t) + teal[i] * t) for i in range(3))
+        color = tuple(int(c0[i] * (1 - t) + c1[i] * t) for i in range(3))
         draw.line([(0, y), (w, y)], fill=color)
 
     overlay = Image.new("RGBA", size, (0, 0, 0, 0))
     odraw = ImageDraw.Draw(overlay)
 
-    green = hex_rgb(ACCENT_GREEN)
-    yellow = hex_rgb(ACCENT_YELLOW)
+    terra = hex_rgb(ACCENT_TERRA)
+    emer  = hex_rgb(ACCENT_EMER)
+    gold  = hex_rgb(ACCENT_GOLD)
 
-    # Свечение “объектов”
-    odraw.ellipse([int(w * 0.55), int(-h * 0.20), int(w * 1.10), int(h * 0.60)], fill=(*green, 70))
-    odraw.ellipse([int(-w * 0.10), int(h * 0.20), int(w * 0.65), int(h * 1.10)], fill=(*yellow, 55))
-    odraw.ellipse([int(w * 0.25), int(h * 0.55), int(w * 0.95), int(h * 1.15)], fill=(60, 60, 60, 70))
+    # Мягкие тёплые пятна (полупрозрачные)
+    odraw.ellipse([int(w * 0.55), int(-h * 0.20), int(w * 1.10), int(h * 0.60)], fill=(*emer, 35))
+    odraw.ellipse([int(-w * 0.10), int(h * 0.20), int(w * 0.65), int(h * 1.10)], fill=(*terra, 25))
+    odraw.ellipse([int(w * 0.20), int(h * 0.50), int(w * 0.90), int(h * 1.10)], fill=(*gold, 20))
 
-    # Неоновая дуга (в духе кольца на референсе)
-    ring_w = max(10, w // 45)
-    odraw.arc([int(w * 0.05), int(h * 0.00), int(w * 0.95), int(h * 0.95)], start=200, end=320, fill=(*green, 160), width=ring_w)
-    odraw.arc([int(w * 0.10), int(h * 0.05), int(w * 0.90), int(h * 0.90)], start=40, end=150, fill=(*yellow, 130), width=max(8, w // 55))
+    # Декоративные дуги — терракота и изумруд, мягкие
+    ring_w = max(8, w // 55)
+    odraw.arc([int(w * 0.05), int(-h * 0.05), int(w * 0.98), int(h * 0.98)], start=200, end=330, fill=(*terra, 140), width=ring_w + 2)
+    odraw.arc([int(w * 0.12), int(h * 0.08), int(w * 0.90), int(h * 0.92)], start=30, end=160, fill=(*emer, 110), width=ring_w)
 
-    # Лёгкий “глоу” поверх всего для современности
     img = Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB")
     return img
-
 
 def _format_num(s: str) -> str:
     digits = re.sub(r"\D", "", s)
