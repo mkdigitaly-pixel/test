@@ -151,6 +151,65 @@ def fetch_gpt_background(headline: str, subline: str, *, vk: bool = False, squar
     except Exception:
         return generate_gpt_dalle_fallback(prompt, size=dalle)
 
+def openrouter_prompt(headline: str, subline: str, *, vk: bool = False) -> str:
+    """Промпт для генерации фона через OpenRouter (FLUX/Seedream/GPT-image)."""
+    ratio = "4:5 vertical" if vk else "16:9 landscape"
+    chips = ", ".join([p.strip() for p in subline.replace("·","·").split("·") if p.strip()][:5]) if subline else "marketing"
+    return (
+        f"Modern professional social media cover background, {ratio} composition. "
+        f"Warm beige gradient background (#D4A373 to #FDFBF7), soft glowing blobs. "
+        f"Several 3D glossy pill-shaped buttons floating in space, rendered in terracotta (#A85A32), "
+        f"mustard gold (#D4AF37) and emerald green (#2A6F4C) colors. "
+        f"Pill labels: {chips}. "
+        "Large central area left EMPTY for headline text overlay. "
+        "Decorative curved arcs in terracotta and emerald. "
+        "High quality, photorealistic 3D render style, clean background, no people, no watermarks. "
+        "Style: modern B2B digital marketing, warm earth tones."
+    )
+
+
+def fetch_openrouter_background(headline: str, subline: str, *, vk: bool = False) -> Image.Image:
+    """Генерация фона через OpenRouter Images API (FLUX.1, Seedream, gpt-image и др.)."""
+    import io
+    api_key = os.getenv("OPENROUTER_API_KEY", "")
+    if not api_key:
+        raise RuntimeError("OPENROUTER_API_KEY не задан в .env")
+
+    model = os.getenv("OPENROUTER_IMAGE_MODEL", "black-forest-labs/flux-1.1-pro")
+    prompt = openrouter_prompt(headline, subline, vk=vk)
+    aspect = "4:5" if vk else "16:9"
+
+    payload: dict = {"model": model, "prompt": prompt, "aspect_ratio": aspect, "n": 1}
+
+    resp = requests.post(
+        "https://openrouter.ai/api/v1/images/generations",
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "HTTP-Referer": "https://mkekspert.ru",
+            "X-Title": "mkekspert cover generator",
+        },
+        json=payload,
+        timeout=120,
+    )
+    resp.raise_for_status()
+    data = resp.json()
+
+    # OpenRouter возвращает либо base64, либо URL
+    item = data.get("data", [{}])[0]
+    b64 = item.get("b64_json") or ""
+    url = item.get("url") or ""
+
+    if b64:
+        return Image.open(io.BytesIO(base64.b64decode(b64))).convert("RGB")
+    elif url:
+        r = requests.get(url, timeout=60)
+        r.raise_for_status()
+        return Image.open(io.BytesIO(r.content)).convert("RGB")
+    else:
+        raise RuntimeError(f"OpenRouter не вернул изображение: {data}")
+
+
 
 def overlay_brand_text(img: Image.Image, headline: str, subline: str) -> Image.Image:
     """Полупрозрачная подложка + текст для читаемости."""
@@ -803,6 +862,14 @@ def generate_cover(
             img = overlay_brand_text(bg, headline, subline)
         except Exception as exc:
             print(f"⚠ modern_neon_3d: {exc}")
+
+    if img is None and os.getenv("OPENROUTER_API_KEY"):
+        try:
+            bg = fetch_openrouter_background(headline, subline, vk=vk)
+            bg = bg.resize(target, Image.Resampling.LANCZOS)
+            img = overlay_brand_text(bg, headline, subline)
+        except Exception as exc:
+            print(f"⚠ OpenRouter: {exc} — fallback")
 
     if img is None and use_gpt and os.getenv("OPENAI_API_KEY"):
         try:
