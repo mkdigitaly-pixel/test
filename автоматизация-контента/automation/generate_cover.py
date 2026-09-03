@@ -30,6 +30,15 @@ ACCENT_YELLOW = "#FFCC4A"
 TEXT = "#FFFFFF"
 SUB = "#B0B0B0"
 
+# --- Minimalist warm (в стиле Pinterest-ссылки пользователя) ---
+# Используем тёплую “земляную” палитру и минимальную геометрию.
+MW_BG0 = "#F5F5F2"      # warm off-white
+MW_BG1 = "#D4A373"      # warm beige
+MW_TERRACOTTA = "#A85A32"
+MW_PINK = "#F5D6C6"
+MW_GOLD = "#D4AF37"
+MW_GRAPHITE = "#3D3D3D"
+
 LANDSCAPE = (1200, 630)
 VK_PORTRAIT = (1080, 1350)  # 4:5 — без обрезки в квадрат
 SQUARE = (1080, 1080)  # legacy, не использовать для VK-ленты
@@ -123,6 +132,50 @@ def fetch_gpt_background(headline: str, subline: str, *, vk: bool = False, squar
 
 def overlay_brand_text(img: Image.Image, headline: str, subline: str) -> Image.Image:
     """Полупрозрачная подложка + текст для читаемости."""
+    cover_style = (os.getenv("COVER_STYLE", "mkekspert_dark") or "").strip().lower()
+    no_text = (os.getenv("COVER_NO_TEXT", "0") or "").strip().lower() in ("1", "true", "yes")
+
+    # Вариант “минималистичный тёплый фон”.
+    # По умолчанию рисуем текст (headline/subline), но можно полностью отключить оверлей.
+    if cover_style == "minimal_warm":
+        if no_text:
+            return img.convert("RGB")
+
+        img = img.copy().convert("RGB")
+        w, h = img.size
+        draw = ImageDraw.Draw(img)
+
+        # Тонкая геометрия: линия по низу + мягкая “плашка” под текстом.
+        # (текст всё равно может быть убран через COVER_NO_TEXT=1)
+        box_h0 = int(h * 0.60)
+        # На RGB-изображениях делаем плашку непрозрачной (полупрозрачность может не отработать в некоторых версиях PIL).
+        draw.rounded_rectangle([0, box_h0, w, h], radius=18, fill=(255, 255, 255))
+        # Терракотовая линия
+        draw.rectangle([int(w * 0.06), h - 80, int(w * 0.44), h - 72], fill=hex_rgb(MW_TERRACOTTA))
+        # Золотой акцент-штрих
+        draw.rectangle([int(w * 0.44), h - 80, int(w * 0.58), h - 72], fill=hex_rgb(MW_GOLD))
+
+        font_h = load_font(max(34, w // 23), bold=True)
+        font_s = load_font(max(20, w // 32))
+        font_b = load_font(max(16, w // 45))
+
+        y = int(h * 0.66)
+        x = max(48, w // 12)
+
+        # headline: до 3 строк (без сильного “перегруза”)
+        for line in textwrap.wrap(headline, width=24)[:3]:
+            draw.text((x, y), line, fill=MW_GRAPHITE, font=font_h)
+            y += int(h * 0.055)
+
+        if subline:
+            y += 6
+            for line in textwrap.wrap(subline, width=40)[:2]:
+                draw.text((x, y), line, fill=MW_TERRACOTTA, font=font_s)
+                y += int(h * 0.04)
+
+        draw.text((x, h - 42), "mkekspert.ru", fill=MW_GRAPHITE, font=font_b)
+        return img
+
     img = img.copy()
     w, h = img.size
     overlay = Image.new("RGBA", (w, h), (0, 0, 0, 0))
@@ -229,6 +282,44 @@ def draw_bright_background(size: tuple[int, int]) -> Image.Image:
 
     draw.rectangle([0, 0, 14, h], fill=ACCENT_GREEN)
     draw.rectangle([0, h - 8, w, h], fill=ACCENT_YELLOW)
+    return img
+
+
+def draw_minimal_warm_background(size: tuple[int, int]) -> Image.Image:
+    """Минималистичный тёплый фон (без текста) под Pinterest-стиль."""
+    w, h = size
+    img = Image.new("RGB", size, MW_BG0)
+    draw = ImageDraw.Draw(img)
+
+    # Тёплый градиент (без “кислоты”)
+    for y in range(h):
+        t = y / max(h - 1, 1)
+        # интерполируем MW_BG0 -> MW_BG1
+        r = int(255 * (1 - t) + hex_rgb(MW_BG1)[0] * t)
+        g = int(255 * (1 - t) + hex_rgb(MW_BG1)[1] * t)
+        b = int(255 * (1 - t) + hex_rgb(MW_BG1)[2] * t)
+        draw.line([(0, y), (w, y)], fill=(r, g, b))
+
+    # Мягкие полупрозрачные “пятна” (пыльный розовый + золото)
+    overlay = Image.new("RGBA", size, (0, 0, 0, 0))
+    od = ImageDraw.Draw(overlay)
+    gp = hex_rgb(MW_GOLD)
+    pp = hex_rgb(MW_PINK)
+    # слева-сверху
+    od.ellipse([int(-w * 0.15), int(h * 0.05), int(w * 0.55), int(h * 0.55)], fill=(*gp, 45))
+    # справа-снизу
+    od.ellipse([int(w * 0.45), int(h * 0.25), int(w * 1.15), int(h * 1.05)], fill=(*pp, 50))
+
+    img = Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB")
+    draw = ImageDraw.Draw(img)
+
+    # Лёгкая геометрия: тонкие линии/рамка
+    terr = hex_rgb(MW_TERRACOTTA)
+    gold = hex_rgb(MW_GOLD)
+    # рамка
+    draw.rounded_rectangle([int(w * 0.06), int(h * 0.10), int(w * 0.94), int(h * 0.92)], radius=26, outline=gold, width=2)
+    # диагональная “полоса”
+    draw.line([(int(w * 0.10), int(h * 0.68)), (int(w * 0.40), int(h * 0.38))], fill=terr, width=6)
     return img
 
 
@@ -524,6 +615,14 @@ def generate_cover(
             img = overlay_brand_text(bg, headline, subline)
         except Exception as exc:
             print(f"⚠ import {bg_path.name}: {exc}")
+
+    cover_style = (os.getenv("COVER_STYLE", "mkekspert_dark") or "").strip().lower()
+    if img is None and cover_style == "minimal_warm":
+        try:
+            bg = draw_minimal_warm_background(target)
+            img = overlay_brand_text(bg, headline, subline)
+        except Exception as exc:
+            print(f"⚠ minimal_warm: {exc}")
 
     if img is None and use_gpt and os.getenv("OPENAI_API_KEY"):
         try:
