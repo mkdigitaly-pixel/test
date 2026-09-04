@@ -152,34 +152,43 @@ def fetch_gpt_background(headline: str, subline: str, *, vk: bool = False, squar
         return generate_gpt_dalle_fallback(prompt, size=dalle)
 
 def openrouter_prompt(headline: str, subline: str, *, vk: bool = False) -> str:
-    """Промпт под premium claymorphism-макет (как у ChatGPT-референса)."""
-    ratio = "4:5 vertical portrait social media cover" if vk else "16:9 landscape social media cover / Dzen article cover"
+    """Промпт пользователя (claymorphism / Дзен) + подстановка заголовка и чипов."""
     chips = [p.strip() for p in re.split(r"[·•/|,]+", subline) if p.strip()][:6] if subline else []
     if not chips:
         chips = ["контент", "аудитория", "охваты", "трафик", "бренд", "клиенты"]
-    chip_list = ", ".join(f'"{c}"' for c in chips)
+    chip_quoted = ", ".join(f"«{c}»" for c in chips)
+    title = (headline or "Дзен").strip()
+
+    # Явные поля кадра — чтобы модель не резала текст по краям
+    frame = (
+        "Формат строго 16:9, широкий горизонтальный баннер. "
+        "Все элементы и весь текст полностью внутри кадра, "
+        "с безопасными полями не меньше 6% от краёв. Ничего не обрезать."
+        if not vk
+        else
+        "Формат строго 4:5, вертикальный баннер. "
+        "Все элементы и весь текст полностью внутри кадра, "
+        "с безопасными полями не меньше 6% от краёв. Ничего не обрезать."
+    )
 
     return (
-        f"Create a premium soft 3D claymorphism marketing cover, {ratio}. "
-        "Exact composition structure (IMPORTANT): "
-        "LEFT SIDE = clean typography column with generous whitespace; "
-        "CENTER-RIGHT = one large 3D hero object (matte champagne smartphone tilted diagonally) "
-        "with a soft white 3D abstract emblem resting on the phone screen "
-        "(rounded star / soft geometric mark — NOT a competitor logo). "
-        "Around the phone float 5–6 thick matte 3D pill capsules with soft shadows, "
-        "connected by very thin gold curved lines like a network. "
-        f"Pill labels in white: {chip_list}. "
-        "Pill colors only from brand palette: terracotta #A85A32, mustard gold #D4AF37, emerald #2A6F4C. "
-        f"Left column text in Russian, dark graphite #3D3D3D: large bold headline «{headline}»; "
-        "then a clear medium subtitle explaining the idea; "
-        "then 1 short supporting sentence in softer charcoal. "
-        "Below text: light rounded rectangle card with thin dark border, text starting with «В итоге —», "
-        "and a small circular arrow button on the right edge of that card. "
-        "Tiny footer bottom-left: mkekspert.ru. "
-        "Background: flat soft cream/ivory #FDFBF7 to warm beige #F5E6D3, NO purple, NO blue, NO black bg. "
-        "Style: expensive soft clay / matte plastic 3D, soft top-left lighting, realistic gentle shadows, "
-        "high-end SaaS landing aesthetic, lots of empty space, no people, no watermark, no flat stickers."
+        f"{frame} "
+        "Минималистичный маркетинговый баннер в тёплой цветовой гамме с объёмными 3D-элементами для Дзена. "
+        f"Слева — крупный выразительный заголовок «{title}», ниже — дополнительный текст, "
+        "оформленный в чистом современном стиле, затем выделенная карточка с тонкой обводкой "
+        "и блоком «В итоге». В нижней части — подпись «mkekspert.ru». "
+        "Фон — светлый оттенок слоновой кости. "
+        "Справа — смартфон или мобильное устройство, расположенное под небольшим диагональным углом, "
+        "с белым логотипом Дзена на экране. "
+        "Вокруг устройства размещены объёмные 3D-плашки в форме мягких пилюль с плавными скруглениями. "
+        "Плашки выполнены в терракотовом, изумрудно-зелёном и золотистом цветах и содержат надписи: "
+        f"{chip_quoted}. "
+        "В композиции используются тонкие золотистые линии, проходящие вокруг элементов и создающие "
+        "эффект орбитальных траекторий. Без людей. Чистая современная типографика без засечек, "
+        "мягкие естественные тени, аккуратные отражения, премиальный минималистичный дизайн, "
+        "реалистичные объёмные материалы, элегантный фотореалистичный 3D-стиль."
     )
+
 
 
 def fetch_openrouter_background(
@@ -200,7 +209,9 @@ def fetch_openrouter_background(
 
     is_openai_img = model.startswith("openai/") or "gpt-image" in model or "gpt-5-image" in model
     if is_openai_img:
-        aspect = "2:3" if vk else "3:2"
+        # OpenAI image через OpenRouter: 1:1 / 3:2 / 2:3 / auto (16:9 не принимает)
+        # auto + промпт "строго 16:9" даёт более широкий кадр без жёсткой обрезки
+        aspect = "2:3" if vk else "auto"
     else:
         aspect = "4:5" if vk else "16:9"
 
@@ -919,7 +930,8 @@ def generate_cover(
     if img is None and os.getenv("OPENROUTER_API_KEY"):
         try:
             bg = fetch_openrouter_background(headline, subline, vk=vk)
-            img = bg.resize(target, Image.Resampling.LANCZOS)
+            # Вписываем без обрезки на холст целевого размера (фон — слоновая кость)
+            img = resize_contain(bg, target, bg=BG_IVORY)
             print("✓ OpenRouter image")
         except Exception as exc:
             print(f"⚠ OpenRouter: {exc} — fallback")
