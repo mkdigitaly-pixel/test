@@ -152,30 +152,43 @@ def fetch_gpt_background(headline: str, subline: str, *, vk: bool = False, squar
         return generate_gpt_dalle_fallback(prompt, size=dalle)
 
 def openrouter_prompt(headline: str, subline: str, *, vk: bool = False) -> str:
-    """Полная обложка в стиле референса: 3D-пилюли + геометрия + заголовок в цветах бренда."""
-    ratio = "4:5 vertical portrait social media post" if vk else "16:9 landscape social media cover"
-    chips = [p.strip() for p in re.split(r"[·•/|,]+", subline) if p.strip()][:5] if subline else []
+    """Промпт под premium claymorphism-макет (как у ChatGPT-референса)."""
+    ratio = "4:5 vertical portrait social media cover" if vk else "16:9 landscape social media cover / Dzen article cover"
+    chips = [p.strip() for p in re.split(r"[·•/|,]+", subline) if p.strip()][:6] if subline else []
     if not chips:
-        chips = ["таргет", "контекст", "SMM", "сайт", "блогеры"]
+        chips = ["контент", "аудитория", "охваты", "трафик", "бренд", "клиенты"]
     chip_list = ", ".join(f'"{c}"' for c in chips)
+
     return (
-        f"Premium modern digital marketing cover, {ratio}. "
-        "Soft warm gradient background from ivory #FDFBF7 to warm ochre #D4A373 "
-        "(NO blue, NO purple, NO black background). "
-        f"Large bold Russian headline at the top left in dark graphite #3D3D3D: «{headline}». "
-        f"Smaller subtitle under it in dark beige #8B6B4A about the problem. "
-        "A light rounded info card with terracotta #A85A32 border titled «В итоге —» "
-        "and short readable body text. "
-        f"Several thick glossy 3D pill buttons floating at different angles and depths, "
-        f"colors terracotta #A85A32, mustard gold #D4AF37, emerald #2A6F4C, labels: {chip_list}. "
-        "Soft drop shadows, subtle highlights, realistic 3D render of the pills. "
-        "Thin glowing curved accent lines in emerald and gold connecting the elements. "
-        "Optional abstract 3D geometric object in the lower/right area (not a phone logo of another brand). "
-        "Clean professional Russian B2B aesthetic, high contrast, no people, no watermark, no blue/purple."
+        f"Create a premium soft 3D claymorphism marketing cover, {ratio}. "
+        "Exact composition structure (IMPORTANT): "
+        "LEFT SIDE = clean typography column with generous whitespace; "
+        "CENTER-RIGHT = one large 3D hero object (matte champagne smartphone tilted diagonally) "
+        "with a soft white 3D abstract emblem resting on the phone screen "
+        "(rounded star / soft geometric mark — NOT a competitor logo). "
+        "Around the phone float 5–6 thick matte 3D pill capsules with soft shadows, "
+        "connected by very thin gold curved lines like a network. "
+        f"Pill labels in white: {chip_list}. "
+        "Pill colors only from brand palette: terracotta #A85A32, mustard gold #D4AF37, emerald #2A6F4C. "
+        f"Left column text in Russian, dark graphite #3D3D3D: large bold headline «{headline}»; "
+        "then a clear medium subtitle explaining the idea; "
+        "then 1 short supporting sentence in softer charcoal. "
+        "Below text: light rounded rectangle card with thin dark border, text starting with «В итоге —», "
+        "and a small circular arrow button on the right edge of that card. "
+        "Tiny footer bottom-left: mkekspert.ru. "
+        "Background: flat soft cream/ivory #FDFBF7 to warm beige #F5E6D3, NO purple, NO blue, NO black bg. "
+        "Style: expensive soft clay / matte plastic 3D, soft top-left lighting, realistic gentle shadows, "
+        "high-end SaaS landing aesthetic, lots of empty space, no people, no watermark, no flat stickers."
     )
 
 
-def fetch_openrouter_background(headline: str, subline: str, *, vk: bool = False) -> Image.Image:
+def fetch_openrouter_background(
+    headline: str,
+    subline: str,
+    *,
+    vk: bool = False,
+    reference_path: Path | None = None,
+) -> Image.Image:
     """Полная обложка через OpenRouter Images API (/api/v1/images)."""
     import io
     api_key = os.getenv("OPENROUTER_API_KEY", "")
@@ -185,8 +198,6 @@ def fetch_openrouter_background(headline: str, subline: str, *, vk: bool = False
     model = os.getenv("OPENROUTER_IMAGE_MODEL", "black-forest-labs/flux-1.1-pro")
     prompt = openrouter_prompt(headline, subline, vk=vk)
 
-    # OpenAI image models через OpenRouter: 1:1 / 3:2 / 2:3 / auto
-    # Остальные (FLUX/Seedream): 16:9 / 4:5 и т.п.
     is_openai_img = model.startswith("openai/") or "gpt-image" in model or "gpt-5-image" in model
     if is_openai_img:
         aspect = "2:3" if vk else "3:2"
@@ -194,6 +205,31 @@ def fetch_openrouter_background(headline: str, subline: str, *, vk: bool = False
         aspect = "4:5" if vk else "16:9"
 
     payload: dict = {"model": model, "prompt": prompt, "aspect_ratio": aspect}
+
+    # Style reference (ChatGPT-quality layout) if provided / available
+    ref = reference_path
+    if ref is None:
+        # Prefer brandbook/reference style frames if present
+        for candidate in (
+            ROOT / "assets" / "covers" / "_import" / "style-ref.png",
+            ROOT / "assets" / "covers" / "_import" / "style-ref.jpg",
+        ):
+            if candidate.exists():
+                ref = candidate
+                break
+    if ref and Path(ref).exists():
+        raw = Path(ref).read_bytes()
+        mime = "image/png" if str(ref).lower().endswith(".png") else "image/jpeg"
+        b64ref = base64.b64encode(raw).decode("ascii")
+        payload["input_references"] = [
+            {"type": "input_image", "image_url": f"data:{mime};base64,{b64ref}"}
+        ]
+        # Also nudge the prompt
+        payload["prompt"] = (
+            "Match the composition, lighting, claymorphism 3D quality and left-text / right-hero layout "
+            "of the reference image closely, but replace all copy and pill labels with the new brief. "
+            + payload["prompt"]
+        )
 
     resp = requests.post(
         "https://openrouter.ai/api/v1/images",
@@ -207,7 +243,23 @@ def fetch_openrouter_background(headline: str, subline: str, *, vk: bool = False
         timeout=180,
     )
     if resp.status_code >= 400:
-        raise RuntimeError(f"OpenRouter HTTP {resp.status_code}: {resp.text[:500]}")
+        # Retry once without reference if provider rejects input_references
+        if payload.get("input_references") and resp.status_code in (400, 422):
+            payload.pop("input_references", None)
+            payload["prompt"] = openrouter_prompt(headline, subline, vk=vk)
+            resp = requests.post(
+                "https://openrouter.ai/api/v1/images",
+                headers={
+                    "Authorization": f"Bearer {api_key}",
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": "https://mkekspert.ru",
+                    "X-Title": "mkekspert cover generator",
+                },
+                json=payload,
+                timeout=180,
+            )
+        if resp.status_code >= 400:
+            raise RuntimeError(f"OpenRouter HTTP {resp.status_code}: {resp.text[:500]}")
     data = resp.json()
     if data.get("error"):
         raise RuntimeError(f"OpenRouter error: {data['error']}")
@@ -217,8 +269,7 @@ def fetch_openrouter_background(headline: str, subline: str, *, vk: bool = False
     url = item.get("url") or ""
 
     if b64:
-        raw = base64.b64decode(b64)
-        return Image.open(io.BytesIO(raw)).convert("RGB")
+        return Image.open(io.BytesIO(base64.b64decode(b64))).convert("RGB")
     if url:
         r = requests.get(url, timeout=60)
         r.raise_for_status()
