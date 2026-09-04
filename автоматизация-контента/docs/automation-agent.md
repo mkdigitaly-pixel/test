@@ -16,7 +16,7 @@ schedule sync-urls + poll  →  dzen_url в очередь
     ↓
 вт/чт 12:00  publish_teasers
     ├─ TG @mariyaprodirect + обложка
-    └─ VK klientyandtrafik + обложка 4:5
+    └─ VK klientyandtrafik + обложка 1:1
 ```
 
 **Ср 11:00** — свой пост TG. **Пт 11:00** — свой пост VK.

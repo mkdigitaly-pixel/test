@@ -17,6 +17,7 @@ items:
   cover_headline: Клики ≠ заявки
   cover_subline: 5 признаков
   scheduled: '2026-09-10T11:00:00+03:00'
+  cover: assets/covers/tg-week2.jpg
 - id: vk-week2
   platform: vk
   status: approved
@@ -25,6 +26,7 @@ items:
   cover_headline: CPL 8000→2500 ₽
   cover_subline: Кейс B2B
   scheduled: '2026-09-12T11:00:00+03:00'
+  cover: assets/covers/vk-week2.jpg
 - id: tg-week3
   platform: tg
   status: approved
