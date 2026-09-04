@@ -175,8 +175,8 @@ def openrouter_prompt(headline: str, subline: str, *, vk: bool = False) -> str:
         f"{frame} "
         "Минималистичный маркетинговый баннер в тёплой цветовой гамме с объёмными 3D-элементами для Дзена. "
         f"Слева — крупный выразительный заголовок «{title}», ниже — дополнительный текст, "
-        "оформленный в чистом современном стиле, затем выделенная карточка с тонкой обводкой "
-        "и блоком «В итоге». В нижней части — подпись «mkekspert.ru». "
+        "оформленный в чистом современном стиле. "
+        "Без карточки «В итоге», без боксов и стрелок. Внизу слева — только подпись «mkekspert.ru». "
         "Фон — светлый оттенок слоновой кости. "
         "Справа — смартфон или мобильное устройство, расположенное под небольшим диагональным углом, "
         "с белым логотипом Дзена на экране. "
@@ -421,27 +421,6 @@ def overlay_brand_text(img: Image.Image, headline: str, subline: str) -> Image.I
                 td.text((pad + 4, ty + 4), ln, fill=(*hex_rgb(BG_WARM), 180), font=font_title)
                 td.text((pad, ty), ln, fill=(*hex_rgb(TEXT_GRAPHITE), 255), font=font_title)
                 ty += step
-
-            if subline:
-                card_y = ty + int(h * 0.03)
-                card_h = int(h * 0.16)
-                card_w = int(w * (0.54 if not is_portrait else 0.88))
-                card_x = pad
-                td.rounded_rectangle(
-                    [card_x, card_y, card_x + card_w, card_y + card_h],
-                    radius=18,
-                    fill=(*hex_rgb(BG_IVORY), 220),
-                    outline=(*hex_rgb(ACCENT_TERRA), 200),
-                    width=2,
-                )
-                font_card_h = load_font(max(18, int(h * 0.028)), bold=True)
-                font_card_b = load_font(max(14, int(h * 0.022)))
-                td.text((card_x + 20, card_y + 12), "В итоге —", fill=(*hex_rgb(ACCENT_TERRA), 255), font=font_card_h)
-                body_lines = textwrap.wrap(subline, width=38 if not is_portrait else 28)[:2]
-                by = card_y + 12 + int(h * 0.032)
-                for bl in body_lines:
-                    td.text((card_x + 20, by), bl, fill=(*hex_rgb(TEXT_DARK_BEI), 230), font=font_card_b)
-                    by += int(h * 0.028)
 
             font_br = load_font(max(20, int(w * 0.022)), bold=True)
             br = "mkekspert.ru"
