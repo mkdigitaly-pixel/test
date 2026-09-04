@@ -152,24 +152,31 @@ def fetch_gpt_background(headline: str, subline: str, *, vk: bool = False, squar
         return generate_gpt_dalle_fallback(prompt, size=dalle)
 
 def openrouter_prompt(headline: str, subline: str, *, vk: bool = False) -> str:
-    """Промпт для генерации фона через OpenRouter (FLUX/Seedream/GPT-image)."""
-    ratio = "4:5 vertical" if vk else "16:9 landscape"
-    chips = ", ".join([p.strip() for p in subline.replace("·","·").split("·") if p.strip()][:5]) if subline else "marketing"
+    """Полная обложка в стиле референса: 3D-пилюли + геометрия + заголовок в цветах бренда."""
+    ratio = "4:5 vertical portrait social media post" if vk else "16:9 landscape social media cover"
+    chips = [p.strip() for p in re.split(r"[·•/|,]+", subline) if p.strip()][:5] if subline else []
+    if not chips:
+        chips = ["таргет", "контекст", "SMM", "сайт", "блогеры"]
+    chip_list = ", ".join(f'"{c}"' for c in chips)
     return (
-        f"Modern professional social media cover background, {ratio} composition. "
-        f"Warm beige gradient background (#D4A373 to #FDFBF7), soft glowing blobs. "
-        f"Several 3D glossy pill-shaped buttons floating in space, rendered in terracotta (#A85A32), "
-        f"mustard gold (#D4AF37) and emerald green (#2A6F4C) colors. "
-        f"Pill labels: {chips}. "
-        "Large central area left EMPTY for headline text overlay. "
-        "Decorative curved arcs in terracotta and emerald. "
-        "High quality, photorealistic 3D render style, clean background, no people, no watermarks. "
-        "Style: modern B2B digital marketing, warm earth tones."
+        f"Premium modern digital marketing cover, {ratio}. "
+        "Soft warm gradient background from ivory #FDFBF7 to warm ochre #D4A373 "
+        "(NO blue, NO purple, NO black background). "
+        f"Large bold Russian headline at the top left in dark graphite #3D3D3D: «{headline}». "
+        f"Smaller subtitle under it in dark beige #8B6B4A about the problem. "
+        "A light rounded info card with terracotta #A85A32 border titled «В итоге —» "
+        "and short readable body text. "
+        f"Several thick glossy 3D pill buttons floating at different angles and depths, "
+        f"colors terracotta #A85A32, mustard gold #D4AF37, emerald #2A6F4C, labels: {chip_list}. "
+        "Soft drop shadows, subtle highlights, realistic 3D render of the pills. "
+        "Thin glowing curved accent lines in emerald and gold connecting the elements. "
+        "Optional abstract 3D geometric object in the lower/right area (not a phone logo of another brand). "
+        "Clean professional Russian B2B aesthetic, high contrast, no people, no watermark, no blue/purple."
     )
 
 
 def fetch_openrouter_background(headline: str, subline: str, *, vk: bool = False) -> Image.Image:
-    """Генерация фона через OpenRouter Images API (FLUX.1, Seedream, gpt-image и др.)."""
+    """Полная обложка через OpenRouter Images API (/api/v1/images)."""
     import io
     api_key = os.getenv("OPENROUTER_API_KEY", "")
     if not api_key:
@@ -177,12 +184,19 @@ def fetch_openrouter_background(headline: str, subline: str, *, vk: bool = False
 
     model = os.getenv("OPENROUTER_IMAGE_MODEL", "black-forest-labs/flux-1.1-pro")
     prompt = openrouter_prompt(headline, subline, vk=vk)
-    aspect = "4:5" if vk else "16:9"
 
-    payload: dict = {"model": model, "prompt": prompt, "aspect_ratio": aspect, "n": 1}
+    # OpenAI image models через OpenRouter: 1:1 / 3:2 / 2:3 / auto
+    # Остальные (FLUX/Seedream): 16:9 / 4:5 и т.п.
+    is_openai_img = model.startswith("openai/") or "gpt-image" in model or "gpt-5-image" in model
+    if is_openai_img:
+        aspect = "2:3" if vk else "3:2"
+    else:
+        aspect = "4:5" if vk else "16:9"
+
+    payload: dict = {"model": model, "prompt": prompt, "aspect_ratio": aspect}
 
     resp = requests.post(
-        "https://openrouter.ai/api/v1/images/generations",
+        "https://openrouter.ai/api/v1/images",
         headers={
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
@@ -190,24 +204,26 @@ def fetch_openrouter_background(headline: str, subline: str, *, vk: bool = False
             "X-Title": "mkekspert cover generator",
         },
         json=payload,
-        timeout=120,
+        timeout=180,
     )
-    resp.raise_for_status()
+    if resp.status_code >= 400:
+        raise RuntimeError(f"OpenRouter HTTP {resp.status_code}: {resp.text[:500]}")
     data = resp.json()
+    if data.get("error"):
+        raise RuntimeError(f"OpenRouter error: {data['error']}")
 
-    # OpenRouter возвращает либо base64, либо URL
-    item = data.get("data", [{}])[0]
+    item = (data.get("data") or [{}])[0]
     b64 = item.get("b64_json") or ""
     url = item.get("url") or ""
 
     if b64:
-        return Image.open(io.BytesIO(base64.b64decode(b64))).convert("RGB")
-    elif url:
+        raw = base64.b64decode(b64)
+        return Image.open(io.BytesIO(raw)).convert("RGB")
+    if url:
         r = requests.get(url, timeout=60)
         r.raise_for_status()
         return Image.open(io.BytesIO(r.content)).convert("RGB")
-    else:
-        raise RuntimeError(f"OpenRouter не вернул изображение: {data}")
+    raise RuntimeError(f"OpenRouter не вернул изображение: {str(data)[:400]}")
 
 
 
@@ -848,6 +864,15 @@ def generate_cover(
         except Exception as exc:
             print(f"⚠ import {bg_path.name}: {exc}")
 
+    # OpenRouter — полный дизайн обложки (без PIL-наклеек поверх)
+    if img is None and os.getenv("OPENROUTER_API_KEY"):
+        try:
+            bg = fetch_openrouter_background(headline, subline, vk=vk)
+            img = bg.resize(target, Image.Resampling.LANCZOS)
+            print("✓ OpenRouter image")
+        except Exception as exc:
+            print(f"⚠ OpenRouter: {exc} — fallback")
+
     cover_style = (os.getenv("COVER_STYLE", "mkekspert_dark") or "").strip().lower()
     if img is None and cover_style == "minimal_warm":
         try:
@@ -862,14 +887,6 @@ def generate_cover(
             img = overlay_brand_text(bg, headline, subline)
         except Exception as exc:
             print(f"⚠ modern_neon_3d: {exc}")
-
-    if img is None and os.getenv("OPENROUTER_API_KEY"):
-        try:
-            bg = fetch_openrouter_background(headline, subline, vk=vk)
-            bg = bg.resize(target, Image.Resampling.LANCZOS)
-            img = overlay_brand_text(bg, headline, subline)
-        except Exception as exc:
-            print(f"⚠ OpenRouter: {exc} — fallback")
 
     if img is None and use_gpt and os.getenv("OPENAI_API_KEY"):
         try:
