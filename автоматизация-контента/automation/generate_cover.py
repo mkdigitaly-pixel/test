@@ -60,7 +60,7 @@ MW_GOLD       = ACCENT_GOLD
 MW_GRAPHITE   = TEXT_GRAPHITE
 
 LANDSCAPE   = (1200, 630)
-VK_PORTRAIT = (1080, 1350)  # 4:5
+VK_PORTRAIT = (1080, 1080)  # 1:1 — квадрат для постов VK
 SQUARE      = (1080, 1080)
 
 
@@ -166,7 +166,7 @@ def openrouter_prompt(headline: str, subline: str, *, vk: bool = False) -> str:
         "с безопасными полями не меньше 6% от краёв. Ничего не обрезать."
         if not vk
         else
-        "Формат строго 4:5, вертикальный баннер. "
+        "Формат строго 1:1, квадратный баннер для VK. "
         "Все элементы и весь текст полностью внутри кадра, "
         "с безопасными полями не меньше 6% от краёв. Ничего не обрезать."
     )
@@ -211,9 +211,9 @@ def fetch_openrouter_background(
     if is_openai_img:
         # OpenAI image через OpenRouter: 1:1 / 3:2 / 2:3 / auto (16:9 не принимает)
         # auto + промпт "строго 16:9" даёт более широкий кадр без жёсткой обрезки
-        aspect = "2:3" if vk else "auto"
+        aspect = "1:1" if vk else "auto"
     else:
-        aspect = "4:5" if vk else "16:9"
+        aspect = "1:1" if vk else "16:9"
 
     payload: dict = {"model": model, "prompt": prompt, "aspect_ratio": aspect}
 

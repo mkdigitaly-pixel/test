@@ -6,7 +6,9 @@
 
 1. Агент вызывает `GenerateImage` с промптом + `aspect_ratio=16:9` (+ опционально reference).
 2. Файл появляется в `/opt/cursor/artifacts/assets/`.
-3. Копируем/ресайзим в `assets/covers/{slug}.jpg` (1200×630).
+3. Копируем/ресайзим:
+   - Дзен/TG: `assets/covers/{slug}.jpg` → **1200×630**
+   - VK: `assets/covers/{slug}-vk.jpg` → **1080×1080** (квадрат)
 4. Деплой: `python3 -c "from automation.dzen_rss import deploy_gh_pages; deploy_gh_pages()"`.
 
 **OpenRouter не нужен** для этого пути. Кредиты OpenRouter не тратятся.
