@@ -1,0 +1,43 @@
+---
+description: Статьи для Яндекс Дзена — разметка, ссылки, промпт, эталон вёрстки
+globs:
+  - автоматизация-контента/articles/dzen/**
+  - автоматизация-контента/references/dzen-*.md
+  - автоматизация-контента/briefs/**
+alwaysApply: false
+---
+
+# Дзен (mkekspert / klientyandtrafik)
+
+Перед написанием или правкой статьи читай:
+- `references/dzen-markup.md` — структура, ссылки, лимиты
+- `references/dzen-prompt.md` — промпт агента
+- `references/dzen-github-sources.md` — GitHub + официальная RSS/HTML спека
+- `references/dzen-seo-rules.md`, `references/maria-voice.md`, `references/banned-phrases.md`
+
+Эталон **структуры** (не копировать текст): https://dzen.ru/a/ang5i_6noirlj6-z
+
+## Ссылки — обязательно
+
+- В `.md` только `[анкорный текст](полный URL)` — **никогда** голый `mkekspert.ru/...` или `t.me/...` в строке
+- Анкор: «Бесплатный разбор», «Канал в Telegram», «@Mariya1740» — не домен целиком
+- UTM в URL, не в видимом тексте
+- После `@zen_sync_bot`: в Студии Дзена выделить анкор → «Гиперссылка» (синхробот не переносит разметку из TG)
+
+## Структура
+
+- H1 только в YAML `title` / `h1`, не в теле
+- `##` H2 каждые 300–500 знаков; `###` H3 по необходимости
+- Абзацы 2–4 предложения; списки через `—`
+- Таблицы markdown не использовать — списки «было / стало»
+- Без эмодзи в H2 (голос Марии)
+
+## Публикация
+
+- Канал: `TELEGRAM_DZEN_CHANNEL` → `@zen_sync_bot`
+- Длинные статьи (>1024): одно текстовое сообщение; обложка + H2 + ссылки — в Студии
+- HTML для вставки: `python3 publish.py format-dzen-html articles/dzen/articles/....md`
+
+## GitHub-ориентиры (whitelist HTML)
+
+`p`, `a`, `b`, `i`, `h2`, `h3`, `h4`, `blockquote`, `ul`, `ol`, `li`, `figure`, `img` — см. [Bormotoon/dzen-rss-feed](https://github.com/Bormotoon/dzen-rss-feed/blob/main/docs/dzen-rss-spec.md)
