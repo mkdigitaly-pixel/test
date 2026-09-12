@@ -41,7 +41,7 @@ items:
   dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
   dzen_published_at: '2026-09-12T15:51:46.824197+03:00'
 - id: autotarget-b2b
-  status: approved
+  status: published
   topic: Автотаргет в Директе для B2B — когда помогает, а когда съедает бюджет
   dzen_article: articles/dzen/articles/2026-09-11-autotarget-b2b.md
   dzen_teaser_tg: articles/dzen/teasers/tg/2026-09-11-autotarget.md
@@ -52,6 +52,10 @@ items:
   dzen_url: ''
   notes: Согласовано 31.08 — публикация 11.09 10:00 МСК; метаданные исправлены (был
     чужой кейс шпунта)
+  dzen_rss_pending: true
+  dzen_html_path: articles/dzen/html/2026-09-11-autotarget-b2b.html
+  dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
+  dzen_published_at: '2026-09-12T15:52:53.544138+03:00'
 - id: chp-upp-case
   status: draft
   topic: Кейс ЧП/УПП — заявка 8017→1800 ₽
