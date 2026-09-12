@@ -27,7 +27,10 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
-from zoneinfo import ZoneInfo
+try:
+    from zoneinfo import ZoneInfo
+except ImportError:  # Python 3.8 on the VPS worker
+    from backports.zoneinfo import ZoneInfo
 
 import requests
 import yaml
@@ -1415,6 +1418,9 @@ def cmd_schedule_run(args: argparse.Namespace) -> int:
             # После согласования cron подхватит без ручного reset failed→scheduled
             slot.pop("error", None)
             print("  ↻ ждём approved — слот остаётся scheduled/pending")
+        elif "Заполните" in msg or "Нужны VK_" in msg:
+            slot.pop("error", None)
+            print("  ↻ нет токенов в .env — слот остаётся scheduled/pending")
         elif status == "scheduled" and slot.get("action") == "publish_teasers":
             slot["status"] = "pending"
             print("  ↻ pending — повтор при следующем запуске")
