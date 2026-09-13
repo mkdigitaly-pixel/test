@@ -11,13 +11,14 @@ items:
   published_at: '2026-09-03T08:00:30.141241+00:00'
 - id: tg-week2
   platform: tg
-  status: approved
+  status: published
   topic: 5 признаков, что Директ на клики, а не на заявки
   post: articles/tg/tg-week2.md
   cover_headline: Клики ≠ заявки
   cover_subline: 5 признаков
   scheduled: '2026-09-10T11:00:00+03:00'
   cover: assets/covers/tg-week2.jpg
+  published_at: '2026-09-13T08:27:28.014695+00:00'
 - id: vk-week2
   platform: vk
   status: approved

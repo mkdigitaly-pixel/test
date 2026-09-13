@@ -58,7 +58,8 @@ slots:
   time: '11:00'
   action: publish_tg_post
   post_id: tg-week2
-  status: scheduled
+  status: done
+  completed_at: '2026-09-13T11:26:21.062549+03:00'
 - date: '2026-09-11'
   time: '10:00'
   action: publish_dzen
