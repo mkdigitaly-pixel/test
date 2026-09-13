@@ -770,35 +770,32 @@ def _vk_photo_attachment(photo: dict[str, Any]) -> str:
     return att
 
 
-def upload_vk_wall_photo(token: str, group_id: int, image_path: Path) -> str:
-    """Загрузка фото к посту на стену.
+class VkWallPhotoUnavailable(RuntimeError):
+    """Ключ сообщества не умеет photos.getWallUploadServer / saveWallPhoto."""
 
-    Пользовательский токен: photos.getWallUploadServer.
-    Ключ сообщества не умеет этот метод (error 27) — грузим через
-    photos.getMessagesUploadServer и прикрепляем к wall.post.
+
+def upload_vk_wall_photo(token: str, group_id: int, image_path: Path) -> str:
+    """Загрузка фото в альбом стены.
+
+    Нужен пользовательский токен (VK_USER_TOKEN). Ключ сообщества даёт
+    error 27 на getWallUploadServer. Фото из photos.saveMessagesPhoto
+    wall.post принимает, но на стене не показывает — этот путь запрещён.
     """
     try:
         up_srv = vk_api("photos.getWallUploadServer", token, group_id=group_id)
-        up = _vk_upload_photo_file(up_srv["upload_url"], image_path)
-        saved = vk_api(
-            "photos.saveWallPhoto",
-            token,
-            group_id=group_id,
-            photo=up["photo"],
-            server=up["server"],
-            hash=up["hash"],
-        )
-        return _vk_photo_attachment(saved[0])
     except RuntimeError as exc:
         msg = str(exc)
-        if "unavailable with group auth" not in msg and "error_code': 27" not in msg and "error_code\": 27" not in msg:
-            raise
-
-    up_srv = vk_api("photos.getMessagesUploadServer", token, group_id=group_id)
+        if "unavailable with group auth" in msg or "error_code': 27" in msg or 'error_code": 27' in msg:
+            raise VkWallPhotoUnavailable(
+                "VK: ключ сообщества не загружает фото на стену (error 27). "
+                "Нужен VK_USER_TOKEN — см. checklists/vk-photo-token.md"
+            ) from exc
+        raise
     up = _vk_upload_photo_file(up_srv["upload_url"], image_path)
     saved = vk_api(
-        "photos.saveMessagesPhoto",
+        "photos.saveWallPhoto",
         token,
+        group_id=group_id,
         photo=up["photo"],
         server=up["server"],
         hash=up["hash"],
@@ -819,14 +816,25 @@ def publish_vk(
     attachment = ""
 
     if cover and cover.exists():
-        upload_token = user_token or token
+        upload_token = (user_token or "").strip()
         if dry_run:
-            attachment = "[dry-run photo]"
+            if upload_token:
+                attachment = "[dry-run photo]"
+            else:
+                print(
+                    "⚠ VK: нет VK_USER_TOKEN — dry-run без фото. "
+                    "См. checklists/vk-photo-token.md",
+                    file=sys.stderr,
+                )
         elif upload_token:
-            attachment = upload_vk_wall_photo(upload_token, int(gid), cover)
+            try:
+                attachment = upload_vk_wall_photo(upload_token, int(gid), cover)
+            except VkWallPhotoUnavailable as exc:
+                print(f"⚠ {exc}", file=sys.stderr)
         else:
             print(
-                "⚠ VK: нет токена для загрузки фото. См. checklists/vk-photo-token.md",
+                "⚠ VK: нет VK_USER_TOKEN — пост уйдёт без обложки. "
+                "См. checklists/vk-photo-token.md",
                 file=sys.stderr,
             )
 
@@ -849,7 +857,8 @@ def publish_vk(
     if "error" in data:
         raise RuntimeError(f"VK API wall.post: {data['error']}")
     post_id = data["response"]["post_id"]
-    return PublishResult("vk", True, f"Пост #{post_id}", post_id)
+    kind = "текст+фото" if attachment else "текст"
+    return PublishResult("vk", True, f"Пост #{post_id} ({kind})", post_id)
 
 
 def require_approved(item: dict[str, Any], force: bool) -> None:
@@ -1596,28 +1605,36 @@ def cmd_vk_attach_cover(args: argparse.Namespace) -> int:
     group = os.getenv("VK_GROUP_ID", "")
     if not community or not group:
         raise SystemExit("Нужны VK_ACCESS_TOKEN и VK_GROUP_ID в .env")
+    if not user:
+        raise SystemExit("Нужен VK_USER_TOKEN. См. checklists/vk-photo-token.md")
 
-    items = load_queue()
-    item = find_queue_item(items, args.id)
-    if not item or not item.get("cover"):
-        raise SystemExit("Нет cover в очереди для этого id")
-    cover = resolve_cover_path(item, vk=True) or ROOT / item["cover"]
+    item = find_queue_item(load_queue(), args.id) or find_posts_item(load_posts_queue(), args.id)
+    cover = resolve_cover_path(item, vk=True) if item else None
+    if (not cover or not cover.exists()) and item and item.get("cover"):
+        cover = ROOT / item["cover"]
+    if not cover or not cover.exists():
+        cover = resolve_standalone_cover(args.id, vk=True) or resolve_standalone_cover(args.id)
+    if not cover or not cover.exists():
+        raise SystemExit("Нет файла обложки для этого id")
+
     gid = resolve_vk_group_id(community, group)
-    attachment = upload_vk_wall_photo(user or community, gid, cover)
+    attachment = upload_vk_wall_photo(user, gid, cover)
 
     message = ""
-    vk_path = teaser_vk_path(item)
+    vk_path = teaser_vk_path(item) if item else None
     if vk_path:
         message = replace_dzen_url(load_plain_post(resolve_path(vk_path)), item.get("dzen_url", ""))
-    elif user:
+    else:
         post = vk_api("wall.getById", user, posts=f"-{gid}_{args.post_id}")
-        message = post["items"][0].get("text", "")
+        rows = post.get("items") if isinstance(post, dict) else post
+        if not rows:
+            raise SystemExit(f"Не найден пост -{gid}_{args.post_id}")
+        message = rows[0].get("text", "")
 
-    edit_token = user or community
     resp = requests.post(
         "https://api.vk.com/method/wall.edit",
         data={
-            "access_token": edit_token,
+            "access_token": user,
             "v": "5.199",
             "owner_id": -gid,
             "post_id": args.post_id,
@@ -1629,8 +1646,7 @@ def cmd_vk_attach_cover(args: argparse.Namespace) -> int:
     if "error" in resp:
         raise SystemExit(
             f"wall.edit: {resp['error']}. "
-            "Ключ сообщества не редактирует старые посты — прикрепите фото вручную "
-            "или публикуйте новый пост (у новых обложка уже ставится сама)."
+            "Нужен пользовательский VK_USER_TOKEN — см. checklists/vk-photo-token.md"
         )
     print(f"✓ К посту {args.post_id} прикреплено фото")
     print(f"  https://vk.ru/wall-{gid}_{args.post_id}")
