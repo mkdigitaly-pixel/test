@@ -75,7 +75,8 @@ slots:
   time: '11:00'
   action: publish_vk_post
   post_id: vk-week2
-  status: scheduled
+  status: done
+  completed_at: '2026-09-13T11:37:47.215890+03:00'
 - date: '2026-09-16'
   time: '10:00'
   action: publish_dzen
