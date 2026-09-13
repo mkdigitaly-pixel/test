@@ -18,11 +18,13 @@
 from __future__ import annotations
 
 import argparse
+import html as html_lib
 import json
 import os
 import re
 import sys
 import time
+import urllib.request
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -803,6 +805,44 @@ def upload_vk_wall_photo(token: str, group_id: int, image_path: Path) -> str:
     return _vk_photo_attachment(saved[0])
 
 
+def scrape_vk_wall_photo_attachment(owner_id: int, post_id: int) -> str:
+    """Достаёт photo{owner}_{id}_{key} из публичной страницы поста — без user-токена."""
+    url = f"https://vk.com/wall{owner_id}_{post_id}"
+    req = urllib.request.Request(
+        url,
+        headers={
+            "User-Agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+            ),
+            "Accept-Language": "ru-RU,ru;q=0.9",
+        },
+    )
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        raw = resp.read()
+    utf = raw.decode("utf-8", "replace")
+    if "большие запросы" in utf or "У вас большие" in utf:
+        raise RuntimeError(
+            "VK не отдаёт страницу поста. Пришлите ссылку на само фото: "
+            "нажать на картинку → «Скопировать ссылку» (vk.com/photo-…)"
+        )
+    text = html_lib.unescape(raw.decode("windows-1251", "replace"))
+    found = re.findall(
+        r'"type":"photo","photo":\{"album_id":-?\d+,"date":\d+,"id":(\d+),'
+        r'"owner_id":(-?\d+),"access_key":"([^"]+)"',
+        text,
+    )
+    if not found:
+        found = re.findall(
+            r'"id":(\d+),"owner_id":(-?\d+),"access_key":"([^"]+)"',
+            text,
+        )
+    if not found:
+        raise RuntimeError(f"В посте {url} нет фото на стене")
+    pid, oid, key = found[0]
+    return f"photo{oid}_{pid}_{key}"
+
+
 def publish_vk(
     text: str,
     token: str,
@@ -810,12 +850,12 @@ def publish_vk(
     *,
     cover: Path | None = None,
     user_token: str = "",
+    attachment: str = "",
     dry_run: bool = False,
 ) -> PublishResult:
     gid = resolve_vk_group_id(token, group_id) if not dry_run else group_id
-    attachment = ""
 
-    if cover and cover.exists():
+    if not attachment and cover and cover.exists():
         upload_token = (user_token or "").strip()
         if dry_run:
             if upload_token:
@@ -1653,6 +1693,49 @@ def cmd_vk_attach_cover(args: argparse.Namespace) -> int:
     return 0
 
 
+def parse_vk_photo_attachment(source: str, group_id: int) -> str:
+    """source: photo-123_456, wall-123_78, URL, или номер поста в этой группе."""
+    s = source.strip()
+    m = re.search(r"photo(-?\d+)_(\d+)(?:_([0-9a-f]+))?", s, re.I)
+    if m:
+        att = f"photo{m.group(1)}_{m.group(2)}"
+        if m.group(3):
+            att = f"{att}_{m.group(3)}"
+        return att
+    m = re.search(r"wall-?(\d+)_(\d+)", s, re.I)
+    if m:
+        return scrape_vk_wall_photo_attachment(-int(m.group(1)), int(m.group(2)))
+    if s.isdigit():
+        return scrape_vk_wall_photo_attachment(-int(group_id), int(s))
+    raise SystemExit(
+        "Нужна ссылка на фото (vk.com/photo-…) или на пост со стены (vk.com/wall-…)"
+    )
+
+
+def cmd_vk_from_post(args: argparse.Namespace) -> int:
+    """Новый пост: текст из очереди + уже существующее фото на стене."""
+    load_env()
+    community = os.getenv("VK_ACCESS_TOKEN", "")
+    group = os.getenv("VK_GROUP_ID", "")
+    if not community or not group:
+        raise SystemExit("Нужны VK_ACCESS_TOKEN и VK_GROUP_ID в .env")
+    gid = resolve_vk_group_id(community, group)
+    attachment = parse_vk_photo_attachment(args.source, gid)
+    path = resolve_post_path(args.id, "vk")
+    if not path.exists():
+        raise SystemExit(f"Нет файла {path}")
+    text = load_plain_post(path)
+    r = publish_vk(
+        text,
+        community,
+        str(gid),
+        attachment=attachment,
+        dry_run=args.dry_run,
+    )
+    print(f"VK пост с фото {attachment}: {r.message}")
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Публикация контента mkekspert")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -1682,6 +1765,14 @@ def main() -> int:
     p_cov = sub.add_parser("vk-attach-cover", help="Добавить обложку к существующему посту VK")
     p_cov.add_argument("post_id", type=int, help="Номер поста, напр. 204")
     p_cov.add_argument("id", help="id в очереди (для пути к cover)")
+
+    p_from = sub.add_parser(
+        "vk-from-post",
+        help="Новый пост: текст из очереди + фото с существующего поста VK",
+    )
+    p_from.add_argument("id", help="id поста в очереди, напр. vk-week2")
+    p_from.add_argument("source", help="ссылка vk.com/photo-… или vk.com/wall-…")
+    p_from.add_argument("--dry-run", action="store_true")
 
     sch = sub.add_parser("schedule", help="Автопубликация по posting-schedule.yaml")
     schs = sch.add_subparsers(dest="schedule_cmd", required=True)
@@ -1732,6 +1823,9 @@ def main() -> int:
 
     if args.command == "vk-attach-cover":
         return cmd_vk_attach_cover(args)
+
+    if args.command == "vk-from-post":
+        return cmd_vk_from_post(args)
 
     if args.command == "queue":
         if args.queue_cmd == "list":
