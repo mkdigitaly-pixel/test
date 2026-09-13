@@ -750,28 +750,60 @@ def resolve_vk_group_id(token: str, group_id: str) -> int:
     return int(groups["id"])
 
 
-def upload_vk_wall_photo(user_token: str, group_id: int, image_path: Path) -> str:
-    """Загрузка фото на стену — только пользовательский токен (не ключ сообщества)."""
-    up_srv = vk_api("photos.getWallUploadServer", user_token, group_id=group_id)
+def _vk_upload_photo_file(upload_url: str, image_path: Path) -> dict[str, Any]:
     mime = "image/jpeg" if image_path.suffix.lower() in {".jpg", ".jpeg"} else "image/png"
     with image_path.open("rb") as f:
         up = requests.post(
-            up_srv["upload_url"],
+            upload_url,
             files={"photo": (image_path.name or "cover.jpg", f, mime)},
             timeout=120,
         ).json()
     if not up.get("photo"):
         raise RuntimeError(f"VK upload: пустой photo (server={up.get('server')}, hash={up.get('hash')})")
+    return up
+
+
+def _vk_photo_attachment(photo: dict[str, Any]) -> str:
+    att = f"photo{photo['owner_id']}_{photo['id']}"
+    if photo.get("access_key"):
+        att = f"{att}_{photo['access_key']}"
+    return att
+
+
+def upload_vk_wall_photo(token: str, group_id: int, image_path: Path) -> str:
+    """Загрузка фото к посту на стену.
+
+    Пользовательский токен: photos.getWallUploadServer.
+    Ключ сообщества не умеет этот метод (error 27) — грузим через
+    photos.getMessagesUploadServer и прикрепляем к wall.post.
+    """
+    try:
+        up_srv = vk_api("photos.getWallUploadServer", token, group_id=group_id)
+        up = _vk_upload_photo_file(up_srv["upload_url"], image_path)
+        saved = vk_api(
+            "photos.saveWallPhoto",
+            token,
+            group_id=group_id,
+            photo=up["photo"],
+            server=up["server"],
+            hash=up["hash"],
+        )
+        return _vk_photo_attachment(saved[0])
+    except RuntimeError as exc:
+        msg = str(exc)
+        if "unavailable with group auth" not in msg and "error_code': 27" not in msg and "error_code\": 27" not in msg:
+            raise
+
+    up_srv = vk_api("photos.getMessagesUploadServer", token, group_id=group_id)
+    up = _vk_upload_photo_file(up_srv["upload_url"], image_path)
     saved = vk_api(
-        "photos.saveWallPhoto",
-        user_token,
-        group_id=group_id,
+        "photos.saveMessagesPhoto",
+        token,
         photo=up["photo"],
         server=up["server"],
         hash=up["hash"],
     )
-    ph = saved[0]
-    return f"photo{ph['owner_id']}_{ph['id']}"
+    return _vk_photo_attachment(saved[0])
 
 
 def publish_vk(
@@ -787,15 +819,14 @@ def publish_vk(
     attachment = ""
 
     if cover and cover.exists():
-        if user_token:
-            if dry_run:
-                attachment = "[dry-run photo]"
-            else:
-                attachment = upload_vk_wall_photo(user_token, int(gid), cover)
+        upload_token = user_token or token
+        if dry_run:
+            attachment = "[dry-run photo]"
+        elif upload_token:
+            attachment = upload_vk_wall_photo(upload_token, int(gid), cover)
         else:
             print(
-                "⚠ VK: для картинки нужен VK_USER_TOKEN (ключ сообщества фото не грузит). "
-                "См. checklists/vk-photo-token.md",
+                "⚠ VK: нет токена для загрузки фото. См. checklists/vk-photo-token.md",
                 file=sys.stderr,
             )
 
@@ -1563,8 +1594,8 @@ def cmd_vk_attach_cover(args: argparse.Namespace) -> int:
     community = os.getenv("VK_ACCESS_TOKEN", "")
     user = os.getenv("VK_USER_TOKEN", "")
     group = os.getenv("VK_GROUP_ID", "")
-    if not all([community, user, group]):
-        raise SystemExit("Нужны VK_ACCESS_TOKEN, VK_USER_TOKEN, VK_GROUP_ID в .env")
+    if not community or not group:
+        raise SystemExit("Нужны VK_ACCESS_TOKEN и VK_GROUP_ID в .env")
 
     items = load_queue()
     item = find_queue_item(items, args.id)
@@ -1572,20 +1603,21 @@ def cmd_vk_attach_cover(args: argparse.Namespace) -> int:
         raise SystemExit("Нет cover в очереди для этого id")
     cover = resolve_cover_path(item, vk=True) or ROOT / item["cover"]
     gid = resolve_vk_group_id(community, group)
-    attachment = upload_vk_wall_photo(user, gid, cover)
+    attachment = upload_vk_wall_photo(user or community, gid, cover)
 
     message = ""
     vk_path = teaser_vk_path(item)
     if vk_path:
         message = replace_dzen_url(load_plain_post(resolve_path(vk_path)), item.get("dzen_url", ""))
-    else:
+    elif user:
         post = vk_api("wall.getById", user, posts=f"-{gid}_{args.post_id}")
         message = post["items"][0].get("text", "")
 
+    edit_token = user or community
     resp = requests.post(
         "https://api.vk.com/method/wall.edit",
         data={
-            "access_token": user,
+            "access_token": edit_token,
             "v": "5.199",
             "owner_id": -gid,
             "post_id": args.post_id,
@@ -1595,7 +1627,11 @@ def cmd_vk_attach_cover(args: argparse.Namespace) -> int:
         timeout=60,
     ).json()
     if "error" in resp:
-        raise SystemExit(f"wall.edit: {resp['error']}")
+        raise SystemExit(
+            f"wall.edit: {resp['error']}. "
+            "Ключ сообщества не редактирует старые посты — прикрепите фото вручную "
+            "или публикуйте новый пост (у новых обложка уже ставится сама)."
+        )
     print(f"✓ К посту {args.post_id} прикреплено фото")
     print(f"  https://vk.ru/wall-{gid}_{args.post_id}")
     return 0
