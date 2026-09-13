@@ -1,31 +1,38 @@
 # VK: картинка к посту
 
-Ключ сообщества публикует текст, но **не загружает новое фото**. Уже лежащее
-на стене фото он прикрепить умеет.
+Ключ сообщества публикует текст, но **не загружает новое фото**.
 
-Приложение VK ID: **54768786** (не 54768817 — этот id был ошибочный).
+Старый `VK_USER_TOKEN` жил в облачном агенте «Автоматизация контента»,
+на этом VPS его **никогда не было** (в git тоже нет). VK Admin на vkhost
+сейчас **заблокирован** — токен от него, скорее всего, уже мёртв.
 
-## Новый пост с фото без OAuth
+## Получить ключ заново (как раньше, другое приложение)
 
-1. Откройте VK **своим профилем Марии**.
-2. Скачайте обложку: https://blog.mkekspert.ru/covers/vk-week2-vk.jpg
-3. В `klientyandtrafik` создайте запись **от имени сообщества** только с этой картинкой.
-4. Фото → «Скопировать ссылку» (`https://vk.com/photo-222121025_…`) — пришлите агенту.
+Не 54768786 — у него Security Error. Берём **Kate Mobile** (приложение живое):
+
+https://oauth.vk.com/authorize?client_id=2685278&scope=photos,wall,groups,offline&redirect_uri=https://oauth.vk.com/blank.html&display=page&response_type=token&v=5.199
+
+Или [vkhost.github.io](https://vkhost.github.io/) → **Kate Mobile** (не VK Admin) → Разрешить.
+
+В адресной строке скопируйте от `access_token=` до `&`. Пришлите агенту:
+
+`VK_USER_TOKEN=vk1.a....`
+
+Заходите **своим профилем Марии**.
+
+Запасные живые приложения на vkhost: Prisma, VFeed, «vk.com».
+
+## Если ключ найдётся в старом чате
+
+Ищите `VK_USER_TOKEN=` в https://cursor.com/agents/bc-01a04c79-162d-7499-9916-44bd41910a4f
+Если это был VK Admin — скорее всего не сработает, берите Kate Mobile.
+
+## Пока нет ключа — фото с уже существующего поста
+
+Скачать обложку: https://blog.mkekspert.ru/covers/vk-week2-vk.jpg  
+Пост в сообществе с картинкой → ссылка `vk.com/photo-…` → агент делает новый пост.
 
 ```bash
-cd automation
 python3 publish.py vk-from-post vk-week2 'https://vk.com/photo-222121025_…'
 ```
-
-## Если входим по ссылке VK (клиент 54768786)
-
-В кабинете приложения 54768786 добавьте redirect:
-
-`https://blog.mkekspert.ru/vk-oauth.html`
-
-Затем откройте **своим профилем**:
-
-https://oauth.vk.com/authorize?client_id=54768786&display=page&redirect_uri=https://blog.mkekspert.ru/vk-oauth.html&scope=photos,groups,offline&response_type=token&v=5.199
-
-Ключ `vk1.a.…` пришлите сообщением `VK_USER_TOKEN=...`.
 
