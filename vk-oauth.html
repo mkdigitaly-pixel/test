@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ключ VK для обложек</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 42rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.45; color: #1a1a1a; }
+    code, textarea { font-family: ui-monospace, monospace; }
+    textarea { width: 100%; min-height: 6rem; padding: .6rem; }
+    .ok { background: #f3f7f2; border: 1px solid #c5d9c0; padding: 1rem; }
+    .err { background: #fdf2f2; border: 1px solid #e8b4b4; padding: 1rem; }
+    a.btn { display: inline-block; margin-top: 1rem; background: #0077ff; color: #fff; text-decoration: none; padding: .55rem 1rem; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Ключ VK для обложек</h1>
+  <div id="box"></div>
+  <script>
+    (function () {
+      var params = {};
+      (window.location.hash.replace(/^#/, "") + "&" + window.location.search.replace(/^\?/, ""))
+        .split("&").forEach(function (pair) {
+          if (!pair) return;
+          var i = pair.indexOf("=");
+          if (i < 0) params[decodeURIComponent(pair)] = "";
+          else params[decodeURIComponent(pair.slice(0, i))] = decodeURIComponent(pair.slice(i + 1).replace(/\+/g, " "));
+        });
+      var box = document.getElementById("box");
+      var auth = "https://oauth.vk.com/authorize?client_id=54768817&display=page&redirect_uri=" +
+        encodeURIComponent("https://blog.mkekspert.ru/vk-oauth.html") +
+        "&scope=photos,groups,offline&response_type=token&v=5.199";
+      if (params.error) {
+        box.className = "err";
+        box.innerHTML = "<p>VK вернул ошибку: <code>" + params.error + "</code> " +
+          (params.error_description || "") + "</p><p>Проверьте redirect URI в кабинете приложения.</p>" +
+          '<p><a class="btn" href="' + auth + '">Повторить</a></p>';
+        return;
+      }
+      if (params.access_token) {
+        box.className = "ok";
+        box.innerHTML = "<p>Скопируйте ключ и пришлите агенту сообщением <code>VK_USER_TOKEN=...</code>. Никуда больше его не публикуйте.</p>" +
+          "<textarea id=\"tok\" readonly></textarea>";
+        document.getElementById("tok").value = params.access_token;
+        if (history.replaceState) history.replaceState(null, "", window.location.pathname);
+        return;
+      }
+      if (params.code) {
+        box.className = "ok";
+        box.innerHTML = "<p>Пришёл code, а не token. Пришлите агенту этот код — или откройте ссылку с <code>response_type=token</code>.</p>" +
+          "<textarea id=\"tok\" readonly></textarea>";
+        document.getElementById("tok").value = params.code;
+        return;
+      }
+      box.innerHTML = "<p>Страница для получения пользовательского ключа VK (обложки постов).</p>" +
+        '<p><a class="btn" href="' + auth + '">Получить ключ</a></p>';
+    })();
+  </script>
+</body>
+</html>
