@@ -37,7 +37,7 @@ schedule sync-urls + poll  →  dzen_url в очередь
 | Что | Кто | Когда |
 |-----|-----|-------|
 | `.env` — токены TG/VK, `AUTO_PUBLISH=true` | агент / env-setup | один раз |
-| RSS-лента в Студии Дзена | один раз по `checklists/dzen-rss-tilda.md` (blog.mkekspert.ru) |
+| RSS-лента в Студии Дзена | один раз по `checklists/dzen-rss-tilda.md` (логина Студии в `.env` нет) |
 | `VK_USER_TOKEN` для обложек | один раз по `checklists/vk-photo-token.md` |
 
 **mkekspert.ru** остаётся на Tilda. Статьи и RSS — на **blog.mkekspert.ru** (GitHub Pages). Инструкция: `checklists/dzen-rss-tilda.md`.

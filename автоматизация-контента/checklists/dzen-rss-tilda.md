@@ -2,6 +2,23 @@
 
 **mkekspert.ru** на Tilda — визитка. **Автомат статей** — на поддомене **blog.mkekspert.ru** (не Tilda, файлы из git).
 
+## Доступы (секретов Студии нет)
+
+Публикация **только через RSS**, не через API Студии. В чатах и `.env` нет логина, пароля, cookies и OAuth Дзена. SFTP к Дзену не используется.
+
+| Что | Где |
+|-----|-----|
+| Канал | https://dzen.ru/klientyandtrafik |
+| RSS | https://blog.mkekspert.ru/dzen-feed.xml |
+| Сайт статей | https://blog.mkekspert.ru |
+| Подтверждение домена | HTML `zen_<код>.html` на blog (файл, который дала Студия) |
+| Короткие в Дзен | TG `@dzenkovaleva` + `@zen_sync_bot` |
+| Режим | `DZEN_PUBLISH_MODE=auto` — длинные → RSS, короткие → TG sync |
+
+`dzen_url` агент берёт из публичного API канала (`schedule sync-urls`), не из Студии. Пока статьи нет в выгрузке канала — тизеры остаются `pending`.
+
+---
+
 ---
 
 ## Шаг 1. Поддомен в DNS
