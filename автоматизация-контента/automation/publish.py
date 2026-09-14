@@ -293,7 +293,6 @@ def markdown_to_dzen_html(md: str, *, base_dir: Path | None = None) -> str:
             continue
 
         if re.match(r"^\d+\.\s+", stripped):
-            flush_list()
             if list_buf and not list_ordered:
                 flush_list()
             list_ordered = True
@@ -304,12 +303,22 @@ def markdown_to_dzen_html(md: str, *, base_dir: Path | None = None) -> str:
         if stripped.startswith("— ") or stripped.startswith("- "):
             if list_buf and list_ordered:
                 flush_list()
+            list_ordered = False
             list_buf.append(stripped[2:])
             i += 1
             continue
 
         if not stripped:
-            flush_list()
+            j = i + 1
+            while j < len(lines) and not lines[j].strip():
+                j += 1
+            nxt = lines[j].strip() if j < len(lines) else ""
+            continues = bool(list_buf) and (
+                (list_ordered and bool(re.match(r"^\d+\.\s+", nxt)))
+                or (not list_ordered and (nxt.startswith("— ") or nxt.startswith("- ")))
+            )
+            if not continues:
+                flush_list()
             i += 1
             continue
 
