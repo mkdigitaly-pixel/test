@@ -237,7 +237,10 @@ def markdown_to_dzen_html(md: str, *, base_dir: Path | None = None) -> str:
         if not list_buf:
             return
         tag = "ol" if list_ordered else "ul"
-        items = "".join(f"<li>{_inline_dzen_html(item)}</li>" for item in list_buf)
+        items = "".join(
+            f"<li>{re.sub(r'</?[biu]>', '', _inline_dzen_html(item))}</li>"
+            for item in list_buf
+        )
         blocks.append(f"<{tag}>{items}</{tag}>")
         list_buf = []
         list_ordered = False
