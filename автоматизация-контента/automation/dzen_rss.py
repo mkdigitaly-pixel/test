@@ -57,17 +57,6 @@ COVER_BASE = os.getenv("DZEN_COVER_BASE_URL") or f"{SITE_URL.rstrip('/')}/dzen-c
 DZEN_CHANNEL_SLUG = os.getenv("DZEN_CHANNEL_SLUG", "klientyandtrafik")
 MIN_FEED_ITEMS = int(os.getenv("DZEN_RSS_MIN_ITEMS", "10"))
 
-# Архивные item из API Дзена — ссылки на основной сайт (Tilda)
-ARCHIVE_SITE_LINKS: list[str] = [
-    "/portfolio",
-    "/rotang",
-    "/press-forms",
-    "/urist",
-    "/stomatologiya",
-    "/lifts",
-    "/razbor-direct",
-]
-
 
 def rss_draft_mode() -> bool:
     """native-draft в RSS → черновик в Студии; без него — автопубликация."""
@@ -559,7 +548,10 @@ def _collect_gh_pages_files() -> dict[str, bytes]:
         files["dzen-feed.xml"] = FEED_FILE.read_bytes()
     files["CNAME"] = b"blog.mkekspert.ru\n"
     files["robots.txt"] = (
-        "User-agent: *\nAllow: /\nSitemap: https://blog.mkekspert.ru/sitemap.xml\n"
+        "User-agent: *\n"
+        "Allow: /\n"
+        "Allow: /dzen-feed.xml\n"
+        "Sitemap: https://blog.mkekspert.ru/sitemap.xml\n"
     ).encode()
     posts = _blog_posts()
     files["index.html"] = _blog_index_html().encode("utf-8")
@@ -758,7 +750,21 @@ def validate_feed_for_dzen(feed_path: Path | None = None) -> list[str]:
     feed_host = SITE_URL.replace("https://", "").replace("http://", "").rstrip("/")
     if FEED_LINK and feed_host not in FEED_LINK:
         issues.append(f"URL ленты {FEED_LINK} не на домене {feed_host} — Дзен отклонит")
+    if any("mkekspert-dzen-archive-" in item for item in items):
+        issues.append("в ленте копии публикаций канала — Дзен отклоняет как дублированный контент")
+    channel_titles = [str(it.get("title") or "") for it in fetch_dzen_channel_items(30)]
     for item in items:
+        title_m = re.search(r"<title>(.*?)</title>", item)
+        title = html.unescape(title_m.group(1)) if title_m else ""
+        if title and _title_is_seen(title, channel_titles):
+            issues.append(f"заголовок уже есть в канале Дзена — дубль: {title}")
+            break
+    for item in items:
+        link_m = re.search(r"<link>(.*?)</link>", item)
+        link = html.unescape(link_m.group(1)) if link_m else ""
+        if link and "/articles/" not in link:
+            issues.append(f"ссылка item не на статью блога: {link}")
+            break
         if len(re.findall(r"<content:encoded>", item)) and len(item) < 400:
             issues.append("подозрительно короткий content:encoded в одном из item")
             break
@@ -798,21 +804,111 @@ def deploy_feed_sftp(*, dry_run: bool = False) -> str:
     return f"sftp://{host}{remote_feed}"
 
 
+def _norm_title(title: str) -> str:
+    text = (title or "").lower().replace("ё", "е")
+    text = re.sub(r"[^a-zа-я0-9]+", " ", text)
+    return " ".join(text.split())
+
+
+def _titles_overlap(a: str, b: str) -> bool:
+    """Дубль для Дзена — тот же или почти тот же заголовок, не общее «Директ B2B»."""
+    na, nb = _norm_title(a), _norm_title(b)
+    if not na or not nb:
+        return False
+    if na == nb:
+        return True
+    if len(na) >= 40 and (na in nb or nb in na):
+        return True
+    return False
+
+
+def _title_is_seen(title: str, seen: list[str]) -> bool:
+    return any(_titles_overlap(title, prev) for prev in seen)
+
+
+def _queue_article_titles(queue_items: list[dict[str, Any]] | None = None) -> list[str]:
+    titles: list[str] = []
+    for item in queue_items or _queue_items():
+        rel = item.get("dzen_article")
+        if not rel:
+            continue
+        meta = _parse_md_meta(ROOT / str(rel))
+        title = str(meta.get("h1") or meta.get("title") or item.get("topic") or "").strip()
+        if title:
+            titles.append(title)
+    return titles
+
+
+def _parse_item_pub_date(item: dict[str, Any]) -> datetime:
+    """Свежая дата — только у материалов, которых ещё нет в канале."""
+    if not item.get("dzen_url"):
+        return datetime.now(timezone.utc)
+    for key in ("published_at", "dzen_published_at", "dzen_republished_at"):
+        raw = str(item.get(key) or "").strip()
+        if not raw:
+            continue
+        try:
+            parsed = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+        except ValueError:
+            continue
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed.astimezone(timezone.utc)
+    return datetime.now(timezone.utc)
+
+
+def unique_archive_fill(existing_titles: list[str], needed: int) -> list[dict[str, Any]]:
+    """Больше не добираем ленту копиями канала: Дзен отклоняет это как дубли."""
+    return []
+
+
+def _archive_page_html(pad: dict[str, Any]) -> str:
+    title = str(pad.get("title") or "")
+    description = str(pad.get("description") or title)
+    body = str(pad.get("body_html") or "")
+    url = str(pad.get("link") or article_site_link(str(pad.get("page_id") or "")))
+    inner = (
+        f'<article class="article-wrap"><h1>{html.escape(title)}</h1>'
+        f'<p class="meta-line">Архив канала</p>{body}</article>'
+    )
+    return _site_chrome(
+        inner,
+        title=title,
+        description=description,
+        canonical=url,
+        extra_head='<meta name="robots" content="noindex,nofollow">\n',
+    )
+
+
+def _item_eligible_for_rss(item: dict[str, Any]) -> bool:
+    """В ленту — только оригинальные статьи блога, которых ещё нет в канале."""
+    if not item.get("dzen_article"):
+        return False
+    if str(item.get("status") or "") not in ("approved", "published"):
+        return False
+    if str(item.get("dzen_url") or "").strip():
+        return False
+    return (ROOT / str(item["dzen_article"])).is_file()
+
+
 def rebuild_full_feed(
     queue_items: list[dict[str, Any]],
     *,
     article_to_html: Any,
     load_meta: Any,
 ) -> Path:
-    """Полная пересборка feed.xml из очереди + архив Дзена (до 10+ item)."""
+    """Пересборка feed.xml: только уникальные статьи блога, без копий канала."""
     blocks: list[str] = []
     seen_guids: set[str] = set()
+    seen_titles: list[str] = []
+    channel_titles = [str(it.get("title") or "") for it in fetch_dzen_channel_items(30)]
 
-    for item in queue_items:
+    ready = [item for item in queue_items if _item_eligible_for_rss(item)]
+    ready.sort(key=lambda item: str(item.get("id") or ""))
+
+    for item in ready:
         rel = item.get("dzen_article")
-        if not rel:
-            continue
-        path = ROOT / rel
+        path = ROOT / str(rel)
         if not path.exists():
             continue
         meta = load_meta(path)
@@ -822,9 +918,12 @@ def rebuild_full_feed(
         cid = str(item.get("id", ""))
         slug = _slug_from_path(path)
         guid = f"mkekspert-dzen-{cid}"
-        if guid in seen_guids:
+        if guid in seen_guids or not title:
+            continue
+        if _title_is_seen(title, seen_titles) or _title_is_seen(title, channel_titles):
             continue
         seen_guids.add(guid)
+        seen_titles.append(title)
         cover_rel = str(item.get("cover") or "")
         cover_url = cover_public_url(cover_rel or None)
         content = prepend_cover_html(body_html, cover_url)
@@ -833,38 +932,12 @@ def rebuild_full_feed(
                 guid=guid,
                 title=title,
                 link=article_site_link(cid, slug),
-                pub_date=datetime.now(timezone.utc),
+                pub_date=_parse_item_pub_date(item),
                 description=description,
                 content_html=content,
                 cover_url=cover_url,
             )
         )
-
-    if len(blocks) < MIN_FEED_ITEMS:
-        for idx, dzen_item in enumerate(fetch_dzen_channel_items(MIN_FEED_ITEMS * 2)):
-            pub_id = str(dzen_item.get("publication_id") or dzen_item.get("id") or idx)
-            guid = f"mkekspert-dzen-archive-{pub_id}"
-            if guid in seen_guids:
-                continue
-            title = str(dzen_item.get("title") or "").strip()
-            text = str(dzen_item.get("text") or "").strip()
-            if not title or len(text) < 120:
-                continue
-            seen_guids.add(guid)
-            link_path = ARCHIVE_SITE_LINKS[len(blocks) % len(ARCHIVE_SITE_LINKS)]
-            blocks.append(
-                build_item_xml_str(
-                    guid=guid,
-                    title=title,
-                    link=f"{SITE_URL.rstrip('/')}{link_path}",
-                    pub_date=datetime.now(timezone.utc),
-                    description=text[:300],
-                    content_html=_text_to_html(text),
-                    cover_url="",
-                )
-            )
-            if len(blocks) >= MIN_FEED_ITEMS:
-                break
 
     xml = render_feed(blocks[:50])
     FEED_FILE.parent.mkdir(parents=True, exist_ok=True)
@@ -937,14 +1010,19 @@ def build_item_xml_str(
 
 def render_feed(item_blocks: list[str], channel_title: str = "mkekspert — Дзен") -> str:
     items = "\n".join(item_blocks)
+    built = datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S +0000")
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"
   xmlns:content="http://purl.org/rss/1.0/modules/content/"
-  xmlns:media="http://search.yahoo.com/mrss/">
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>{html.escape(channel_title)}</title>
     <link>{html.escape(SITE_URL)}</link>
     <language>ru</language>
+    <lastBuildDate>{built}</lastBuildDate>
+    <atom:link href="{html.escape(FEED_LINK)}" rel="self" type="application/rss+xml"/>
 {items}
   </channel>
 </rss>

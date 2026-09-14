@@ -47,32 +47,36 @@ slots:
   time: '10:00'
   action: publish_dzen
   campaign_id: no-leads-direct
-  status: scheduled
+  status: done
+  completed_at: '2026-09-12T15:51:40.163221+03:00'
 - date: '2026-09-09'
   time: '12:00'
   action: publish_teasers
   campaign_id: no-leads-direct
-  status: scheduled
+  status: pending
 - date: '2026-09-10'
   time: '11:00'
   action: publish_tg_post
   post_id: tg-week2
-  status: scheduled
+  status: done
+  completed_at: '2026-09-13T11:26:21.062549+03:00'
 - date: '2026-09-11'
   time: '10:00'
   action: publish_dzen
   campaign_id: autotarget-b2b
-  status: scheduled
+  status: done
+  completed_at: '2026-09-12T15:51:40.163221+03:00'
 - date: '2026-09-11'
   time: '12:00'
   action: publish_teasers
   campaign_id: autotarget-b2b
-  status: scheduled
+  status: pending
 - date: '2026-09-12'
   time: '11:00'
   action: publish_vk_post
   post_id: vk-week2
-  status: scheduled
+  status: done
+  completed_at: '2026-09-13T11:37:47.215890+03:00'
 - date: '2026-09-16'
   time: '10:00'
   action: publish_dzen

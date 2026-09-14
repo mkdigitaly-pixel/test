@@ -18,16 +18,21 @@
 from __future__ import annotations
 
 import argparse
+import html as html_lib
 import json
 import os
 import re
 import sys
 import time
+import urllib.request
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
-from zoneinfo import ZoneInfo
+try:
+    from zoneinfo import ZoneInfo
+except ImportError:  # Python 3.8 on the VPS worker
+    from backports.zoneinfo import ZoneInfo
 
 import requests
 import yaml
@@ -232,7 +237,10 @@ def markdown_to_dzen_html(md: str, *, base_dir: Path | None = None) -> str:
         if not list_buf:
             return
         tag = "ol" if list_ordered else "ul"
-        items = "".join(f"<li>{_inline_dzen_html(item)}</li>" for item in list_buf)
+        items = "".join(
+            f"<li>{re.sub(r'</?[biu]>', '', _inline_dzen_html(item))}</li>"
+            for item in list_buf
+        )
         blocks.append(f"<{tag}>{items}</{tag}>")
         list_buf = []
         list_ordered = False
@@ -288,7 +296,6 @@ def markdown_to_dzen_html(md: str, *, base_dir: Path | None = None) -> str:
             continue
 
         if re.match(r"^\d+\.\s+", stripped):
-            flush_list()
             if list_buf and not list_ordered:
                 flush_list()
             list_ordered = True
@@ -299,12 +306,22 @@ def markdown_to_dzen_html(md: str, *, base_dir: Path | None = None) -> str:
         if stripped.startswith("— ") or stripped.startswith("- "):
             if list_buf and list_ordered:
                 flush_list()
+            list_ordered = False
             list_buf.append(stripped[2:])
             i += 1
             continue
 
         if not stripped:
-            flush_list()
+            j = i + 1
+            while j < len(lines) and not lines[j].strip():
+                j += 1
+            nxt = lines[j].strip() if j < len(lines) else ""
+            continues = bool(list_buf) and (
+                (list_ordered and bool(re.match(r"^\d+\.\s+", nxt)))
+                or (not list_ordered and (nxt.startswith("— ") or nxt.startswith("- ")))
+            )
+            if not continues:
+                flush_list()
             i += 1
             continue
 
@@ -747,28 +764,95 @@ def resolve_vk_group_id(token: str, group_id: str) -> int:
     return int(groups["id"])
 
 
-def upload_vk_wall_photo(user_token: str, group_id: int, image_path: Path) -> str:
-    """Загрузка фото на стену — только пользовательский токен (не ключ сообщества)."""
-    up_srv = vk_api("photos.getWallUploadServer", user_token, group_id=group_id)
+def _vk_upload_photo_file(upload_url: str, image_path: Path) -> dict[str, Any]:
     mime = "image/jpeg" if image_path.suffix.lower() in {".jpg", ".jpeg"} else "image/png"
     with image_path.open("rb") as f:
         up = requests.post(
-            up_srv["upload_url"],
+            upload_url,
             files={"photo": (image_path.name or "cover.jpg", f, mime)},
             timeout=120,
         ).json()
     if not up.get("photo"):
         raise RuntimeError(f"VK upload: пустой photo (server={up.get('server')}, hash={up.get('hash')})")
+    return up
+
+
+def _vk_photo_attachment(photo: dict[str, Any]) -> str:
+    att = f"photo{photo['owner_id']}_{photo['id']}"
+    if photo.get("access_key"):
+        att = f"{att}_{photo['access_key']}"
+    return att
+
+
+class VkWallPhotoUnavailable(RuntimeError):
+    """Ключ сообщества не умеет photos.getWallUploadServer / saveWallPhoto."""
+
+
+def upload_vk_wall_photo(token: str, group_id: int, image_path: Path) -> str:
+    """Загрузка фото в альбом стены.
+
+    Нужен пользовательский токен (VK_USER_TOKEN). Ключ сообщества даёт
+    error 27 на getWallUploadServer. Фото из photos.saveMessagesPhoto
+    wall.post принимает, но на стене не показывает — этот путь запрещён.
+    """
+    try:
+        up_srv = vk_api("photos.getWallUploadServer", token, group_id=group_id)
+    except RuntimeError as exc:
+        msg = str(exc)
+        if "unavailable with group auth" in msg or "error_code': 27" in msg or 'error_code": 27' in msg:
+            raise VkWallPhotoUnavailable(
+                "VK: ключ сообщества не загружает фото на стену (error 27). "
+                "Нужен VK_USER_TOKEN — см. checklists/vk-photo-token.md"
+            ) from exc
+        raise
+    up = _vk_upload_photo_file(up_srv["upload_url"], image_path)
     saved = vk_api(
         "photos.saveWallPhoto",
-        user_token,
+        token,
         group_id=group_id,
         photo=up["photo"],
         server=up["server"],
         hash=up["hash"],
     )
-    ph = saved[0]
-    return f"photo{ph['owner_id']}_{ph['id']}"
+    return _vk_photo_attachment(saved[0])
+
+
+def scrape_vk_wall_photo_attachment(owner_id: int, post_id: int) -> str:
+    """Достаёт photo{owner}_{id}_{key} из публичной страницы поста — без user-токена."""
+    url = f"https://vk.com/wall{owner_id}_{post_id}"
+    req = urllib.request.Request(
+        url,
+        headers={
+            "User-Agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+            ),
+            "Accept-Language": "ru-RU,ru;q=0.9",
+        },
+    )
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        raw = resp.read()
+    utf = raw.decode("utf-8", "replace")
+    if "большие запросы" in utf or "У вас большие" in utf:
+        raise RuntimeError(
+            "VK не отдаёт страницу поста. Пришлите ссылку на само фото: "
+            "нажать на картинку → «Скопировать ссылку» (vk.com/photo-…)"
+        )
+    text = html_lib.unescape(raw.decode("windows-1251", "replace"))
+    found = re.findall(
+        r'"type":"photo","photo":\{"album_id":-?\d+,"date":\d+,"id":(\d+),'
+        r'"owner_id":(-?\d+),"access_key":"([^"]+)"',
+        text,
+    )
+    if not found:
+        found = re.findall(
+            r'"id":(\d+),"owner_id":(-?\d+),"access_key":"([^"]+)"',
+            text,
+        )
+    if not found:
+        raise RuntimeError(f"В посте {url} нет фото на стене")
+    pid, oid, key = found[0]
+    return f"photo{oid}_{pid}_{key}"
 
 
 def publish_vk(
@@ -778,20 +862,30 @@ def publish_vk(
     *,
     cover: Path | None = None,
     user_token: str = "",
+    attachment: str = "",
     dry_run: bool = False,
 ) -> PublishResult:
     gid = resolve_vk_group_id(token, group_id) if not dry_run else group_id
-    attachment = ""
 
-    if cover and cover.exists():
-        if user_token:
-            if dry_run:
+    if not attachment and cover and cover.exists():
+        upload_token = (user_token or "").strip()
+        if dry_run:
+            if upload_token:
                 attachment = "[dry-run photo]"
             else:
-                attachment = upload_vk_wall_photo(user_token, int(gid), cover)
+                print(
+                    "⚠ VK: нет VK_USER_TOKEN — dry-run без фото. "
+                    "См. checklists/vk-photo-token.md",
+                    file=sys.stderr,
+                )
+        elif upload_token:
+            try:
+                attachment = upload_vk_wall_photo(upload_token, int(gid), cover)
+            except VkWallPhotoUnavailable as exc:
+                print(f"⚠ {exc}", file=sys.stderr)
         else:
             print(
-                "⚠ VK: для картинки нужен VK_USER_TOKEN (ключ сообщества фото не грузит). "
+                "⚠ VK: нет VK_USER_TOKEN — пост уйдёт без обложки. "
                 "См. checklists/vk-photo-token.md",
                 file=sys.stderr,
             )
@@ -815,7 +909,8 @@ def publish_vk(
     if "error" in data:
         raise RuntimeError(f"VK API wall.post: {data['error']}")
     post_id = data["response"]["post_id"]
-    return PublishResult("vk", True, f"Пост #{post_id}", post_id)
+    kind = "текст+фото" if attachment else "текст"
+    return PublishResult("vk", True, f"Пост #{post_id} ({kind})", post_id)
 
 
 def require_approved(item: dict[str, Any], force: bool) -> None:
@@ -1415,6 +1510,9 @@ def cmd_schedule_run(args: argparse.Namespace) -> int:
             # После согласования cron подхватит без ручного reset failed→scheduled
             slot.pop("error", None)
             print("  ↻ ждём approved — слот остаётся scheduled/pending")
+        elif "Заполните" in msg or "Нужны VK_" in msg:
+            slot.pop("error", None)
+            print("  ↻ нет токенов в .env — слот остаётся scheduled/pending")
         elif status == "scheduled" and slot.get("action") == "publish_teasers":
             slot["status"] = "pending"
             print("  ↻ pending — повтор при следующем запуске")
@@ -1557,24 +1655,33 @@ def cmd_vk_attach_cover(args: argparse.Namespace) -> int:
     community = os.getenv("VK_ACCESS_TOKEN", "")
     user = os.getenv("VK_USER_TOKEN", "")
     group = os.getenv("VK_GROUP_ID", "")
-    if not all([community, user, group]):
-        raise SystemExit("Нужны VK_ACCESS_TOKEN, VK_USER_TOKEN, VK_GROUP_ID в .env")
+    if not community or not group:
+        raise SystemExit("Нужны VK_ACCESS_TOKEN и VK_GROUP_ID в .env")
+    if not user:
+        raise SystemExit("Нужен VK_USER_TOKEN. См. checklists/vk-photo-token.md")
 
-    items = load_queue()
-    item = find_queue_item(items, args.id)
-    if not item or not item.get("cover"):
-        raise SystemExit("Нет cover в очереди для этого id")
-    cover = resolve_cover_path(item, vk=True) or ROOT / item["cover"]
+    item = find_queue_item(load_queue(), args.id) or find_posts_item(load_posts_queue(), args.id)
+    cover = resolve_cover_path(item, vk=True) if item else None
+    if (not cover or not cover.exists()) and item and item.get("cover"):
+        cover = ROOT / item["cover"]
+    if not cover or not cover.exists():
+        cover = resolve_standalone_cover(args.id, vk=True) or resolve_standalone_cover(args.id)
+    if not cover or not cover.exists():
+        raise SystemExit("Нет файла обложки для этого id")
+
     gid = resolve_vk_group_id(community, group)
     attachment = upload_vk_wall_photo(user, gid, cover)
 
     message = ""
-    vk_path = teaser_vk_path(item)
+    vk_path = teaser_vk_path(item) if item else None
     if vk_path:
         message = replace_dzen_url(load_plain_post(resolve_path(vk_path)), item.get("dzen_url", ""))
     else:
         post = vk_api("wall.getById", user, posts=f"-{gid}_{args.post_id}")
-        message = post["items"][0].get("text", "")
+        rows = post.get("items") if isinstance(post, dict) else post
+        if not rows:
+            raise SystemExit(f"Не найден пост -{gid}_{args.post_id}")
+        message = rows[0].get("text", "")
 
     resp = requests.post(
         "https://api.vk.com/method/wall.edit",
@@ -1589,9 +1696,55 @@ def cmd_vk_attach_cover(args: argparse.Namespace) -> int:
         timeout=60,
     ).json()
     if "error" in resp:
-        raise SystemExit(f"wall.edit: {resp['error']}")
+        raise SystemExit(
+            f"wall.edit: {resp['error']}. "
+            "Нужен пользовательский VK_USER_TOKEN — см. checklists/vk-photo-token.md"
+        )
     print(f"✓ К посту {args.post_id} прикреплено фото")
     print(f"  https://vk.ru/wall-{gid}_{args.post_id}")
+    return 0
+
+
+def parse_vk_photo_attachment(source: str, group_id: int) -> str:
+    """source: photo-123_456, wall-123_78, URL, или номер поста в этой группе."""
+    s = source.strip()
+    m = re.search(r"photo(-?\d+)_(\d+)(?:_([0-9a-f]+))?", s, re.I)
+    if m:
+        att = f"photo{m.group(1)}_{m.group(2)}"
+        if m.group(3):
+            att = f"{att}_{m.group(3)}"
+        return att
+    m = re.search(r"wall-?(\d+)_(\d+)", s, re.I)
+    if m:
+        return scrape_vk_wall_photo_attachment(-int(m.group(1)), int(m.group(2)))
+    if s.isdigit():
+        return scrape_vk_wall_photo_attachment(-int(group_id), int(s))
+    raise SystemExit(
+        "Нужна ссылка на фото (vk.com/photo-…) или на пост со стены (vk.com/wall-…)"
+    )
+
+
+def cmd_vk_from_post(args: argparse.Namespace) -> int:
+    """Новый пост: текст из очереди + уже существующее фото на стене."""
+    load_env()
+    community = os.getenv("VK_ACCESS_TOKEN", "")
+    group = os.getenv("VK_GROUP_ID", "")
+    if not community or not group:
+        raise SystemExit("Нужны VK_ACCESS_TOKEN и VK_GROUP_ID в .env")
+    gid = resolve_vk_group_id(community, group)
+    attachment = parse_vk_photo_attachment(args.source, gid)
+    path = resolve_post_path(args.id, "vk")
+    if not path.exists():
+        raise SystemExit(f"Нет файла {path}")
+    text = load_plain_post(path)
+    r = publish_vk(
+        text,
+        community,
+        str(gid),
+        attachment=attachment,
+        dry_run=args.dry_run,
+    )
+    print(f"VK пост с фото {attachment}: {r.message}")
     return 0
 
 
@@ -1624,6 +1777,14 @@ def main() -> int:
     p_cov = sub.add_parser("vk-attach-cover", help="Добавить обложку к существующему посту VK")
     p_cov.add_argument("post_id", type=int, help="Номер поста, напр. 204")
     p_cov.add_argument("id", help="id в очереди (для пути к cover)")
+
+    p_from = sub.add_parser(
+        "vk-from-post",
+        help="Новый пост: текст из очереди + фото с существующего поста VK",
+    )
+    p_from.add_argument("id", help="id поста в очереди, напр. vk-week2")
+    p_from.add_argument("source", help="ссылка vk.com/photo-… или vk.com/wall-…")
+    p_from.add_argument("--dry-run", action="store_true")
 
     sch = sub.add_parser("schedule", help="Автопубликация по posting-schedule.yaml")
     schs = sch.add_subparsers(dest="schedule_cmd", required=True)
@@ -1674,6 +1835,9 @@ def main() -> int:
 
     if args.command == "vk-attach-cover":
         return cmd_vk_attach_cover(args)
+
+    if args.command == "vk-from-post":
+        return cmd_vk_from_post(args)
 
     if args.command == "queue":
         if args.queue_cmd == "list":
