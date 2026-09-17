@@ -53,7 +53,8 @@ slots:
   time: '12:00'
   action: publish_teasers
   campaign_id: no-leads-direct
-  status: pending
+  status: done
+  completed_at: '2026-09-17T12:28:43.227847+03:00'
 - date: '2026-09-10'
   time: '11:00'
   action: publish_tg_post
@@ -70,7 +71,8 @@ slots:
   time: '12:00'
   action: publish_teasers
   campaign_id: autotarget-b2b
-  status: pending
+  status: done
+  completed_at: '2026-09-17T12:28:43.227877+03:00'
 - date: '2026-09-12'
   time: '11:00'
   action: publish_vk_post
