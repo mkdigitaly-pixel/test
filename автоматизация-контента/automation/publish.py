@@ -855,6 +855,48 @@ def scrape_vk_wall_photo_attachment(owner_id: int, post_id: int) -> str:
     return f"photo{oid}_{pid}_{key}"
 
 
+_VK_PHOTO_CACHE = Path("/tmp/vk-last-wall-photo.txt")
+
+
+def remember_vk_wall_photo(attachment: str) -> None:
+    if attachment.startswith("photo"):
+        try:
+            _VK_PHOTO_CACHE.write_text(attachment.strip() + "\n", encoding="utf-8")
+        except OSError:
+            pass
+
+
+def find_recycled_vk_photo(group_id: int, *, seed_post_id: int | None = None) -> str:
+    """Любое уже залитое фото со стены — обход flood на upload."""
+    if _VK_PHOTO_CACHE.exists():
+        cached = _VK_PHOTO_CACHE.read_text(encoding="utf-8").strip()
+        if cached.startswith("photo"):
+            return cached
+    env_att = (os.getenv("VK_FALLBACK_PHOTO") or "").strip()
+    if env_att.startswith("photo"):
+        remember_vk_wall_photo(env_att)
+        return env_att
+    seed = seed_post_id or int(os.getenv("VK_LAST_POST_ID") or "220")
+    last_err: Exception | None = None
+    for pid in range(seed, max(seed - 60, 1), -1):
+        try:
+            att = scrape_vk_wall_photo_attachment(-int(group_id), pid)
+            remember_vk_wall_photo(att)
+            return att
+        except Exception as exc:  # noqa: BLE001 — перебираем посты
+            last_err = exc
+            continue
+    raise RuntimeError(
+        "Не удалось найти фото на стене для recycle "
+        f"(seed={seed}). {last_err}"
+    )
+
+
+def _is_vk_flood(exc: BaseException) -> bool:
+    msg = str(exc)
+    return "Flood control" in msg or "error_code': 9" in msg or 'error_code": 9' in msg
+
+
 def publish_vk(
     text: str,
     token: str,
@@ -881,14 +923,27 @@ def publish_vk(
         elif upload_token:
             try:
                 attachment = upload_vk_wall_photo(upload_token, int(gid), cover)
+                remember_vk_wall_photo(attachment)
             except VkWallPhotoUnavailable as exc:
                 print(f"⚠ {exc}", file=sys.stderr)
-        else:
-            print(
-                "⚠ VK: нет VK_USER_TOKEN — пост уйдёт без обложки. "
-                "См. checklists/vk-photo-token.md",
-                file=sys.stderr,
-            )
+            except RuntimeError as exc:
+                if _is_vk_flood(exc):
+                    print(
+                        "⚠ VK flood на загрузку фото — беру уже залитое со стены.",
+                        file=sys.stderr,
+                    )
+                else:
+                    raise
+        if not attachment and not dry_run:
+            try:
+                attachment = find_recycled_vk_photo(int(gid))
+                print(f"ℹ VK: recycle {attachment}", file=sys.stderr)
+            except Exception as exc:  # noqa: BLE001
+                print(
+                    f"⚠ VK: пост уйдёт без обложки ({exc}). "
+                    "См. checklists/vk-photo-token.md",
+                    file=sys.stderr,
+                )
 
     if dry_run:
         mode = "текст+фото" if attachment else "текст"

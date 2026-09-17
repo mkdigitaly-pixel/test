@@ -27,7 +27,7 @@ https://oauth.vk.com/authorize?client_id=2685278&scope=photos,wall,groups,offlin
 Ищите `VK_USER_TOKEN=` в https://cursor.com/agents/bc-01a04c79-162d-7499-9916-44bd41910a4f
 Если это был VK Admin — скорее всего не сработает, берите Kate Mobile.
 
-## Пока нет ключа — фото с уже существующего поста
+## Пока flood / нет ключа — фото с уже существующего поста
 
 Скачать обложку: https://blog.mkekspert.ru/covers/vk-week2-vk.jpg  
 Пост в сообществе с картинкой → ссылка `vk.com/photo-…` → агент делает новый пост.
@@ -36,3 +36,6 @@ https://oauth.vk.com/authorize?client_id=2685278&scope=photos,wall,groups,offlin
 python3 publish.py vk-from-post vk-week2 'https://vk.com/photo-222121025_…'
 ```
 
+`publish_vk` при flood (error 9) или без `VK_USER_TOKEN` сам подставляет
+уже залитое фото со стены (cache `/tmp/vk-last-wall-photo.txt` или
+`VK_FALLBACK_PHOTO`) — пост не уходит текстом без картинки.
