@@ -1,17 +1,19 @@
 # Генерация обложек в Cloud Agent
 
-## Главный путь (без OpenRouter, как на ПК)
+## Главный путь: плагин Cursor (GenerateImage)
 
-В Cursor Cloud Agent есть встроенный инструмент **GenerateImage** — тот же, что на десктопе.
+В Cursor Cloud Agent / Desktop есть встроенный инструмент **GenerateImage** (генерация картинок плагином Cursor).
 
-1. Агент вызывает `GenerateImage` с промптом + `aspect_ratio=16:9` (+ опционально reference).
-2. Файл появляется в `/opt/cursor/artifacts/assets/`.
-3. Копируем/ресайзим:
+1. Агент вызывает `GenerateImage` с промптом + `aspect_ratio=16:9` (+ опционально reference со старой обложки).
+2. Файл появляется в артефактах агента.
+3. Ресайз в репозиторий:
    - Дзен/TG: `assets/covers/{slug}.jpg` → **1200×630**
-   - VK: `assets/covers/{slug}-vk.jpg` → **1080×1080** (квадрат)
-4. Деплой: `python3 -c "from automation.dzen_rss import deploy_gh_pages; deploy_gh_pages()"`.
+   - VK: `assets/covers/{slug}-vk.jpg` → **1080×1080**
+4. Деплой: `python3 publish.py dzen-rss setup` или `deploy_gh_pages()`.
 
-**OpenRouter не нужен** для этого пути. Кредиты OpenRouter не тратятся.
+**OpenRouter / OpenAI API не нужны** для этого пути.
+
+Не использовать PIL-fallback (цветной прямоугольник) для боевых обложек — только GenerateImage или OpenRouter.
 
 ## Запасной путь (скрипт + OpenRouter)
 
