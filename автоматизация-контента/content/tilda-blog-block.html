@@ -1,0 +1,126 @@
+<!-- mkekspert blog block for Tilda HTML (T123). Палитра = сайт. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Unbounded:wght@500;600&display=swap" rel="stylesheet">
+<style>
+.mkb-wrap{
+  --bg:#121212;--panel:#1c1c1c;--line:#2a2a2a;--ink:#f5f5f5;--muted:#a3a3a3;
+  --green:#4eaf4e;--yellow:#ffcc4a;
+  font-family:"Manrope",Arial,sans-serif;color:var(--ink);
+  background:
+    radial-gradient(900px 380px at 8% 0%,rgba(78,175,78,.16),transparent 55%),
+    radial-gradient(700px 320px at 92% 10%,rgba(255,204,74,.1),transparent 50%),
+    var(--bg);
+  padding:48px 20px 56px;border-radius:0;
+}
+.mkb-inner{max-width:1100px;margin:0 auto}
+.mkb-brand{
+  font-family:"Unbounded",Arial,sans-serif;font-size:14px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--yellow);margin:0 0 12px;font-weight:600;
+}
+.mkb-h{
+  font-family:"Unbounded",Arial,sans-serif;font-size:clamp(28px,4vw,42px);
+  line-height:1.15;margin:0 0 12px;letter-spacing:-.03em;font-weight:600;max-width:16ch;
+}
+.mkb-lead{margin:0 0 28px;color:var(--muted);font-size:17px;max-width:42ch;line-height:1.5}
+.mkb-cta{
+  display:inline-block;margin:0 0 36px;padding:14px 20px;background:var(--green);
+  color:#0b0b0b!important;text-decoration:none;font-weight:700;border-radius:2px;
+}
+.mkb-cta:hover{background:var(--yellow)}
+.mkb-label{
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  margin:0 0 16px;display:flex;align-items:center;gap:12px;
+}
+.mkb-label:after{content:"";flex:1;height:1px;background:var(--line)}
+.mkb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.mkb-card{
+  display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);
+  border-radius:6px;overflow:hidden;text-decoration:none;color:inherit;
+  transition:transform .2s,border-color .2s,box-shadow .2s;
+}
+.mkb-card:hover{transform:translateY(-3px);border-color:rgba(78,175,78,.55);box-shadow:0 16px 40px rgba(0,0,0,.35)}
+.mkb-media{background:#0a0a0a;overflow:hidden;position:relative}
+.mkb-media:after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:3px;
+  background:linear-gradient(90deg,var(--green),var(--yellow));
+}
+.mkb-media img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block}
+.mkb-media--empty{aspect-ratio:16/10;background:linear-gradient(135deg,#1a1a1a,#222)}
+.mkb-body{padding:16px 16px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.mkb-kicker{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--green);font-weight:700}
+.mkb-title{font-family:"Unbounded",Arial,sans-serif;font-size:15px;line-height:1.35;font-weight:500;letter-spacing:-.02em}
+.mkb-desc{font-size:14px;color:var(--muted);line-height:1.45}
+.mkb-more{margin-top:auto;padding-top:8px;font-size:13px;color:var(--yellow);font-weight:600}
+.mkb-all{
+  display:inline-block;margin-top:28px;color:var(--yellow)!important;font-weight:600;text-decoration:none;
+}
+@media (max-width:900px){.mkb-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.mkb-grid{grid-template-columns:1fr}.mkb-wrap{padding:36px 16px 44px}}
+</style>
+<div class="mkb-wrap">
+  <div class="mkb-inner">
+    <div class="mkb-brand">МК Эксперт</div>
+    <h2 class="mkb-h">Блог о Директе для B2B</h2>
+    <p class="mkb-lead">Кейсы с цифрами и разборы кабинета — без воды, только практика.</p>
+    <a class="mkb-cta" href="https://mkekspert.ru/razbor-direct?utm_source=site&utm_medium=blog-block&utm_campaign=tilda">Бесплатный разбор</a>
+    <div class="mkb-label">Свежие статьи</div>
+    <div class="mkb-grid">
+<a class="mkb-card" href="https://blog.mkekspert.ru/articles/penoplast-case.html" target="_blank" rel="noopener">
+  <div class="mkb-media"><img src="https://blog.mkekspert.ru/covers/penoplast-case.jpg" alt="" loading="lazy"></div>
+  <div class="mkb-body">
+    <div class="mkb-kicker">яндекс директ производство заявки</div>
+    <div class="mkb-title">CPL с 8000 до 2500 ₽: кейс производства из пенопласта в Яндекс Директе</div>
+    <div class="mkb-desc">Как снизить стоимость заявки в 3 раза и вырасти с 15 до 59 заявок в месяц: семантика, кампании, Метрика и сайт. Разбор для B2B.</div>
+    <div class="mkb-more">Читать на блоге →</div>
+  </div>
+</a>
+<a class="mkb-card" href="https://blog.mkekspert.ru/articles/autotarget-b2b.html" target="_blank" rel="noopener">
+  <div class="mkb-media"><img src="https://blog.mkekspert.ru/covers/autotarget-b2b.jpg" alt="" loading="lazy"></div>
+  <div class="mkb-body">
+    <div class="mkb-kicker">автотаргетинг яндекс директ b2b</div>
+    <div class="mkb-title">Автотаргет в Яндекс Директе для B2B: когда помогает, а когда съедает бюджет</div>
+    <div class="mkb-desc">Разбор автотаргетинга в контексте для производства и услуг: когда оставляю, когда режу, как смотреть отчёты и связку с автостратегией.</div>
+    <div class="mkb-more">Читать на блоге →</div>
+  </div>
+</a>
+<a class="mkb-card" href="https://blog.mkekspert.ru/articles/no-leads-direct.html" target="_blank" rel="noopener">
+  <div class="mkb-media"><img src="https://blog.mkekspert.ru/covers/no-leads-direct.jpg" alt="" loading="lazy"></div>
+  <div class="mkb-body">
+    <div class="mkb-kicker">почему нет заявок в яндекс директе</div>
+    <div class="mkb-title">Почему нет заявок в Яндекс Директе: что я проверяю в кабинете за 30 минут</div>
+    <div class="mkb-desc">Директ тратит бюджет, а в CRM пусто — пошаговый разбор для B2B: цели Метрики, офлайн-конверсии, семантика, посадочная и обучение стратегии.</div>
+    <div class="mkb-more">Читать на блоге →</div>
+  </div>
+</a>
+<a class="mkb-card" href="https://blog.mkekspert.ru/articles/7-errors-direct.html" target="_blank" rel="noopener">
+  <div class="mkb-media"><img src="https://blog.mkekspert.ru/covers/7-errors-direct.jpg" alt="" loading="lazy"></div>
+  <div class="mkb-body">
+    <div class="mkb-kicker">Директ</div>
+    <div class="mkb-title">Реклама в Директе крутится, а заявок нет: что я смотрю в кабинете в первую очередь</div>
+    <div class="mkb-desc">Разбор типичных косяков в Яндекс Директе — не теория, а то, что вижу на аудитах у владельцев и маркетологов. Семантика, Метрика, автотаргет,…</div>
+    <div class="mkb-more">Читать на блоге →</div>
+  </div>
+</a>
+<a class="mkb-card" href="https://blog.mkekspert.ru/articles/epk-leads.html" target="_blank" rel="noopener">
+  <div class="mkb-media"><img src="https://blog.mkekspert.ru/covers/epk-leads.jpg" alt="" loading="lazy"></div>
+  <div class="mkb-body">
+    <div class="mkb-kicker">единая перфоманс кампания заявки</div>
+    <div class="mkb-title">ЕПК в Яндекс Директе для B2B: когда запускаю и когда лучше не трогать</div>
+    <div class="mkb-desc">Единая перфоманс-кампания в Директе для производства и услуг: что внутри, зачем нужны конверсии и когда ЕПК сливает бюджет.</div>
+    <div class="mkb-more">Читать на блоге →</div>
+  </div>
+</a>
+<a class="mkb-card" href="https://blog.mkekspert.ru/articles/choose-directologist.html" target="_blank" rel="noopener">
+  <div class="mkb-media"><img src="https://blog.mkekspert.ru/covers/choose-directologist.jpg" alt="" loading="lazy"></div>
+  <div class="mkb-body">
+    <div class="mkb-kicker">как выбрать директолога</div>
+    <div class="mkb-title">Как выбрать директолога для B2B: чтобы не купить отчёт вместо заявок</div>
+    <div class="mkb-desc">На что смотрю, если нанимаете директолога в производство или услуги: какие вопросы задать, какие цифры просить и где обычно обман.</div>
+    <div class="mkb-more">Читать на блоге →</div>
+  </div>
+</a>
+    </div>
+    <a class="mkb-all" href="https://blog.mkekspert.ru/?utm_source=site&utm_medium=blog-block&utm_campaign=tilda">Все статьи на blog.mkekspert.ru →</a>
+  </div>
+</div>

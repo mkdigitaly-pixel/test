@@ -31,6 +31,17 @@
 └── docs/seo-pipeline.md    # SEO-стек
 ```
 
+## Блог на Tilda (витрина)
+
+Стиль blog.mkekspert.ru = палитра сайта. Блок для вставки в Tilda:
+
+```bash
+cd automation
+python3 export_tilda_blog.py   # → content/tilda-blog-block.html
+```
+
+Инструкция: [`content/tilda-blog-page.md`](content/tilda-blog-page.md)
+
 ## SEO-органика
 
 ```bash
