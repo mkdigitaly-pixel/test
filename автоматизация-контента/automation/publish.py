@@ -897,6 +897,29 @@ def _is_vk_flood(exc: BaseException) -> bool:
     return "Flood control" in msg or "error_code': 9" in msg or 'error_code": 9' in msg
 
 
+def vk_photos_paused_until() -> datetime | None:
+    """До этой даты (UTC date) не трогаем user API / фото — только текст.
+
+    Задаётся VK_TEXT_ONLY_UNTIL=YYYY-MM-DD (по умолчанию 2026-10-19).
+    Пустая строка или 0 — пауза выключена.
+    """
+    raw = (os.getenv("VK_TEXT_ONLY_UNTIL") or "2026-10-19").strip()
+    if not raw or raw in {"0", "false", "off", "no"}:
+        return None
+    try:
+        return datetime.strptime(raw[:10], "%Y-%m-%d").replace(tzinfo=timezone.utc)
+    except ValueError as exc:
+        raise SystemExit(f"VK_TEXT_ONLY_UNTIL: ожидал YYYY-MM-DD, получил {raw!r}") from exc
+
+
+def vk_photos_allowed() -> bool:
+    until = vk_photos_paused_until()
+    if until is None:
+        return True
+    today = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+    return today >= until
+
+
 def publish_vk(
     text: str,
     token: str,
@@ -909,7 +932,17 @@ def publish_vk(
 ) -> PublishResult:
     gid = resolve_vk_group_id(token, group_id) if not dry_run else group_id
 
-    if not attachment and cover and cover.exists():
+    # Пауза после flood: не вызываем photos.* / recycle, посты только текстом.
+    if not vk_photos_allowed():
+        until = vk_photos_paused_until()
+        if attachment or (cover and cover.exists()):
+            print(
+                f"ℹ VK: до {until.date().isoformat()} только текст "
+                "(без фото / user API). См. checklists/vk-photo-token.md",
+                file=sys.stderr,
+            )
+        attachment = ""
+    elif not attachment and cover and cover.exists():
         upload_token = (user_token or "").strip()
         if dry_run:
             if upload_token:
@@ -929,21 +962,18 @@ def publish_vk(
             except RuntimeError as exc:
                 if _is_vk_flood(exc):
                     print(
-                        "⚠ VK flood на загрузку фото — беру уже залитое со стены.",
+                        "⚠ VK flood на загрузку фото — пост уйдёт текстом "
+                        "(без recycle).",
                         file=sys.stderr,
                     )
                 else:
                     raise
-        if not attachment and not dry_run:
-            try:
-                attachment = find_recycled_vk_photo(int(gid))
-                print(f"ℹ VK: recycle {attachment}", file=sys.stderr)
-            except Exception as exc:  # noqa: BLE001
-                print(
-                    f"⚠ VK: пост уйдёт без обложки ({exc}). "
-                    "См. checklists/vk-photo-token.md",
-                    file=sys.stderr,
-                )
+        elif not dry_run:
+            print(
+                "⚠ VK: нет VK_USER_TOKEN — пост уйдёт без обложки. "
+                "См. checklists/vk-photo-token.md",
+                file=sys.stderr,
+            )
 
     if dry_run:
         mode = "текст+фото" if attachment else "текст"
@@ -1707,6 +1737,12 @@ def cmd_schedule_list(_args: argparse.Namespace) -> int:
 
 def cmd_vk_attach_cover(args: argparse.Namespace) -> int:
     load_env()
+    if not vk_photos_allowed():
+        until = vk_photos_paused_until()
+        raise SystemExit(
+            f"VK фото на паузе до {until.date().isoformat()} "
+            "(flood). Посты только текстом. Снимите VK_TEXT_ONLY_UNTIL или дождитесь даты."
+        )
     community = os.getenv("VK_ACCESS_TOKEN", "")
     user = os.getenv("VK_USER_TOKEN", "")
     group = os.getenv("VK_GROUP_ID", "")
@@ -1782,6 +1818,12 @@ def parse_vk_photo_attachment(source: str, group_id: int) -> str:
 def cmd_vk_from_post(args: argparse.Namespace) -> int:
     """Новый пост: текст из очереди + уже существующее фото на стене."""
     load_env()
+    if not vk_photos_allowed():
+        until = vk_photos_paused_until()
+        raise SystemExit(
+            f"VK фото на паузе до {until.date().isoformat()} "
+            "(flood). Публикуйте обычным publish без обложки."
+        )
     community = os.getenv("VK_ACCESS_TOKEN", "")
     group = os.getenv("VK_GROUP_ID", "")
     if not community or not group:
