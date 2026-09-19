@@ -1,0 +1,42 @@
+# SEO stack config — mkekspert
+
+sites:
+  main:
+    host: https://mkekspert.ru
+    platform: tilda
+    sitemap: https://mkekspert.ru/sitemap.xml
+    robots: https://mkekspert.ru/robots.txt
+    primary_cta: https://mkekspert.ru/razbor-direct
+    metrika_id: "97606312"
+  blog:
+    host: https://blog.mkekspert.ru
+    platform: github_pages
+    sitemap: https://blog.mkekspert.ru/sitemap.xml
+    robots: https://blog.mkekspert.ru/robots.txt
+    feed: https://blog.mkekspert.ru/dzen-feed.xml
+
+canonical_host: mkekspert.ru   # без www
+region_hint: Россия            # уточнить в Вебмастере / Бизнесе
+
+audit:
+  require_https_in_sitemap: true
+  require_blog_link_on_main: true
+  require_www_redirect: true
+  paths_on_main:
+    - /
+    - /razbor-direct
+  paths_must_404_or_redirect:
+    - /blog   # пока нет зеркала; должна быть ссылка на blog.*, не 404 без альтернативы
+
+tracking:
+  engine: yandex
+  cadence: weekly
+  positions_dir: positions
+  top_n_good: 10
+  top_n_great: 3
+
+pillars:
+  P1: Диагностика (ошибки, нет заявок, слив)
+  P2: Кейсы B2B
+  P3: Коммерция (выбор, цена, услуга)
+  P4: Инструменты (Метрика, ЕПК, РСЯ)
