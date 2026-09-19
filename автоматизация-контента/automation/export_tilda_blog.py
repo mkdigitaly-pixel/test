@@ -96,13 +96,13 @@ def build_block(limit: int = 6) -> str:
   transition:transform .2s,border-color .2s,box-shadow .2s;
 }}
 .mkb-card:hover{{transform:translateY(-3px);border-color:rgba(78,175,78,.55);box-shadow:0 16px 40px rgba(0,0,0,.35)}}
-.mkb-media{{background:#0a0a0a;overflow:hidden;position:relative}}
+.mkb-media{{background:#0a0a0a;overflow:hidden;position:relative;aspect-ratio:16/9}}
 .mkb-media:after{{
-  content:"";position:absolute;left:0;right:0;bottom:0;height:3px;
+  content:"";position:absolute;left:0;right:0;bottom:0;height:3px;z-index:1;
   background:linear-gradient(90deg,var(--green),var(--yellow));
 }}
-.mkb-media img{{width:100%;aspect-ratio:16/10;object-fit:cover;display:block}}
-.mkb-media--empty{{aspect-ratio:16/10;background:linear-gradient(135deg,#1a1a1a,#222)}}
+.mkb-media img{{width:100%;height:100%;object-fit:contain;object-position:center;display:block}}
+.mkb-media--empty{{aspect-ratio:16/9;background:linear-gradient(135deg,#1a1a1a,#222)}}
 .mkb-body{{padding:16px 16px 18px;display:flex;flex-direction:column;gap:8px;flex:1}}
 .mkb-kicker{{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--green);font-weight:700}}
 .mkb-title{{font-family:"Unbounded",Arial,sans-serif;font-size:15px;line-height:1.35;font-weight:500;letter-spacing:-.02em}}
