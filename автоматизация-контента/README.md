@@ -33,7 +33,7 @@
 
 ## Блог на Tilda (витрина)
 
-Стиль blog.mkekspert.ru = палитра сайта. Блок для вставки в Tilda:
+Стиль blog.mkekspert.ru = палитра обложек. Блок для вставки в Tilda:
 
 ```bash
 cd automation
@@ -41,6 +41,11 @@ python3 export_tilda_blog.py   # → content/tilda-blog-block.html
 ```
 
 Инструкция: [`content/tilda-blog-page.md`](content/tilda-blog-page.md)
+
+## Страница разбора (`/razbor-direct`)
+
+Тот же стиль обложек: [`content/tilda-razbor-direct.html`](content/tilda-razbor-direct.html)  
+Инструкция: [`content/tilda-razbor-direct.md`](content/tilda-razbor-direct.md)
 
 ## SEO-органика
 
