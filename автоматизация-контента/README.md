@@ -42,6 +42,11 @@ python3 export_tilda_blog.py   # → content/tilda-blog-block.html
 
 Инструкция: [`content/tilda-blog-page.md`](content/tilda-blog-page.md)
 
+## Tilda: агент правит через браузер
+
+Контур Cursor → агент → Computer Use → Tilda:  
+[`docs/tilda-computer-use.md`](docs/tilda-computer-use.md) · чеклист [`checklists/tilda-computer-use.md`](checklists/tilda-computer-use.md)
+
 ## Страница разбора (`/razbor-direct`)
 
 Тот же стиль обложек: [`content/tilda-razbor-direct.html`](content/tilda-razbor-direct.html)  
