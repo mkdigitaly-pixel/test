@@ -54,7 +54,7 @@ def build_block(limit: int = 6) -> str:
 </a>"""
         )
     grid = "\n".join(cards)
-    return f"""<!-- mkekspert blog block for Tilda HTML (T123). Палитра = сайт. -->
+    return f"""<!-- mkekspert blog block for Tilda HTML (T123). Палитра = обложки / brandbook. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Unbounded:wght@500;600&display=swap" rel="stylesheet">
