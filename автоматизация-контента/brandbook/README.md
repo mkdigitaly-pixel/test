@@ -12,4 +12,4 @@
 - `colors.md` — палитра (primary/secondary) и правила применения
 - `covers.md` — как применять цвета в обложках
 - `tokens.json` — машинный источник правды для кода
-
+- сайт Tilda Zero: `../content/tilda-zero-rebrand.md` + `../checklists/tilda-zero-rebrand.md`
