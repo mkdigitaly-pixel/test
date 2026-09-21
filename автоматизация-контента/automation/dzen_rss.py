@@ -465,7 +465,8 @@ def _site_chrome(inner: str, *, title: str, description: str, canonical: str, ex
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="icon" type="image/png" sizes="120x120" href="/favicon-120.png">
-<link rel="apple-touch-icon" href="/favicon-120.png">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="alternate" type="application/rss+xml" title="МК Эксперт — RSS" href="/dzen-feed.xml">
 {BLOG_FONTS}
 {extra_head}<style>{BLOG_CSS}</style>
