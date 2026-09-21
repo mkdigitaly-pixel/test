@@ -53,6 +53,12 @@ python3 export_tilda_blog.py   # → content/tilda-blog-block.html
 Инструкция для Tilda: [`content/tilda-razbor-direct.md`](content/tilda-razbor-direct.md)  
 Превью: https://blog.mkekspert.ru/razbor-preview.html
 
+## Главная mkekspert.ru → брендбук (Zero)
+
+Поэтапно: [`content/tilda-zero-rebrand.md`](content/tilda-zero-rebrand.md)  
+Чеклист: [`checklists/tilda-zero-rebrand.md`](checklists/tilda-zero-rebrand.md)  
+CSS-хелпер: [`content/tilda-zero-global.html`](content/tilda-zero-global.html)
+
 ## SEO-органика
 
 ```bash
