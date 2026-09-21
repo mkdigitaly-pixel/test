@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="geo.region" content="RU">
+<meta name="geo.placename" content="Москва, Санкт-Петербург, Россия">
 <title>Почему нет заявок в Яндекс Директе: что я проверяю в кабинете за 30 минут — МК Эксперт</title>
 <meta name="description" content="Директ тратит бюджет, а в CRM пусто — пошаговый разбор для B2B: цели Метрики, офлайн-конверсии, семантика, посадочная и обучение стратегии.">
 <meta property="og:title" content="Почему нет заявок в Яндекс Директе: что я проверяю в кабинете за 30 минут — МК Эксперт">
@@ -148,6 +150,21 @@ a:hover{color:var(--green)}
 .article-wrap .cta a.btn{color:#fff!important}
 .meta-line{font-size:0.85rem;color:var(--muted);margin:0 0 1rem}
 .meta-line a{color:var(--green);text-decoration:none}
+.site-footer{
+  max-width:1100px;margin:0 auto;padding:1.5rem 1.25rem 2.5rem;
+  border-top:1px solid var(--line);font-size:0.88rem;color:var(--muted);line-height:1.55;
+}
+.site-footer strong{color:var(--ink);font-weight:700}
+.site-footer a{color:var(--terra);font-weight:600;text-decoration:none}
+.site-footer .geo{margin:0 0 0.45rem}
+.contacts-card{
+  max-width:640px;background:var(--panel);border:1px solid var(--line);border-radius:18px;
+  padding:1.35rem 1.25rem 1.5rem;box-shadow:0 8px 28px rgba(61,45,30,.06);margin:1rem 0 1.5rem;
+}
+.contacts-card h2{font-family:"Unbounded",system-ui,sans-serif;font-size:1.15rem;margin:0 0 0.75rem;font-weight:500}
+.contacts-card p{margin:0 0 0.75rem;color:var(--muted);font-size:0.95rem}
+.contacts-card ul{margin:0;padding:0;list-style:none;display:grid;gap:0.55rem}
+.contacts-card li{padding:0.65rem 0.85rem;border-radius:12px;background:#fff;border:1px solid var(--line);font-size:0.92rem}
 @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(168,90,50,.16)}50%{box-shadow:0 0 0 7px rgba(168,90,50,.06)}}
 @media (max-width:560px){
@@ -173,6 +190,7 @@ ym(97606312, 'init', {webvisor:true, clickmap:true, referrer: document.referrer,
 <a class="brand" href="/">МК <span>Эксперт</span></a>
 <nav class="nav" aria-label="Меню">
 <a href="/">Блог</a>
+<a href="/contacts.html">Контакты</a>
 <a href="https://mkekspert.ru">Сайт</a>
 <a href="https://mkekspert.ru/razbor-direct">Разбор Директа</a>
 <a href="https://dzen.ru/klientyandtrafik">Дзен</a>
@@ -233,6 +251,15 @@ ym(97606312, 'init', {webvisor:true, clickmap:true, referrer: document.referrer,
 </div>
 </div>
 </main>
+
+
+<footer class="site-footer" id="contacts">
+<p class="geo"><strong>Регион:</strong> Москва и Санкт-Петербург · работаем с компаниями по всей России</p>
+<p>МК Эксперт · Мария Ковалева · Яндекс Директ для B2B ·
+<a href="/contacts.html">Контакты и география</a> ·
+<a href="https://mkekspert.ru">mkekspert.ru</a> ·
+<a href="https://t.me/Mariya1740">Telegram</a></p>
+</footer>
 
 </body>
 </html>
