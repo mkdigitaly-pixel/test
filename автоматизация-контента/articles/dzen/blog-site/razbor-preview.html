@@ -4,23 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Превью: разбор Директа — новая палитра</title>
-<style>
-  html,body{margin:0;padding:0;background:#f3ebe3}
-  .preview-bar{
-    font-family:Manrope,system-ui,sans-serif;font-size:13px;color:#8b6b4a;
-    padding:10px 20px;background:#fffcf8;border-bottom:1px solid #e6d9cc;
-    display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;
-  }
-  .preview-bar strong{color:#a85a32}
-  .preview-bar a{color:#a85a32;font-weight:700}
-</style>
+<title>Превью: разбор Директа — анимация баннера</title>
+<style>html,body{margin:0;padding:0;background:#f3ebe3}
+.preview-bar{font-family:Manrope,system-ui,sans-serif;font-size:13px;color:#8b6b4a;padding:10px 20px;background:#fffcf8;border-bottom:1px solid #e6d9cc}
+.preview-bar strong{color:#a85a32}
+.preview-bar a{color:#a85a32;font-weight:700}</style>
 </head>
 <body>
-<div class="preview-bar">
-  <div><strong>Превью</strong> · кнопки открывают <code>#popup:cornerform-zapis-na-vstrechu</code> на боевой Tilda</div>
-  <div><a href="https://github.com/mkdigitaly-pixel/test/blob/cursor/blog-tilda-design-88d8/%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F-%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%BD%D1%82%D0%B0/content/tilda-razbor-direct.html">код на GitHub</a></div>
-</div>
+<div class="preview-bar"><strong>Превью</strong> анимации баннера · <a href="https://github.com/mkdigitaly-pixel/test/blob/cursor/blog-tilda-design-88d8/%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F-%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%BD%D1%82%D0%B0/content/tilda-razbor-direct.html">код на GitHub</a></div>
 <!--
   mkekspert.ru/razbor-direct — лендинг в палитре обложек / брендбука
   Tilda: блок HTML (T123), ширина на всю колонку.
@@ -49,16 +40,51 @@
 .mkr a{color:var(--terra);text-underline-offset:3px}
 .mkr-inner{max-width:1080px;margin:0 auto;padding:0 24px 8px}
 
-/* —— Hero: один состав, бренд крупно —— */
+/* —— Hero-баннер с анимацией —— */
 .mkr-hero{
-  position:relative;padding:56px 0 52px;max-width:34rem;
+  position:relative;isolation:isolate;overflow:hidden;
+  margin:16px 0 28px;padding:52px 40px 48px;
+  border-radius:22px;border:1px solid var(--line);
+  background:
+    linear-gradient(135deg,rgba(255,252,248,.92) 0%,rgba(255,248,240,.78) 55%,rgba(245,214,198,.35) 100%);
+  max-width:none;
   animation:mkr-rise .75s ease both;
 }
+.mkr-hero-visual{
+  position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden;
+}
+.mkr-orb{
+  position:absolute;border-radius:50%;filter:blur(2px);
+  will-change:transform;
+}
+.mkr-orb--terra{
+  width:280px;height:280px;right:-60px;top:-80px;
+  background:radial-gradient(circle at 35% 40%,rgba(168,90,50,.28),rgba(168,90,50,.05) 62%,transparent 70%);
+  animation:mkr-drift-a 14s ease-in-out infinite;
+}
+.mkr-orb--gold{
+  width:220px;height:220px;right:18%;bottom:-90px;
+  background:radial-gradient(circle at 50% 50%,rgba(212,175,55,.32),rgba(212,175,55,.06) 60%,transparent 72%);
+  animation:mkr-drift-b 18s ease-in-out infinite;
+}
+.mkr-orb--blush{
+  width:180px;height:180px;left:-40px;bottom:10%;
+  background:radial-gradient(circle at 50% 50%,rgba(245,214,198,.75),rgba(245,214,198,.15) 65%,transparent 75%);
+  animation:mkr-drift-c 16s ease-in-out infinite;
+}
+.mkr-hero-line{
+  position:absolute;left:40px;right:40px;bottom:0;height:3px;
+  background:linear-gradient(90deg,var(--terra),var(--gold),var(--green));
+  transform-origin:left;transform:scaleX(0);
+  animation:mkr-line 1.2s .35s cubic-bezier(.22,1,.36,1) forwards;
+}
+.mkr-hero-copy{position:relative;z-index:1;max-width:34rem}
 .mkr-brand{
   font-family:"Unbounded",Arial,sans-serif;
   font-size:clamp(1.55rem,4.2vw,2.15rem);font-weight:600;letter-spacing:-.03em;
   color:var(--ink);margin:0 0 1.1rem;line-height:1.15;
   display:flex;align-items:center;gap:.65rem;
+  animation:mkr-rise .7s .05s ease both;
 }
 .mkr-brand span{color:var(--terra)}
 .mkr-brand::before{
@@ -70,18 +96,31 @@
   font-family:"Unbounded",Arial,sans-serif;
   font-size:clamp(1.65rem,4vw,2.35rem);line-height:1.14;margin:0 0 .85rem;
   letter-spacing:-.03em;font-weight:600;color:var(--ink);
+  animation:mkr-rise .7s .15s ease both;
 }
 .mkr-lead{
   margin:0 0 1.45rem;color:var(--muted);font-size:1.05rem;line-height:1.55;max-width:36ch;
+  animation:mkr-rise .7s .25s ease both;
 }
-.mkr-actions{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center}
+.mkr-actions{
+  display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center;
+  animation:mkr-rise .7s .35s ease both;
+}
 .mkr-btn{
+  position:relative;overflow:hidden;
   display:inline-flex;align-items:center;justify-content:center;
   padding:14px 22px;background:var(--terra);color:#fff!important;
   text-decoration:none!important;font-weight:700;font-size:15px;
   border-radius:var(--radius);border:0;cursor:pointer;
   box-shadow:0 12px 28px rgba(168,90,50,.22);
   transition:transform .2s,background .2s,box-shadow .2s;
+}
+.mkr-btn::after{
+  content:"";position:absolute;inset:0;left:-40%;
+  background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.28) 50%,transparent 65%);
+  transform:translateX(-120%);
+  animation:mkr-shine 4.5s 1.2s ease-in-out infinite;
+  pointer-events:none;
 }
 .mkr-btn:hover{
   background:var(--green);transform:translateY(-2px);
@@ -93,7 +132,16 @@
   transition:color .2s,border-color .2s;
 }
 .mkr-link:hover{color:var(--terra)!important;border-color:var(--terra)}
-.mkr-note{margin:1.15rem 0 0;font-size:13px;color:var(--muted);line-height:1.45}
+.mkr-note{
+  margin:1.15rem 0 0;font-size:13px;color:var(--muted);line-height:1.45;
+  animation:mkr-rise .7s .45s ease both;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .mkr-orb,.mkr-brand::before,.mkr-btn::after,.mkr-hero-line{animation:none!important}
+  .mkr-hero-line{transform:scaleX(1)}
+  .mkr-brand,.mkr-h1,.mkr-lead,.mkr-actions,.mkr-note{animation:none!important;opacity:1;transform:none}
+}
 
 /* —— Sections —— */
 .mkr-section{padding:8px 0 44px;animation:mkr-rise .7s ease both}
@@ -223,6 +271,24 @@
   0%,100%{box-shadow:0 0 0 5px rgba(168,90,50,.16)}
   50%{box-shadow:0 0 0 8px rgba(168,90,50,.08)}
 }
+@keyframes mkr-drift-a{
+  0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(-28px,22px) scale(1.06)}
+}
+@keyframes mkr-drift-b{
+  0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(24px,-18px) scale(1.08)}
+}
+@keyframes mkr-drift-c{
+  0%,100%{transform:translate(0,0)}
+  50%{transform:translate(18px,-14px)}
+}
+@keyframes mkr-line{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes mkr-shine{
+  0%,70%{transform:translateX(-120%)}
+  85%{transform:translateX(220%)}
+  100%{transform:translateX(220%)}
+}
 
 @media (max-width:900px){
   .mkr-steps{grid-template-columns:1fr;gap:22px}
@@ -233,7 +299,8 @@
 @media (max-width:560px){
   .mkr{margin:0 -12px}
   .mkr-inner{padding:0 16px}
-  .mkr-hero{padding:36px 0 40px}
+  .mkr-hero{padding:36px 20px 40px;margin:8px 0 20px;border-radius:16px}
+  .mkr-hero-line{left:20px;right:20px}
   .mkr-actions{flex-direction:column;align-items:stretch}
   .mkr-btn{width:100%;text-align:center}
   .mkr-cta-band{padding:24px 18px}
@@ -244,14 +311,22 @@
   <div class="mkr-inner">
 
     <section class="mkr-hero">
-      <div class="mkr-brand">МК <span>Эксперт</span></div>
-      <h1 class="mkr-h1">Бесплатный разбор Яндекс.&nbsp;Директа</h1>
-      <p class="mkr-lead">30 минут онлайн для B2B: куда уходит бюджет, что отключить и как считать заявки — без обязательств.</p>
-      <div class="mkr-actions">
-        <a class="mkr-btn" href="#popup:cornerform-zapis-na-vstrechu">Записаться на разбор</a>
-        <a class="mkr-link" href="https://blog.mkekspert.ru/?utm_source=site&utm_medium=razbor&utm_campaign=hero">Кейсы в блоге</a>
+      <div class="mkr-hero-visual" aria-hidden="true">
+        <span class="mkr-orb mkr-orb--terra"></span>
+        <span class="mkr-orb mkr-orb--gold"></span>
+        <span class="mkr-orb mkr-orb--blush"></span>
       </div>
-      <p class="mkr-note">Москва, Санкт-Петербург и регионы · Zoom или телефон · ответим в рабочее время</p>
+      <div class="mkr-hero-copy">
+        <div class="mkr-brand">МК <span>Эксперт</span></div>
+        <h1 class="mkr-h1">Бесплатный разбор Яндекс.&nbsp;Директа</h1>
+        <p class="mkr-lead">30 минут онлайн для B2B: куда уходит бюджет, что отключить и как считать заявки — без обязательств.</p>
+        <div class="mkr-actions">
+          <a class="mkr-btn" href="#popup:cornerform-zapis-na-vstrechu">Записаться на разбор</a>
+          <a class="mkr-link" href="https://blog.mkekspert.ru/?utm_source=site&utm_medium=razbor&utm_campaign=hero">Кейсы в блоге</a>
+        </div>
+        <p class="mkr-note">Москва, Санкт-Петербург и регионы · Zoom или телефон · ответим в рабочее время</p>
+      </div>
+      <div class="mkr-hero-line" aria-hidden="true"></div>
     </section>
 
     <section class="mkr-section">
@@ -411,7 +486,7 @@
     <section class="mkr-cta-band" id="zapis">
       <div>
         <h2>Готовы разобрать ваш Директ?</h2>
-        <p>Короткая форма ниже — перезвоним в рабочее время и согласуем слот на 30 минут.</p>
+        <p>Нажмите кнопку — откроется форма. Перезвоним в рабочее время и согласуем слот на 30 минут.</p>
         <div class="mkr-need">
           <div><strong>Контакты</strong>Имя, телефон, город, сайт и что болит в рекламе</div>
           <div><strong>Доступ</strong>Гостевой в Директ — по желанию, можно отозвать</div>
@@ -431,5 +506,4 @@
   </div>
 </div>
 
-</body>
-</html>
+</body></html>
