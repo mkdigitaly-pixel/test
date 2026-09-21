@@ -769,15 +769,49 @@ def _blog_contacts_html() -> str:
     )
 
 
+def _sitemap_lastmod(raw: str = "") -> str:
+    """Дата для <lastmod> в формате YYYY-MM-DD (Яндекс Вебмастер)."""
+    text = (raw or "").strip()
+    if text:
+        try:
+            return datetime.fromisoformat(text.replace("Z", "+00:00")).strftime("%Y-%m-%d")
+        except ValueError:
+            if len(text) >= 10 and text[4] == "-" and text[7] == "-":
+                return text[:10]
+    return datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+
 def _blog_sitemap_xml(posts: list[dict[str, Any]]) -> str:
+    """Sitemap блога для Вебмастера: https://blog.mkekspert.ru/sitemap.xml"""
     site = SITE_URL.rstrip("/")
-    urls = [f"{site}/", f"{site}/contacts.html"] + [p["url"] for p in posts]
+    newest = ""
+    for p in posts:
+        cand = str(p.get("published_at") or "")
+        if cand and cand > newest:
+            newest = cand
+    home_mod = _sitemap_lastmod(newest)
+    entries: list[tuple[str, str, str]] = [
+        (f"{site}/", home_mod, "1.0"),
+        (f"{site}/contacts.html", home_mod, "0.6"),
+    ]
+    for p in posts:
+        entries.append(
+            (
+                str(p["url"]),
+                _sitemap_lastmod(str(p.get("published_at") or "")),
+                "0.8",
+            )
+        )
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
     ]
-    for u in urls:
-        lines.append(f"  <url><loc>{html.escape(u)}</loc></url>")
+    for loc, lastmod, priority in entries:
+        lines.append("  <url>")
+        lines.append(f"    <loc>{html.escape(loc)}</loc>")
+        lines.append(f"    <lastmod>{lastmod}</lastmod>")
+        lines.append(f"    <priority>{priority}</priority>")
+        lines.append("  </url>")
     lines.append("</urlset>")
     return "\n".join(lines) + "\n"
 

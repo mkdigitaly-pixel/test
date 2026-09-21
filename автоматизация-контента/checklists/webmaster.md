@@ -12,9 +12,10 @@
      (или `DZEN_YANDEX_VERIFICATION=XXXX` — то же поле)
    - Напиши агенту **«верификация готова»** — выложит на blog и задеплоит
 5. Либо HTML-файл: скачай `yandex_XXXX.html` из Вебмастера → положи в чат / в `articles/dzen/blog-site/` → агент задеплоит
-6. Sitemap:
-   - `https://mkekspert.ru/sitemap.xml`
-   - `https://blog.mkekspert.ru/sitemap.xml`
+6. Sitemap (Индексирование → Файлы Sitemap → Добавить):
+   - основной: `https://mkekspert.ru/sitemap.xml` (должен быть **https**, не http)
+   - блог: `https://blog.mkekspert.ru/sitemap.xml` — уже на сайте + в `robots.txt`
+   - после добавления: статус «ОК» / «В обработке»; при ошибке — Переобход главной блога
 
 ### Метрика vs Вебмастер
 
