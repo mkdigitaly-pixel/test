@@ -57,6 +57,7 @@ API-ключи тогда для проверки после правок, не 
 | `YANDEX_WEBMASTER_TOKEN` | запросы/индекс (если подключим API Вебмастера) |
 | `YANDEX_METRIKA_TOKEN` | отчёты Метрики |
 | `YANDEX_METRIKA_COUNTER_ID` | сейчас на blog: `97606312` |
+| `WEBMASTER_YANDEX_VERIFICATION` | meta `yandex-verification` для blog — код из Вебмастера |
 
 ---
 

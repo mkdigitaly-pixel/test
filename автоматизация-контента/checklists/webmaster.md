@@ -4,11 +4,24 @@
 
 1. [webmaster.yandex.ru](https://webmaster.yandex.ru)
 2. `https://mkekspert.ru` — если ещё нет (метатег уже был на Tilda)
-3. **Добавить** `https://blog.mkekspert.ru`
-   - подтверждение: HTML-файл или метатег (как для Дзена) — пришлите код агенту, выложит на blog
-4. Sitemap:
+3. **Добавить** `https://blog.mkekspert.ru` как **отдельный сайт**  
+   (поддомен — не «алиас» главного; алиасы в Вебмастере = www/без www одного хоста)
+4. Способ подтверждения — удобнее **метатег**:
+   - Вебмастер покажет: `<meta name="yandex-verification" content="XXXX" />`
+   - Впиши в `ДОСТУПЫ.env`: `WEBMASTER_YANDEX_VERIFICATION=XXXX`  
+     (или `DZEN_YANDEX_VERIFICATION=XXXX` — то же поле)
+   - Напиши агенту **«верификация готова»** — выложит на blog и задеплоит
+5. Либо HTML-файл: скачай `yandex_XXXX.html` из Вебмастера → положи в чат / в `articles/dzen/blog-site/` → агент задеплоит
+6. Sitemap:
    - `https://mkekspert.ru/sitemap.xml`
    - `https://blog.mkekspert.ru/sitemap.xml`
+
+### Метрика vs Вебмастер
+
+| Где | Что сделать |
+|-----|-------------|
+| **Метрика** (уже ок) | В адресах счётчика `97606312` есть `blog.mkekspert.ru` |
+| **Вебмастер** | Отдельное свойство `https://blog.mkekspert.ru` + подтверждение прав |
 
 ## 2. Регион (важно)
 

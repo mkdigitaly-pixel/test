@@ -399,7 +399,10 @@ ym({BLOG_METRIKA_ID}, 'init', {{webvisor:true, clickmap:true, referrer: document
 
 def _site_chrome(inner: str, *, title: str, description: str, canonical: str, extra_head: str = "") -> str:
     zen = os.getenv("DZEN_ZEN_VERIFICATION", "").strip()
-    yandex = os.getenv("DZEN_YANDEX_VERIFICATION", "").strip()
+    yandex = (
+        os.getenv("WEBMASTER_YANDEX_VERIFICATION", "").strip()
+        or os.getenv("DZEN_YANDEX_VERIFICATION", "").strip()
+    )
     metas = ""
     if zen:
         metas += f'<meta name="zen-verification" content="{html.escape(zen)}" />\n'
