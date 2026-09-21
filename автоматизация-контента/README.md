@@ -49,8 +49,9 @@ python3 export_tilda_blog.py   # → content/tilda-blog-block.html
 
 ## Страница разбора (`/razbor-direct`)
 
-Тот же стиль обложек: [`content/tilda-razbor-direct.html`](content/tilda-razbor-direct.html)  
-Инструкция: [`content/tilda-razbor-direct.md`](content/tilda-razbor-direct.md)
+Новая палитра (как обложки): [`content/tilda-razbor-direct.html`](content/tilda-razbor-direct.html)  
+Инструкция для Tilda: [`content/tilda-razbor-direct.md`](content/tilda-razbor-direct.md)  
+Превью: https://blog.mkekspert.ru/razbor-preview.html
 
 ## SEO-органика
 
