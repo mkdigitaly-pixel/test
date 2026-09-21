@@ -18,6 +18,15 @@ from xml.etree import ElementTree as ET
 import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
+
+try:
+    from dotenv import load_dotenv
+
+    load_dotenv(ROOT / "automation" / ".env")
+    load_dotenv(ROOT / "ДОСТУПЫ.env", override=True)
+except ImportError:
+    pass
+
 FEED_FILE = ROOT / "articles" / "dzen" / "feed.xml"
 COVERS_DIR = ROOT / "assets" / "covers"
 SITE_URL = os.getenv("DZEN_RSS_SITE_URL", "https://blog.mkekspert.ru")
@@ -359,6 +368,21 @@ a:hover{color:var(--green)}
 .article-wrap .cta a.btn{color:#fff!important}
 .meta-line{font-size:0.85rem;color:var(--muted);margin:0 0 1rem}
 .meta-line a{color:var(--green);text-decoration:none}
+.site-footer{
+  max-width:1100px;margin:0 auto;padding:1.5rem 1.25rem 2.5rem;
+  border-top:1px solid var(--line);font-size:0.88rem;color:var(--muted);line-height:1.55;
+}
+.site-footer strong{color:var(--ink);font-weight:700}
+.site-footer a{color:var(--terra);font-weight:600;text-decoration:none}
+.site-footer .geo{margin:0 0 0.45rem}
+.contacts-card{
+  max-width:640px;background:var(--panel);border:1px solid var(--line);border-radius:18px;
+  padding:1.35rem 1.25rem 1.5rem;box-shadow:0 8px 28px rgba(61,45,30,.06);margin:1rem 0 1.5rem;
+}
+.contacts-card h2{font-family:"Unbounded",system-ui,sans-serif;font-size:1.15rem;margin:0 0 0.75rem;font-weight:500}
+.contacts-card p{margin:0 0 0.75rem;color:var(--muted);font-size:0.95rem}
+.contacts-card ul{margin:0;padding:0;list-style:none;display:grid;gap:0.55rem}
+.contacts-card li{padding:0.65rem 0.85rem;border-radius:12px;background:#fff;border:1px solid var(--line);font-size:0.92rem}
 @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(168,90,50,.16)}50%{box-shadow:0 0 0 7px rgba(168,90,50,.06)}}
 @media (max-width:560px){
@@ -397,6 +421,19 @@ ym({BLOG_METRIKA_ID}, 'init', {{webvisor:true, clickmap:true, referrer: document
 """
 
 
+def _site_footer() -> str:
+    """Видимый регион для Яндекс.Вебмастера (модерация региональности)."""
+    return """
+<footer class="site-footer" id="contacts">
+<p class="geo"><strong>Регион:</strong> Москва и Санкт-Петербург · работаем с компаниями по всей России</p>
+<p>МК Эксперт · Мария Ковалева · Яндекс Директ для B2B ·
+<a href="/contacts.html">Контакты и география</a> ·
+<a href="https://mkekspert.ru">mkekspert.ru</a> ·
+<a href="https://t.me/Mariya1740">Telegram</a></p>
+</footer>
+"""
+
+
 def _site_chrome(inner: str, *, title: str, description: str, canonical: str, extra_head: str = "") -> str:
     zen = os.getenv("DZEN_ZEN_VERIFICATION", "").strip()
     yandex = (
@@ -408,6 +445,9 @@ def _site_chrome(inner: str, *, title: str, description: str, canonical: str, ex
         metas += f'<meta name="zen-verification" content="{html.escape(zen)}" />\n'
     if yandex:
         metas += f'<meta name="yandex-verification" content="{html.escape(yandex)}" />\n'
+    # geo hint for search (visible footer is primary for Webmaster moderation)
+    metas += '<meta name="geo.region" content="RU">\n'
+    metas += '<meta name="geo.placename" content="Москва, Санкт-Петербург, Россия">\n'
     metrika = _metrika_snippet()
     return f"""<!DOCTYPE html>
 <html lang="ru">
@@ -435,12 +475,14 @@ def _site_chrome(inner: str, *, title: str, description: str, canonical: str, ex
 <a class="brand" href="/">МК <span>Эксперт</span></a>
 <nav class="nav" aria-label="Меню">
 <a href="/">Блог</a>
+<a href="/contacts.html">Контакты</a>
 <a href="https://mkekspert.ru">Сайт</a>
 <a href="https://mkekspert.ru/razbor-direct">Разбор Директа</a>
 <a href="https://dzen.ru/klientyandtrafik">Дзен</a>
 </nav>
 </header>
 {inner}
+{_site_footer()}
 </body>
 </html>
 """
@@ -611,6 +653,16 @@ def _blog_index_html() -> str:
                 "name": "МК Эксперт",
                 "url": "https://mkekspert.ru",
                 "logo": f"{site}/favicon-120.png",
+                "areaServed": [
+                    {"@type": "Country", "name": "Россия"},
+                    {"@type": "City", "name": "Москва"},
+                    {"@type": "City", "name": "Санкт-Петербург"},
+                ],
+                "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Москва",
+                    "addressCountry": "RU",
+                },
                 "sameAs": [
                     "https://dzen.ru/klientyandtrafik",
                     "https://t.me/mariyaprodirect",
@@ -633,7 +685,7 @@ def _blog_index_html() -> str:
     inner = f"""
 <main class="site">
 <section class="hero">
-<p class="eyebrow">МК Эксперт · блог</p>
+<p class="eyebrow">МК Эксперт · блог · Москва и СПб · Россия</p>
 <h1>Яндекс Директ для B2B без воды</h1>
 <p>Кейсы с цифрами, разборы кабинета и практика — то, что реально двигает заявки.</p>
 <a class="hero-cta" href="https://mkekspert.ru/razbor-direct?utm_source=blog&utm_medium=index&utm_campaign=home">Бесплатный разбор Директа</a>
@@ -651,15 +703,74 @@ def _blog_index_html() -> str:
     return _site_chrome(
         inner,
         title="МК Эксперт — блог о Яндекс Директе",
-        description="Кейсы и разборы Яндекс Директа для B2B: CPL, заявки, Метрика. Мария Ковалева, mkekspert.ru",
+        description="Кейсы и разборы Яндекс Директа для B2B: CPL, заявки, Метрика. Москва, Санкт-Петербург и регионы России. Мария Ковалева.",
         canonical=f"{site}/",
+        extra_head=extra,
+    )
+
+
+def _blog_contacts_html() -> str:
+    """Страница контактов/географии — URL для модерации региона в Вебмастере."""
+    site = SITE_URL.rstrip("/")
+    schema = {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "МК Эксперт",
+        "url": "https://mkekspert.ru",
+        "description": "Ведение и аудит Яндекс Директа для B2B",
+        "areaServed": [
+            {"@type": "Country", "name": "Россия"},
+            {"@type": "City", "name": "Москва"},
+            {"@type": "City", "name": "Санкт-Петербург"},
+        ],
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Москва",
+            "addressRegion": "Москва",
+            "addressCountry": "RU",
+        },
+        "founder": {"@type": "Person", "name": "Мария Ковалева"},
+        "sameAs": [
+            "https://dzen.ru/klientyandtrafik",
+            "https://t.me/mariyaprodirect",
+            "https://vk.ru/klientyandtrafik",
+        ],
+    }
+    extra = f'<script type="application/ld+json">{json.dumps(schema, ensure_ascii=False)}</script>\n'
+    inner = f"""
+<main class="site">
+<section class="hero">
+<p class="eyebrow">Контакты · география</p>
+<h1>Где работаем</h1>
+<p>Блог МК Эксперт — часть сайта mkekspert.ru. Разборы и ведение Яндекс Директа для B2B.</p>
+</section>
+<div class="contacts-card" id="geo">
+<h2>Регион обслуживания</h2>
+<p><strong>Москва и Московская область, Санкт-Петербург и Ленинградская область</strong> — основной фокус.</p>
+<p>Также берём проекты <strong>по всей России</strong> (онлайн-созвоны). По другим регионам — напишите в Telegram, согласуем формат.</p>
+<ul>
+<li><strong>Город / регион:</strong> Москва · Санкт-Петербург · Россия</li>
+<li><strong>Сайт:</strong> <a href="https://mkekspert.ru">mkekspert.ru</a></li>
+<li><strong>Разбор Директа:</strong> <a href="https://mkekspert.ru/razbor-direct">mkekspert.ru/razbor-direct</a></li>
+<li><strong>Telegram:</strong> <a href="https://t.me/Mariya1740">@Mariya1740</a> · канал <a href="https://t.me/mariyaprodirect">@mariyaprodirect</a></li>
+<li><strong>Дзен:</strong> <a href="https://dzen.ru/klientyandtrafik">klientyandtrafik</a></li>
+</ul>
+</div>
+<p><a class="hero-cta" href="https://mkekspert.ru/razbor-direct?utm_source=blog&utm_medium=contacts&utm_campaign=geo">Записаться на разбор</a></p>
+</main>
+"""
+    return _site_chrome(
+        inner,
+        title="Контакты и регион — МК Эксперт",
+        description="МК Эксперт: Москва, Санкт-Петербург и регионы России. Контакты Марии Ковалевой, разбор Яндекс Директа для B2B.",
+        canonical=f"{site}/contacts.html",
         extra_head=extra,
     )
 
 
 def _blog_sitemap_xml(posts: list[dict[str, Any]]) -> str:
     site = SITE_URL.rstrip("/")
-    urls = [f"{site}/"] + [p["url"] for p in posts]
+    urls = [f"{site}/", f"{site}/contacts.html"] + [p["url"] for p in posts]
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
@@ -676,6 +787,7 @@ def _collect_gh_pages_files() -> dict[str, bytes]:
     if FEED_FILE.is_file():
         files["dzen-feed.xml"] = FEED_FILE.read_bytes()
     files["CNAME"] = b"blog.mkekspert.ru\n"
+    files[".nojekyll"] = b""
     files["robots.txt"] = (
         "User-agent: *\n"
         "Allow: /\n"
@@ -684,6 +796,7 @@ def _collect_gh_pages_files() -> dict[str, bytes]:
     ).encode()
     posts = _blog_posts()
     files["index.html"] = _blog_index_html().encode("utf-8")
+    files["contacts.html"] = _blog_contacts_html().encode("utf-8")
     files["sitemap.xml"] = _blog_sitemap_xml(posts).encode("utf-8")
     if BLOG_SITE_DIR.is_dir():
         for path in BLOG_SITE_DIR.rglob("*"):
