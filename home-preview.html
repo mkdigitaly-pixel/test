@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Превью главной — фото и динамика</title>
+<title>Превью главной — фото исправлено</title>
 <style>html,body{margin:0;padding:0;background:#f3ebe3}
 .bar{font-family:Manrope,system-ui,sans-serif;font-size:13px;color:#8b6b4a;padding:10px 20px;background:#fffcf8;border-bottom:1px solid #e6d9cc}
-.bar strong{color:#a85a32}.bar a{color:#a85a32;font-weight:700}</style>
+.bar strong{color:#a85a32}</style>
 </head>
 <body>
-<div class="bar"><strong>Превью</strong> фото + анимации · hard refresh Ctrl+Shift+R · <a href="https://blog.mkekspert.ru/home-preview.html?v=2">обновить</a></div>
+<div class="bar"><strong>Превью</strong> · фото hero выровнено · Ctrl+Shift+R</div>
 <!--
   mkekspert.ru — главная (структура + фото + динамика)
   Картинки: https://blog.mkekspert.ru/home-assets/… (ваши файлы с Tilda)
@@ -87,10 +87,12 @@
 .mkh-note{margin:1rem 0 0;font-size:13px;color:var(--muted);animation:mkh-rise .8s .42s ease both}
 .mkh-hero-photo{
   border-radius:22px;overflow:hidden;border:1px solid var(--line);
-  box-shadow:0 22px 50px rgba(61,45,30,.14);aspect-ratio:1/1;background:#efe4d8;
-  animation:mkh-float 5.5s ease-in-out infinite;
+  box-shadow:0 22px 50px rgba(61,45,30,.14);aspect-ratio:4/5;max-height:520px;
+  background:#efe4d8;justify-self:end;width:100%;max-width:420px;
 }
-.mkh-hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center 18%;transform:scale(1.02)}
+.mkh-hero-photo img{
+  width:100%;height:100%;object-fit:cover;object-position:center 12%;
+}
 .mkh-hero-line{position:absolute;left:36px;right:36px;bottom:0;height:3px;background:linear-gradient(90deg,var(--terra),var(--gold),var(--green));transform-origin:left;transform:scaleX(0);animation:mkh-line 1.15s .4s cubic-bezier(.22,1,.36,1) forwards;z-index:2}
 
 .mkh-benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
@@ -149,7 +151,7 @@
 .mkh-case-body .go{margin-top:auto;padding-top:10px;font-size:13px;font-weight:700;color:var(--green)}
 
 /* ticker strip of case thumbs */
-.mkh-ticker{margin:8px 0 0;overflow:hidden;mask-image:linear-gradient(90deg,transparent,.#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.mkh-ticker{margin:8px 0 0;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
 .mkh-ticker-track{display:flex;gap:12px;width:max-content;animation:mkh-ticker 28s linear infinite}
 .mkh-ticker-track:hover{animation-play-state:paused}
 .mkh-ticker a{display:block;width:160px;height:100px;border-radius:12px;overflow:hidden;border:1px solid var(--line);flex:0 0 auto}
@@ -205,18 +207,17 @@
 @keyframes mkh-drift-c{0%,100%{transform:translate(0,0)}50%{transform:translate(18px,-22px)}}
 @keyframes mkh-line{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes mkh-shine{0%,65%{transform:translateX(-130%)}82%,100%{transform:translateX(130%)}}
-@keyframes mkh-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 @keyframes mkh-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @keyframes mkh-ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 @media (prefers-reduced-motion:reduce){
-  .mkh-orb,.mkh-brand::before,.mkh-btn::after,.mkh-hero-line,.mkh-hero-photo,.mkh-benefit img,.mkh-ticker-track{animation:none!important}
+  .mkh-orb,.mkh-brand::before,.mkh-btn::after,.mkh-hero-line,.mkh-benefit img,.mkh-ticker-track{animation:none!important}
   .mkh-hero-line{transform:scaleX(1)}
   .mkh-reveal{opacity:1;transform:none;transition:none}
 }
 @media (max-width:900px){
   .mkh-hero,.mkh-about,.mkh-cta{grid-template-columns:1fr}
-  .mkh-hero-photo{max-width:360px;margin:0 auto}
+  .mkh-hero-photo{max-width:320px;margin:0 auto;justify-self:center}
   .mkh-benefits,.mkh-services,.mkh-stats,.mkh-reviews,.mkh-prices,.mkh-edu{grid-template-columns:1fr}
   .mkh-cases{grid-template-columns:repeat(2,1fr)}
 }
@@ -250,7 +251,7 @@
         <p class="mkh-note">Мария Ковалева · в маркетинге с 2013 · Москва, Санкт-Петербург и регионы</p>
       </div>
       <div class="mkh-hero-photo">
-        <img src="https://blog.mkekspert.ru/home-assets/maria-hero.png" alt="Мария Ковалева — специалист по Яндекс Директ" width="800" height="800" loading="eager" decoding="async">
+        <img src="https://blog.mkekspert.ru/home-assets/maria-hero-portrait.png" alt="Мария Ковалева — специалист по Яндекс Директ" width="800" height="1000" loading="eager" decoding="async">
       </div>
       <div class="mkh-hero-line" aria-hidden="true"></div>
     </section>
