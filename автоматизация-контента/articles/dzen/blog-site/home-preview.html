@@ -4,19 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Превью: главная mkekspert — структура + кейсы</title>
+<title>Превью главной — фото и динамика</title>
 <style>html,body{margin:0;padding:0;background:#f3ebe3}
 .bar{font-family:Manrope,system-ui,sans-serif;font-size:13px;color:#8b6b4a;padding:10px 20px;background:#fffcf8;border-bottom:1px solid #e6d9cc}
 .bar strong{color:#a85a32}.bar a{color:#a85a32;font-weight:700}</style>
 </head>
 <body>
-<div class="bar"><strong>Превью главной</strong> · кейсы с фото и ссылками · SEO-блоки · <a href="https://github.com/mkdigitaly-pixel/test/blob/cursor/blog-tilda-design-88d8/%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F-%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%BD%D1%82%D0%B0/content/tilda-home.html">код</a> · <a href="https://mkekspert.ru/">live</a></div>
+<div class="bar"><strong>Превью</strong> фото + анимации · hard refresh Ctrl+Shift+R · <a href="https://blog.mkekspert.ru/home-preview.html?v=2">обновить</a></div>
 <!--
-  mkekspert.ru — главная в палитре брендбука
-  Структура как на live: hero, преимущества, обо мне, услуги, цифры, кейсы с фото,
-  образование, отзывы, прайс, SEO-тексты, контакты.
-  Картинки — с вашего Tilda CDN. CTA: #popup:cornerform-zapis-na-vstrechu
-  Tilda: скрыть старые Zero → один HTML (T123). Оставить шапку и попап формы.
+  mkekspert.ru — главная (структура + фото + динамика)
+  Картинки: https://blog.mkekspert.ru/home-assets/… (ваши файлы с Tilda)
+  CTA: #popup:cornerform-zapis-na-vstrechu
+  Tilda: скрыть Zero → HTML T123. Оставить шапку и попап.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,169 +25,170 @@
   --ivory:#fdfbf7;--bg:#f3ebe3;--panel:#fffcf8;--line:#e6d9cc;
   --ink:#3d3d3d;--muted:#8b6b4a;--soft:#6b5a4a;
   --terra:#a85a32;--green:#2a6f4c;--gold:#d4af37;--sand:#d4a373;--blush:#f5d6c6;
-  --radius:12px;
+  --radius:14px;--img:https://blog.mkekspert.ru/home-assets;
   font-family:"Manrope",Arial,sans-serif;color:var(--ink);
   background:
-    radial-gradient(1100px 520px at 10% -8%,rgba(245,214,198,.8),transparent 55%),
-    radial-gradient(900px 420px at 95% 0%,rgba(212,175,55,.18),transparent 50%),
-    linear-gradient(180deg,var(--bg) 0%,#efe4d8 35%,var(--ivory) 100%);
-  margin:0 -20px;padding:0 0 8px;box-sizing:border-box;
+    radial-gradient(1100px 520px at 8% -10%,rgba(245,214,198,.85),transparent 55%),
+    radial-gradient(900px 420px at 95% 2%,rgba(212,175,55,.2),transparent 52%),
+    linear-gradient(180deg,var(--bg) 0%,#efe4d8 38%,var(--ivory) 100%);
+  margin:0 -20px;padding:0 0 8px;box-sizing:border-box;overflow-x:clip;
 }
 .mkh *,.mkh *::before,.mkh *::after{box-sizing:border-box}
 .mkh a{color:var(--terra);text-underline-offset:3px}
-.mkh-inner{max-width:1100px;margin:0 auto;padding:0 24px}
-.mkh img{max-width:100%;height:auto;display:block}
+.mkh-inner{max-width:1120px;margin:0 auto;padding:0 24px;position:relative}
+.mkh img{display:block;max-width:100%}
 
 .mkh-btn{
   position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;
   padding:14px 22px;background:var(--terra);color:#fff!important;text-decoration:none!important;
   font-weight:700;font-size:15px;border-radius:var(--radius);border:0;
-  box-shadow:0 12px 28px rgba(168,90,50,.22);transition:transform .2s,background .2s;
+  box-shadow:0 12px 28px rgba(168,90,50,.22);transition:transform .25s,background .25s,box-shadow .25s;
 }
 .mkh-btn::after{
   content:"";position:absolute;inset:0;
-  background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.28) 50%,transparent 65%);
-  transform:translateX(-120%);animation:mkh-shine 4.5s 1.2s ease-in-out infinite;pointer-events:none;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.35) 50%,transparent 60%);
+  transform:translateX(-130%);animation:mkh-shine 3.8s 1s ease-in-out infinite;pointer-events:none;
 }
-.mkh-btn:hover{background:var(--green);transform:translateY(-2px)}
-.mkh-btn--ghost{
-  background:transparent;color:var(--ink)!important;border:1px solid var(--line);box-shadow:none;
-}
-.mkh-btn--ghost:hover{border-color:var(--terra);color:var(--terra)!important;background:rgba(168,90,50,.06)}
-.mkh-link{font-weight:700;font-size:15px;color:var(--soft)!important;text-decoration:none!important;border-bottom:1px solid rgba(139,107,74,.35)}
+.mkh-btn:hover{background:var(--green);transform:translateY(-3px);box-shadow:0 16px 34px rgba(42,111,76,.28)}
+.mkh-btn--ghost{background:rgba(255,252,248,.75);color:var(--ink)!important;border:1px solid var(--line);box-shadow:none}
+.mkh-btn--ghost:hover{border-color:var(--terra);color:var(--terra)!important;background:#fff}
+.mkh-link{font-weight:700;border-bottom:1px solid rgba(139,107,74,.35);text-decoration:none!important;color:var(--soft)!important}
 .mkh-link:hover{color:var(--terra)!important;border-color:var(--terra)}
 
-.mkh-label{
-  font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
-  margin:0 0 12px;display:flex;align-items:center;gap:12px;font-weight:700;
-}
+.mkh-label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 12px;display:flex;align-items:center;gap:12px;font-weight:700}
 .mkh-label::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
-.mkh-h2{
-  font-family:"Unbounded",Arial,sans-serif;font-size:clamp(1.35rem,3vw,1.75rem);
-  line-height:1.2;margin:0 0 10px;letter-spacing:-.02em;font-weight:600;max-width:26ch;
-}
-.mkh-sub{margin:0 0 22px;color:var(--muted);font-size:16px;line-height:1.5;max-width:52ch}
-.mkh-sec{padding:28px 0 48px;animation:mkh-rise .7s ease both}
+.mkh-h2{font-family:"Unbounded",Arial,sans-serif;font-size:clamp(1.4rem,3vw,1.85rem);line-height:1.2;margin:0 0 10px;letter-spacing:-.02em;font-weight:600;max-width:26ch}
+.mkh-sub{margin:0 0 24px;color:var(--muted);font-size:16px;line-height:1.5;max-width:52ch}
+.mkh-sec{padding:36px 0 52px}
+.mkh-reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.mkh-reveal.is-in{opacity:1;transform:none}
 
 /* Hero */
 .mkh-hero{
-  position:relative;isolation:isolate;overflow:hidden;margin:16px 0 8px;padding:48px 40px;
-  border-radius:22px;border:1px solid var(--line);
-  background:linear-gradient(135deg,rgba(255,252,248,.95),rgba(245,214,198,.28));
-  display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:center;
-  animation:mkh-rise .75s ease both;
+  position:relative;isolation:isolate;overflow:hidden;margin:18px 0 10px;padding:44px 36px 48px;
+  border-radius:24px;border:1px solid var(--line);
+  background:
+    url("https://blog.mkekspert.ru/home-assets/pattern.svg") right -40px top -60px / 420px no-repeat,
+    linear-gradient(135deg,rgba(255,252,248,.96),rgba(245,214,198,.35));
+  display:grid;grid-template-columns:1.05fr .95fr;gap:32px;align-items:center;
 }
 .mkh-hero-visual{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-.mkh-orb{position:absolute;border-radius:50%;filter:blur(2px)}
-.mkh-orb--a{width:260px;height:260px;right:35%;top:-90px;background:radial-gradient(circle,rgba(168,90,50,.22),transparent 70%);animation:mkh-drift-a 14s ease-in-out infinite}
-.mkh-orb--b{width:200px;height:200px;right:-40px;bottom:-60px;background:radial-gradient(circle,rgba(212,175,55,.28),transparent 72%);animation:mkh-drift-b 18s ease-in-out infinite}
+.mkh-orb{position:absolute;border-radius:50%;filter:blur(0px);will-change:transform}
+.mkh-orb--a{width:320px;height:320px;left:-80px;top:-100px;background:radial-gradient(circle,rgba(168,90,50,.3),transparent 68%);animation:mkh-drift-a 12s ease-in-out infinite}
+.mkh-orb--b{width:260px;height:260px;right:-50px;bottom:-80px;background:radial-gradient(circle,rgba(212,175,55,.35),transparent 70%);animation:mkh-drift-b 15s ease-in-out infinite}
+.mkh-orb--c{width:180px;height:180px;right:42%;top:40%;background:radial-gradient(circle,rgba(42,111,76,.18),transparent 70%);animation:mkh-drift-c 17s ease-in-out infinite}
 .mkh-hero-copy,.mkh-hero-photo{position:relative;z-index:1}
-.mkh-brand{
-  font-family:"Unbounded",Arial,sans-serif;font-size:clamp(1.4rem,3.5vw,1.95rem);font-weight:600;
-  letter-spacing:-.03em;margin:0 0 .9rem;display:flex;align-items:center;gap:.6rem;
-}
+.mkh-brand{font-family:"Unbounded",Arial,sans-serif;font-size:clamp(1.45rem,3.6vw,2.05rem);font-weight:600;letter-spacing:-.03em;margin:0 0 1rem;display:flex;align-items:center;gap:.65rem;animation:mkh-rise .8s ease both}
 .mkh-brand span{color:var(--terra)}
-.mkh-brand::before{content:"";width:11px;height:11px;border-radius:50%;background:var(--terra);box-shadow:0 0 0 5px rgba(168,90,50,.16);animation:mkh-pulse 2.6s ease-in-out infinite}
-.mkh-h1{font-family:"Unbounded",Arial,sans-serif;font-size:clamp(1.45rem,3.4vw,2.05rem);line-height:1.15;margin:0 0 .8rem;letter-spacing:-.03em;font-weight:600}
-.mkh-lead{margin:0 0 1.25rem;color:var(--muted);font-size:1.02rem;line-height:1.55;max-width:38ch}
-.mkh-actions{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center}
-.mkh-note{margin:1rem 0 0;font-size:13px;color:var(--muted)}
+.mkh-brand::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--terra);box-shadow:0 0 0 5px rgba(168,90,50,.16);animation:mkh-pulse 2.4s ease-in-out infinite}
+.mkh-h1{font-family:"Unbounded",Arial,sans-serif;font-size:clamp(1.5rem,3.5vw,2.15rem);line-height:1.14;margin:0 0 .85rem;letter-spacing:-.03em;font-weight:600;animation:mkh-rise .8s .12s ease both}
+.mkh-lead{margin:0 0 1.35rem;color:var(--muted);font-size:1.05rem;line-height:1.55;max-width:38ch;animation:mkh-rise .8s .22s ease both}
+.mkh-actions{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;animation:mkh-rise .8s .32s ease both}
+.mkh-note{margin:1rem 0 0;font-size:13px;color:var(--muted);animation:mkh-rise .8s .42s ease both}
 .mkh-hero-photo{
-  border-radius:18px;overflow:hidden;border:1px solid var(--line);
-  box-shadow:0 16px 40px rgba(61,45,30,.1);aspect-ratio:4/5;background:#efe4d8;
+  border-radius:22px;overflow:hidden;border:1px solid var(--line);
+  box-shadow:0 22px 50px rgba(61,45,30,.14);aspect-ratio:1/1;background:#efe4d8;
+  animation:mkh-float 5.5s ease-in-out infinite;
 }
-.mkh-hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center top}
-.mkh-hero-line{position:absolute;left:40px;right:40px;bottom:0;height:3px;background:linear-gradient(90deg,var(--terra),var(--gold),var(--green));transform-origin:left;transform:scaleX(0);animation:mkh-line 1.2s .35s cubic-bezier(.22,1,.36,1) forwards;z-index:2}
+.mkh-hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center 18%;transform:scale(1.02)}
+.mkh-hero-line{position:absolute;left:36px;right:36px;bottom:0;height:3px;background:linear-gradient(90deg,var(--terra),var(--gold),var(--green));transform-origin:left;transform:scaleX(0);animation:mkh-line 1.15s .4s cubic-bezier(.22,1,.36,1) forwards;z-index:2}
 
-/* Benefits */
-.mkh-benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.mkh-benefit{padding:18px 16px 20px;background:var(--panel);border:1px solid var(--line);border-radius:16px}
-.mkh-benefit img{width:48px;height:48px;object-fit:contain;margin-bottom:12px}
-.mkh-benefit strong{display:block;font-family:"Unbounded",Arial,sans-serif;font-size:1.05rem;font-weight:600;margin:0 0 8px;letter-spacing:-.02em}
+.mkh-benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.mkh-benefit{padding:20px 18px;background:var(--panel);border:1px solid var(--line);border-radius:18px;transition:transform .3s,box-shadow .3s,border-color .3s}
+.mkh-benefit:hover{transform:translateY(-6px);border-color:rgba(168,90,50,.3);box-shadow:0 18px 36px rgba(61,45,30,.1)}
+.mkh-benefit img{width:52px;height:52px;object-fit:contain;margin-bottom:12px;animation:mkh-bob 3.5s ease-in-out infinite}
+.mkh-benefit:nth-child(2) img{animation-delay:.4s}
+.mkh-benefit:nth-child(3) img{animation-delay:.8s}
+.mkh-benefit strong{display:block;font-family:"Unbounded",Arial,sans-serif;font-size:1.05rem;margin:0 0 8px;font-weight:600}
 .mkh-benefit strong em{font-style:normal;color:var(--terra)}
 .mkh-benefit p{margin:0;font-size:14px;line-height:1.5;color:var(--muted)}
 
-/* About */
-.mkh-about{display:grid;grid-template-columns:.9fr 1.1fr;gap:28px;align-items:center}
-.mkh-about-photo{border-radius:18px;overflow:hidden;border:1px solid var(--line);aspect-ratio:1;background:#efe4d8}
-.mkh-about-photo img{width:100%;height:100%;object-fit:cover}
+.mkh-about{display:grid;grid-template-columns:.95fr 1.05fr;gap:28px;align-items:center}
+.mkh-about-photo{border-radius:20px;overflow:hidden;border:1px solid var(--line);aspect-ratio:4/5;background:#efe4d8;box-shadow:0 16px 40px rgba(61,45,30,.1)}
+.mkh-about-photo img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .6s}
+.mkh-about-photo:hover img{transform:scale(1.05)}
 .mkh-about .role{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--terra);font-weight:700;margin:0 0 10px}
-.mkh-about h3{font-family:"Unbounded",Arial,sans-serif;font-size:clamp(1.3rem,2.5vw,1.65rem);margin:0 0 10px;font-weight:600}
+.mkh-about h3{font-family:"Unbounded",Arial,sans-serif;font-size:clamp(1.35rem,2.5vw,1.7rem);margin:0 0 10px;font-weight:600}
 .mkh-about p{margin:0 0 10px;color:var(--muted);font-size:15px;line-height:1.55}
 .mkh-bullets{list-style:none;margin:14px 0 0;padding:0 0 0 16px;border-left:2px solid var(--gold);display:grid;gap:10px}
 .mkh-bullets li{font-size:14px;line-height:1.45}
 .mkh-contacts{margin-top:14px;font-size:14px}
 .mkh-contacts a{font-weight:700;text-decoration:none}
 
-/* Services */
 .mkh-services{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.mkh-service{padding:18px 16px;background:var(--panel);border:1px solid var(--line);border-radius:14px}
+.mkh-service{padding:18px 16px;background:var(--panel);border:1px solid var(--line);border-radius:14px;transition:transform .25s,border-color .25s}
+.mkh-service:hover{transform:translateY(-4px);border-color:rgba(168,90,50,.3)}
 .mkh-service h3{font-family:"Unbounded",Arial,sans-serif;font-size:16px;margin:0 0 8px;font-weight:500}
 .mkh-service p{margin:0;font-size:14px;color:var(--muted);line-height:1.5}
 
-/* Stats */
 .mkh-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.mkh-stat{padding:16px 14px;background:var(--panel);border:1px solid var(--line);border-radius:14px;text-align:center}
-.mkh-stat img{width:40px;height:40px;object-fit:contain;margin:0 auto 10px}
-.mkh-stat b{display:block;font-family:"Unbounded",Arial,sans-serif;font-size:1.55rem;color:var(--terra);letter-spacing:-.03em}
+.mkh-stat{padding:18px 14px;background:var(--panel);border:1px solid var(--line);border-radius:16px;text-align:center;transition:transform .25s}
+.mkh-stat:hover{transform:translateY(-4px)}
+.mkh-stat b{display:block;font-family:"Unbounded",Arial,sans-serif;font-size:clamp(1.7rem,3vw,2.15rem);color:var(--terra);letter-spacing:-.03em}
 .mkh-stat span{font-size:13px;color:var(--muted)}
 
-/* Cases with images */
-.mkh-cases{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+/* Cases */
+.mkh-cases{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .mkh-case{
   display:flex;flex-direction:column;text-decoration:none!important;color:inherit!important;
-  background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;
-  transition:transform .25s,border-color .2s,box-shadow .25s;
+  background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;
+  transition:transform .3s,border-color .25s,box-shadow .3s;
 }
-.mkh-case:hover{transform:translateY(-4px);border-color:rgba(168,90,50,.35);box-shadow:0 16px 36px rgba(61,45,30,.1)}
-.mkh-case-media{aspect-ratio:16/10;background:#efe4d8;overflow:hidden}
-.mkh-case-media img{width:100%;height:100%;object-fit:cover;transition:transform .35s}
-.mkh-case:hover .mkh-case-media img{transform:scale(1.04)}
-.mkh-case-body{padding:14px 14px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.mkh-case:hover{transform:translateY(-8px);border-color:rgba(168,90,50,.4);box-shadow:0 22px 44px rgba(61,45,30,.14)}
+.mkh-case-media{aspect-ratio:16/11;background:#e8d9cb;overflow:hidden;position:relative}
+.mkh-case-media img{width:100%;height:100%;object-fit:cover;transition:transform .55s ease}
+.mkh-case:hover .mkh-case-media img{transform:scale(1.08)}
+.mkh-case-media::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:40%;
+  background:linear-gradient(transparent,rgba(61,45,30,.25));opacity:0;transition:opacity .3s;
+}
+.mkh-case:hover .mkh-case-media::after{opacity:1}
+.mkh-case-body{padding:14px 16px 18px;display:flex;flex-direction:column;gap:6px;flex:1}
 .mkh-case-body .tag{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--terra)}
 .mkh-case-body h3{font-family:"Unbounded",Arial,sans-serif;font-size:15px;margin:0;font-weight:500;line-height:1.3}
-.mkh-case-body .go{margin-top:auto;padding-top:8px;font-size:13px;font-weight:700;color:var(--green)}
-.mkh-cases-more{margin-top:16px}
+.mkh-case-body .go{margin-top:auto;padding-top:10px;font-size:13px;font-weight:700;color:var(--green)}
 
-/* Education */
+/* ticker strip of case thumbs */
+.mkh-ticker{margin:8px 0 0;overflow:hidden;mask-image:linear-gradient(90deg,transparent,.#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.mkh-ticker-track{display:flex;gap:12px;width:max-content;animation:mkh-ticker 28s linear infinite}
+.mkh-ticker-track:hover{animation-play-state:paused}
+.mkh-ticker a{display:block;width:160px;height:100px;border-radius:12px;overflow:hidden;border:1px solid var(--line);flex:0 0 auto}
+.mkh-ticker a img{width:100%;height:100%;object-fit:cover}
+
 .mkh-edu{display:grid;grid-template-columns:1fr 1fr;gap:24px 32px}
 .mkh-edu h3{font-family:"Unbounded",Arial,sans-serif;font-size:14px;color:var(--terra);margin:0 0 12px;font-weight:500}
 .mkh-edu ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .mkh-edu li{font-size:14px;line-height:1.45;padding-bottom:10px;border-bottom:1px solid var(--line)}
-.mkh-edu li:last-child{border-bottom:0}
 .mkh-edu li strong{display:block;margin-bottom:2px}
 
-/* Reviews */
 .mkh-reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.mkh-review{padding:16px;background:var(--panel);border:1px solid var(--line);border-radius:14px}
-.mkh-review-top{display:flex;gap:12px;align-items:center;margin-bottom:10px}
-.mkh-review-top img{width:48px;height:48px;border-radius:50%;object-fit:cover;border:1px solid var(--line)}
+.mkh-review{padding:0;background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .25s}
+.mkh-review:hover{transform:translateY(-4px)}
+.mkh-review-photo{aspect-ratio:16/10;overflow:hidden;background:#efe4d8}
+.mkh-review-photo img{width:100%;height:100%;object-fit:cover}
+.mkh-review-body{padding:14px 16px 16px}
 .mkh-review p{margin:0 0 8px;font-size:14px;line-height:1.5;color:var(--muted)}
 .mkh-review cite{font-style:normal;font-weight:700;font-size:13px}
 
-/* Price */
 .mkh-prices{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.mkh-price{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 18px;display:flex;flex-direction:column;gap:10px}
+.mkh-price{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 18px;display:flex;flex-direction:column;gap:10px;transition:transform .25s,border-color .25s}
+.mkh-price:hover{transform:translateY(-5px);border-color:rgba(168,90,50,.35)}
 .mkh-price h3{font-family:"Unbounded",Arial,sans-serif;font-size:16px;margin:0;font-weight:500}
-.mkh-price .sum{font-family:"Unbounded",Arial,sans-serif;font-size:1.45rem;color:var(--terra);font-weight:600}
+.mkh-price .sum{font-family:"Unbounded",Arial,sans-serif;font-size:1.5rem;color:var(--terra);font-weight:600}
 .mkh-price ul{list-style:none;margin:0;padding:0;display:grid;gap:6px;flex:1}
 .mkh-price li{font-size:13px;color:var(--muted);padding-left:14px;position:relative}
 .mkh-price li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--green)}
 .mkh-price .mkh-btn{margin-top:8px;width:100%}
 
-/* SEO */
-.mkh-seo{padding:8px 0 36px}
 .mkh-seo-item{padding:18px 0;border-top:1px solid var(--line)}
 .mkh-seo-item:last-child{border-bottom:1px solid var(--line)}
 .mkh-seo-item h3{font-family:"Unbounded",Arial,sans-serif;font-size:16px;margin:0 0 10px;font-weight:500}
 .mkh-seo-item p,.mkh-seo-item li{font-size:14px;line-height:1.55;color:var(--muted);margin:0 0 8px}
 .mkh-seo-item ul{margin:8px 0 0;padding-left:1.1rem}
-.mkh-seo-item li{margin:0 0 4px}
 
-/* CTA */
 .mkh-cta{
-  margin:8px 0 24px;padding:32px 28px;border-radius:18px;border:1px solid var(--line);
-  background:linear-gradient(135deg,rgba(168,90,50,.1),rgba(212,175,55,.12) 50%,rgba(42,111,76,.08)),var(--panel);
+  margin:8px 0 24px;padding:32px 28px;border-radius:20px;border:1px solid var(--line);
+  background:linear-gradient(135deg,rgba(168,90,50,.12),rgba(212,175,55,.14) 50%,rgba(42,111,76,.1)),var(--panel);
   display:grid;grid-template-columns:1.4fr auto;gap:20px;align-items:center;
 }
 .mkh-cta h2{font-family:"Unbounded",Arial,sans-serif;font-size:clamp(1.3rem,3vw,1.55rem);margin:0 0 8px}
@@ -198,30 +198,35 @@
 .mkh-foot{padding:0 0 40px;color:var(--muted);font-size:13px;line-height:1.5}
 .mkh-foot a{font-weight:700;text-decoration:none}
 
-@keyframes mkh-rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-@keyframes mkh-pulse{0%,100%{box-shadow:0 0 0 5px rgba(168,90,50,.16)}50%{box-shadow:0 0 0 8px rgba(168,90,50,.08)}}
-@keyframes mkh-drift-a{0%,100%{transform:translate(0,0)}50%{transform:translate(-20px,16px)}}
-@keyframes mkh-drift-b{0%,100%{transform:translate(0,0)}50%{transform:translate(16px,-12px)}}
+@keyframes mkh-rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes mkh-pulse{0%,100%{box-shadow:0 0 0 5px rgba(168,90,50,.16)}50%{box-shadow:0 0 0 9px rgba(168,90,50,.08)}}
+@keyframes mkh-drift-a{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,24px) scale(1.08)}}
+@keyframes mkh-drift-b{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-24px,-18px) scale(1.1)}}
+@keyframes mkh-drift-c{0%,100%{transform:translate(0,0)}50%{transform:translate(18px,-22px)}}
 @keyframes mkh-line{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-@keyframes mkh-shine{0%,70%{transform:translateX(-120%)}85%,100%{transform:translateX(220%)}}
+@keyframes mkh-shine{0%,65%{transform:translateX(-130%)}82%,100%{transform:translateX(130%)}}
+@keyframes mkh-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes mkh-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes mkh-ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
 @media (prefers-reduced-motion:reduce){
-  .mkh-orb,.mkh-brand::before,.mkh-btn::after,.mkh-hero-line{animation:none!important}
+  .mkh-orb,.mkh-brand::before,.mkh-btn::after,.mkh-hero-line,.mkh-hero-photo,.mkh-benefit img,.mkh-ticker-track{animation:none!important}
   .mkh-hero-line{transform:scaleX(1)}
+  .mkh-reveal{opacity:1;transform:none;transition:none}
 }
 @media (max-width:900px){
   .mkh-hero,.mkh-about,.mkh-cta{grid-template-columns:1fr}
-  .mkh-hero-photo{max-width:320px;margin:0 auto;aspect-ratio:1}
-  .mkh-benefits,.mkh-services,.mkh-stats,.mkh-cases,.mkh-reviews,.mkh-prices,.mkh-edu{grid-template-columns:1fr}
+  .mkh-hero-photo{max-width:360px;margin:0 auto}
+  .mkh-benefits,.mkh-services,.mkh-stats,.mkh-reviews,.mkh-prices,.mkh-edu{grid-template-columns:1fr}
   .mkh-cases{grid-template-columns:repeat(2,1fr)}
 }
 @media (max-width:560px){
   .mkh{margin:0 -12px}
   .mkh-inner{padding:0 16px}
-  .mkh-hero{padding:32px 18px 36px;border-radius:16px}
-  .mkh-hero-line{left:18px;right:18px}
+  .mkh-hero{padding:28px 16px 34px}
   .mkh-cases{grid-template-columns:1fr}
   .mkh-actions{flex-direction:column;align-items:stretch}
-  .mkh-btn{width:100%;text-align:center}
+  .mkh-btn{width:100%}
 }
 </style>
 
@@ -232,6 +237,7 @@
       <div class="mkh-hero-visual" aria-hidden="true">
         <span class="mkh-orb mkh-orb--a"></span>
         <span class="mkh-orb mkh-orb--b"></span>
+        <span class="mkh-orb mkh-orb--c"></span>
       </div>
       <div class="mkh-hero-copy">
         <div class="mkh-brand">МК <span>Эксперт</span></div>
@@ -244,39 +250,58 @@
         <p class="mkh-note">Мария Ковалева · в маркетинге с 2013 · Москва, Санкт-Петербург и регионы</p>
       </div>
       <div class="mkh-hero-photo">
-        <img src="https://static.tildacdn.com/tild3032-6662-4561-a264-643932626663/Photo___1.png" alt="Мария Ковалева — специалист по Яндекс Директ" width="640" height="800" loading="eager">
+        <img src="https://blog.mkekspert.ru/home-assets/maria-hero.png" alt="Мария Ковалева — специалист по Яндекс Директ" width="800" height="800" loading="eager" decoding="async">
       </div>
       <div class="mkh-hero-line" aria-hidden="true"></div>
     </section>
 
-    <section class="mkh-sec">
+    <div class="mkh-ticker" aria-hidden="true">
+      <div class="mkh-ticker-track">
+        <a href="https://mkekspert.ru/rotang"><img src="https://blog.mkekspert.ru/home-assets/case-rotang.jpg" alt=""></a>
+        <a href="https://mkekspert.ru/keys-ppu"><img src="https://blog.mkekspert.ru/home-assets/case-ppu.jpg" alt=""></a>
+        <a href="https://mkekspert.ru/urist"><img src="https://blog.mkekspert.ru/home-assets/case-urist.jpg" alt=""></a>
+        <a href="https://mkekspert.ru/stomatologiya"><img src="https://blog.mkekspert.ru/home-assets/case-stomat.jpg" alt=""></a>
+        <a href="https://mkekspert.ru/lifts"><img src="https://blog.mkekspert.ru/home-assets/case-lifts.jpg" alt=""></a>
+        <a href="https://mkekspert.ru/septiki"><img src="https://blog.mkekspert.ru/home-assets/case-septiki.jpg" alt=""></a>
+        <a href="https://mkekspert.ru/avtozapchast"><img src="https://blog.mkekspert.ru/home-assets/case-auto.jpg" alt=""></a>
+        <a href="https://mkekspert.ru/rotang"><img src="https://blog.mkekspert.ru/home-assets/case-rotang.jpg" alt=""></a>
+        <a href="https://mkekspert.ru/keys-ppu"><img src="https://blog.mkekspert.ru/home-assets/case-ppu.jpg" alt=""></a>
+        <a href="https://mkekspert.ru/urist"><img src="https://blog.mkekspert.ru/home-assets/case-urist.jpg" alt=""></a>
+        <a href="https://mkekspert.ru/stomatologiya"><img src="https://blog.mkekspert.ru/home-assets/case-stomat.jpg" alt=""></a>
+        <a href="https://mkekspert.ru/lifts"><img src="https://blog.mkekspert.ru/home-assets/case-lifts.jpg" alt=""></a>
+        <a href="https://mkekspert.ru/septiki"><img src="https://blog.mkekspert.ru/home-assets/case-septiki.jpg" alt=""></a>
+        <a href="https://mkekspert.ru/avtozapchast"><img src="https://blog.mkekspert.ru/home-assets/case-auto.jpg" alt=""></a>
+      </div>
+    </div>
+
+    <section class="mkh-sec mkh-reveal">
       <div class="mkh-label">Преимущества</div>
       <h2 class="mkh-h2">Почему со мной удобно работать</h2>
       <div class="mkh-benefits">
         <div class="mkh-benefit">
-          <img src="https://static.tildacdn.com/tild3730-3233-4565-a661-663637613136/_1.svg" alt="" width="48" height="48" loading="lazy">
+          <img src="https://blog.mkekspert.ru/home-assets/icon-1.svg" alt="" width="52" height="52" loading="lazy">
           <strong>Команда <em>специалистов</em></strong>
           <p>Работаю совместно с командой, готовой к максимальному результату по Директу и заявкам.</p>
         </div>
         <div class="mkh-benefit">
-          <img src="https://static.tildacdn.com/tild3831-3438-4437-b531-333663313430/_2.svg" alt="" width="48" height="48" loading="lazy">
+          <img src="https://blog.mkekspert.ru/home-assets/icon-2.svg" alt="" width="52" height="52" loading="lazy">
           <strong>Экономьте ≈45% <em>на налогах</em></strong>
           <p>Не нужно платить налоги как за сотрудника в штате. Нет проблем с отчётностью и отпусками.</p>
         </div>
         <div class="mkh-benefit">
-          <img src="https://static.tildacdn.com/tild6439-3336-4964-b836-336664363739/_3.svg" alt="" width="48" height="48" loading="lazy">
+          <img src="https://blog.mkekspert.ru/home-assets/icon-3.svg" alt="" width="52" height="52" loading="lazy">
           <strong>Старт за <em>5 дней</em></strong>
           <p>Реклама может пойти уже через 5 дней после оплаты договора — бизнес не простаивает.</p>
         </div>
       </div>
     </section>
 
-    <section class="mkh-sec" id="about">
+    <section class="mkh-sec mkh-reveal" id="about">
       <div class="mkh-label">Обо мне</div>
       <h2 class="mkh-h2">Давайте знакомиться</h2>
       <div class="mkh-about">
         <div class="mkh-about-photo">
-          <img src="https://static.tildacdn.com/tild3533-3361-4463-b130-636233666131/Image_1.png" alt="Мария Ковалева" width="600" height="600" loading="lazy">
+          <img src="https://blog.mkekspert.ru/home-assets/maria-about.png" alt="Мария Ковалева" width="600" height="750" loading="lazy">
         </div>
         <div>
           <p class="role">Специалист по контекстной рекламе и сайтам · руководитель проектов</p>
@@ -296,96 +321,46 @@
       </div>
     </section>
 
-    <section class="mkh-sec" id="catalog">
+    <section class="mkh-sec mkh-reveal" id="catalog">
       <div class="mkh-label">Услуги</div>
       <h2 class="mkh-h2">Найдём точки роста для прибыли</h2>
       <p class="mkh-sub">Настройка и ведение Яндекс Директ, оптимизация и Яндекс Бизнес — под ваш запрос.</p>
       <div class="mkh-services">
-        <article class="mkh-service">
-          <h3>Консультация (онлайн)</h3>
-          <p>Создание и настройка рекламных кампаний в Яндекс Директ под ваш бизнес и запрос — или разбор текущей ситуации.</p>
-        </article>
-        <article class="mkh-service">
-          <h3>Контекстная реклама</h3>
-          <p>Полный цикл: семантика, объявления, структура аккаунта, Метрика и запуск показов.</p>
-        </article>
-        <article class="mkh-service">
-          <h3>Оптимизация</h3>
-          <p>Доработка уже запущенных кампаний: эффективные настройки, подходящие для вашего бизнеса.</p>
-        </article>
-        <article class="mkh-service">
-          <h3>Яндекс Бизнес</h3>
-          <p>Эффективные настройки, Метрика, тексты, креативы для локального присутствия.</p>
-        </article>
+        <article class="mkh-service"><h3>Консультация (онлайн)</h3><p>Создание и настройка рекламных кампаний в Яндекс Директ под ваш бизнес и запрос — или разбор текущей ситуации.</p></article>
+        <article class="mkh-service"><h3>Контекстная реклама</h3><p>Полный цикл: семантика, объявления, структура аккаунта, Метрика и запуск показов.</p></article>
+        <article class="mkh-service"><h3>Оптимизация</h3><p>Доработка уже запущенных кампаний: эффективные настройки, подходящие для вашего бизнеса.</p></article>
+        <article class="mkh-service"><h3>Яндекс Бизнес</h3><p>Эффективные настройки, Метрика, тексты, креативы для локального присутствия.</p></article>
       </div>
     </section>
 
-    <section class="mkh-sec">
+    <section class="mkh-sec mkh-reveal">
       <div class="mkh-label">Опыт работы</div>
       <h2 class="mkh-h2">Цифры, на которые можно опереться</h2>
       <div class="mkh-stats">
-        <div class="mkh-stat">
-          <img src="https://static.tildacdn.com/tild3033-6565-4832-a361-623262306637/Icon_50__2.svg" alt="" width="40" height="40" loading="lazy">
-          <b>50+</b><span>клиентов</span>
-        </div>
-        <div class="mkh-stat">
-          <img src="https://static.tildacdn.com/tild3030-6132-4339-b639-366434663532/Icon_200_.svg" alt="" width="40" height="40" loading="lazy">
-          <b>200+</b><span>кампаний</span>
-        </div>
-        <div class="mkh-stat">
-          <img src="https://static.tildacdn.com/tild3762-6565-4339-a237-666430353565/Icon_10__.png" alt="" width="40" height="40" loading="lazy">
-          <b>10+</b><span>лет опыта</span>
-        </div>
-        <div class="mkh-stat">
-          <img src="https://static.tildacdn.com/tild3034-3364-4164-a537-363363646238/Group_16_5_.png" alt="" width="40" height="40" loading="lazy">
-          <b>5+</b><span>сертификатов</span>
-        </div>
+        <div class="mkh-stat"><b data-count="50">0</b><span>клиентов</span></div>
+        <div class="mkh-stat"><b data-count="200">0</b><span>кампаний</span></div>
+        <div class="mkh-stat"><b data-count="10">0</b><span>лет опыта</span></div>
+        <div class="mkh-stat"><b data-count="5">0</b><span>сертификатов</span></div>
       </div>
     </section>
 
-    <section class="mkh-sec" id="portfolio">
+    <section class="mkh-sec mkh-reveal" id="portfolio">
       <div class="mkh-label">Кейсы</div>
       <h2 class="mkh-h2">Лучшие проекты</h2>
-      <p class="mkh-sub">Инструмент: контекстная реклама Яндекс Директ. Те же проекты и ссылки, что на сайте.</p>
+      <p class="mkh-sub">Инструмент: контекстная реклама Яндекс Директ. Фото и ссылки — как на текущем сайте.</p>
       <div class="mkh-cases">
-        <a class="mkh-case" href="https://mkekspert.ru/rotang">
-          <div class="mkh-case-media"><img src="https://static.tildacdn.com/tild6133-6266-4231-b339-376534616536/xp7bifnYOyM.jpg" alt="Кейс: мебель из ротанга" width="640" height="400" loading="lazy"></div>
-          <div class="mkh-case-body"><div class="tag">Кейс</div><h3>Мебель из ротанга</h3><span class="go">Смотреть →</span></div>
-        </a>
-        <a class="mkh-case" href="https://mkekspert.ru/keys-ppu">
-          <div class="mkh-case-media"><img src="https://static.tildacdn.com/tild3030-6138-4439-b331-303430646433/nps_08.jpg" alt="Кейс: оборудование ППУ" width="640" height="400" loading="lazy"></div>
-          <div class="mkh-case-body"><div class="tag">Кейс</div><h3>Оборудование ППУ</h3><span class="go">Смотреть →</span></div>
-        </a>
-        <a class="mkh-case" href="https://mkekspert.ru/urist">
-          <div class="mkh-case-media"><img src="https://static.tildacdn.com/tild3834-3237-4563-b865-663330643830/b4zjemfAEmk.jpg" alt="Кейс: услуги юриста в Севастополе" width="640" height="400" loading="lazy"></div>
-          <div class="mkh-case-body"><div class="tag">Кейс</div><h3>Услуги юриста в г. Севастополь</h3><span class="go">Смотреть →</span></div>
-        </a>
-        <a class="mkh-case" href="https://mkekspert.ru/stomatologiya">
-          <div class="mkh-case-media"><img src="https://static.tildacdn.com/tild6535-3337-4435-b734-353439346236/_yPK-kcq7cg.jpg" alt="Кейс: интернет-магазин для стоматологий" width="640" height="400" loading="lazy"></div>
-          <div class="mkh-case-body"><div class="tag">Кейс</div><h3>Интернет-магазин товаров для стоматологий</h3><span class="go">Смотреть →</span></div>
-        </a>
-        <a class="mkh-case" href="https://mkekspert.ru/lifts">
-          <div class="mkh-case-media"><img src="https://static.tildacdn.com/tild3235-3466-4564-b666-613231326439/SJePw2fLUYQ.jpg" alt="Кейс: техобслуживание лифтов" width="640" height="400" loading="lazy"></div>
-          <div class="mkh-case-body"><div class="tag">Кейс</div><h3>Техобслуживание лифтов</h3><span class="go">Смотреть →</span></div>
-        </a>
-        <a class="mkh-case" href="https://mkekspert.ru/septiki">
-          <div class="mkh-case-media"><img src="https://static.tildacdn.com/tild3336-6434-4035-b736-643063363232/qTSpvWWcz4g.jpg" alt="Кейс: септики" width="640" height="400" loading="lazy"></div>
-          <div class="mkh-case-body"><div class="tag">Кейс</div><h3>Септики. Как получить больше заявок?</h3><span class="go">Смотреть →</span></div>
-        </a>
-        <a class="mkh-case" href="https://mkekspert.ru/avtozapchast">
-          <div class="mkh-case-media"><img src="https://static.tildacdn.com/tild3231-3533-4238-a235-313565393138/rnehYMQJGfk.jpg" alt="Кейс: продажа автомобильных запчастей" width="640" height="400" loading="lazy"></div>
-          <div class="mkh-case-body"><div class="tag">Кейс</div><h3>Продажа автомобильных запчастей</h3><span class="go">Смотреть →</span></div>
-        </a>
-        <a class="mkh-case" href="https://mkekspert.ru/portfolio">
-          <div class="mkh-case-media" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f5d6c6,#f3ebe3)">
-            <img src="https://static.tildacdn.com/tild6363-6562-4561-b234-393834346137/__.svg" alt="" width="80" height="80" loading="lazy" style="width:80px;height:80px;object-fit:contain">
-          </div>
-          <div class="mkh-case-body"><div class="tag">Все проекты</div><h3>Портфолио</h3><span class="go">Открыть →</span></div>
-        </a>
+        <a class="mkh-case" href="https://mkekspert.ru/rotang"><div class="mkh-case-media"><img src="https://blog.mkekspert.ru/home-assets/case-rotang.jpg" alt="Кейс: мебель из ротанга" width="640" height="440" loading="lazy"></div><div class="mkh-case-body"><div class="tag">Кейс</div><h3>Мебель из ротанга</h3><span class="go">Смотреть →</span></div></a>
+        <a class="mkh-case" href="https://mkekspert.ru/keys-ppu"><div class="mkh-case-media"><img src="https://blog.mkekspert.ru/home-assets/case-ppu.jpg" alt="Кейс: оборудование ППУ" width="640" height="440" loading="lazy"></div><div class="mkh-case-body"><div class="tag">Кейс</div><h3>Оборудование ППУ</h3><span class="go">Смотреть →</span></div></a>
+        <a class="mkh-case" href="https://mkekspert.ru/urist"><div class="mkh-case-media"><img src="https://blog.mkekspert.ru/home-assets/case-urist.jpg" alt="Кейс: юрист Севастополь" width="640" height="440" loading="lazy"></div><div class="mkh-case-body"><div class="tag">Кейс</div><h3>Услуги юриста в г. Севастополь</h3><span class="go">Смотреть →</span></div></a>
+        <a class="mkh-case" href="https://mkekspert.ru/stomatologiya"><div class="mkh-case-media"><img src="https://blog.mkekspert.ru/home-assets/case-stomat.jpg" alt="Кейс: стоматологии" width="640" height="440" loading="lazy"></div><div class="mkh-case-body"><div class="tag">Кейс</div><h3>Интернет-магазин товаров для стоматологий</h3><span class="go">Смотреть →</span></div></a>
+        <a class="mkh-case" href="https://mkekspert.ru/lifts"><div class="mkh-case-media"><img src="https://blog.mkekspert.ru/home-assets/case-lifts.jpg" alt="Кейс: лифты" width="640" height="440" loading="lazy"></div><div class="mkh-case-body"><div class="tag">Кейс</div><h3>Техобслуживание лифтов</h3><span class="go">Смотреть →</span></div></a>
+        <a class="mkh-case" href="https://mkekspert.ru/septiki"><div class="mkh-case-media"><img src="https://blog.mkekspert.ru/home-assets/case-septiki.jpg" alt="Кейс: септики" width="640" height="440" loading="lazy"></div><div class="mkh-case-body"><div class="tag">Кейс</div><h3>Септики. Как получить больше заявок?</h3><span class="go">Смотреть →</span></div></a>
+        <a class="mkh-case" href="https://mkekspert.ru/avtozapchast"><div class="mkh-case-media"><img src="https://blog.mkekspert.ru/home-assets/case-auto.jpg" alt="Кейс: автозапчасти" width="640" height="440" loading="lazy"></div><div class="mkh-case-body"><div class="tag">Кейс</div><h3>Продажа автомобильных запчастей</h3><span class="go">Смотреть →</span></div></a>
+        <a class="mkh-case" href="https://mkekspert.ru/portfolio"><div class="mkh-case-media" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f5d6c6,#efe4d8)"><img src="https://blog.mkekspert.ru/home-assets/pattern.svg" alt="" width="120" height="120" loading="lazy" style="width:120px;height:120px;object-fit:contain;opacity:.7"></div><div class="mkh-case-body"><div class="tag">Все проекты</div><h3>Портфолио</h3><span class="go">Открыть →</span></div></a>
       </div>
     </section>
 
-    <section class="mkh-sec">
+    <section class="mkh-sec mkh-reveal">
       <div class="mkh-label">Резюме</div>
       <h2 class="mkh-h2">Образование и сертификаты</h2>
       <div class="mkh-edu">
@@ -406,115 +381,51 @@
       </div>
     </section>
 
-    <section class="mkh-sec" id="reviews">
+    <section class="mkh-sec mkh-reveal" id="reviews">
       <div class="mkh-label">Отзывы клиентов</div>
       <h2 class="mkh-h2">Что говорят о работе</h2>
       <div class="mkh-reviews">
         <blockquote class="mkh-review">
-          <div class="mkh-review-top">
-            <img src="https://static.tildacdn.com/tild3838-3736-4336-b436-663839663439/photo.jpg" alt="" width="48" height="48" loading="lazy">
-            <cite>Дмитрий</cite>
-          </div>
-          <p>«Приветствую! Я свой отзыв ещё в прошлом году написал, добавить нечего :)»</p>
+          <div class="mkh-review-photo"><img src="https://blog.mkekspert.ru/home-assets/review-1.jpg" alt="" width="640" height="400" loading="lazy"></div>
+          <div class="mkh-review-body"><p>«Приветствую! Я свой отзыв ещё в прошлом году написал, добавить нечего :)»</p><cite>Дмитрий</cite></div>
         </blockquote>
         <blockquote class="mkh-review">
-          <div class="mkh-review-top">
-            <img src="https://static.tildacdn.com/tild3039-3038-4932-b031-346236366338/photo.png" alt="" width="48" height="48" loading="lazy">
-            <cite>Елена И.</cite>
-          </div>
-          <p>Работа по Директу и сайту — с понятными цифрами по заявкам, без воды.</p>
+          <div class="mkh-review-photo"><img src="https://blog.mkekspert.ru/home-assets/review-2.jpg" alt="" width="640" height="400" loading="lazy"></div>
+          <div class="mkh-review-body"><p>Работа по Директу и сайту — с понятными цифрами по заявкам, без воды.</p><cite>Елена И.</cite></div>
         </blockquote>
         <blockquote class="mkh-review">
-          <div class="mkh-review-top">
-            <img src="https://static.tildacdn.com/tild6564-3763-4233-b332-666232623634/photo.png" alt="" width="48" height="48" loading="lazy">
-            <cite>Татьяна Ш.</cite>
-          </div>
-          <p>Быстро согласовали план и запустились; на созвонах — по делу.</p>
+          <div class="mkh-review-photo"><img src="https://blog.mkekspert.ru/home-assets/review-3.jpg" alt="" width="640" height="400" loading="lazy"></div>
+          <div class="mkh-review-body"><p>Быстро согласовали план и запустились; на созвонах — по делу.</p><cite>Татьяна Ш.</cite></div>
         </blockquote>
       </div>
     </section>
 
-    <section class="mkh-sec" id="price">
+    <section class="mkh-sec mkh-reveal" id="price">
       <div class="mkh-label">Прайс-лист</div>
       <h2 class="mkh-h2">Цены на услуги</h2>
-      <p class="mkh-sub">Точная смета — после короткой встречи под вашу нишу и объём работ.</p>
+      <p class="mkh-sub">Точная смета — после короткой встречи под вашу нишу.</p>
       <div class="mkh-prices">
-        <article class="mkh-price">
-          <h3>Создание и настройка РК в Яндекс Директ</h3>
-          <div class="sum">₽40 000</div>
-          <ul>
-            <li>Анализ ниши</li>
-            <li>Настройка Метрики</li>
-            <li>Создание и запуск кампаний</li>
-          </ul>
-          <a class="mkh-btn" href="#popup:cornerform-zapis-na-vstrechu">Заказать услугу</a>
-        </article>
-        <article class="mkh-price">
-          <h3>Оптимизация контекстной рекламы</h3>
-          <div class="sum">₽25 000</div>
-          <ul>
-            <li>Анализ аккаунта</li>
-            <li>Анализ Метрики</li>
-            <li>Правки кампаний под KPI</li>
-          </ul>
-          <a class="mkh-btn" href="#popup:cornerform-zapis-na-vstrechu">Заказать оптимизацию</a>
-        </article>
-        <article class="mkh-price">
-          <h3>Аудит рекламы</h3>
-          <div class="sum">по запросу</div>
-          <ul>
-            <li>Анализ вашей рекламы</li>
-            <li>Файл с рекомендациями</li>
-            <li>Или бесплатный разбор 30 мин</li>
-          </ul>
-          <a class="mkh-btn" href="https://mkekspert.ru/razbor-direct">На разбор</a>
-        </article>
+        <article class="mkh-price"><h3>Создание и настройка РК в Яндекс Директ</h3><div class="sum">₽40 000</div><ul><li>Анализ ниши</li><li>Настройка Метрики</li><li>Создание и запуск кампаний</li></ul><a class="mkh-btn" href="#popup:cornerform-zapis-na-vstrechu">Заказать услугу</a></article>
+        <article class="mkh-price"><h3>Оптимизация контекстной рекламы</h3><div class="sum">₽25 000</div><ul><li>Анализ аккаунта</li><li>Анализ Метрики</li><li>Правки кампаний под KPI</li></ul><a class="mkh-btn" href="#popup:cornerform-zapis-na-vstrechu">Заказать оптимизацию</a></article>
+        <article class="mkh-price"><h3>Аудит рекламы</h3><div class="sum">по запросу</div><ul><li>Анализ вашей рекламы</li><li>Файл с рекомендациями</li><li>Или бесплатный разбор 30 мин</li></ul><a class="mkh-btn" href="https://mkekspert.ru/razbor-direct">На разбор</a></article>
       </div>
     </section>
 
-    <section class="mkh-sec mkh-seo" id="seo">
+    <section class="mkh-sec mkh-reveal" id="seo">
       <div class="mkh-label">Полезно знать</div>
       <h2 class="mkh-h2">Агентство по ведению контекстной рекламы в Яндекс&nbsp;Директе</h2>
-      <p class="mkh-sub">Настройка и продвижение с прозрачными отчётами и фокусом на заявки.</p>
-
-      <article class="mkh-seo-item">
-        <h3>Почему бизнесу нужен профессиональный подрядчик</h3>
-        <p>Запуск рекламных кампаний в Яндекс Директе требует системного подхода. Частный специалист или штатный маркетолог не всегда способен рассчитать бюджет, подобрать ключевые фразы и настроить аналитику так, чтобы каждый рубль работал на результат. Именно поэтому компании в Москве, Санкт-Петербурге и других городах России всё чаще заказывают ведение контекстной рекламы у профильного специалиста или агентства.</p>
-        <p>Профессиональная команда берёт на себя полный цикл: от аудита сайта и создания объявлений до ежемесячной оптимизации и прозрачных отчётов. Это позволяет клиенту сосредоточиться на продажах, а не разбираться в тонкостях контекстного продвижения.</p>
-      </article>
-
-      <article class="mkh-seo-item">
-        <h3>Что входит в услугу настройки и ведения</h3>
-        <p>Когда вы заказываете настройку в Директе у сертифицированных экспертов, работа строится поэтапно: анализ ниши и конкурентов, семантическое ядро, структура кампании, объявления и запуск показов.</p>
-        <p>Ежемесячное ведение включает:</p>
-        <ul>
-          <li>Мониторинг расхода бюджета и корректировку ставок</li>
-          <li>Расширение и минусовку ключей для снижения цены лида</li>
-          <li>A/B-тестирование объявлений и посадочных страниц</li>
-          <li>Подготовку отчётов с количеством заявок и стоимостью обращения</li>
-        </ul>
-        <p>Так рекламный бюджет расходуется эффективнее, а число лидов растёт из месяца в месяц.</p>
-      </article>
-
-      <article class="mkh-seo-item">
-        <h3>Сколько стоит и от чего зависит цена</h3>
-        <p>Стоимость зависит от объёма семантики, числа кампаний, региона и конкуренции. Точную цену можно узнать после бесплатного аудита или разбора: эксперт изучит сайт, нишу и даст прогноз расходов. Прайс на сайте — ориентир; итоговое предложение формируется индивидуально.</p>
-      </article>
-
-      <article class="mkh-seo-item">
-        <h3>Как выбрать надёжного подрядчика</h3>
-        <p>Смотрите кейсы в вашей или смежной тематике, отзывы, сертификаты Яндекса. Надёжный подрядчик даёт доступ к кабинету Директа, не скрывает бюджет и регулярно отчитывается. Заказать аудит или бесплатную консультацию — первый шаг. Оставьте заявку — обсудим задачи бизнеса и оптимальное решение.</p>
-      </article>
+      <article class="mkh-seo-item"><h3>Почему бизнесу нужен профессиональный подрядчик</h3><p>Запуск рекламных кампаний в Яндекс Директе требует системного подхода. Частный специалист или штатный маркетолог не всегда способен рассчитать бюджет, подобрать ключевые фразы и настроить аналитику так, чтобы каждый рубль работал на результат. Именно поэтому компании в Москве, Санкт-Петербурге и других городах России всё чаще заказывают ведение контекстной рекламы у профильного специалиста.</p><p>Профессиональная команда берёт на себя полный цикл: от аудита сайта и создания объявлений до ежемесячной оптимизации и прозрачных отчётов.</p></article>
+      <article class="mkh-seo-item"><h3>Что входит в услугу настройки и ведения</h3><p>Работа строится поэтапно: анализ ниши и конкурентов, семантическое ядро, структура кампании, объявления и запуск показов.</p><ul><li>Мониторинг расхода бюджета и корректировку ставок</li><li>Расширение и минусовку ключей для снижения цены лида</li><li>A/B-тестирование объявлений и посадочных страниц</li><li>Подготовку отчётов с количеством заявок и стоимостью обращения</li></ul></article>
+      <article class="mkh-seo-item"><h3>Сколько стоит и от чего зависит цена</h3><p>Стоимость зависит от объёма семантики, числа кампаний, региона и конкуренции. Точную цену можно узнать после бесплатного аудита или разбора. Прайс на сайте — ориентир; итоговое предложение формируется индивидуально.</p></article>
+      <article class="mkh-seo-item"><h3>Как выбрать надёжного подрядчика</h3><p>Смотрите кейсы, отзывы, сертификаты Яндекса. Надёжный подрядчик даёт доступ к кабинету Директа, не скрывает бюджет и регулярно отчитывается. Оставьте заявку — обсудим задачи бизнеса.</p></article>
     </section>
 
-    <section class="mkh-cta" id="contacts">
+    <section class="mkh-cta mkh-reveal" id="contacts">
       <div>
         <h2>Готовы обсудить проект?</h2>
-        <p>Заполните заявку — проведу онлайн-встречу в удобное для вас время (звонок, MAX или Telegram).</p>
+        <p>Заполните заявку — проведу онлайн-встречу в удобное для вас время.</p>
       </div>
-      <div>
-        <a class="mkh-btn" href="#popup:cornerform-zapis-na-vstrechu">Записаться на встречу</a>
-      </div>
+      <div><a class="mkh-btn" href="#popup:cornerform-zapis-na-vstrechu">Записаться на встречу</a></div>
     </section>
 
     <div class="mkh-social">
@@ -522,15 +433,58 @@
       <a href="https://t.me/mariyaprodirect">Telegram</a>
       <a href="https://dzen.ru/klientyandtrafik">Дзен</a>
       <a href="https://vk.ru/klientyandtrafik">ВКонтакте</a>
-      <a href="https://mkekspert.ru/razbor-direct">Бесплатный разбор рекламы</a>
+      <a href="https://mkekspert.ru/razbor-direct">Бесплатный разбор</a>
     </div>
-
-    <p class="mkh-foot">
-      Вопросы — <a href="https://t.me/Mariya1740">@Mariya1740</a>, слово <strong>РАЗБОР</strong>
-      · <a href="https://mkekspert.ru/policy">Политика конфиденциальности</a>
-    </p>
-
+    <p class="mkh-foot">Вопросы — <a href="https://t.me/Mariya1740">@Mariya1740</a>, слово <strong>РАЗБОР</strong> · <a href="https://mkekspert.ru/policy">Политика конфиденциальности</a></p>
   </div>
 </div>
+
+<script>
+(function(){
+  var root=document.querySelector('.mkh');
+  if(!root) return;
+  var reduces=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  root.querySelectorAll('.mkh-reveal').forEach(function(el,i){
+    el.style.transitionDelay=(i%4)*0.06+'s';
+  });
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target);} });
+    },{threshold:0.12,rootMargin:'0px 0px -8% 0px'});
+    root.querySelectorAll('.mkh-reveal').forEach(function(el){ io.observe(el); });
+  } else {
+    root.querySelectorAll('.mkh-reveal').forEach(function(el){ el.classList.add('is-in'); });
+  }
+
+  if(reduces){
+    root.querySelectorAll('[data-count]').forEach(function(el){ el.textContent=el.getAttribute('data-count')+'+'; });
+    return;
+  }
+  var counted=false;
+  function runCounters(){
+    if(counted) return; counted=true;
+    root.querySelectorAll('[data-count]').forEach(function(el){
+      var target=parseInt(el.getAttribute('data-count'),10)||0;
+      var start=null;
+      function step(ts){
+        if(!start) start=ts;
+        var p=Math.min(1,(ts-start)/1100);
+        var val=Math.round(target*(0.5-Math.cos(Math.PI*p)/2));
+        el.textContent=val+'+';
+        if(p<1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+  var stats=root.querySelector('.mkh-stats');
+  if(stats&&'IntersectionObserver' in window){
+    var cio=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ runCounters(); cio.disconnect(); }});
+    },{threshold:0.3});
+    cio.observe(stats);
+  } else { runCounters(); }
+})();
+</script>
 
 </body></html>
