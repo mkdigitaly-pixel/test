@@ -1,38 +1,39 @@
-# VK: картинка к посту
+# VK: картинки к посту
 
-Ключ сообщества публикует текст, но **не загружает новое фото**.
+## Режим: вручную (по умолчанию)
 
-## Пауза до 2026-10-19 (flood)
+`VK_PHOTOS=manual` — скрипт публикует **только текст**.
+Картинки Мария прикрепляет сама в VK к уже вышедшему посту.
 
-После error 9 на аккаунте: **месяц не трогаем** `VK_USER_TOKEN` /
-`photos.getWallUploadServer` / recycle-фото.
+Готовые файлы обложек:
+- локально: `assets/covers/{id}-vk.jpg` (1080×1080)
+- на сайте: `https://blog.mkekspert.ru/covers/{id}-vk.jpg`
 
-- В коде: `VK_TEXT_ONLY_UNTIL=2026-10-19` (по умолчанию).
-- Все VK-посты идут **только текстом**.
-- Команды `vk-attach-cover` / `vk-from-post` и `vk_cover_retry.py` —
-  отказ до этой даты.
-- Снять паузу раньше: `VK_TEXT_ONLY_UNTIL=0` в `.env` (только когда
-  Мария явно попросит проверить flood одним запросом).
+Пример: после поста `vk-week3` открыть стену → изменить → прикрепить
+`https://blog.mkekspert.ru/covers/vk-week3-vk.jpg` (если файл есть).
 
-## Получить ключ (после паузы)
+Не вызываем `VK_USER_TOKEN` / `photos.getWallUploadServer` / recycle.
 
-Не 54768786 — у него Security Error. Берём **Kate Mobile**:
+## Вернуть автозагрузку (только по явной просьбе)
+
+В `.env`:
+
+```
+VK_PHOTOS=auto
+```
+
+Нужен живой `VK_USER_TOKEN` (Kate Mobile), без flood на аккаунте.
+См. oauth ниже. Одну проверку — не в цикле.
+
+```bash
+python3 publish.py vk-attach-cover 220 no-leads-direct
+```
+
+## Получить VK_USER_TOKEN (если снова понадобится API)
+
+Kate Mobile:
 
 https://oauth.vk.com/authorize?client_id=2685278&scope=photos,wall,groups,offline&redirect_uri=https://oauth.vk.com/blank.html&display=page&response_type=token&v=5.199
 
 Или [vkhost.github.io](https://vkhost.github.io/) → **Kate Mobile** → Разрешить.
-
-В адресной строке: от `access_token=` до `&` → `VK_USER_TOKEN=vk1.a....`
-Профиль Марии.
-
-## После паузы — обложка к посту
-
-```bash
-python3 publish.py vk-attach-cover no-leads-direct --post-id 220
-```
-
-Или новый пост с уже залитым фото (не при flood-паузе):
-
-```bash
-python3 publish.py vk-from-post vk-week2 'https://vk.com/photo-222121025_…'
-```
+Профиль Марии. В URL: от `access_token=` до `&`.

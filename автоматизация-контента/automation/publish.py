@@ -897,13 +897,26 @@ def _is_vk_flood(exc: BaseException) -> bool:
     return "Flood control" in msg or "error_code': 9" in msg or 'error_code": 9' in msg
 
 
-def vk_photos_paused_until() -> datetime | None:
-    """До этой даты (UTC date) не трогаем user API / фото — только текст.
+def vk_photos_mode() -> str:
+    """Режим обложек VK: manual|off|auto.
 
-    Задаётся VK_TEXT_ONLY_UNTIL=YYYY-MM-DD (по умолчанию 2026-10-19).
-    Пустая строка или 0 — пауза выключена.
+    По умолчанию manual — Мария крепит картинки вручную, скрипт только текст.
+    auto — снова пробуем upload через VK_USER_TOKEN (осторожно с flood).
     """
-    raw = (os.getenv("VK_TEXT_ONLY_UNTIL") or "2026-10-19").strip()
+    raw = (os.getenv("VK_PHOTOS") or "manual").strip().lower()
+    if raw in {"manual", "off", "text", "0", "false", "no"}:
+        return "manual"
+    if raw in {"auto", "on", "1", "true", "yes"}:
+        return "auto"
+    raise SystemExit(f"VK_PHOTOS: ожидал manual|auto, получил {raw!r}")
+
+
+def vk_photos_paused_until() -> datetime | None:
+    """Опциональная дата-пауза поверх режима (UTC date).
+
+    VK_TEXT_ONLY_UNTIL=YYYY-MM-DD. Пусто / 0 — без доп. паузы.
+    """
+    raw = (os.getenv("VK_TEXT_ONLY_UNTIL") or "").strip()
     if not raw or raw in {"0", "false", "off", "no"}:
         return None
     try:
@@ -913,6 +926,8 @@ def vk_photos_paused_until() -> datetime | None:
 
 
 def vk_photos_allowed() -> bool:
+    if vk_photos_mode() == "manual":
+        return False
     until = vk_photos_paused_until()
     if until is None:
         return True
@@ -932,13 +947,16 @@ def publish_vk(
 ) -> PublishResult:
     gid = resolve_vk_group_id(token, group_id) if not dry_run else group_id
 
-    # Пауза после flood: не вызываем photos.* / recycle, посты только текстом.
+    # manual / пауза: не вызываем photos.* / recycle — пост только текстом.
     if not vk_photos_allowed():
-        until = vk_photos_paused_until()
         if attachment or (cover and cover.exists()):
+            until = vk_photos_paused_until()
+            if vk_photos_mode() == "manual":
+                why = "картинки вручную (VK_PHOTOS=manual)"
+            else:
+                why = f"пауза до {until.date().isoformat()}"
             print(
-                f"ℹ VK: до {until.date().isoformat()} только текст "
-                "(без фото / user API). См. checklists/vk-photo-token.md",
+                f"ℹ VK: только текст — {why}. См. checklists/vk-photo-token.md",
                 file=sys.stderr,
             )
         attachment = ""
@@ -1738,10 +1756,9 @@ def cmd_schedule_list(_args: argparse.Namespace) -> int:
 def cmd_vk_attach_cover(args: argparse.Namespace) -> int:
     load_env()
     if not vk_photos_allowed():
-        until = vk_photos_paused_until()
         raise SystemExit(
-            f"VK фото на паузе до {until.date().isoformat()} "
-            "(flood). Посты только текстом. Снимите VK_TEXT_ONLY_UNTIL или дождитесь даты."
+            "VK фото выключены (VK_PHOTOS=manual) — картинки крепит Мария вручную. "
+            "Для API-загрузки: VK_PHOTOS=auto в .env."
         )
     community = os.getenv("VK_ACCESS_TOKEN", "")
     user = os.getenv("VK_USER_TOKEN", "")
@@ -1819,10 +1836,9 @@ def cmd_vk_from_post(args: argparse.Namespace) -> int:
     """Новый пост: текст из очереди + уже существующее фото на стене."""
     load_env()
     if not vk_photos_allowed():
-        until = vk_photos_paused_until()
         raise SystemExit(
-            f"VK фото на паузе до {until.date().isoformat()} "
-            "(flood). Публикуйте обычным publish без обложки."
+            "VK фото выключены (VK_PHOTOS=manual) — публикуйте обычным publish (текст), "
+            "картинку прикрепите вручную в VK."
         )
     community = os.getenv("VK_ACCESS_TOKEN", "")
     group = os.getenv("VK_GROUP_ID", "")
