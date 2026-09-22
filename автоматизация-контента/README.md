@@ -53,6 +53,13 @@ python3 export_tilda_blog.py   # → content/tilda-blog-block.html
 Инструкция для Tilda: [`content/tilda-razbor-direct.md`](content/tilda-razbor-direct.md)  
 Превью: https://blog.mkekspert.ru/razbor-preview.html
 
+
+## Главная mkekspert.ru (HTML вместо Zero)
+
+Перепись с той же структурой: [`content/tilda-home.html`](content/tilda-home.html)  
+Инструкция: [`content/tilda-home.md`](content/tilda-home.md)  
+Превью: https://blog.mkekspert.ru/home-preview.html
+
 ## Главная mkekspert.ru → брендбук (Zero)
 
 Поэтапно: [`content/tilda-zero-rebrand.md`](content/tilda-zero-rebrand.md)  
