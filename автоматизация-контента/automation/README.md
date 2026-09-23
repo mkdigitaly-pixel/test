@@ -34,4 +34,23 @@ python3 publish.py publish tg-post <slug>
 python3 publish.py publish vk-post <slug>
 ```
 
+## SEO-органика
+
+```bash
+python3 seo_pipeline.py audit
+python3 seo_pipeline.py keywords list
+python3 seo_pipeline.py status
+python3 seo_pipeline.py report
+```
+
+Документ: [`docs/seo-pipeline.md`](../docs/seo-pipeline.md) · чеклист: [`checklists/seo-stack.md`](../checklists/seo-stack.md)
+
+## Витрина блога в Tilda
+
+```bash
+python3 export_tilda_blog.py   # HTML → content/tilda-blog-block.html
+```
+
+Вставить в Tilda блок HTML (T123). Инструкция: [`content/tilda-blog-page.md`](../content/tilda-blog-page.md)
+
 `schedule run` без `--date` выполняет **сегодня и все просроченные** слоты. Без `AUTO_PUBLISH=true` — dry-run, статусы не трогает.

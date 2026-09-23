@@ -1,5 +1,7 @@
 # Автоматизация контента mkekspert
 
+**Codex:** [`AGENTS.md`](AGENTS.md) · общая инструкция [`../docs/codex.md`](../docs/codex.md)
+
 ## Четыре потока
 
 | Поток | Папка | Куда |
@@ -10,6 +12,7 @@
 | Свой контент | `articles/tg/`, `articles/vk/` | TG и VK отдельно, своя разметка |
 
 Подробно: [`docs/content-channels.md`](docs/content-channels.md)  
+**SEO-органика (стек):** [`docs/seo-pipeline.md`](docs/seo-pipeline.md) · чеклист [`checklists/seo-stack.md`](checklists/seo-stack.md) · банк ключей `seo/keywords.yaml`  
 Контент-план: [`plan/content-backlog.md`](plan/content-backlog.md) · SEO Дзен: [`plan/dzen-seo-content-plan.md`](plan/dzen-seo-content-plan.md) · **Расписание:** [`plan/posting-schedule.md`](plan/posting-schedule.md)  
 **Поиск тем и рерайт:** [`references/topic-research.md`](references/topic-research.md) · бэклог: [`plan/topic-sources-backlog.md`](plan/topic-sources-backlog.md)  
 Разметка: [`dzen-markup`](references/dzen-markup.md) · [`dzen-prompt`](references/dzen-prompt.md) · [`dzen-github-sources`](references/dzen-github-sources.md) · [`dzen-seo-rules`](references/dzen-seo-rules.md) · [`tg-markup`](references/tg-markup.md) · [`vk-markup`](references/vk-markup.md) · [`vc-markup`](references/vc-markup.md)
@@ -24,9 +27,54 @@
 │   ├── dzen/teasers/vk/    # тизеры → VK
 │   ├── tg/                 # посты канала (свой контент)
 │   └── vk/                 # посты VK (свой контент)
-├── automation/             # publish.py, .env
+├── automation/             # publish.py, seo_pipeline.py, .env
+├── seo/                    # ключи, позиции, отчёты (органика)
 ├── queue/                  # очередь кампаний
-└── docs/content-channels.md
+└── docs/seo-pipeline.md    # SEO-стек
+```
+
+## Блог на Tilda (витрина)
+
+Стиль blog.mkekspert.ru = палитра обложек. Блок для вставки в Tilda:
+
+```bash
+cd automation
+python3 export_tilda_blog.py   # → content/tilda-blog-block.html
+```
+
+Инструкция: [`content/tilda-blog-page.md`](content/tilda-blog-page.md)
+
+## Tilda: агент правит через браузер
+
+Контур Cursor → агент → Computer Use → Tilda:  
+[`docs/tilda-computer-use.md`](docs/tilda-computer-use.md) · чеклист [`checklists/tilda-computer-use.md`](checklists/tilda-computer-use.md)
+
+## Страница разбора (`/razbor-direct`)
+
+Новая палитра (как обложки): [`content/tilda-razbor-direct.html`](content/tilda-razbor-direct.html)  
+Инструкция для Tilda: [`content/tilda-razbor-direct.md`](content/tilda-razbor-direct.md)  
+Превью: https://blog.mkekspert.ru/razbor-preview.html
+
+
+## Главная mkekspert.ru (HTML вместо Zero)
+
+Перепись с той же структурой: [`content/tilda-home.html`](content/tilda-home.html)  
+Инструкция: [`content/tilda-home.md`](content/tilda-home.md)  
+Превью: https://blog.mkekspert.ru/home-preview.html
+
+## Главная mkekspert.ru → брендбук (Zero)
+
+Поэтапно: [`content/tilda-zero-rebrand.md`](content/tilda-zero-rebrand.md)  
+Чеклист: [`checklists/tilda-zero-rebrand.md`](checklists/tilda-zero-rebrand.md)  
+CSS-хелпер: [`content/tilda-zero-global.html`](content/tilda-zero-global.html)
+
+## SEO-органика
+
+```bash
+cd automation
+python3 seo_pipeline.py audit      # готовность Tilda + blog
+python3 seo_pipeline.py status     # воронка ключей
+python3 seo_pipeline.py report     # недельный отчёт
 ```
 
 ## Публикация кампании (статья + тизеры)

@@ -1,0 +1,49 @@
+---
+description: Tilda через Browser/Computer Use — права агента и запреты
+globs:
+  - автоматизация-контента/content/tilda-*.html
+  - автоматизация-контента/content/tilda-*.md
+  - автоматизация-контента/docs/tilda-computer-use.md
+  - автоматизация-контента/checklists/tilda-computer-use.md
+alwaysApply: true
+---
+
+# Tilda + Computer Use (mkekspert.ru)
+
+Полный документ: `docs/tilda-computer-use.md`
+
+## Контур
+
+Cursor → AI-агент → Browser/Computer Use → Tilda Editor.
+
+Сайт остаётся на Tilda. API — только чтение/экспорт.
+
+## Можно без подтверждения
+
+- Редактировать страницы проекта mkekspert
+- Менять тексты и изображения
+- Добавлять и удалять **блоки** на странице
+- Сохранять страницу (Save)
+
+## Требовать «да» в чате перед действием
+
+- Публикация (Publish)
+- Удаление **страницы**
+- Изменение домена / DNS
+- Изменение SEO-настроек сайта или страницы (title/description в настройках, robots, sitemap, счётчики в Site Settings)
+
+## Запрещено
+
+- Биллинг / смена тарифа
+- Логин/пароль в чат
+- Публикация «заодно» без явной просьбы
+
+## Идентификаторы
+
+- Project: `9707577` (Мария Ковалева)
+- Разбор: page `146521496`, alias `razbor-direct`
+- Макет: `content/tilda-razbor-direct.html`
+
+## Если Browser/Computer Use недоступен
+
+Не имитировать правку Tilda. Сказать, что нужен Computer Use, и дать HTML для ручной вставки.
