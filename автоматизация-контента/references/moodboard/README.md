@@ -1,20 +1,24 @@
 # Moodboard — современный лендинг
 
 Референсы:
-1. https://pin.it/5b5E8llVj — Pomaii / travel UI (`pin-modern-ref.png`)
-2. https://pin.it/6JnJDfIoe — кафе / soft organic (`pin-2-ref.png`)
+1. https://pin.it/5b5E8llVj — Pomaii / travel (`pin-modern-ref.png`)
+2. https://pin.it/6JnJDfIoe — cafe organic (`pin-2-ref.png`)
 3. https://pin.it/2pfWsO3g3 — studio portfolio (`pin-3-ref.jpg`)
+4. https://pin.it/7phkryBtm — **NOVA finance UI** (`pin-4-finance.png`) ← текущий баннер/стиль
 
-Что берём (общий язык пинов):
-- светлый ivory-фон, много воздуха
-- hero: текст слева + фото справа в органической рамке (не тёмный full-bleed)
-- мягкие скругления 24–40px, «blob»-углы у фото
-- круговой бейдж поверх фото
-- USP-иконки в кружках
-- sage/emerald-панели для кейсов и оффера
-- карточки услуг / отзывов с мягкой тенью
-- полоса цифр на emerald
-- CTA terracotta pill
+## Что берём с pin-4 (NOVA)
 
-Палитра остаётся брендбука: ivory / terracotta `#A85A32` / emerald `#2A6F4C` / mustard `#D4AF37`.
-Шрифты: Unbounded + Manrope (не serif с пинов).
+- ivory-фон + мягкие волны sage/blush (не navy)
+- hero: текст слева + фото в organic-рамке справа
+- floating-карточки под hero (тёмная CTA + светлая «чем помочь»)
+- layered about + круглый terracotta-бейдж
+- цветные кружки у пунктов услуг
+- soft cards, pill-кнопки, точечный паттерн
+
+## Палитра — только брендбук
+
+ivory `#FDFBF7` · graphite `#3D3D3D` · terracotta `#A85A32` · emerald `#2A6F4C` · mustard `#D4AF37` · sand `#D4A373` · blush `#F5D6C6`
+
+**Запрет с пина:** navy / синий → заменяем на graphite `#3D3D3D`.
+
+Шрифты: Unbounded + Manrope.

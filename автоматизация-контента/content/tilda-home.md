@@ -1,10 +1,11 @@
 # Главная mkekspert.ru — HTML с вашей структурой
 
 Файл: [`tilda-home.html`](tilda-home.html)  
-Превью: https://blog.mkekspert.ru/home-preview.html?v=6  
+Превью: https://blog.mkekspert.ru/home-preview.html?v=7  
 GitHub: https://github.com/mkdigitaly-pixel/test/blob/cursor/blog-tilda-design-88d8/автоматизация-контента/content/tilda-home.html
 
-Стиль: soft organic (Pinterest cafe + studio) — светлый split-hero, sage-панели, бренд-палитра.
+Стиль: NOVA finance UI (Pinterest) + **брендбук** (без синего/navy).  
+Реф: https://pin.it/7phkryBtm
 
 ## Что сохранено
 
