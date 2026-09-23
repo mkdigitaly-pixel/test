@@ -1,5 +1,7 @@
 # Автоматизация контента mkekspert
 
+**Codex:** [`AGENTS.md`](AGENTS.md) · общая инструкция [`../docs/codex.md`](../docs/codex.md)
+
 ## Четыре потока
 
 | Поток | Папка | Куда |
