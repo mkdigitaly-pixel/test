@@ -37,6 +37,7 @@ items:
   cover_headline: Поиск vs РСЯ
   cover_subline: Разные кампании
   scheduled: '2026-09-17T11:00:00+03:00'
+  cover: assets/covers/tg-week3.jpg
 - id: vk-week3
   platform: vk
   status: approved
@@ -45,6 +46,7 @@ items:
   cover_headline: 8017→1800 ₽
   cover_subline: Кейс ЧП/УПП
   scheduled: '2026-09-19T11:00:00+03:00'
+  cover: assets/covers/vk-week3.jpg
 - id: tg-week4
   platform: tg
   status: approved
@@ -53,6 +55,7 @@ items:
   cover_headline: 3 цели Метрики
   cover_subline: Не визиты
   scheduled: '2026-09-24T11:00:00+03:00'
+  cover: assets/covers/tg-week4.jpg
 - id: vk-week4
   platform: vk
   status: approved
@@ -61,6 +64,7 @@ items:
   cover_headline: ЕПК в B2B
   cover_subline: Включать или нет?
   scheduled: '2026-09-26T11:00:00+03:00'
+  cover: assets/covers/vk-week4.jpg
 - id: tg-week5
   platform: tg
   status: approved
