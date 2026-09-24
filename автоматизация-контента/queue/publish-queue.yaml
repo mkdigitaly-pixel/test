@@ -1,0 +1,158 @@
+items:
+- id: 7-errors-direct
+  status: published
+  dzen_article: articles/dzen/articles/2026-08-30-7-errors-direct.md
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-08-30-7-errors.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-08-30-7-errors.md
+  cover: assets/covers/7-errors-direct.jpg
+  dzen_url: https://dzen.ru/a/apP6CBl_qg0z15y3
+  published_at: '2026-08-30T09:38:13+00:00'
+  notes: Опубликовано в @mariyaprodirect до разделения каналов — дальше только DZEN-канал
+- id: penoplast-case
+  status: published
+  scheduled_dzen: '2026-09-02T10:00:00+03:00'
+  scheduled_teasers: '2026-09-02T12:00:00+03:00'
+  dzen_article: articles/dzen/articles/2026-08-30-penoplast-case.md
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-09-02-penoplast.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-09-02-penoplast.md
+  cover: assets/covers/penoplast-case.jpg
+  cover_headline: CPL 8000→2500 ₽
+  cover_subline: Кейс B2B · пенопласт
+  cover_vk_stats:
+  - 59 заявок/мес
+  - 0,1% → 3%
+  dzen_url: https://dzen.ru/a/apfN02AJxASZFuo3
+  dzen_republished_at: '2026-09-02T11:40:00+03:00'
+  notes: RSS + schedule; dzen_url и тизеры — автоматически
+  dzen_html_path: articles/dzen/html/2026-08-30-penoplast-case.html
+- id: no-leads-direct
+  status: published
+  topic: Почему нет заявок в Директе — что проверяю в кабинете
+  dzen_article: articles/dzen/articles/2026-09-09-no-leads-direct.md
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-09-09-no-leads.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-09-09-no-leads.md
+  cover: assets/covers/no-leads-direct.jpg
+  cover_headline: Нет заявок?
+  cover_subline: Что проверить
+  dzen_url: https://dzen.ru/a/aqtjAUjUgT5jjGcN
+  notes: Согласовано 31.08 — публикация 09.09 10:00 МСК
+  dzen_rss_pending: false
+  dzen_html_path: articles/dzen/html/2026-09-09-no-leads-direct.html
+  dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
+  dzen_published_at: '2026-09-12T15:51:46.824197+03:00'
+- id: autotarget-b2b
+  status: published
+  topic: Автотаргет в Директе для B2B — когда помогает, а когда съедает бюджет
+  dzen_article: articles/dzen/articles/2026-09-11-autotarget-b2b.md
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-09-11-autotarget.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-09-11-autotarget.md
+  cover: assets/covers/autotarget-b2b.jpg
+  cover_headline: Автотаргет в B2B
+  cover_subline: Когда резать
+  dzen_url: https://dzen.ru/a/aqtjAkjUgT5jjGcP
+  notes: Согласовано 31.08 — публикация 11.09 10:00 МСК; метаданные исправлены (был
+    чужой кейс шпунта)
+  dzen_rss_pending: false
+  dzen_html_path: articles/dzen/html/2026-09-11-autotarget-b2b.html
+  dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
+  dzen_published_at: '2026-09-12T15:52:53.544138+03:00'
+- id: chp-upp-case
+  status: draft
+  topic: Кейс ЧП/УПП — заявка 8017→1800 ₽
+  cover_headline: 8017→1800 ₽
+  cover_subline: Кейс ЧП/УПП
+  dzen_url: ''
+- id: metrika-goals
+  status: approved
+  topic: Цели Метрики под Директ B2B
+  dzen_article: articles/dzen/articles/2026-09-23-metrika-goals.md
+  cover: assets/covers/metrika-goals.jpg
+  cover_headline: Цели Метрики
+  cover_subline: Под Директ B2B
+  dzen_url: https://dzen.ru/a/aqtjAEjUgT5jjGcI
+  notes: RSS first-connect — оригинальная статья, не копия канала
+  dzen_rss_pending: false
+- id: epk-leads
+  status: approved
+  topic: ЕПК под заявки в B2B
+  dzen_article: articles/dzen/articles/2026-09-25-epk-leads.md
+  cover: assets/covers/epk-leads.jpg
+  cover_headline: ЕПК в B2B
+  cover_subline: Когда запускать
+  dzen_url: https://dzen.ru/a/aqti_kjUgT5jjGcG
+  notes: RSS first-connect — оригинальная статья, не копия канала
+  dzen_rss_pending: false
+- id: offline-conversions
+  status: draft
+  topic: Офлайн-конверсии и CRM — обучение стратегии Директа
+  cover_headline: Офлайн-конверсии
+  cover_subline: CRM + Директ
+  notes: 'Источник структуры: Habr 1069424 — рерайт под B2B'
+  dzen_url: ''
+- id: search-retargeting
+  status: draft
+  topic: Поисковый ретаргетинг в Директе 2026
+  cover_headline: Поисковый ретаргет
+  cover_subline: B2B 2026
+  notes: 'Источник структуры: blog.click.ru/direct-yandex'
+  dzen_url: ''
+- id: rsa-vs-search
+  status: approved
+  topic: РСЯ или Поиск в Директе для B2B
+  dzen_article: articles/dzen/articles/2026-09-30-rsa-vs-search.md
+  cover: assets/covers/rsa-vs-search.jpg
+  cover_headline: Поиск или РСЯ
+  cover_subline: B2B Директ
+  dzen_url: https://dzen.ru/a/aqti_h3cWgqrMG1l
+  notes: RSS first-connect — оригинальная статья, не копия канала
+  dzen_rss_pending: false
+- id: budget-waste
+  status: approved
+  topic: Куда сливается бюджет в Директе
+  dzen_article: articles/dzen/articles/2026-10-02-budget-waste.md
+  cover: assets/covers/budget-waste.jpg
+  cover_headline: Слив бюджета
+  cover_subline: Где смотреть
+  dzen_url: https://dzen.ru/a/aqti_k5PhhqP3Vd7
+  notes: RSS first-connect — оригинальная статья, не копия канала
+  dzen_rss_pending: false
+- id: choose-directologist
+  status: approved
+  topic: Как выбрать директолога для B2B
+  dzen_article: articles/dzen/articles/2026-10-07-choose-directologist.md
+  cover: assets/covers/choose-directologist.jpg
+  cover_headline: Директолог
+  cover_subline: Как выбрать
+  dzen_url: https://dzen.ru/a/aqtjAkjUgT5jjGcO
+  notes: RSS first-connect — оригинальная статья, не копия канала
+  dzen_rss_pending: false
+- id: audit-direct
+  status: approved
+  topic: Что входит в аудит Яндекс Директа
+  dzen_article: articles/dzen/articles/2026-10-09-audit-direct.md
+  cover: assets/covers/audit-direct.jpg
+  cover_headline: Аудит Директа
+  cover_subline: Что смотрю
+  dzen_url: https://dzen.ru/a/aqtjAkjUgT5jjGcQ
+  notes: RSS first-connect — оригинальная статья, не копия канала
+  dzen_rss_pending: false
+- id: landing-conversion
+  status: approved
+  topic: Посадочная не конвертирует трафик из Директа
+  dzen_article: articles/dzen/articles/2026-10-16-landing-conversion.md
+  cover: assets/covers/landing-conversion.jpg
+  cover_headline: Посадочная
+  cover_subline: Клики без заявок
+  dzen_url: https://dzen.ru/a/aqtjAEjUgT5jjGcH
+  notes: RSS first-connect — оригинальная статья, не копия канала
+  dzen_rss_pending: false
+- id: negative-keywords
+  status: approved
+  topic: Минус-слова в Директе для B2B
+  dzen_article: articles/dzen/articles/2026-10-21-negative-keywords.md
+  cover: assets/covers/negative-keywords.jpg
+  cover_headline: Минус-слова
+  cover_subline: B2B Директ
+  dzen_url: https://dzen.ru/a/aqtjAN8hLg35mhq0
+  notes: RSS first-connect — оригинальная статья, не копия канала
+  dzen_rss_pending: false
