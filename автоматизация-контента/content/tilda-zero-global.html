@@ -1,0 +1,86 @@
+<!--
+  mkekspert.ru — глобальный хелпер палитры для Tilda Zero
+  Куда вставить (один раз на сайт):
+  1) Настройки сайта → Еще → HTML-код для head  ИЛИ
+  2) Блок «HTML» / T123 на главной в самом верху (скрытый)
+
+  Не заменяет ручную покраску Zero-атомов с inline-стилями,
+  но задаёт фон, меню и типовые кнопки/ссылки там, где классы Tilda позволяют.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Unbounded:wght@500;600&display=swap" rel="stylesheet">
+<style id="mk-brandbook">
+:root{
+  --mk-ivory:#fdfbf7;
+  --mk-bg:#f3ebe3;
+  --mk-panel:#fffcf8;
+  --mk-line:#e6d9cc;
+  --mk-ink:#3d3d3d;
+  --mk-muted:#8b6b4a;
+  --mk-terra:#a85a32;
+  --mk-green:#2a6f4c;
+  --mk-gold:#d4af37;
+  --mk-sand:#d4a373;
+  --mk-blush:#f5d6c6;
+}
+html{background:var(--mk-bg)}
+body.t-body,
+#allrecords{
+  background:var(--mk-bg)!important;
+  color:var(--mk-ink);
+}
+/* Базовый текст — Manrope (Zero-атомы с inline font перебьют это — их красим вручную) */
+body.t-body{
+  font-family:"Manrope",Arial,sans-serif;
+}
+/* Меню: убрать «кислотный» жёлтый с бургера, если задан инлайном — править в Zero;
+   ниже — запасной hover для ссылок меню */
+.t-menu__link-item,
+.t-menusub__link-item{
+  transition:color .2s;
+}
+.t-menu__link-item:hover,
+.t-menusub__link-item:hover{
+  color:var(--mk-terra)!important;
+}
+/* Типовые кнопки Tilda (не Zero) */
+.t-btn,
+.t-btnflex,
+.t-submit{
+  border-radius:12px!important;
+}
+.t-btn:not(.t-btn_outline),
+.t-btnflex:not(.t-btnflex_type_button_outline),
+.t-submit{
+  background-color:var(--mk-terra)!important;
+  color:#fff!important;
+  border-color:var(--mk-terra)!important;
+  box-shadow:0 10px 24px rgba(168,90,50,.2);
+}
+.t-btn:not(.t-btn_outline):hover,
+.t-btnflex:not(.t-btnflex_type_button_outline):hover,
+.t-submit:hover{
+  background-color:var(--mk-green)!important;
+  border-color:var(--mk-green)!important;
+}
+/* Попапы / формы */
+.t-popup,
+.t-form__inputsbox{
+  background:var(--mk-panel);
+}
+.t-input,input.t-input,textarea.t-input{
+  border-color:var(--mk-line)!important;
+  background:var(--mk-ivory)!important;
+  color:var(--mk-ink)!important;
+}
+/* Ссылки в контенте */
+#allrecords a.t-link,
+#allrecords .t-text a{
+  color:var(--mk-terra);
+}
+#allrecords a.t-link:hover,
+#allrecords .t-text a:hover{
+  color:var(--mk-green);
+}
+</style>

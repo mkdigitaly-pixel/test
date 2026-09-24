@@ -12,6 +12,7 @@
 
 | Название | URL |
 |----------|-----|
+| **Блог (органика)** | https://blog.mkekspert.ru |
 | Telegram — Контекст PRO | https://t.me/mariyaprodirect |
 | Дзен | https://dzen.ru/klientyandtrafik |
 | ВКонтакте | https://vk.ru/klientyandtrafik |
@@ -29,6 +30,7 @@
 ```html
 <p><strong>Кейсы и разборы</strong></p>
 <p>
+  <a href="https://blog.mkekspert.ru">Блог</a> ·
   <a href="https://t.me/mariyaprodirect">Telegram</a> ·
   <a href="https://dzen.ru/klientyandtrafik">Дзен</a> ·
   <a href="https://vk.ru/klientyandtrafik">ВКонтакте</a> ·

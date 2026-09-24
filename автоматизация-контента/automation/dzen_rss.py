@@ -18,6 +18,15 @@ from xml.etree import ElementTree as ET
 import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
+
+try:
+    from dotenv import load_dotenv
+
+    load_dotenv(ROOT / "automation" / ".env")
+    load_dotenv(ROOT / "ДОСТУПЫ.env", override=True)
+except ImportError:
+    pass
+
 FEED_FILE = ROOT / "articles" / "dzen" / "feed.xml"
 COVERS_DIR = ROOT / "assets" / "covers"
 SITE_URL = os.getenv("DZEN_RSS_SITE_URL", "https://blog.mkekspert.ru")
@@ -230,36 +239,163 @@ def _blog_post_meta(item: dict[str, Any]) -> dict[str, Any] | None:
     }
 
 
+# Палитра = обложки блога / brandbook tokens (ivory + terracotta + emerald + mustard)
 BLOG_CSS = """
-:root{--ink:#141414;--muted:#5a5a5a;--accent:#1a7a3a;--line:#e5e5e0;--paper:#fff}
+:root{
+  --bg:#f3ebe3;--bg2:#fdfbf7;--panel:#fffcf8;--line:#e6d9cc;
+  --ink:#3d3d3d;--muted:#8b6b4a;--soft:#6b5a4a;
+  --terra:#a85a32;--green:#2a6f4c;--gold:#d4af37;
+  --sand:#d4a373;--blush:#f5d6c6;--paper:#fffcf8;
+}
 *{box-sizing:border-box}
-body{margin:0;font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;background:#f3f1eb;color:var(--ink);line-height:1.55}
-a{color:#1d4ed8;text-underline-offset:3px}
-.site{max-width:960px;margin:0 auto;padding:1.5rem 1.25rem 4rem}
-.top{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:0.75rem 1.5rem;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--line);font-family:system-ui,sans-serif}
-.brand{font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);font-weight:700;text-decoration:none}
-.nav{display:flex;flex-wrap:wrap;gap:0.85rem 1.1rem;font-size:0.9rem}
-.nav a{color:var(--muted);text-decoration:none}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--ink);line-height:1.55;
+  font-family:"Manrope",system-ui,sans-serif;
+  background:
+    radial-gradient(900px 420px at 12% -8%,rgba(245,214,198,.7),transparent 55%),
+    radial-gradient(800px 380px at 90% 0%,rgba(212,175,55,.18),transparent 50%),
+    linear-gradient(180deg,var(--bg) 0%,#efe4d8 100%);
+  min-height:100vh;
+}
+a{color:var(--terra);text-underline-offset:3px}
+a:hover{color:var(--green)}
+.site{max-width:1100px;margin:0 auto;padding:1.25rem 1.25rem 4rem}
+.top{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+  gap:0.85rem 1.5rem;margin-bottom:2.25rem;padding:0.85rem 0 1.1rem;
+  border-bottom:1px solid var(--line);
+}
+.brand{
+  font-family:"Unbounded",system-ui,sans-serif;font-size:clamp(1.05rem,2.2vw,1.35rem);
+  font-weight:600;letter-spacing:-0.02em;color:var(--ink);text-decoration:none;
+  display:inline-flex;align-items:center;gap:0.55rem;
+}
+.brand::before{
+  content:"";width:11px;height:11px;border-radius:999px;background:var(--terra);
+  box-shadow:0 0 0 4px rgba(168,90,50,.18);animation:pulse 2.4s ease-in-out infinite;
+}
+.brand span{color:var(--terra)}
+.nav{display:flex;flex-wrap:wrap;gap:0.75rem 1.15rem;font-size:0.92rem}
+.nav a{color:var(--muted);text-decoration:none;transition:color .2s}
 .nav a:hover{color:var(--ink)}
-.hero h1{font-size:clamp(1.75rem,3.5vw,2.35rem);line-height:1.15;margin:0 0 0.6rem}
-.hero p{margin:0 0 2rem;color:var(--muted);font-size:1.05rem;max-width:36rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem}
-.post{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:4px;overflow:hidden;text-decoration:none;color:inherit;transition:border-color .15s}
-.post:hover{border-color:#bbb}
-.post img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;background:#ddd}
-.post-body{padding:1rem 1.1rem 1.2rem;display:flex;flex-direction:column;gap:0.45rem;flex:1}
-.post-body h2{font-size:1.05rem;line-height:1.3;margin:0;font-weight:700}
-.post-body p{margin:0;font-size:0.92rem;color:var(--muted);font-family:system-ui,sans-serif}
-.article-wrap{max-width:720px;margin:0 auto}
-.article-wrap .cover{width:100%;border-radius:4px;margin:0 0 1.5rem;aspect-ratio:16/9;object-fit:cover}
-.article-wrap h1{font-size:clamp(1.5rem,3vw,2rem);line-height:1.2;margin:0 0 1rem}
-.article-wrap h2,.article-wrap h3{margin-top:1.6em}
-.article-wrap img{max-width:100%;height:auto;border-radius:4px}
+.hero{padding:0.5rem 0 2.4rem;max-width:40rem;animation:rise .7s ease both}
+.hero .eyebrow{
+  font-size:0.78rem;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--terra);margin:0 0 0.85rem;font-weight:700;
+}
+.hero h1{
+  font-family:"Unbounded",system-ui,sans-serif;
+  font-size:clamp(1.85rem,4.2vw,2.75rem);line-height:1.12;margin:0 0 0.85rem;
+  letter-spacing:-0.03em;font-weight:600;color:var(--ink);
+}
+.hero p{margin:0 0 1.4rem;color:var(--muted);font-size:1.05rem;max-width:34rem}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:0.5rem;padding:0.9rem 1.35rem;
+  background:var(--terra);color:#fff!important;text-decoration:none;font-weight:700;
+  border-radius:999px;transition:transform .2s,background .2s,box-shadow .2s;
+  box-shadow:0 10px 28px rgba(168,90,50,.25);
+}
+.hero-cta:hover{background:var(--green);transform:translateY(-1px);box-shadow:0 14px 32px rgba(42,111,76,.28)}
+.section-label{
+  font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);
+  margin:0 0 1rem;display:flex;align-items:center;gap:0.75rem;
+}
+.section-label::after{content:"";flex:1;height:1px;background:var(--line)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.35rem}
+.post{
+  display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);
+  border-radius:18px;overflow:hidden;text-decoration:none;color:inherit;
+  box-shadow:0 8px 28px rgba(61,45,30,.06);
+  transition:border-color .2s,transform .25s,box-shadow .25s;
+  animation:rise .6s ease both;
+}
+.post:nth-child(1){animation-delay:.05s}.post:nth-child(2){animation-delay:.1s}
+.post:nth-child(3){animation-delay:.15s}.post:nth-child(4){animation-delay:.2s}
+.post:nth-child(5){animation-delay:.25s}.post:nth-child(6){animation-delay:.3s}
+.post:hover{border-color:rgba(168,90,50,.35);transform:translateY(-4px);box-shadow:0 18px 40px rgba(61,45,30,.12)}
+.post-media{position:relative;overflow:hidden;background:#efe4d8}
+.post-media::after{
+  content:"";position:absolute;left:0;bottom:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--terra),var(--gold),var(--green));
+  transform:scaleX(0);transform-origin:left;transition:transform .3s;
+}
+.post:hover .post-media::after{transform:scaleX(1)}
+.post img{width:100%;height:auto;aspect-ratio:16/9;object-fit:contain;object-position:center;display:block;background:#efe4d8;transition:transform .45s}
+.post:hover img{transform:scale(1.02)}
+.post-body{padding:1.1rem 1.15rem 1.3rem;display:flex;flex-direction:column;gap:0.5rem;flex:1}
+.post-kicker{
+  font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--green);font-weight:700;
+  display:inline-flex;align-self:flex-start;padding:0.28rem 0.65rem;border-radius:999px;
+  background:rgba(42,111,76,.1);
+}
+.post-body h2{
+  font-family:"Unbounded",system-ui,sans-serif;font-size:1rem;line-height:1.35;
+  margin:0;font-weight:500;letter-spacing:-0.02em;color:var(--ink);
+}
+.post-body p{margin:0;font-size:0.9rem;color:var(--muted)}
+.post-more{margin-top:auto;padding-top:0.6rem;font-size:0.82rem;color:var(--terra);font-weight:700}
+.article-shell{padding-bottom:3rem}
+.article-wrap{
+  max-width:760px;margin:0 auto;background:var(--paper);color:var(--ink);
+  border-radius:20px;padding:1.5rem 1.35rem 2rem;border:1px solid var(--line);
+  box-shadow:0 18px 50px rgba(61,45,30,.08);
+}
+.article-wrap a{color:var(--terra)}
+.article-wrap .cover{
+  width:100%;border-radius:14px;margin:0 0 1.35rem;height:auto;aspect-ratio:16/9;object-fit:contain;object-position:center;
+  display:block;border:1px solid var(--line);background:#efe4d8;
+}
+.article-wrap h1{
+  font-family:"Unbounded",system-ui,sans-serif;
+  font-size:clamp(1.45rem,3vw,2rem);line-height:1.2;margin:0 0 1rem;letter-spacing:-0.03em;
+}
+.article-wrap h2,.article-wrap h3{margin-top:1.55em;letter-spacing:-0.02em;color:var(--ink)}
+.article-wrap img{max-width:100%;height:auto;border-radius:12px}
 .article-wrap figure{margin:1.5em 0}
-.cta{margin-top:2.5rem;padding-top:1.25rem;border-top:1px solid var(--line);font-family:system-ui,sans-serif;font-size:0.9rem;color:var(--muted)}
-.meta-line{font-family:system-ui,sans-serif;font-size:0.85rem;color:var(--muted);margin:0 0 1rem}
-@media (max-width:560px){.grid{grid-template-columns:1fr}}
+.cta{
+  margin-top:2.5rem;padding:1.2rem 1.25rem;border-radius:16px;
+  background:linear-gradient(135deg,rgba(245,214,198,.55),rgba(212,175,55,.12));
+  border:1px solid var(--line);font-size:0.95rem;color:var(--muted);
+}
+.cta a.btn{
+  display:inline-flex;margin-top:0.75rem;padding:0.75rem 1.2rem;background:var(--terra);
+  color:#fff!important;text-decoration:none;font-weight:700;border-radius:999px;
+}
+.cta a.btn:hover{background:var(--green)}
+.article-wrap .cta{background:linear-gradient(135deg,#f7eee6,#f3e6d4);color:var(--muted)}
+.article-wrap .cta a{color:var(--terra)}
+.article-wrap .cta a.btn{color:#fff!important}
+.meta-line{font-size:0.85rem;color:var(--muted);margin:0 0 1rem}
+.meta-line a{color:var(--green);text-decoration:none}
+.site-footer{
+  max-width:1100px;margin:0 auto;padding:1.5rem 1.25rem 2.5rem;
+  border-top:1px solid var(--line);font-size:0.88rem;color:var(--muted);line-height:1.55;
+}
+.site-footer strong{color:var(--ink);font-weight:700}
+.site-footer a{color:var(--terra);font-weight:600;text-decoration:none}
+.site-footer .geo{margin:0 0 0.45rem}
+.contacts-card{
+  max-width:640px;background:var(--panel);border:1px solid var(--line);border-radius:18px;
+  padding:1.35rem 1.25rem 1.5rem;box-shadow:0 8px 28px rgba(61,45,30,.06);margin:1rem 0 1.5rem;
+}
+.contacts-card h2{font-family:"Unbounded",system-ui,sans-serif;font-size:1.15rem;margin:0 0 0.75rem;font-weight:500}
+.contacts-card p{margin:0 0 0.75rem;color:var(--muted);font-size:0.95rem}
+.contacts-card ul{margin:0;padding:0;list-style:none;display:grid;gap:0.55rem}
+.contacts-card li{padding:0.65rem 0.85rem;border-radius:12px;background:#fff;border:1px solid var(--line);font-size:0.92rem}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(168,90,50,.16)}50%{box-shadow:0 0 0 7px rgba(168,90,50,.06)}}
+@media (max-width:560px){
+  .grid{grid-template-columns:1fr}
+  .article-wrap{padding:1.15rem 1rem 1.5rem;border-radius:16px}
+}
 """
+
+BLOG_FONTS = (
+    '<link rel="preconnect" href="https://fonts.googleapis.com">'
+    '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
+    '<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Unbounded:wght@500;600&display=swap" rel="stylesheet">'
+)
 
 
 BLOG_METRIKA_ID = os.getenv("DZEN_BLOG_METRIKA_ID", "97606312").strip()
@@ -285,14 +421,33 @@ ym({BLOG_METRIKA_ID}, 'init', {{webvisor:true, clickmap:true, referrer: document
 """
 
 
+def _site_footer() -> str:
+    """Видимый регион для Яндекс.Вебмастера (модерация региональности)."""
+    return """
+<footer class="site-footer" id="contacts">
+<p class="geo"><strong>Регион:</strong> Москва и Санкт-Петербург · работаем с компаниями по всей России</p>
+<p>МК Эксперт · Мария Ковалева · Яндекс Директ для B2B ·
+<a href="/contacts.html">Контакты и география</a> ·
+<a href="https://mkekspert.ru">mkekspert.ru</a> ·
+<a href="https://t.me/Mariya1740">Telegram</a></p>
+</footer>
+"""
+
+
 def _site_chrome(inner: str, *, title: str, description: str, canonical: str, extra_head: str = "") -> str:
     zen = os.getenv("DZEN_ZEN_VERIFICATION", "").strip()
-    yandex = os.getenv("DZEN_YANDEX_VERIFICATION", "").strip()
+    yandex = (
+        os.getenv("WEBMASTER_YANDEX_VERIFICATION", "").strip()
+        or os.getenv("DZEN_YANDEX_VERIFICATION", "").strip()
+    )
     metas = ""
     if zen:
         metas += f'<meta name="zen-verification" content="{html.escape(zen)}" />\n'
     if yandex:
         metas += f'<meta name="yandex-verification" content="{html.escape(yandex)}" />\n'
+    # geo hint for search (visible footer is primary for Webmaster moderation)
+    metas += '<meta name="geo.region" content="RU">\n'
+    metas += '<meta name="geo.placename" content="Москва, Санкт-Петербург, Россия">\n'
     metrika = _metrika_snippet()
     return f"""<!DOCTYPE html>
 <html lang="ru">
@@ -310,21 +465,25 @@ def _site_chrome(inner: str, *, title: str, description: str, canonical: str, ex
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="icon" type="image/png" sizes="120x120" href="/favicon-120.png">
-<link rel="apple-touch-icon" href="/favicon-120.png">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="alternate" type="application/rss+xml" title="МК Эксперт — RSS" href="/dzen-feed.xml">
+{BLOG_FONTS}
 {extra_head}<style>{BLOG_CSS}</style>
 {metrika}</head>
 <body>
 <header class="site top">
-<a class="brand" href="/">МК Эксперт</a>
+<a class="brand" href="/">МК <span>Эксперт</span></a>
 <nav class="nav" aria-label="Меню">
 <a href="/">Блог</a>
+<a href="/contacts.html">Контакты</a>
 <a href="https://mkekspert.ru">Сайт</a>
 <a href="https://mkekspert.ru/razbor-direct">Разбор Директа</a>
 <a href="https://dzen.ru/klientyandtrafik">Дзен</a>
 </nav>
 </header>
 {inner}
+{_site_footer()}
 </body>
 </html>
 """
@@ -376,17 +535,20 @@ def _article_html_page(campaign_id: str, body_html: str, post: dict[str, Any] | 
     og_image += '<meta property="og:type" content="article">\n'
     extra = og_image + f'<script type="application/ld+json">{json.dumps(schema, ensure_ascii=False)}</script>\n'
     inner = f"""
-<main class="site article-wrap">
+<main class="site article-shell">
+<div class="article-wrap">
 {cover_block}
 <p class="meta-line"><a href="/">← Все статьи</a> · Яндекс Директ · B2B</p>
 <article>
 {body}
 </article>
-<p class="cta">
-<a href="https://mkekspert.ru/razbor-direct?utm_source=blog&utm_medium=article&utm_campaign={html.escape(campaign_id)}">Бесплатный разбор Директа</a>
+<div class="cta">
+<p>Нужен разбор кабинета без воды — разберём семантику, Метрику и куда уходит бюджет.</p>
+<a class="btn" href="https://mkekspert.ru/razbor-direct?utm_source=blog&utm_medium=article&utm_campaign={html.escape(campaign_id)}">Бесплатный разбор Директа</a>
 · <a href="https://mkekspert.ru">mkekspert.ru</a>
 · <a href="https://t.me/Mariya1740">Telegram</a>
-</p>
+</div>
+</div>
 </main>
 """
     return _site_chrome(
@@ -454,15 +616,19 @@ def _blog_index_html() -> str:
     cards = []
     for p in posts:
         img = (
-            f'<img src="{html.escape(p["cover_url"])}" alt="" loading="lazy" width="640" height="400">'
+            f'<div class="post-media"><img src="{html.escape(p["cover_url"])}" alt="" loading="lazy" width="640" height="400"></div>'
             if p["cover_url"]
-            else ""
+            else '<div class="post-media"></div>'
         )
+        kicker = html.escape(p.get("keyword") or "Яндекс Директ")
         cards.append(
             f'<a class="post" href="/articles/{html.escape(p["id"])}.html">'
             f"{img}"
-            f'<div class="post-body"><h2>{html.escape(p["title"])}</h2>'
-            f'<p>{html.escape(p["description"][:180])}{"…" if len(p["description"]) > 180 else ""}</p>'
+            f'<div class="post-body">'
+            f'<div class="post-kicker">{kicker}</div>'
+            f'<h2>{html.escape(p["title"])}</h2>'
+            f'<p>{html.escape(p["description"][:160])}{"…" if len(p["description"]) > 160 else ""}</p>'
+            f'<div class="post-more">Читать →</div>'
             f"</div></a>"
         )
     grid = "\n".join(cards) if cards else "<p>Статьи появятся после публикации.</p>"
@@ -488,6 +654,16 @@ def _blog_index_html() -> str:
                 "name": "МК Эксперт",
                 "url": "https://mkekspert.ru",
                 "logo": f"{site}/favicon-120.png",
+                "areaServed": [
+                    {"@type": "Country", "name": "Россия"},
+                    {"@type": "City", "name": "Москва"},
+                    {"@type": "City", "name": "Санкт-Петербург"},
+                ],
+                "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Москва",
+                    "addressCountry": "RU",
+                },
                 "sameAs": [
                     "https://dzen.ru/klientyandtrafik",
                     "https://t.me/mariyaprodirect",
@@ -510,33 +686,132 @@ def _blog_index_html() -> str:
     inner = f"""
 <main class="site">
 <section class="hero">
-<h1>Блог о Яндекс Директе для B2B</h1>
-<p>Кейсы с цифрами, разборы кабинета и практика. Без воды — только то, что работает в Директе.</p>
+<p class="eyebrow">МК Эксперт · блог · Москва и СПб · Россия</p>
+<h1>Яндекс Директ для B2B без воды</h1>
+<p>Кейсы с цифрами, разборы кабинета и практика — то, что реально двигает заявки.</p>
+<a class="hero-cta" href="https://mkekspert.ru/razbor-direct?utm_source=blog&utm_medium=index&utm_campaign=home">Бесплатный разбор Директа</a>
 </section>
+<p class="section-label">Статьи</p>
 <section class="grid" aria-label="Статьи">
 {grid}
 </section>
-<p class="cta">Нужен разбор кабинета? <a href="https://mkekspert.ru/razbor-direct?utm_source=blog&utm_medium=index&utm_campaign=home">Записаться на бесплатный разбор</a></p>
+<div class="cta">
+Нужен разбор именно вашего кабинета?
+<a class="btn" href="https://mkekspert.ru/razbor-direct?utm_source=blog&utm_medium=index&utm_campaign=home-cta">Записаться</a>
+</div>
 </main>
 """
     return _site_chrome(
         inner,
         title="МК Эксперт — блог о Яндекс Директе",
-        description="Кейсы и разборы Яндекс Директа для B2B: CPL, заявки, Метрика. Мария Ковалева, mkekspert.ru",
+        description="Кейсы и разборы Яндекс Директа для B2B: CPL, заявки, Метрика. Москва, Санкт-Петербург и регионы России. Мария Ковалева.",
         canonical=f"{site}/",
         extra_head=extra,
     )
 
 
-def _blog_sitemap_xml(posts: list[dict[str, Any]]) -> str:
+def _blog_contacts_html() -> str:
+    """Страница контактов/географии — URL для модерации региона в Вебмастере."""
     site = SITE_URL.rstrip("/")
-    urls = [f"{site}/"] + [p["url"] for p in posts]
+    schema = {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "МК Эксперт",
+        "url": "https://mkekspert.ru",
+        "description": "Ведение и аудит Яндекс Директа для B2B",
+        "areaServed": [
+            {"@type": "Country", "name": "Россия"},
+            {"@type": "City", "name": "Москва"},
+            {"@type": "City", "name": "Санкт-Петербург"},
+        ],
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Москва",
+            "addressRegion": "Москва",
+            "addressCountry": "RU",
+        },
+        "founder": {"@type": "Person", "name": "Мария Ковалева"},
+        "sameAs": [
+            "https://dzen.ru/klientyandtrafik",
+            "https://t.me/mariyaprodirect",
+            "https://vk.ru/klientyandtrafik",
+        ],
+    }
+    extra = f'<script type="application/ld+json">{json.dumps(schema, ensure_ascii=False)}</script>\n'
+    inner = f"""
+<main class="site">
+<section class="hero">
+<p class="eyebrow">Контакты · география</p>
+<h1>Где работаем</h1>
+<p>Блог МК Эксперт — часть сайта mkekspert.ru. Разборы и ведение Яндекс Директа для B2B.</p>
+</section>
+<div class="contacts-card" id="geo">
+<h2>Регион обслуживания</h2>
+<p><strong>Москва и Московская область, Санкт-Петербург и Ленинградская область</strong> — основной фокус.</p>
+<p>Также берём проекты <strong>по всей России</strong> (онлайн-созвоны). По другим регионам — напишите в Telegram, согласуем формат.</p>
+<ul>
+<li><strong>Город / регион:</strong> Москва · Санкт-Петербург · Россия</li>
+<li><strong>Сайт:</strong> <a href="https://mkekspert.ru">mkekspert.ru</a></li>
+<li><strong>Разбор Директа:</strong> <a href="https://mkekspert.ru/razbor-direct">mkekspert.ru/razbor-direct</a></li>
+<li><strong>Telegram:</strong> <a href="https://t.me/Mariya1740">@Mariya1740</a> · канал <a href="https://t.me/mariyaprodirect">@mariyaprodirect</a></li>
+<li><strong>Дзен:</strong> <a href="https://dzen.ru/klientyandtrafik">klientyandtrafik</a></li>
+</ul>
+</div>
+<p><a class="hero-cta" href="https://mkekspert.ru/razbor-direct?utm_source=blog&utm_medium=contacts&utm_campaign=geo">Записаться на разбор</a></p>
+</main>
+"""
+    return _site_chrome(
+        inner,
+        title="Контакты и регион — МК Эксперт",
+        description="МК Эксперт: Москва, Санкт-Петербург и регионы России. Контакты Марии Ковалевой, разбор Яндекс Директа для B2B.",
+        canonical=f"{site}/contacts.html",
+        extra_head=extra,
+    )
+
+
+def _sitemap_lastmod(raw: str = "") -> str:
+    """Дата для <lastmod> в формате YYYY-MM-DD (Яндекс Вебмастер)."""
+    text = (raw or "").strip()
+    if text:
+        try:
+            return datetime.fromisoformat(text.replace("Z", "+00:00")).strftime("%Y-%m-%d")
+        except ValueError:
+            if len(text) >= 10 and text[4] == "-" and text[7] == "-":
+                return text[:10]
+    return datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+
+def _blog_sitemap_xml(posts: list[dict[str, Any]]) -> str:
+    """Sitemap блога для Вебмастера: https://blog.mkekspert.ru/sitemap.xml"""
+    site = SITE_URL.rstrip("/")
+    newest = ""
+    for p in posts:
+        cand = str(p.get("published_at") or "")
+        if cand and cand > newest:
+            newest = cand
+    home_mod = _sitemap_lastmod(newest)
+    entries: list[tuple[str, str, str]] = [
+        (f"{site}/", home_mod, "1.0"),
+        (f"{site}/contacts.html", home_mod, "0.6"),
+    ]
+    for p in posts:
+        entries.append(
+            (
+                str(p["url"]),
+                _sitemap_lastmod(str(p.get("published_at") or "")),
+                "0.8",
+            )
+        )
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
     ]
-    for u in urls:
-        lines.append(f"  <url><loc>{html.escape(u)}</loc></url>")
+    for loc, lastmod, priority in entries:
+        lines.append("  <url>")
+        lines.append(f"    <loc>{html.escape(loc)}</loc>")
+        lines.append(f"    <lastmod>{lastmod}</lastmod>")
+        lines.append(f"    <priority>{priority}</priority>")
+        lines.append("  </url>")
     lines.append("</urlset>")
     return "\n".join(lines) + "\n"
 
@@ -547,6 +822,7 @@ def _collect_gh_pages_files() -> dict[str, bytes]:
     if FEED_FILE.is_file():
         files["dzen-feed.xml"] = FEED_FILE.read_bytes()
     files["CNAME"] = b"blog.mkekspert.ru\n"
+    files[".nojekyll"] = b""
     files["robots.txt"] = (
         "User-agent: *\n"
         "Allow: /\n"
@@ -555,6 +831,7 @@ def _collect_gh_pages_files() -> dict[str, bytes]:
     ).encode()
     posts = _blog_posts()
     files["index.html"] = _blog_index_html().encode("utf-8")
+    files["contacts.html"] = _blog_contacts_html().encode("utf-8")
     files["sitemap.xml"] = _blog_sitemap_xml(posts).encode("utf-8")
     if BLOG_SITE_DIR.is_dir():
         for path in BLOG_SITE_DIR.rglob("*"):
