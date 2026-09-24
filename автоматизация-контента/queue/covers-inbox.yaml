@@ -1,0 +1,63 @@
+items:
+- id: vk-week3
+  slug: vk-week3
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: 8017→1800 ₽
+  subline: Кейс ЧП/УПП
+  out_landscape: assets/covers/vk-week3.jpg
+  out_vk: assets/covers/vk-week3-vk.jpg
+  brief: briefs/covers/vk-week3.md
+  vk_post_id: null
+  requested_at: '2026-09-24T06:53:03Z'
+- id: tg-week3
+  slug: tg-week3
+  status: waiting_codex
+  platforms:
+  - tg
+  headline: Поиск vs РСЯ
+  subline: Разные кампании
+  out_landscape: assets/covers/tg-week3.jpg
+  out_vk: assets/covers/tg-week3-vk.jpg
+  brief: briefs/covers/tg-week3.md
+  vk_post_id: null
+  requested_at: '2026-09-24T06:53:03Z'
+- id: metrika-goals
+  slug: metrika-goals
+  status: waiting_codex
+  platforms:
+  - dzen
+  - tg
+  - vk
+  headline: Цели Метрики
+  subline: Под Директ B2B
+  out_landscape: assets/covers/metrika-goals.jpg
+  out_vk: assets/covers/metrika-goals-vk.jpg
+  brief: briefs/covers/metrika-goals.md
+  vk_post_id: null
+  requested_at: '2026-09-24T06:53:04Z'
+- id: tg-week4
+  slug: tg-week4
+  status: waiting_codex
+  platforms:
+  - tg
+  headline: 3 цели Метрики
+  subline: Не визиты
+  out_landscape: assets/covers/tg-week4.jpg
+  out_vk: assets/covers/tg-week4-vk.jpg
+  brief: briefs/covers/tg-week4.md
+  vk_post_id: null
+  requested_at: '2026-09-24T06:53:04Z'
+- id: vk-week4
+  slug: vk-week4
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: ЕПК в B2B
+  subline: Включать или нет?
+  out_landscape: assets/covers/vk-week4.jpg
+  out_vk: assets/covers/vk-week4-vk.jpg
+  brief: briefs/covers/vk-week4.md
+  vk_post_id: null
+  requested_at: '2026-09-24T06:53:04Z'

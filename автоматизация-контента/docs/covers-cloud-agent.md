@@ -1,23 +1,31 @@
 # Генерация обложек в Cloud Agent
 
-## Главный путь: плагин Cursor (GenerateImage)
+## Главный путь (сейчас): Codex на ПК Марии
 
-В Cursor Cloud Agent / Desktop есть встроенный инструмент **GenerateImage** (генерация картинок плагином Cursor).
+Cloud Agent **не** рисует боевые обложки сам (плагин Codex на VM недоступен).
 
-1. Агент вызывает `GenerateImage` с промптом + `aspect_ratio=16:9` (+ опционально reference со старой обложки).
-2. Файл появляется в артефактах агента.
-3. Ресайз в репозиторий:
+1. Пост текстом + `covers_pipeline.py request <id>`
+2. Codex в десктопном Cursor → файлы в `assets/covers/`
+3. `covers_pipeline.py pickup --deploy`
+4. VK: картинку крепит Мария вручную
+
+→ Чеклист: [`checklists/covers-codex-pc.md`](../checklists/covers-codex-pc.md)
+
+## Запасной путь в облаке: GenerateImage
+
+Если Codex недоступен и Мария явно просит сгенерировать здесь:
+
+1. Агент вызывает `GenerateImage` (`aspect_ratio=16:9` или `1:1` для VK).
+2. Ресайз в репозиторий:
    - Дзен/TG: `assets/covers/{slug}.jpg` → **1200×630**
    - VK: `assets/covers/{slug}-vk.jpg` → **1080×1080**
-4. Деплой: `python3 publish.py dzen-rss setup` или `deploy_gh_pages()`.
+3. `covers_pipeline.py pickup --deploy` или `dzen-rss setup`.
 
-**OpenRouter / OpenAI API не нужны** для этого пути.
-
-Не использовать PIL-fallback (цветной прямоугольник) для боевых обложек — только GenerateImage или OpenRouter.
+Не использовать PIL-fallback (цветной прямоугольник) для боевых обложек.
 
 ## Запасной путь (скрипт + OpenRouter)
 
-Только если встроенная генерация недоступна:
+Только если оба пути выше недоступны:
 
 ```env
 # automation/.env  или Cloud Agent Secrets
@@ -51,10 +59,8 @@ python3 automation/generate_cover.py --slug my-post --title "..." --subtitle "..
 Референс стиля: `assets/covers/_import/style-ref.png` (стиль глины/света, не обязательный телефон).
 Промпт-база: `automation/generate_cover.py` → `openrouter_prompt()` (запасной путь).
 
-
-
 ## Правила экономии
 
-- Сначала согласовать промпт/референс.
+- Сначала бриф в `briefs/covers/` (Codex) или согласование промпта.
 - Одна платная генерация (OpenRouter) — только после ок.
-- Для итераций стиля — GenerateImage (встроенный).
+- GenerateImage в облаке — только по явной просьбе.

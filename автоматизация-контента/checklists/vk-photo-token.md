@@ -5,6 +5,8 @@
 `VK_PHOTOS=manual` — скрипт публикует **только текст**.
 Картинки Мария прикрепляет сама в VK к уже вышедшему посту.
 
+Пайплайн обложек (Codex на ПК): `checklists/covers-codex-pc.md`.
+
 Готовые файлы обложек:
 - локально: `assets/covers/{id}-vk.jpg` (1080×1080)
 - на сайте: `https://blog.mkekspert.ru/covers/{id}-vk.jpg`

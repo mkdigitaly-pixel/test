@@ -1273,9 +1273,21 @@ def publish_dzen_teasers(
             dry_run=dry_run,
         )
         print(f"VK тизер: {r.message}")
+        if not dry_run and r.message_id and not vk_photos_allowed():
+            _request_codex_cover(item["id"], vk_post_id=r.message_id)
     elif vk_path and not dry_run:
         print("ℹ VK: задайте VK_ACCESS_TOKEN и VK_GROUP_ID в .env")
 
+
+def _request_codex_cover(item_id: str, *, vk_post_id: int | None = None) -> None:
+    """После текстового VK-поста — бриф для Codex на ПК Марии."""
+    try:
+        from covers_pipeline import cmd_request
+
+        ns = argparse.Namespace(id=item_id, vk_post_id=vk_post_id)
+        cmd_request(ns)
+    except Exception as exc:  # noqa: BLE001
+        print(f"ℹ covers request ({item_id}): {exc}", file=sys.stderr)
 
 def publish_standalone_tg(post_id: str, *, dry_run: bool, force: bool) -> int:
     posts = load_posts_queue()
@@ -1344,6 +1356,8 @@ def publish_standalone_vk(post_id: str, *, dry_run: bool, force: bool) -> int:
     print(f"VK пост: {r.message}")
     if not dry_run and post_item:
         mark_post_published(post_id)
+    if not dry_run and r.message_id and not vk_photos_allowed():
+        _request_codex_cover(post_id, vk_post_id=r.message_id)
     return 0
 
 
