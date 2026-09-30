@@ -172,7 +172,8 @@ slots:
   time: '12:00'
   action: publish_teasers
   campaign_id: rsa-vs-search
-  status: scheduled
+  status: done
+  completed_at: '2026-09-30T12:05:53.629066+03:00'
 - date: '2026-10-01'
   time: '11:00'
   action: publish_tg_post
