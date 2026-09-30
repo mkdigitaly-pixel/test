@@ -10,7 +10,7 @@ import re
 import shutil
 import subprocess
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 from xml.etree import ElementTree as ET
@@ -202,6 +202,71 @@ def _parse_md_meta(path: Path) -> dict[str, Any]:
     return yaml.safe_load(parts[1]) or {}
 
 
+_MONTHS_RU = (
+    "",
+    "января",
+    "февраля",
+    "марта",
+    "апреля",
+    "мая",
+    "июня",
+    "июля",
+    "августа",
+    "сентября",
+    "октября",
+    "ноября",
+    "декабря",
+)
+
+
+def _parse_item_datetime(raw: str) -> datetime | None:
+    text = str(raw or "").strip()
+    if not text:
+        return None
+    try:
+        parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(timezone.utc)
+
+
+def format_pub_date_ru(raw: str) -> str:
+    """2026-09-30 → «30 сентября 2026»."""
+    parsed = _parse_item_datetime(raw)
+    if not parsed:
+        return ""
+    # даты публикаций показываем по Москве
+    local = parsed.astimezone(timezone(timedelta(hours=3)))
+    return f"{local.day} {_MONTHS_RU[local.month]} {local.year}"
+
+
+def _item_pub_raw(item: dict[str, Any]) -> str:
+    for key in (
+        "dzen_published_at",
+        "dzen_republished_at",
+        "published_at",
+        "scheduled_dzen",
+    ):
+        raw = str(item.get(key) or "").strip()
+        if raw:
+            return raw
+    return ""
+
+
+def _cover_urls(cover_rel: str) -> tuple[str, str]:
+    """(landscape, square/vk) публичные URL обложек."""
+    if not cover_rel:
+        return "", ""
+    landscape = cover_public_url(cover_rel)
+    base = Path(cover_rel)
+    vk_rel = str(base.with_name(f"{base.stem}-vk{base.suffix}"))
+    vk_path = ROOT / vk_rel
+    square = cover_public_url(vk_rel) if vk_path.is_file() else landscape
+    return landscape, square
+
+
 def _blog_post_meta(item: dict[str, Any]) -> dict[str, Any] | None:
     """Метаданные поста для блога и SEO (approved / published с текстом)."""
     cid = str(item.get("id") or "")
@@ -217,15 +282,19 @@ def _blog_post_meta(item: dict[str, Any]) -> dict[str, Any] | None:
     title = str(meta.get("h1") or meta.get("title") or item.get("topic") or cid).strip()
     description = str(meta.get("description") or title).strip()
     cover_rel = str(item.get("cover") or "")
+    cover_url, cover_square_url = _cover_urls(cover_rel)
+    published_at = _item_pub_raw(item)
     return {
         "id": cid,
         "title": title,
         "description": description,
-        "cover_url": cover_public_url(cover_rel) if cover_rel else "",
+        "cover_url": cover_url,
+        "cover_square_url": cover_square_url,
         "cover_name": Path(cover_rel).name if cover_rel else "",
         "url": article_site_link(cid),
         "status": status,
-        "published_at": str(item.get("published_at") or item.get("scheduled_dzen") or ""),
+        "published_at": published_at,
+        "published_label": format_pub_date_ru(published_at),
         "keyword": str(meta.get("main_keyword") or "").strip(),
     }
 
@@ -246,18 +315,28 @@ a{color:#1d4ed8;text-underline-offset:3px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem}
 .post{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:4px;overflow:hidden;text-decoration:none;color:inherit;transition:border-color .15s}
 .post:hover{border-color:#bbb}
-.post img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;background:#ddd}
+.post-media{display:block;width:100%;aspect-ratio:16/10;background:#ddd;overflow:hidden}
+.post-media img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 .post-body{padding:1rem 1.1rem 1.2rem;display:flex;flex-direction:column;gap:0.45rem;flex:1}
 .post-body h2{font-size:1.05rem;line-height:1.3;margin:0;font-weight:700}
 .post-body p{margin:0;font-size:0.92rem;color:var(--muted);font-family:system-ui,sans-serif}
+.post-date{font-family:system-ui,sans-serif;font-size:0.78rem;color:var(--muted);letter-spacing:0.02em}
 .article-wrap{max-width:720px;margin:0 auto}
-.article-wrap .cover{width:100%;border-radius:4px;margin:0 0 1.5rem;aspect-ratio:16/9;object-fit:cover}
+.article-wrap .cover-wrap{margin:0 0 1.25rem;border-radius:4px;overflow:hidden;background:#ddd}
+.article-wrap .cover{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:center;display:block;border-radius:0;margin:0}
 .article-wrap h1{font-size:clamp(1.5rem,3vw,2rem);line-height:1.2;margin:0 0 1rem}
 .article-wrap h2,.article-wrap h3{margin-top:1.6em}
 .article-wrap img{max-width:100%;height:auto;border-radius:4px}
 .article-wrap figure{margin:1.5em 0}
 .cta{margin-top:2.5rem;padding-top:1.25rem;border-top:1px solid var(--line);font-family:system-ui,sans-serif;font-size:0.9rem;color:var(--muted)}
 .meta-line{font-family:system-ui,sans-serif;font-size:0.85rem;color:var(--muted);margin:0 0 1rem}
+@media (max-width:640px){
+.site{padding:1rem 1rem 3rem}
+.grid{grid-template-columns:1fr;gap:1.1rem}
+.post-media{aspect-ratio:1/1}
+.article-wrap .cover-wrap{margin-left:-1rem;margin-right:-1rem;border-radius:0;width:calc(100% + 2rem)}
+.article-wrap .cover{aspect-ratio:1/1}
+}
 @media (max-width:560px){.grid{grid-template-columns:1fr}}
 """
 
@@ -349,11 +428,27 @@ def _article_html_page(campaign_id: str, body_html: str, post: dict[str, Any] | 
             body,
             count=1,
         )
-    cover_block = (
-        f'<img class="cover" src="{html.escape(cover_url)}" alt="{html.escape(title)}" width="1200" height="675">'
-        if cover_url
-        else ""
-    )
+    cover_square = str(post.get("cover_square_url") or cover_url)
+    if cover_url:
+        sources = ""
+        if cover_square and cover_square != cover_url:
+            sources = (
+                f'<source media="(max-width: 640px)" '
+                f'srcset="{html.escape(cover_square)}" type="image/jpeg">'
+            )
+        cover_block = (
+            f'<figure class="cover-wrap"><picture>{sources}'
+            f'<img class="cover" src="{html.escape(cover_url)}" '
+            f'alt="{html.escape(title)}" width="1200" height="675" '
+            f'decoding="async" '
+            f'sizes="(max-width: 720px) 100vw, 720px">'
+            f"</picture></figure>"
+        )
+    else:
+        cover_block = ""
+    published_label = str(post.get("published_label") or "").strip()
+    published_iso = str(post.get("published_at") or "").strip()
+    date_bit = f" · <time datetime=\"{html.escape(published_iso[:10])}\">{html.escape(published_label)}</time>" if published_label else ""
     schema = {
         "@context": "https://schema.org",
         "@type": "Article",
@@ -370,15 +465,19 @@ def _article_html_page(campaign_id: str, body_html: str, post: dict[str, Any] | 
     }
     if cover_url:
         schema["image"] = [cover_url]
-    if post.get("published_at"):
-        schema["datePublished"] = str(post["published_at"])[:10]
+        if cover_square and cover_square != cover_url:
+            schema["image"].append(cover_square)
+    if published_iso:
+        schema["datePublished"] = published_iso[:10]
     og_image = f'<meta property="og:image" content="{html.escape(cover_url)}">\n' if cover_url else ""
     og_image += '<meta property="og:type" content="article">\n'
+    if published_iso:
+        og_image += f'<meta property="article:published_time" content="{html.escape(published_iso[:10])}">\n'
     extra = og_image + f'<script type="application/ld+json">{json.dumps(schema, ensure_ascii=False)}</script>\n'
     inner = f"""
 <main class="site article-wrap">
 {cover_block}
-<p class="meta-line"><a href="/">← Все статьи</a> · Яндекс Директ · B2B</p>
+<p class="meta-line"><a href="/">← Все статьи</a> · Яндекс Директ · B2B{date_bit}</p>
 <article>
 {body}
 </article>
@@ -442,8 +541,14 @@ def _blog_posts() -> list[dict[str, Any]]:
             continue
         seen.add(post["id"])
         posts.append(post)
-    # published first, then approved
-    posts.sort(key=lambda p: (0 if p["status"] == "published" else 1, p["title"]))
+    # newest first; published before approved drafts
+    def _sort_key(p: dict[str, Any]) -> tuple[Any, ...]:
+        dt = _parse_item_datetime(str(p.get("published_at") or "")) or datetime.min.replace(
+            tzinfo=timezone.utc
+        )
+        return (0 if p["status"] == "published" else 1, -dt.timestamp(), p["title"])
+
+    posts.sort(key=_sort_key)
     return posts
 
 
@@ -453,15 +558,33 @@ def _blog_index_html() -> str:
     posts = _blog_posts()
     cards = []
     for p in posts:
-        img = (
-            f'<img src="{html.escape(p["cover_url"])}" alt="" loading="lazy" width="640" height="400">'
-            if p["cover_url"]
+        if p["cover_url"]:
+            square = p.get("cover_square_url") or p["cover_url"]
+            sources = ""
+            if square and square != p["cover_url"]:
+                sources = (
+                    f'<source media="(max-width: 640px)" '
+                    f'srcset="{html.escape(square)}" type="image/jpeg">'
+                )
+            img = (
+                f'<div class="post-media"><picture>{sources}'
+                f'<img src="{html.escape(p["cover_url"])}" alt="" loading="lazy" '
+                f'decoding="async" width="640" height="400" '
+                f'sizes="(max-width: 640px) 100vw, 320px">'
+                f"</picture></div>"
+            )
+        else:
+            img = ""
+        date_html = (
+            f'<span class="post-date"><time datetime="{html.escape(str(p.get("published_at") or "")[:10])}">'
+            f'{html.escape(p["published_label"])}</time></span>'
+            if p.get("published_label")
             else ""
         )
         cards.append(
             f'<a class="post" href="/articles/{html.escape(p["id"])}.html">'
             f"{img}"
-            f'<div class="post-body"><h2>{html.escape(p["title"])}</h2>'
+            f'<div class="post-body">{date_html}<h2>{html.escape(p["title"])}</h2>'
             f'<p>{html.escape(p["description"][:180])}{"…" if len(p["description"]) > 180 else ""}</p>'
             f"</div></a>"
         )
