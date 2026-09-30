@@ -18,7 +18,8 @@
 <link rel="alternate" type="application/rss+xml" title="МК Эксперт — RSS" href="/dzen-feed.xml">
 <meta property="og:image" content="https://blog.mkekspert.ru/covers/rsa-vs-search.jpg">
 <meta property="og:type" content="article">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "РСЯ или Поиск в Яндекс Директе для B2B: куда я ставлю бюджет", "description": "Когда в B2B оставляю Поиск, когда подключаю РСЯ и ретаргет, и как не смешивать их в одной куче с общим бюджетом.", "mainEntityOfPage": "https://blog.mkekspert.ru/articles/rsa-vs-search.html", "author": {"@type": "Person", "name": "Мария Ковалева"}, "publisher": {"@type": "Organization", "name": "МК Эксперт", "logo": {"@type": "ImageObject", "url": "https://blog.mkekspert.ru/favicon-120.png"}}, "inLanguage": "ru-RU", "image": ["https://blog.mkekspert.ru/covers/rsa-vs-search.jpg"]}</script>
+<meta property="article:published_time" content="2026-09-30">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "РСЯ или Поиск в Яндекс Директе для B2B: куда я ставлю бюджет", "description": "Когда в B2B оставляю Поиск, когда подключаю РСЯ и ретаргет, и как не смешивать их в одной куче с общим бюджетом.", "mainEntityOfPage": "https://blog.mkekspert.ru/articles/rsa-vs-search.html", "author": {"@type": "Person", "name": "Мария Ковалева"}, "publisher": {"@type": "Organization", "name": "МК Эксперт", "logo": {"@type": "ImageObject", "url": "https://blog.mkekspert.ru/favicon-120.png"}}, "inLanguage": "ru-RU", "image": ["https://blog.mkekspert.ru/covers/rsa-vs-search.jpg", "https://blog.mkekspert.ru/covers/rsa-vs-search-vk.jpg"], "datePublished": "2026-09-30"}</script>
 <style>
 :root{--ink:#141414;--muted:#5a5a5a;--accent:#1a7a3a;--line:#e5e5e0;--paper:#fff}
 *{box-sizing:border-box}
@@ -35,18 +36,28 @@ a{color:#1d4ed8;text-underline-offset:3px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem}
 .post{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:4px;overflow:hidden;text-decoration:none;color:inherit;transition:border-color .15s}
 .post:hover{border-color:#bbb}
-.post img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;background:#ddd}
+.post-media{display:block;width:100%;aspect-ratio:16/10;background:#ddd;overflow:hidden}
+.post-media img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 .post-body{padding:1rem 1.1rem 1.2rem;display:flex;flex-direction:column;gap:0.45rem;flex:1}
 .post-body h2{font-size:1.05rem;line-height:1.3;margin:0;font-weight:700}
 .post-body p{margin:0;font-size:0.92rem;color:var(--muted);font-family:system-ui,sans-serif}
+.post-date{font-family:system-ui,sans-serif;font-size:0.78rem;color:var(--muted);letter-spacing:0.02em}
 .article-wrap{max-width:720px;margin:0 auto}
-.article-wrap .cover{width:100%;border-radius:4px;margin:0 0 1.5rem;aspect-ratio:16/9;object-fit:cover}
+.article-wrap .cover-wrap{margin:0 0 1.25rem;border-radius:4px;overflow:hidden;background:#ddd}
+.article-wrap .cover{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:center;display:block;border-radius:0;margin:0}
 .article-wrap h1{font-size:clamp(1.5rem,3vw,2rem);line-height:1.2;margin:0 0 1rem}
 .article-wrap h2,.article-wrap h3{margin-top:1.6em}
 .article-wrap img{max-width:100%;height:auto;border-radius:4px}
 .article-wrap figure{margin:1.5em 0}
 .cta{margin-top:2.5rem;padding-top:1.25rem;border-top:1px solid var(--line);font-family:system-ui,sans-serif;font-size:0.9rem;color:var(--muted)}
 .meta-line{font-family:system-ui,sans-serif;font-size:0.85rem;color:var(--muted);margin:0 0 1rem}
+@media (max-width:640px){
+.site{padding:1rem 1rem 3rem}
+.grid{grid-template-columns:1fr;gap:1.1rem}
+.post-media{aspect-ratio:1/1}
+.article-wrap .cover-wrap{margin-left:-1rem;margin-right:-1rem;border-radius:0;width:calc(100% + 2rem)}
+.article-wrap .cover{aspect-ratio:1/1}
+}
 @media (max-width:560px){.grid{grid-template-columns:1fr}}
 </style>
 <!-- Yandex.Metrika counter -->
@@ -74,8 +85,8 @@ ym(97606312, 'init', {webvisor:true, clickmap:true, referrer: document.referrer,
 </header>
 
 <main class="site article-wrap">
-<img class="cover" src="https://blog.mkekspert.ru/covers/rsa-vs-search.jpg" alt="РСЯ или Поиск в Яндекс Директе для B2B: куда я ставлю бюджет" width="1200" height="675">
-<p class="meta-line"><a href="/">← Все статьи</a> · Яндекс Директ · B2B</p>
+<figure class="cover-wrap"><picture><source media="(max-width: 640px)" srcset="https://blog.mkekspert.ru/covers/rsa-vs-search-vk.jpg" type="image/jpeg"><img class="cover" src="https://blog.mkekspert.ru/covers/rsa-vs-search.jpg" alt="РСЯ или Поиск в Яндекс Директе для B2B: куда я ставлю бюджет" width="1200" height="675" decoding="async" sizes="(max-width: 720px) 100vw, 720px"></picture></figure>
+<p class="meta-line"><a href="/">← Все статьи</a> · Яндекс Директ · B2B · <time datetime="2026-09-30">30 сентября 2026</time></p>
 <article>
 <h1>РСЯ или Поиск в Яндекс Директе для B2B: куда я ставлю бюджет</h1>
 <p>Частый вопрос на разборе: «давайте сразу везде, чтобы больше охвата». В B2B это обычно значит: Поиск ещё не умеет считать заявки, а РСЯ уже рисует дешёвые клики.</p>
