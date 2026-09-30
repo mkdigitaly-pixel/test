@@ -9,9 +9,9 @@ items:
   out_landscape: assets/covers/vk-week3.jpg
   out_vk: assets/covers/vk-week3-vk.jpg
   brief: briefs/covers/vk-week3.md
-  vk_post_id: null
-  requested_at: '2026-09-24T06:53:03Z'
-  ready_at: '2026-09-24T08:03:00Z'
+  vk_post_id: 221
+  requested_at: '2026-09-30T07:55:33Z'
+  ready_at: '2026-09-30T07:56:11Z'
 - id: tg-week3
   slug: tg-week3
   status: ready
@@ -24,7 +24,7 @@ items:
   brief: briefs/covers/tg-week3.md
   vk_post_id: null
   requested_at: '2026-09-24T06:53:03Z'
-  ready_at: '2026-09-24T08:03:00Z'
+  ready_at: '2026-09-30T07:56:11Z'
 - id: metrika-goals
   slug: metrika-goals
   status: ready
@@ -37,9 +37,9 @@ items:
   out_landscape: assets/covers/metrika-goals.jpg
   out_vk: assets/covers/metrika-goals-vk.jpg
   brief: briefs/covers/metrika-goals.md
-  vk_post_id: null
-  requested_at: '2026-09-24T06:53:04Z'
-  ready_at: '2026-09-24T08:03:00Z'
+  vk_post_id: 222
+  requested_at: '2026-09-30T07:55:43Z'
+  ready_at: '2026-09-30T07:56:11Z'
 - id: tg-week4
   slug: tg-week4
   status: ready
@@ -52,7 +52,7 @@ items:
   brief: briefs/covers/tg-week4.md
   vk_post_id: null
   requested_at: '2026-09-24T06:53:04Z'
-  ready_at: '2026-09-24T08:03:00Z'
+  ready_at: '2026-09-30T07:56:11Z'
 - id: vk-week4
   slug: vk-week4
   status: ready
@@ -63,6 +63,21 @@ items:
   out_landscape: assets/covers/vk-week4.jpg
   out_vk: assets/covers/vk-week4-vk.jpg
   brief: briefs/covers/vk-week4.md
-  vk_post_id: null
-  requested_at: '2026-09-24T06:53:04Z'
-  ready_at: '2026-09-24T08:03:00Z'
+  vk_post_id: 224
+  requested_at: '2026-09-30T07:55:53Z'
+  ready_at: '2026-09-30T07:56:11Z'
+- id: epk-leads
+  slug: epk-leads
+  status: ready
+  platforms:
+  - dzen
+  - tg
+  - vk
+  headline: ЕПК в B2B
+  subline: Когда запускать
+  out_landscape: assets/covers/epk-leads.jpg
+  out_vk: assets/covers/epk-leads-vk.jpg
+  brief: briefs/covers/epk-leads.md
+  vk_post_id: 223
+  requested_at: '2026-09-30T07:55:52Z'
+  ready_at: '2026-09-30T07:56:11Z'

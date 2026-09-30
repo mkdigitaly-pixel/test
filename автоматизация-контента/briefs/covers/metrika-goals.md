@@ -25,3 +25,5 @@ Claymorphism marketing cover for Yandex Direct B2B expert Maria Kovaleva. Headli
 1. Сохрани файлы в `assets/covers/` с именами выше.
 2. Закоммить и запушь в ветку агента **или** скажи облачному агенту: `covers pickup`.
 
+VK пост для ручной вставки: https://vk.com/wall-222121025_222
+

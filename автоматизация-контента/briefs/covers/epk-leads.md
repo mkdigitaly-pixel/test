@@ -1,4 +1,4 @@
-# Codex brief: обложка `vk-week4`
+# Codex brief: обложка `epk-leads`
 
 Сделай **файлы в этом репозитории** (не только превью в чате).
 Если JPG уже лежит в `assets/covers/` — **перезапиши** новой качественной версией.
@@ -7,16 +7,17 @@
 
 ## Текст на обложке
 - Заголовок: **ЕПК в B2B**
-- Подзаголовок: **Включать или нет?**
+- Подзаголовок: **Когда запускать**
 - Бренд внизу: `mkekspert.ru`
 
 ## Файлы (обязательно оба пути, если платформа нужна)
-1. `assets/covers/vk-week4-vk.jpg` — **1080×1080** (VK, Мария крепит вручную)
+1. `assets/covers/epk-leads.jpg` — **1200×630** (Дзен / TG)
+2. `assets/covers/epk-leads-vk.jpg` — **1080×1080** (VK, Мария крепит вручную)
 
 ## Промпт (можно уточнить объект, но не стиль)
 
 ```
-Claymorphism marketing cover for Yandex Direct B2B expert Maria Kovaleva. Headline «ЕПК в B2B», subline «Включать или нет?», brand mkekspert.ru. Soft ivory background, terracotta/emerald/gold accents, gentle 3D clay shapes, orbital thin lines, unique central 3D object matching the topic (not the same phone every time). No badges, no arrows, no «В итоге» card. High-end editorial, clean typography space for the title.
+Claymorphism marketing cover for Yandex Direct B2B expert Maria Kovaleva. Headline «ЕПК в B2B», subline «Когда запускать», brand mkekspert.ru. Soft ivory background, terracotta/emerald/gold accents, gentle 3D clay shapes, orbital thin lines, unique central 3D object matching the topic (not the same phone every time). No badges, no arrows, no «В итоге» card. High-end editorial, clean typography space for the title.
 ```
 
 ## Когда готово
@@ -24,5 +25,5 @@ Claymorphism marketing cover for Yandex Direct B2B expert Maria Kovaleva. Headli
 1. Сохрани файлы в `assets/covers/` с именами выше.
 2. Закоммить и запушь в ветку агента **или** скажи облачному агенту: `covers pickup`.
 
-VK пост для ручной вставки: https://vk.com/wall-222121025_224
+VK пост для ручной вставки: https://vk.com/wall-222121025_223
 

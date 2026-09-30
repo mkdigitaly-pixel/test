@@ -83,72 +83,91 @@ slots:
   time: '10:00'
   action: publish_dzen
   campaign_id: shpunkt-case
-  status: scheduled
+  status: cancelled
+  error: нет контента в очереди / draft пустой
+  completed_at: '2026-09-30T10:55:25.052438+03:00'
 - date: '2026-09-16'
   time: '12:00'
   action: publish_teasers
   campaign_id: shpunkt-case
-  status: scheduled
+  status: cancelled
+  error: нет контента в очереди / draft пустой
+  completed_at: '2026-09-30T10:55:25.052438+03:00'
 - date: '2026-09-17'
   time: '11:00'
   action: publish_tg_post
   post_id: tg-week3
-  status: scheduled
+  status: done
+  completed_at: '2026-09-30T10:55:31.299616+03:00'
 - date: '2026-09-18'
   time: '10:00'
   action: publish_dzen
   campaign_id: chp-upp-case
-  status: scheduled
+  status: cancelled
+  error: нет контента в очереди / draft пустой
+  completed_at: '2026-09-30T10:55:25.052438+03:00'
 - date: '2026-09-18'
   time: '12:00'
   action: publish_teasers
   campaign_id: chp-upp-case
-  status: scheduled
+  status: cancelled
+  error: нет контента в очереди / draft пустой
+  completed_at: '2026-09-30T10:55:25.052438+03:00'
 - date: '2026-09-18'
   time: '15:00'
   action: vc_manual
   note: vc-penoplast-ending-fix
-  status: scheduled
+  status: cancelled
+  error: VC вручную — просрочено, не блокируем catch-up
+  completed_at: '2026-09-30T10:55:25.052438+03:00'
 - date: '2026-09-19'
   time: '11:00'
   action: publish_vk_post
   post_id: vk-week3
-  status: scheduled
+  status: done
+  completed_at: '2026-09-30T10:55:31.299616+03:00'
 - date: '2026-09-23'
   time: '10:00'
   action: publish_dzen
   campaign_id: metrika-goals
-  status: scheduled
+  status: done
+  completed_at: '2026-09-30T10:55:31.299616+03:00'
 - date: '2026-09-23'
   time: '12:00'
   action: publish_teasers
   campaign_id: metrika-goals
-  status: scheduled
+  status: done
+  completed_at: '2026-09-30T10:55:31.299616+03:00'
 - date: '2026-09-24'
   time: '11:00'
   action: publish_tg_post
   post_id: tg-week4
-  status: scheduled
+  status: done
+  completed_at: '2026-09-30T10:55:31.299616+03:00'
 - date: '2026-09-25'
   time: '10:00'
   action: publish_dzen
   campaign_id: epk-leads
-  status: scheduled
+  status: done
+  completed_at: '2026-09-30T10:55:31.299616+03:00'
 - date: '2026-09-25'
   time: '12:00'
   action: publish_teasers
   campaign_id: epk-leads
-  status: scheduled
+  status: done
+  completed_at: '2026-09-30T10:55:31.299616+03:00'
 - date: '2026-09-26'
   time: '11:00'
   action: publish_vk_post
   post_id: vk-week4
-  status: scheduled
+  status: done
+  completed_at: '2026-09-30T10:55:31.299616+03:00'
 - date: '2026-09-30'
   time: '10:00'
   action: publish_dzen
   campaign_id: rsa-vs-search
-  status: scheduled
+  status: done
+  completed_at: '2026-09-30T10:55:31.299616+03:00'
 - date: '2026-09-30'
   time: '12:00'
   action: publish_teasers

@@ -1,6 +1,7 @@
 # Codex brief: обложка `vk-week3`
 
 Сделай **файлы в этом репозитории** (не только превью в чате).
+Если JPG уже лежит в `assets/covers/` — **перезапиши** новой качественной версией.
 Стиль: claymorphism / soft 3D, ivory `#FDFBF7`, акценты терракота / изумруд / золото.
 Референс стиля (не копировать объект 1-в-1): `assets/covers/_import/style-ref.png`
 
@@ -22,4 +23,6 @@ Claymorphism marketing cover for Yandex Direct B2B expert Maria Kovaleva. Headli
 
 1. Сохрани файлы в `assets/covers/` с именами выше.
 2. Закоммить и запушь в ветку агента **или** скажи облачному агенту: `covers pickup`.
+
+VK пост для ручной вставки: https://vk.com/wall-222121025_221
 
