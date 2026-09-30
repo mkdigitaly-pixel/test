@@ -8,9 +8,45 @@
     <title>mkekspert — Дзен</title>
     <link>https://blog.mkekspert.ru</link>
     <language>ru</language>
-    <lastBuildDate>Mon, 14 Sep 2026 05:49:29 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 30 Sep 2026 07:55:33 +0000</lastBuildDate>
     <atom:link href="https://blog.mkekspert.ru/dzen-feed.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>Цели Яндекс Метрики под Директ в B2B: какие ставлю и какие мешают</title>
+      <link>https://blog.mkekspert.ru/articles/metrika-goals.html</link>
+      <guid isPermaLink="false">mkekspert-dzen-metrika-goals</guid>
+      <pubDate>Wed, 30 Sep 2026 07:55:33 +0000</pubDate>
+      <description>Какие цели в Метрике нужны, чтобы Яндекс Директ учился на заявках, а не на кликах. Разбор для производства и услуг с длинным циклом.</description>
+      <category>format-article</category>
+      <category>index</category>
+      <category>comment-none</category>
+      <enclosure url="https://blog.mkekspert.ru/covers/metrika-goals.jpg" type="image/jpeg"/>
+      <content:encoded><![CDATA[<figure><img src="https://blog.mkekspert.ru/covers/metrika-goals.jpg"/></figure>
+<h1>Цели Яндекс Метрики под Директ в B2B: какие ставлю и какие мешают</h1>
+<p>Директ оптимизируется на то, что вы назвали целью. Если цель — «визит» или «клик по телефону в шапке», кабинет будет зелёный, а в CRM пусто.</p>
+<p>На разборах B2B я почти всегда начинаю не с ключей, а с Метрики.</p>
+<h2>Что для меня заявка</h2>
+<p>Форма с сайта. Звонок. Письмо на рабочую почту. Сообщение в мессенджер. Иногда — скачивание КП, если это реальный шаг сделки.</p>
+<p>«Пролистал 50% страницы» заявкой не считаю. «Клик по меню» тоже. Такие цели Директ выполняет охотно и дёшево — и уводит обучение не туда.</p>
+<h2>Минимальный набор, который ставлю</h2>
+<ul><li>отправка формы: лучше цель на страницу «спасибо», а не на нажатие кнопки;</li><li>звонок: коллтрекинг или хотя бы клик по номеру на мобильном, если коллтрекинга ещё нет;</li><li>копирование e-mail или клик в мессенджер — если лиды реально так приходят.</li></ul>
+<p>Три источника должны сходиться хотя бы примерно: Метрика, журнал звонков, CRM. Пока они живут разными жизнями, спорить о CPL рано.</p>
+<h2>Что выключаю из оптимизации</h2>
+<p>Микроконверсии оставляю для аналитики, но не отдаю их в стратегию «максимум конверсий». Иначе Директ набирает «дешёвые» события: скролл, клик по карте, 15 секунд на сайте.</p>
+<p>В производстве клик по телефону в подвале часто делают те, кто ищет вакансию или сервис. Это не ваш закупщик.</p>
+<h2>Как проверяю, что цель живая</h2>
+<p>Отправляю тестовую заявку с UTM. Смотрю, дошла ли в Метрику и в Директ как конверсия. Если тест не виден — стратегия учится по старым или чужим событиям.</p>
+<p>Смотрю долю целей без идентификатора и дубли: одна заявка как форма плюс звонок плюс «спасибо» превращается в три конверсии. Алгоритм думает, что лидов много.</p>
+<h2>Когда целей мало</h2>
+<p>Автостратегии любят поток. Ориентир — порядка десяти целевых действий в неделю на кампанию. Если заявок две, я сначала чиню учёт и посадочную, а не удваиваю бюджет «чтобы обучилось».</p>
+<h2>Что сделать на этой неделе</h2>
+<p>Составьте список, что отдел продаж считает заявкой. Сопоставьте с целями в Метрике. Уберите из оптимизации всё, что не заявка. Прогоните тестовую форму.</p>
+<p>Если не сходится — на разборе смотрю счётчик, цели и как они приходят в Директ.</p>
+<p><a href="https://mkekspert.ru/razbor-direct?utm_source=dzen&utm_medium=article&utm_campaign=metrika-goals">Бесплатный разбор Яндекс Директ</a></p>
+<p><a href="https://t.me/mariyaprodirect">Канал в Telegram</a></p>
+]]></content:encoded>
+      <media:rating scheme="urn:simple">nonadult</media:rating>
+    </item>
+<item>
       <title>Что входит в аудит Яндекс Директа: что я смотрю на разборе кабинета</title>
       <link>https://blog.mkekspert.ru/articles/audit-direct.html</link>
       <guid isPermaLink="false">mkekspert-dzen-audit-direct</guid>
@@ -48,7 +84,7 @@
 <p><a href="https://t.me/mariyaprodirect">Канал в Telegram</a></p>]]></content:encoded>
       <media:rating scheme="urn:simple">nonadult</media:rating>
     </item>
-    <item>
+<item>
       <title>Автотаргет в Яндекс Директе для B2B: когда помогает, а когда съедает бюджет</title>
       <link>https://blog.mkekspert.ru/articles/autotarget-b2b.html</link>
       <guid isPermaLink="false">mkekspert-dzen-autotarget-b2b</guid>
@@ -97,7 +133,7 @@
 <p><a href="https://t.me/Mariya1740">@Mariya1740</a> — <b>РАЗБОР</b></p>]]></content:encoded>
       <media:rating scheme="urn:simple">nonadult</media:rating>
     </item>
-    <item>
+<item>
       <title>Куда сливается бюджет в Яндекс Директе: что открываю в кабинете первым</title>
       <link>https://blog.mkekspert.ru/articles/budget-waste.html</link>
       <guid isPermaLink="false">mkekspert-dzen-budget-waste</guid>
@@ -135,7 +171,7 @@
 <p><a href="https://t.me/mariyaprodirect">Канал в Telegram</a></p>]]></content:encoded>
       <media:rating scheme="urn:simple">nonadult</media:rating>
     </item>
-    <item>
+<item>
       <title>Как выбрать директолога для B2B: чтобы не купить отчёт вместо заявок</title>
       <link>https://blog.mkekspert.ru/articles/choose-directologist.html</link>
       <guid isPermaLink="false">mkekspert-dzen-choose-directologist</guid>
@@ -170,7 +206,7 @@
 <p><a href="https://t.me/mariyaprodirect">Канал в Telegram</a></p>]]></content:encoded>
       <media:rating scheme="urn:simple">nonadult</media:rating>
     </item>
-    <item>
+<item>
       <title>ЕПК в Яндекс Директе для B2B: когда запускаю и когда лучше не трогать</title>
       <link>https://blog.mkekspert.ru/articles/epk-leads.html</link>
       <guid isPermaLink="false">mkekspert-dzen-epk-leads</guid>
@@ -206,7 +242,7 @@
 <p><a href="https://t.me/mariyaprodirect">Канал в Telegram</a></p>]]></content:encoded>
       <media:rating scheme="urn:simple">nonadult</media:rating>
     </item>
-    <item>
+<item>
       <title>Посадочная для Яндекс Директа в B2B: почему клики есть, а заявок нет</title>
       <link>https://blog.mkekspert.ru/articles/landing-conversion.html</link>
       <guid isPermaLink="false">mkekspert-dzen-landing-conversion</guid>
@@ -244,42 +280,7 @@
 <p><a href="https://t.me/mariyaprodirect">Канал в Telegram</a></p>]]></content:encoded>
       <media:rating scheme="urn:simple">nonadult</media:rating>
     </item>
-    <item>
-      <title>Цели Яндекс Метрики под Директ в B2B: какие ставлю и какие мешают</title>
-      <link>https://blog.mkekspert.ru/articles/metrika-goals.html</link>
-      <guid isPermaLink="false">mkekspert-dzen-metrika-goals</guid>
-      <pubDate>Mon, 14 Sep 2026 05:49:29 +0000</pubDate>
-      <description>Какие цели в Метрике нужны, чтобы Яндекс Директ учился на заявках, а не на кликах. Разбор для производства и услуг с длинным циклом.</description>
-      <category>format-article</category>
-      <category>index</category>
-      <category>comment-none</category>
-      <enclosure url="https://blog.mkekspert.ru/covers/metrika-goals.jpg" type="image/jpeg"/>
-      <content:encoded><![CDATA[<figure><img src="https://blog.mkekspert.ru/covers/metrika-goals.jpg"/></figure>
-<h1>Цели Яндекс Метрики под Директ в B2B: какие ставлю и какие мешают</h1>
-<p>Директ оптимизируется на то, что вы назвали целью. Если цель — «визит» или «клик по телефону в шапке», кабинет будет зелёный, а в CRM пусто.</p>
-<p>На разборах B2B я почти всегда начинаю не с ключей, а с Метрики.</p>
-<h2>Что для меня заявка</h2>
-<p>Форма с сайта. Звонок. Письмо на рабочую почту. Сообщение в мессенджер. Иногда — скачивание КП, если это реальный шаг сделки.</p>
-<p>«Пролистал 50% страницы» заявкой не считаю. «Клик по меню» тоже. Такие цели Директ выполняет охотно и дёшево — и уводит обучение не туда.</p>
-<h2>Минимальный набор, который ставлю</h2>
-<ul><li>отправка формы: лучше цель на страницу «спасибо», а не на нажатие кнопки;</li><li>звонок: коллтрекинг или хотя бы клик по номеру на мобильном, если коллтрекинга ещё нет;</li><li>копирование e-mail или клик в мессенджер — если лиды реально так приходят.</li></ul>
-<p>Три источника должны сходиться хотя бы примерно: Метрика, журнал звонков, CRM. Пока они живут разными жизнями, спорить о CPL рано.</p>
-<h2>Что выключаю из оптимизации</h2>
-<p>Микроконверсии оставляю для аналитики, но не отдаю их в стратегию «максимум конверсий». Иначе Директ набирает «дешёвые» события: скролл, клик по карте, 15 секунд на сайте.</p>
-<p>В производстве клик по телефону в подвале часто делают те, кто ищет вакансию или сервис. Это не ваш закупщик.</p>
-<h2>Как проверяю, что цель живая</h2>
-<p>Отправляю тестовую заявку с UTM. Смотрю, дошла ли в Метрику и в Директ как конверсия. Если тест не виден — стратегия учится по старым или чужим событиям.</p>
-<p>Смотрю долю целей без идентификатора и дубли: одна заявка как форма плюс звонок плюс «спасибо» превращается в три конверсии. Алгоритм думает, что лидов много.</p>
-<h2>Когда целей мало</h2>
-<p>Автостратегии любят поток. Ориентир — порядка десяти целевых действий в неделю на кампанию. Если заявок две, я сначала чиню учёт и посадочную, а не удваиваю бюджет «чтобы обучилось».</p>
-<h2>Что сделать на этой неделе</h2>
-<p>Составьте список, что отдел продаж считает заявкой. Сопоставьте с целями в Метрике. Уберите из оптимизации всё, что не заявка. Прогоните тестовую форму.</p>
-<p>Если не сходится — на разборе смотрю счётчик, цели и как они приходят в Директ.</p>
-<p><a href="https://mkekspert.ru/razbor-direct?utm_source=dzen&utm_medium=article&utm_campaign=metrika-goals">Бесплатный разбор Яндекс Директ</a></p>
-<p><a href="https://t.me/mariyaprodirect">Канал в Telegram</a></p>]]></content:encoded>
-      <media:rating scheme="urn:simple">nonadult</media:rating>
-    </item>
-    <item>
+<item>
       <title>Минус-слова в Яндекс Директе для B2B: как собираю и как часто чищу</title>
       <link>https://blog.mkekspert.ru/articles/negative-keywords.html</link>
       <guid isPermaLink="false">mkekspert-dzen-negative-keywords</guid>
@@ -315,7 +316,7 @@
 <p><a href="https://t.me/mariyaprodirect">Канал в Telegram</a></p>]]></content:encoded>
       <media:rating scheme="urn:simple">nonadult</media:rating>
     </item>
-    <item>
+<item>
       <title>Почему нет заявок в Яндекс Директе: что я проверяю в кабинете за 30 минут</title>
       <link>https://blog.mkekspert.ru/articles/no-leads-direct.html</link>
       <guid isPermaLink="false">mkekspert-dzen-no-leads-direct</guid>
@@ -367,7 +368,7 @@
 <p><a href="https://t.me/Mariya1740">@Mariya1740</a> — <b>РАЗБОР</b></p>]]></content:encoded>
       <media:rating scheme="urn:simple">nonadult</media:rating>
     </item>
-    <item>
+<item>
       <title>РСЯ или Поиск в Яндекс Директе для B2B: куда я ставлю бюджет</title>
       <link>https://blog.mkekspert.ru/articles/rsa-vs-search.html</link>
       <guid isPermaLink="false">mkekspert-dzen-rsa-vs-search</guid>
