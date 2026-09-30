@@ -72,6 +72,8 @@ items:
   dzen_url: https://dzen.ru/a/aqtjAEjUgT5jjGcI
   notes: RSS first-connect — оригинальная статья, не копия канала
   dzen_rss_pending: false
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-09-23-metrika.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-09-23-metrika.md
 - id: epk-leads
   status: approved
   topic: ЕПК под заявки в B2B
@@ -82,6 +84,8 @@ items:
   dzen_url: https://dzen.ru/a/aqti_kjUgT5jjGcG
   notes: RSS first-connect — оригинальная статья, не копия канала
   dzen_rss_pending: false
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-09-25-epk.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-09-25-epk.md
 - id: offline-conversions
   status: draft
   topic: Офлайн-конверсии и CRM — обучение стратегии Директа
@@ -106,6 +110,8 @@ items:
   dzen_url: https://dzen.ru/a/aqti_h3cWgqrMG1l
   notes: RSS first-connect — оригинальная статья, не копия канала
   dzen_rss_pending: false
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-09-30-rsa.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-09-30-rsa.md
 - id: budget-waste
   status: approved
   topic: Куда сливается бюджет в Директе
