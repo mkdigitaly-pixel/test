@@ -178,7 +178,8 @@ slots:
   time: '11:00'
   action: publish_tg_post
   post_id: tg-week5
-  status: scheduled
+  status: done
+  completed_at: '2026-10-01T12:05:22.387105+03:00'
 - date: '2026-10-02'
   time: '10:00'
   action: publish_dzen
