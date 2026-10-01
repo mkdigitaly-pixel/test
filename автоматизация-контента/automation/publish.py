@@ -1746,12 +1746,17 @@ def cmd_schedule_sync_urls(_args: argparse.Namespace) -> int:
     n = 0
     for item in items:
         if item.get("dzen_url"):
+            if item.get("dzen_rss_pending"):
+                item["dzen_rss_pending"] = False
+                n += 1
             continue
         rel = article_path(item)
         if not rel or not (ROOT / rel).exists():
             continue
         if sync_dzen_url(item["id"]):
             n += 1
+    if n:
+        save_queue(items)
     print(f"Обновлено dzen_url: {n}")
     return 0
 

@@ -1003,15 +1003,33 @@ def _archive_page_html(pad: dict[str, Any]) -> str:
     )
 
 
-def _item_eligible_for_rss(item: dict[str, Any]) -> bool:
-    """В ленту — только оригинальные статьи блога, которых ещё нет в канале."""
+def _item_eligible_for_rss(item: dict[str, Any], *, channel_titles: list[str] | None = None) -> bool:
+    """Published — в ленте всегда. Approved — только если ещё нет в канале (не заранее)."""
     if not item.get("dzen_article"):
         return False
-    if str(item.get("status") or "") not in ("approved", "published"):
+    status = str(item.get("status") or "")
+    path = ROOT / str(item["dzen_article"])
+    if not path.is_file():
         return False
+    if status == "published":
+        return True
+    if status != "approved":
+        return False
+    # будущие approved не кладём заранее — иначе Дзен забирает всё сразу
     if str(item.get("dzen_url") or "").strip():
         return False
-    return (ROOT / str(item["dzen_article"])).is_file()
+    if channel_titles is None:
+        return True
+    try:
+        from publish import parse_frontmatter
+
+        meta, _ = parse_frontmatter(path.read_text(encoding="utf-8"))
+        title = str(meta.get("h1") or meta.get("title") or "").strip()
+    except Exception:
+        title = ""
+    if title and _title_is_seen(title, channel_titles):
+        return False
+    return True
 
 
 def rebuild_full_feed(
@@ -1020,14 +1038,25 @@ def rebuild_full_feed(
     article_to_html: Any,
     load_meta: Any,
 ) -> Path:
-    """Пересборка feed.xml: только уникальные статьи блога, без копий канала."""
+    """Пересборка feed.xml: published + новые approved, без будущих дублей канала."""
     blocks: list[str] = []
     seen_guids: set[str] = set()
     seen_titles: list[str] = []
     channel_titles = [str(it.get("title") or "") for it in fetch_dzen_channel_items(30)]
 
-    ready = [item for item in queue_items if _item_eligible_for_rss(item)]
-    ready.sort(key=lambda item: str(item.get("id") or ""))
+    ready = [
+        item
+        for item in queue_items
+        if _item_eligible_for_rss(item, channel_titles=channel_titles)
+    ]
+    ready.sort(
+        key=lambda item: (
+            0 if str(item.get("status")) == "published" else 1,
+            str(item.get("dzen_published_at") or item.get("published_at") or ""),
+            str(item.get("id") or ""),
+        ),
+        reverse=True,
+    )
 
     for item in ready:
         rel = item.get("dzen_article")
@@ -1043,7 +1072,10 @@ def rebuild_full_feed(
         guid = f"mkekspert-dzen-{cid}"
         if guid in seen_guids or not title:
             continue
-        if _title_is_seen(title, seen_titles) or _title_is_seen(title, channel_titles):
+        if _title_is_seen(title, seen_titles):
+            continue
+        # approved-новые — не дублировать канал; published оставляем (обновление текста)
+        if str(item.get("status")) != "published" and _title_is_seen(title, channel_titles):
             continue
         seen_guids.add(guid)
         seen_titles.append(title)
