@@ -8,9 +8,48 @@
     <title>mkekspert — Дзен</title>
     <link>https://blog.mkekspert.ru</link>
     <language>ru</language>
-    <lastBuildDate>Thu, 01 Oct 2026 08:47:51 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 02 Oct 2026 07:05:18 +0000</lastBuildDate>
     <atom:link href="https://blog.mkekspert.ru/dzen-feed.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>Куда сливается бюджет в Яндекс Директе: что открываю в кабинете первым</title>
+      <link>https://blog.mkekspert.ru/articles/budget-waste.html</link>
+      <guid isPermaLink="false">mkekspert-dzen-budget-waste</guid>
+      <pubDate>Fri, 02 Oct 2026 07:05:18 +0000</pubDate>
+      <description>Шесть мест в кабинете Директа, где в B2B обычно уходят деньги без заявок: запросы, автотаргет, площадки, гео, время, посадочная.</description>
+      <category>format-article</category>
+      <category>index</category>
+      <category>comment-none</category>
+      <enclosure url="https://blog.mkekspert.ru/covers/budget-waste.jpg" type="image/jpeg"/>
+      <content:encoded><![CDATA[<figure><img src="https://blog.mkekspert.ru/covers/budget-waste.jpg"/></figure>
+<h1>Куда сливается бюджет в Яндекс Директе: что открываю в кабинете первым</h1>
+<p>«Бюджет уходит, заявок нет» — формулировка, с которой приходят чаще всего. Я не ищу мистику Яндекса. Ищу, в каком отчёте деньги превращаются в чужой спрос.</p>
+<p>Ниже — порядок, которым хожу по кабинету. Можно пройтись самим, пока не звали на разбор.</p>
+<h2>Поисковые запросы за 7–14 дней</h2>
+<p>В B2B почти всегда всплывают вакансии, учёба, «своими руками», б/у, аренда, соседняя ниша. Это не «Яндекс тупит». Это широкое соответствие и автотаргет, которые вы не режете.</p>
+<p>Смотрю долю таких запросов и сколько на них кликов. Если треть бюджета — в минус и в отдельную чистку на этой неделе.</p>
+<h2>Автотаргет и расширения аудитории</h2>
+<p>Их включают «на всякий случай». Потом удивляются чужим формулировкам в отчёте. Если семантика ещё грязная, расширение только ускоряет слив.</p>
+<p>Оставляю расширение, когда ядро чистое и конверсии уже есть. Иначе сначала ручной список.</p>
+<h2>Площадки РСЯ</h2>
+<p>Если сети включены в ту же кампанию, что Поиск, дешёвый клик с площадок перетягивает деньги. Открываю отчёт по площадкам. Где клики без заявок — минусую пачками, не по одной ссылке в месяц.</p>
+<h2>Гео и время</h2>
+<p>Кампания на «всю Россию», а отгрузка только по трём областям. Или ночные клики с мобильных, а менеджеры берут трубку с девяти до шести. В B2B это частый тихий слив.</p>
+<p>Сужаю гео до реальной зоны. Смотрю часы: если ночью только мусор — корректировки или расписание.</p>
+<h2>Посадочная</h2>
+<p>Клики есть, отказы высокие, форм ноль. Тогда проблема не только в кабинете. Заголовок не совпадает с объявлением, форма в подвале, нет оффера под запрос.</p>
+<p>Директ может быть аккуратным и всё равно дорогим, если человек не понимает, куда попал.</p>
+<h2>Цели, на которые учится стратегия</h2>
+<p>Если в конверсиях «клик по телефону» и «просмотр 30 секунд», бюджет уходит на выполнение этих действий. Кабинет доволен. Отдел продаж нет.</p>
+<p>Проверьте, что оптимизация идёт на заявку, которую вы реально обрабатываете.</p>
+<h2>Что сделать сегодня</h2>
+<p>Выгрузите запросы. Пометьте нецелевые. Посмотрите, не смешаны ли Поиск и сети. Сверьте гео с зоной отгрузки. Откройте цели.</p>
+<p>Если в трёх местах сразу дыры — сначала учёт и минус-слова, не «ещё 50 тысяч, чтобы набралась статистика».</p>
+<p><a href="https://mkekspert.ru/razbor-direct?utm_source=dzen&utm_medium=article&utm_campaign=budget-waste">Бесплатный разбор Яндекс Директ</a></p>
+<p><a href="https://t.me/mariyaprodirect">Канал в Telegram</a></p>
+]]></content:encoded>
+      <media:rating scheme="urn:simple">nonadult</media:rating>
+    </item>
+<item>
       <title>РСЯ или Поиск в Яндекс Директе для B2B: куда я ставлю бюджет</title>
       <link>https://blog.mkekspert.ru/articles/rsa-vs-search.html</link>
       <guid isPermaLink="false">mkekspert-dzen-rsa-vs-search</guid>
@@ -45,7 +84,7 @@
 <p><a href="https://t.me/mariyaprodirect">Канал в Telegram</a></p>]]></content:encoded>
       <media:rating scheme="urn:simple">nonadult</media:rating>
     </item>
-    <item>
+<item>
       <title>ЕПК в Яндекс Директе для B2B: когда запускаю и когда лучше не трогать</title>
       <link>https://blog.mkekspert.ru/articles/epk-leads.html</link>
       <guid isPermaLink="false">mkekspert-dzen-epk-leads</guid>
@@ -81,7 +120,7 @@
 <p><a href="https://t.me/mariyaprodirect">Канал в Telegram</a></p>]]></content:encoded>
       <media:rating scheme="urn:simple">nonadult</media:rating>
     </item>
-    <item>
+<item>
       <title>Цели Яндекс Метрики под Директ в B2B: какие ставлю и какие мешают</title>
       <link>https://blog.mkekspert.ru/articles/metrika-goals.html</link>
       <guid isPermaLink="false">mkekspert-dzen-metrika-goals</guid>
@@ -116,7 +155,7 @@
 <p><a href="https://t.me/mariyaprodirect">Канал в Telegram</a></p>]]></content:encoded>
       <media:rating scheme="urn:simple">nonadult</media:rating>
     </item>
-    <item>
+<item>
       <title>Автотаргет в Яндекс Директе для B2B: когда помогает, а когда съедает бюджет</title>
       <link>https://blog.mkekspert.ru/articles/autotarget-b2b.html</link>
       <guid isPermaLink="false">mkekspert-dzen-autotarget-b2b</guid>
@@ -165,7 +204,7 @@
 <p><a href="https://t.me/Mariya1740">@Mariya1740</a> — <b>РАЗБОР</b></p>]]></content:encoded>
       <media:rating scheme="urn:simple">nonadult</media:rating>
     </item>
-    <item>
+<item>
       <title>Почему нет заявок в Яндекс Директе: что я проверяю в кабинете за 30 минут</title>
       <link>https://blog.mkekspert.ru/articles/no-leads-direct.html</link>
       <guid isPermaLink="false">mkekspert-dzen-no-leads-direct</guid>
@@ -217,7 +256,7 @@
 <p><a href="https://t.me/Mariya1740">@Mariya1740</a> — <b>РАЗБОР</b></p>]]></content:encoded>
       <media:rating scheme="urn:simple">nonadult</media:rating>
     </item>
-    <item>
+<item>
       <title>Реклама в Директе крутится, а заявок нет: что я смотрю в кабинете в первую очередь</title>
       <link>https://blog.mkekspert.ru/articles/7-errors-direct.html</link>
       <guid isPermaLink="false">mkekspert-dzen-7-errors-direct</guid>
@@ -261,7 +300,7 @@
 <p><a href="https://t.me/Mariya1740">@Mariya1740</a> — <b>РАЗБОР</b></p>]]></content:encoded>
       <media:rating scheme="urn:simple">nonadult</media:rating>
     </item>
-    <item>
+<item>
       <title>CPL с 8000 до 2500 ₽: кейс производства из пенопласта в Яндекс Директе</title>
       <link>https://blog.mkekspert.ru/articles/penoplast-case.html</link>
       <guid isPermaLink="false">mkekspert-dzen-penoplast-case</guid>
