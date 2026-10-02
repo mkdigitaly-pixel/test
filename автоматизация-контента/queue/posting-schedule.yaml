@@ -184,7 +184,8 @@ slots:
   time: '10:00'
   action: publish_dzen
   campaign_id: budget-waste
-  status: scheduled
+  status: done
+  completed_at: '2026-10-02T10:05:18.230446+03:00'
 - date: '2026-10-02'
   time: '12:00'
   action: publish_teasers
