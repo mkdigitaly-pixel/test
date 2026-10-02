@@ -190,7 +190,8 @@ slots:
   time: '12:00'
   action: publish_teasers
   campaign_id: budget-waste
-  status: scheduled
+  status: done
+  completed_at: '2026-10-02T12:05:22.345315+03:00'
 - date: '2026-10-03'
   time: '11:00'
   action: publish_vk_post

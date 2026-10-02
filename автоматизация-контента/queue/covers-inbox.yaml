@@ -96,3 +96,17 @@ items:
   vk_post_id: 225
   requested_at: '2026-09-30T09:05:55Z'
   ready_at: '2026-09-30T09:06:01Z'
+- id: budget-waste
+  slug: budget-waste
+  status: waiting_codex
+  platforms:
+  - dzen
+  - tg
+  - vk
+  headline: Слив бюджета
+  subline: Где смотреть
+  out_landscape: assets/covers/budget-waste.jpg
+  out_vk: assets/covers/budget-waste-vk.jpg
+  brief: briefs/covers/budget-waste.md
+  vk_post_id: 226
+  requested_at: '2026-10-02T09:06:44Z'
