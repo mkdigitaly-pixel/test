@@ -25,3 +25,5 @@ Flat bold social media cover for Yandex Direct B2B expert Maria Kovaleva, same s
 1. Сохрани файлы в `assets/covers/` с именами выше.
 2. Закоммить и запушь в ветку агента **или** скажи облачному агенту: `covers pickup`.
 
+VK пост для ручной вставки: https://vk.com/wall-222121025_228
+
