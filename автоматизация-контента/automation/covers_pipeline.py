@@ -112,13 +112,14 @@ def write_brief(item: dict[str, Any], *, vk_post_id: int | None = None) -> Path:
         "",
         "Сделай **файлы в этом репозитории** (не только превью в чате).",
         "Если JPG уже лежит в `assets/covers/` — **перезапиши** новой качественной версией.",
-        "Стиль: claymorphism / soft 3D, ivory `#FDFBF7`, акценты терракота / изумруд / золото.",
-        f"Референс стиля (не копировать объект 1-в-1): `{STYLE_REF}`",
+        "Стиль: **как в Telegram / brand-visual** — тёмный фон `#181818`, акцент зелёный `#4EAF4E`, жёлтый `#FFCC4A`.",
+        "**Нельзя:** claymorphism / пластилин / ivory 3D.",
+        "Референс: `assets/covers/tg-week5.jpg` (тот же стиль, для VK — квадрат).",
         "",
         "## Текст на обложке",
         f"- Заголовок: **{headline}**",
         f"- Подзаголовок: **{subline}**",
-        "- Бренд внизу: `mkekspert.ru`",
+        "- Бренд внизу: `Мария Ковалева · mkekspert.ru`",
         "",
         "## Файлы (обязательно оба пути, если платформа нужна)",
     ]
@@ -135,12 +136,13 @@ def write_brief(item: dict[str, Any], *, vk_post_id: int | None = None) -> Path:
         "## Промпт (можно уточнить объект, но не стиль)",
         "",
         "```",
-        f"Claymorphism marketing cover for Yandex Direct B2B expert Maria Kovaleva. "
-        f"Headline «{headline}», subline «{subline}», brand mkekspert.ru. "
-        "Soft ivory background, terracotta/emerald/gold accents, gentle 3D clay shapes, "
-        "orbital thin lines, unique central 3D object matching the topic "
-        "(not the same phone every time). No badges, no arrows, no «В итоге» card. "
-        "High-end editorial, clean typography space for the title.",
+        f"Flat bold social media cover for Yandex Direct B2B expert Maria Kovaleva, "
+        f"same style as Telegram channel covers. Headline «{headline}», subline «{subline}», "
+        "footer «Мария Ковалева · mkekspert.ru». Dark charcoal background #181818, "
+        "bright green #4EAF4E left stripe, golden yellow #FFCC4A bottom stripe, "
+        "white headline, yellow subline, green brand line. Abstract bar chart and upward arrow "
+        "accents on the right. Clean sans-serif typography, high contrast, mobile feed ready. "
+        "No claymorphism, no plasticine, no 3D clay, no ivory background, no terracotta blobs.",
         "```",
         "",
         "## Когда готово",

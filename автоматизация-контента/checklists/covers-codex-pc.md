@@ -24,5 +24,6 @@ python3 covers_pipeline.py pickup --deploy
 
 ## Стиль
 
-Claymorphism, ivory `#FDFBF7`, терракота / изумруд / золото.
+Как в Telegram / `references/brand-visual.md`: тёмный фон `#181818`, зелёный `#4EAF4E`, жёлтый `#FFCC4A`.
+**Без** claymorphism / пластилина.
 Подробности: `docs/covers-cloud-agent.md`.

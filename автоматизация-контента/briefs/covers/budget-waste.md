@@ -2,13 +2,14 @@
 
 Сделай **файлы в этом репозитории** (не только превью в чате).
 Если JPG уже лежит в `assets/covers/` — **перезапиши** новой качественной версией.
-Стиль: claymorphism / soft 3D, ivory `#FDFBF7`, акценты терракота / изумруд / золото.
-Референс стиля (не копировать объект 1-в-1): `assets/covers/_import/style-ref.png`
+Стиль: **как в Telegram / brand-visual** — тёмный фон `#181818`, акцент зелёный `#4EAF4E`, жёлтый `#FFCC4A`.
+**Нельзя:** claymorphism / пластилин / ivory 3D.
+Референс: `assets/covers/tg-week5.jpg` (тот же стиль, для VK — квадрат).
 
 ## Текст на обложке
 - Заголовок: **Слив бюджета**
 - Подзаголовок: **Где смотреть**
-- Бренд внизу: `mkekspert.ru`
+- Бренд внизу: `Мария Ковалева · mkekspert.ru`
 
 ## Файлы (обязательно оба пути, если платформа нужна)
 1. `assets/covers/budget-waste.jpg` — **1200×630** (Дзен / TG)
@@ -17,13 +18,11 @@
 ## Промпт (можно уточнить объект, но не стиль)
 
 ```
-Claymorphism marketing cover for Yandex Direct B2B expert Maria Kovaleva. Headline «Слив бюджета», subline «Где смотреть», brand mkekspert.ru. Soft ivory background, terracotta/emerald/gold accents, gentle 3D clay shapes, orbital thin lines, unique central 3D object matching the topic (not the same phone every time). No badges, no arrows, no «В итоге» card. High-end editorial, clean typography space for the title.
+Flat bold social media cover for Yandex Direct B2B expert Maria Kovaleva, same style as Telegram channel covers. Headline «Слив бюджета», subline «Где смотреть», footer «Мария Ковалева · mkekspert.ru». Dark charcoal background #181818, bright green #4EAF4E left stripe, golden yellow #FFCC4A bottom stripe, white headline, yellow subline, green brand line. Abstract bar chart and upward arrow accents on the right. Clean sans-serif typography, high contrast, mobile feed ready. No claymorphism, no plasticine, no 3D clay, no ivory background, no terracotta blobs.
 ```
 
 ## Когда готово
 
 1. Сохрани файлы в `assets/covers/` с именами выше.
 2. Закоммить и запушь в ветку агента **или** скажи облачному агенту: `covers pickup`.
-
-VK пост для ручной вставки: https://vk.com/wall-222121025_226
 

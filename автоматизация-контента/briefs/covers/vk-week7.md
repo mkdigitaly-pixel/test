@@ -1,4 +1,4 @@
-# Codex brief: обложка `vk-week5`
+# Codex brief: обложка `vk-week7`
 
 Сделай **файлы в этом репозитории** (не только превью в чате).
 Если JPG уже лежит в `assets/covers/` — **перезапиши** новой качественной версией.
@@ -7,17 +7,17 @@
 Референс: `assets/covers/tg-week5.jpg` (тот же стиль, для VK — квадрат).
 
 ## Текст на обложке
-- Заголовок: **Куда уходит бюджет**
-- Подзаголовок: **3 дыры в Директе**
+- Заголовок: **Посадочная**
+- Подзаголовок: **+конверсия**
 - Бренд внизу: `Мария Ковалева · mkekspert.ru`
 
 ## Файлы (обязательно оба пути, если платформа нужна)
-1. `assets/covers/vk-week5-vk.jpg` — **1080×1080** (VK, Мария крепит вручную)
+1. `assets/covers/vk-week7-vk.jpg` — **1080×1080** (VK, Мария крепит вручную)
 
 ## Промпт (можно уточнить объект, но не стиль)
 
 ```
-Flat bold social media cover for Yandex Direct B2B expert Maria Kovaleva, same style as Telegram channel covers. Headline «Куда уходит бюджет», subline «3 дыры в Директе», footer «Мария Ковалева · mkekspert.ru». Dark charcoal background #181818, bright green #4EAF4E left stripe, golden yellow #FFCC4A bottom stripe, white headline, yellow subline, green brand line. Abstract bar chart and upward arrow accents on the right. Clean sans-serif typography, high contrast, mobile feed ready. No claymorphism, no plasticine, no 3D clay, no ivory background, no terracotta blobs.
+Flat bold social media cover for Yandex Direct B2B expert Maria Kovaleva, same style as Telegram channel covers. Headline «Посадочная», subline «+конверсия», footer «Мария Ковалева · mkekspert.ru». Dark charcoal background #181818, bright green #4EAF4E left stripe, golden yellow #FFCC4A bottom stripe, white headline, yellow subline, green brand line. Abstract bar chart and upward arrow accents on the right. Clean sans-serif typography, high contrast, mobile feed ready. No claymorphism, no plasticine, no 3D clay, no ivory background, no terracotta blobs.
 ```
 
 ## Когда готово

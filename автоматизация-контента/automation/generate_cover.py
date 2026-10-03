@@ -16,6 +16,13 @@ import yaml
 from dotenv import load_dotenv
 from PIL import Image, ImageDraw, ImageFont
 
+# Pillow < 8.2 на части окружений без rounded_rectangle
+if not hasattr(ImageDraw.ImageDraw, "rounded_rectangle"):
+    def _rounded_rectangle(self, xy, radius=0, fill=None, outline=None, width=1):  # type: ignore[no-redef]
+        self.rectangle(xy, fill=fill, outline=outline, width=width)
+
+    ImageDraw.ImageDraw.rounded_rectangle = _rounded_rectangle  # type: ignore[attr-defined]
+
 ROOT = Path(__file__).resolve().parent.parent
 COVERS = ROOT / "assets" / "covers"
 IMPORT_DIR = COVERS / "_import"
@@ -44,12 +51,20 @@ ACCENT_GOLD   = "#D4AF37"   # золото — премиум
 TEXT_GRAPHITE = "#3D3D3D"   # основной текст
 TEXT_DARK_BEI = "#8B6B4A"   # подписи/мелкий текст
 
-# Legacy-алиасы (нужны для старых мест в коде)
-BG            = BG_WARM
-ACCENT_GREEN  = ACCENT_EMER
-ACCENT_YELLOW = ACCENT_GOLD
-TEXT          = TEXT_GRAPHITE
-SUB           = TEXT_DARK_BEI
+# Бренд-стиль обложек TG/VK/Дзен (references/brand-visual.md) — НЕ claymorphism
+BRAND_BG_DARK = "#181818"
+BRAND_BG_DEEP = "#151515"
+BRAND_GREEN   = "#4EAF4E"
+BRAND_YELLOW  = "#FFCC4A"
+BRAND_TEXT    = "#FFFFFF"
+BRAND_SUB     = "#B0B0B0"
+
+# Legacy-алиасы для тёмного шаблона ленты (как Telegram)
+BG            = BRAND_BG_DARK
+ACCENT_GREEN  = BRAND_GREEN
+ACCENT_YELLOW = BRAND_YELLOW
+TEXT          = BRAND_TEXT
+SUB           = BRAND_SUB
 
 # MW-алиасы (minimal_warm style)
 MW_BG0        = BG_IVORY
@@ -435,29 +450,33 @@ def overlay_brand_text(img: Image.Image, headline: str, subline: str) -> Image.I
 
     img = img.copy()
     w, h = img.size
+    square = abs(w - h) < 40
     overlay = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     draw = ImageDraw.Draw(overlay)
-    draw.rectangle([0, int(h * 0.55), w, h], fill=(24, 24, 24, 210))
+    # На квадрате VK текст слева по центру (как TG), без нижней плашки на полкадра
+    if not square:
+        draw.rectangle([0, int(h * 0.55), w, h], fill=(24, 24, 24, 210))
     draw.rectangle([0, 0, 14, h], fill=ACCENT_GREEN)
     draw.rectangle([0, h - 8, w, h], fill=ACCENT_YELLOW)
 
     img = Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB")
     draw = ImageDraw.Draw(img)
 
-    font_h = load_font(max(36, w // 22), bold=True)
-    font_s = load_font(max(22, w // 32))
+    font_h = load_font(max(40 if square else 36, w // (16 if square else 22)), bold=True)
+    font_s = load_font(max(24 if square else 22, w // (28 if square else 32)))
     font_b = load_font(max(18, w // 38))
 
-    y = int(h * 0.58)
-    for line in textwrap.wrap(headline, width=22)[:3]:
+    y = int(h * (0.34 if square else 0.58))
+    wrap = 14 if square else 22
+    for line in textwrap.wrap(headline, width=wrap)[:3]:
         draw.text((max(50, w // 20), y), line, fill=TEXT, font=font_h)
-        y += int(h * 0.09)
+        y += int(h * (0.08 if square else 0.09))
 
     if subline:
-        y += 8
-        for line in textwrap.wrap(subline, width=36)[:2]:
+        y += 10
+        for line in textwrap.wrap(subline, width=22 if square else 36)[:2]:
             draw.text((max(50, w // 20), y), line, fill=ACCENT_YELLOW, font=font_s)
-            y += int(h * 0.06)
+            y += int(h * 0.055)
 
     draw.text((max(50, w // 20), h - 45), "Мария Ковалева · mkekspert.ru", fill=ACCENT_GREEN, font=font_b)
     return img
@@ -496,12 +515,12 @@ def find_import_background(slug: str) -> Path | None:
 
 
 def draw_bright_background(size: tuple[int, int]) -> Image.Image:
-    """Яркий бренд-фон без GPT: градиент + абстрактные акценты."""
+    """Тёмный бренд-фон как в Telegram: градиент + столбики + стрелка."""
     w, h = size
-    img = Image.new("RGB", size, BG)
+    img = Image.new("RGB", size, BRAND_BG_DARK)
     draw = ImageDraw.Draw(img)
 
-    bg0, bg1 = hex_rgb("#151515"), hex_rgb(BG)
+    bg0, bg1 = hex_rgb(BRAND_BG_DEEP), hex_rgb(BRAND_BG_DARK)
     green = hex_rgb(ACCENT_GREEN)
     yellow = hex_rgb(ACCENT_YELLOW)
 
@@ -840,8 +859,7 @@ def draw_vk_smm_cover(headline: str, subline: str, *, stats: list[str] | None = 
 
 
 def generate_pil_fallback(headline: str, subline: str, size: tuple[int, int]) -> Image.Image:
-    if size == VK_PORTRAIT:
-        return draw_vk_smm_cover(headline, subline)
+    """Единый стиль TG/VK/Дзен: тёмный бренд-шаблон (квадрат для VK)."""
     img = draw_bright_background(size)
     return overlay_brand_text(img, headline, subline)
 
@@ -940,10 +958,8 @@ def generate_cover(
             print(f"⚠ GPT: {exc} — fallback PIL")
 
     if img is None:
-        if vk:
-            img = draw_vk_smm_cover(headline, subline, stats=vk_stats)
-        else:
-            img = generate_pil_fallback(headline, subline, target)
+        # VK = тот же стиль, что TG, только 1080×1080 (без отдельного «SMM clay»-макета)
+        img = generate_pil_fallback(headline, subline, target)
 
     out.parent.mkdir(parents=True, exist_ok=True)
     img.save(out, "JPEG", quality=92)
