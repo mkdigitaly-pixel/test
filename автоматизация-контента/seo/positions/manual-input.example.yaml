@@ -1,0 +1,44 @@
+# Пример ручного замера позиций.
+# Скопируйте в positions/YYYY-MM-DD.yaml и заполните position (1–100+, null = не в топ-100).
+# Импорт: python3 seo_pipeline.py positions import ../seo/positions/2026-09-19.yaml
+
+date: "2026-09-19"
+engine: yandex
+region: 213   # Москва; 2 = СПб; 0 / пусто = общая выдача — как меряете
+device: desktop
+notes: "Первый замер после запуска SEO-пайплайна. Заполнить вручную или через positions fetch."
+
+results:
+  - query: почему нет заявок в яндекс директ
+    position: null
+    url_found: ""
+  - query: ошибки в яндекс директ
+    position: null
+    url_found: ""
+  - query: аудит яндекс директ
+    position: null
+    url_found: ""
+  - query: как выбрать директолога
+    position: null
+    url_found: ""
+  - query: кейс яндекс директ производство
+    position: null
+    url_found: ""
+  - query: цели в яндекс метрике для директа
+    position: null
+    url_found: ""
+  - query: единая перфоманс кампания заявки
+    position: null
+    url_found: ""
+  - query: минус слова яндекс директ
+    position: null
+    url_found: ""
+  - query: слив бюджета яндекс директ
+    position: null
+    url_found: ""
+  - query: автотаргет яндекс директ b2b
+    position: null
+    url_found: ""
+  - query: бесплатный разбор яндекс директ
+    position: null
+    url_found: ""
