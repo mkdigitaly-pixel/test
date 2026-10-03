@@ -110,3 +110,15 @@ items:
   brief: briefs/covers/budget-waste.md
   vk_post_id: 226
   requested_at: '2026-10-02T09:06:44Z'
+- id: vk-week5
+  slug: vk-week5
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Куда уходит бюджет
+  subline: 3 дыры в Директе
+  out_landscape: assets/covers/vk-week5.jpg
+  out_vk: assets/covers/vk-week5-vk.jpg
+  brief: briefs/covers/vk-week5.md
+  vk_post_id: 227
+  requested_at: '2026-10-03T09:09:26Z'

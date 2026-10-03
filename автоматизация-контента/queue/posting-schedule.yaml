@@ -196,7 +196,8 @@ slots:
   time: '11:00'
   action: publish_vk_post
   post_id: vk-week5
-  status: scheduled
+  status: done
+  completed_at: '2026-10-03T12:09:25.683958+03:00'
 - date: '2026-10-07'
   time: '10:00'
   action: publish_dzen

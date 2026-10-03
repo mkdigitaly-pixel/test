@@ -80,12 +80,13 @@ items:
   published_at: '2026-10-01T09:05:23.386939+00:00'
 - id: vk-week5
   platform: vk
-  status: approved
+  status: published
   topic: 3 дыры, куда уходит бюджет
   post: articles/vk/vk-week5.md
   cover_headline: Куда уходит бюджет
   cover_subline: 3 дыры в Директе
   scheduled: '2026-10-03T11:00:00+03:00'
+  published_at: '2026-10-03T09:09:26.253435+00:00'
 - id: tg-week6
   platform: tg
   status: approved
