@@ -87,6 +87,7 @@ items:
   cover_subline: 3 дыры в Директе
   scheduled: '2026-10-03T11:00:00+03:00'
   published_at: '2026-10-03T09:09:26.253435+00:00'
+  cover: assets/covers/vk-week5.jpg
 - id: tg-week6
   platform: tg
   status: approved
@@ -103,6 +104,7 @@ items:
   cover_headline: Бесплатный разбор
   cover_subline: Как это работает
   scheduled: '2026-10-10T11:00:00+03:00'
+  cover: assets/covers/vk-week6.jpg
 - id: tg-week7
   platform: tg
   status: approved
@@ -119,6 +121,7 @@ items:
   cover_headline: Посадочная
   cover_subline: +конверсия
   scheduled: '2026-10-17T11:00:00+03:00'
+  cover: assets/covers/vk-week7.jpg
 - id: tg-week8
   platform: tg
   status: approved
@@ -135,6 +138,7 @@ items:
   cover_headline: Бизнес + Директ
   cover_subline: Зачем связка
   scheduled: '2026-10-24T11:00:00+03:00'
+  cover: assets/covers/vk-week8.jpg
 - id: tg-week9
   platform: tg
   status: approved
