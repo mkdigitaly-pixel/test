@@ -122,3 +122,16 @@ items:
   brief: briefs/covers/vk-week5.md
   vk_post_id: 227
   requested_at: '2026-10-03T09:09:26Z'
+- id: vk-week6
+  slug: vk-week6
+  status: cancelled
+  platforms:
+  - vk
+  headline: Бесплатный разбор
+  subline: Как это работает
+  out_landscape: assets/covers/vk-week6.jpg
+  out_vk: assets/covers/vk-week6-vk.jpg
+  brief: briefs/covers/vk-week6.md
+  vk_post_id: 228
+  requested_at: '2026-10-03T14:38:27Z'
+  note: 'accidental publish while VK_PUBLISH=off; post #228 deleted'

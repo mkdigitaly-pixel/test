@@ -69,9 +69,13 @@ class PublishResult:
 
 
 def load_env() -> None:
+    # automation/.env (токены) + корень проекта (флаги вроде VK_PUBLISH)
     if ENV_FILE.exists():
-        load_dotenv(ENV_FILE)
-    load_dotenv()
+        load_dotenv(ENV_FILE, override=False)
+    root_env = ROOT / ".env"
+    if root_env.exists():
+        load_dotenv(root_env, override=True)
+    load_dotenv(override=False)
 
 
 def env_bool(name: str, default: bool = False) -> bool:
@@ -897,6 +901,20 @@ def _is_vk_flood(exc: BaseException) -> bool:
     return "Flood control" in msg or "error_code': 9" in msg or 'error_code": 9' in msg
 
 
+def vk_publish_allowed() -> bool:
+    """Публикация постов/тизеров в VK: on|off.
+
+    VK_PUBLISH=off — Мария попросила не публиковать новые посты в VK;
+    слоты publish_vk_post остаются scheduled, TG/Дзен идут как обычно.
+    """
+    raw = (os.getenv("VK_PUBLISH") or "on").strip().lower()
+    if raw in {"off", "pause", "paused", "hold", "0", "false", "no"}:
+        return False
+    if raw in {"on", "auto", "1", "true", "yes"}:
+        return True
+    raise SystemExit(f"VK_PUBLISH: ожидал on|off, получил {raw!r}")
+
+
 def vk_photos_mode() -> str:
     """Режим обложек VK: manual|off|auto.
 
@@ -1261,7 +1279,9 @@ def publish_dzen_teasers(
         print(f"TG тизер ({main_ch or 'dry-run'}): {r.message}")
 
     vk_path = teaser_vk_path(item)
-    if vk_path and (dry_run or (vk_token and vk_group)):
+    if vk_path and not vk_publish_allowed() and not dry_run:
+        print("ℹ VK тизер пропущен (VK_PUBLISH=off) — посты в VK на паузе")
+    elif vk_path and (dry_run or (vk_token and vk_group)):
         text = replace_dzen_url(load_plain_post(resolve_path(vk_path)), url or "https://dzen.ru/…")
         user_token = os.getenv("VK_USER_TOKEN", "")
         r = publish_vk(
@@ -1334,6 +1354,8 @@ def publish_standalone_vk(post_id: str, *, dry_run: bool, force: bool) -> int:
     else:
         path = f"articles/vk/{post_id}.md"
 
+    if not dry_run and not vk_publish_allowed():
+        raise SystemExit("VK пауза (VK_PUBLISH=off) — новые посты в VK не публикуем")
     resolved = resolve_path(path)
     ensure_post_cover(post_id, resolved, dry_run=dry_run)
     text = load_plain_post(resolved)
@@ -1372,6 +1394,8 @@ def cmd_publish(target: str, item_id: str, *, dry_run: bool, force: bool) -> int
     if target == "tg-post":
         return publish_standalone_tg(item_id, dry_run=dry_run, force=force)
     if target == "vk-post":
+        if not dry_run and not vk_publish_allowed():
+            raise SystemExit("VK пауза (VK_PUBLISH=off) — новые посты в VK не публикуем")
         return publish_standalone_vk(item_id, dry_run=dry_run, force=force)
 
     items = load_queue()
@@ -1562,6 +1586,8 @@ def execute_schedule_slot(slot: dict[str, Any], *, dry_run: bool) -> tuple[bool,
         return True, f"tg-post {post_id}"
 
     if action == "publish_vk_post":
+        if not dry_run and not vk_publish_allowed():
+            return False, "VK пауза (VK_PUBLISH=off) — слот ждёт"
         post_id = slot.get("post_id") or cid
         posts = load_posts_queue()
         post_item = find_posts_item(posts, post_id)
@@ -1630,6 +1656,9 @@ def cmd_schedule_run(args: argparse.Namespace) -> int:
         elif "Заполните" in msg or "Нужны VK_" in msg:
             slot.pop("error", None)
             print("  ↻ нет токенов в .env — слот остаётся scheduled/pending")
+        elif "VK пауза" in msg:
+            slot.pop("error", None)
+            print("  ↻ VK пауза — слот остаётся scheduled")
         elif status == "scheduled" and slot.get("action") == "publish_teasers":
             slot["status"] = "pending"
             print("  ↻ pending — повтор при следующем запуске")
