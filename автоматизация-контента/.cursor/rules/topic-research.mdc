@@ -1,0 +1,33 @@
+---
+description: Поиск тем для mkekspert — анализ Promopult, Click.ru, Habr, рерайт 100% уникальный
+globs:
+  - автоматизация-контента/**
+alwaysApply: false
+---
+
+# Поиск тем и рерайт (mkekspert)
+
+Перед новой статьей или постом — **обязательно** прочитать `автоматизация-контента/references/topic-research.md`.
+
+## Источники тем
+
+- https://blog.promopult.ru/category/ppc
+- https://blog.click.ru/category/direct-yandex/
+- https://blog.click.ru/category/analytics/
+- https://habr.com/ru/search/?q=директ&target_type=posts&order=relevance
+
+Плюс **Дзен Студия** — дочитываемость своих статей.
+
+## Алгоритм
+
+1. Собрать 3–5 актуальных тем (2025–2026) → `plan/topic-sources-backlog.md`
+2. Выписать **только структуру H2** источника в `briefs/YYYY-MM-DD-{id}.md` — не копировать текст
+3. Написать рерайт: голос `maria-voice.md`, кейсы `case-sources.md`, CTA `brand.md`
+4. Проверить: `cd automation && python3 check_uniqueness.py ../articles/... source.txt`
+5. Согласование: `ок {id}` → approved в очереди
+
+## Запреты
+
+- Копипаст и «лёгкий» перефраз абзацев
+- Ссылки на promopult/click/habr как авторитет в тексте
+- Чужие CTA и контакты

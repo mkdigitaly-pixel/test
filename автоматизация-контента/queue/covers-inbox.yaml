@@ -1,0 +1,137 @@
+items:
+- id: vk-week3
+  slug: vk-week3
+  status: ready
+  platforms:
+  - vk
+  headline: 8017→1800 ₽
+  subline: Кейс ЧП/УПП
+  out_landscape: assets/covers/vk-week3.jpg
+  out_vk: assets/covers/vk-week3-vk.jpg
+  brief: briefs/covers/vk-week3.md
+  vk_post_id: 221
+  requested_at: '2026-09-30T07:55:33Z'
+  ready_at: '2026-09-30T09:06:01Z'
+- id: tg-week3
+  slug: tg-week3
+  status: ready
+  platforms:
+  - tg
+  headline: Поиск vs РСЯ
+  subline: Разные кампании
+  out_landscape: assets/covers/tg-week3.jpg
+  out_vk: assets/covers/tg-week3-vk.jpg
+  brief: briefs/covers/tg-week3.md
+  vk_post_id: null
+  requested_at: '2026-09-24T06:53:03Z'
+  ready_at: '2026-09-30T09:06:01Z'
+- id: metrika-goals
+  slug: metrika-goals
+  status: ready
+  platforms:
+  - dzen
+  - tg
+  - vk
+  headline: Цели Метрики
+  subline: Под Директ B2B
+  out_landscape: assets/covers/metrika-goals.jpg
+  out_vk: assets/covers/metrika-goals-vk.jpg
+  brief: briefs/covers/metrika-goals.md
+  vk_post_id: 222
+  requested_at: '2026-09-30T07:55:43Z'
+  ready_at: '2026-09-30T09:06:01Z'
+- id: tg-week4
+  slug: tg-week4
+  status: ready
+  platforms:
+  - tg
+  headline: 3 цели Метрики
+  subline: Не визиты
+  out_landscape: assets/covers/tg-week4.jpg
+  out_vk: assets/covers/tg-week4-vk.jpg
+  brief: briefs/covers/tg-week4.md
+  vk_post_id: null
+  requested_at: '2026-09-24T06:53:04Z'
+  ready_at: '2026-09-30T09:06:01Z'
+- id: vk-week4
+  slug: vk-week4
+  status: ready
+  platforms:
+  - vk
+  headline: ЕПК в B2B
+  subline: Включать или нет?
+  out_landscape: assets/covers/vk-week4.jpg
+  out_vk: assets/covers/vk-week4-vk.jpg
+  brief: briefs/covers/vk-week4.md
+  vk_post_id: 224
+  requested_at: '2026-09-30T07:55:53Z'
+  ready_at: '2026-09-30T09:06:01Z'
+- id: epk-leads
+  slug: epk-leads
+  status: ready
+  platforms:
+  - dzen
+  - tg
+  - vk
+  headline: ЕПК в B2B
+  subline: Когда запускать
+  out_landscape: assets/covers/epk-leads.jpg
+  out_vk: assets/covers/epk-leads-vk.jpg
+  brief: briefs/covers/epk-leads.md
+  vk_post_id: 223
+  requested_at: '2026-09-30T07:55:52Z'
+  ready_at: '2026-09-30T09:06:01Z'
+- id: rsa-vs-search
+  slug: rsa-vs-search
+  status: ready
+  platforms:
+  - dzen
+  - tg
+  - vk
+  headline: Поиск или РСЯ
+  subline: B2B Директ
+  out_landscape: assets/covers/rsa-vs-search.jpg
+  out_vk: assets/covers/rsa-vs-search-vk.jpg
+  brief: briefs/covers/rsa-vs-search.md
+  vk_post_id: 225
+  requested_at: '2026-09-30T09:05:55Z'
+  ready_at: '2026-09-30T09:06:01Z'
+- id: budget-waste
+  slug: budget-waste
+  status: waiting_codex
+  platforms:
+  - dzen
+  - tg
+  - vk
+  headline: Слив бюджета
+  subline: Где смотреть
+  out_landscape: assets/covers/budget-waste.jpg
+  out_vk: assets/covers/budget-waste-vk.jpg
+  brief: briefs/covers/budget-waste.md
+  vk_post_id: 226
+  requested_at: '2026-10-02T09:06:44Z'
+- id: vk-week5
+  slug: vk-week5
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Куда уходит бюджет
+  subline: 3 дыры в Директе
+  out_landscape: assets/covers/vk-week5.jpg
+  out_vk: assets/covers/vk-week5-vk.jpg
+  brief: briefs/covers/vk-week5.md
+  vk_post_id: 227
+  requested_at: '2026-10-03T09:09:26Z'
+- id: vk-week6
+  slug: vk-week6
+  status: cancelled
+  platforms:
+  - vk
+  headline: Бесплатный разбор
+  subline: Как это работает
+  out_landscape: assets/covers/vk-week6.jpg
+  out_vk: assets/covers/vk-week6-vk.jpg
+  brief: briefs/covers/vk-week6.md
+  vk_post_id: 228
+  requested_at: '2026-10-03T14:38:27Z'
+  note: 'accidental publish while VK_PUBLISH=off; post #228 deleted'
