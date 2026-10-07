@@ -1,0 +1,157 @@
+# Банк ключей для органики (Яндекс)
+# Статусы: idea | brief | draft | published | indexed | tracking | top10 | top3 | refresh
+# url — целевая страница на blog или коммерческая на Tilda
+
+updated: "2026-09-19"
+
+keywords:
+  - id: no-leads-direct
+    query: почему нет заявок в яндекс директ
+    pillar: P1
+    intent: info
+    status: published
+    url: https://blog.mkekspert.ru/articles/no-leads-direct.html
+    lsi:
+      - нет заявок из директа
+      - директ крутится нет заявок
+      - проверить кабинет директа
+    campaign_id: no-leads-direct
+
+  - id: 7-errors-direct
+    query: ошибки в яндекс директ
+    pillar: P1
+    intent: info
+    status: published
+    url: https://blog.mkekspert.ru/articles/7-errors-direct.html
+    lsi:
+      - типичные ошибки директа
+      - аудит яндекс директ
+    campaign_id: 7-errors-direct
+
+  - id: audit-direct
+    query: аудит яндекс директ
+    pillar: P1
+    intent: commercial
+    status: published
+    url: https://blog.mkekspert.ru/articles/audit-direct.html
+    lsi:
+      - разбор директа
+      - проверить рекламу яндекс
+    campaign_id: audit-direct
+
+  - id: choose-directologist
+    query: как выбрать директолога
+    pillar: P3
+    intent: commercial
+    status: published
+    url: https://blog.mkekspert.ru/articles/choose-directologist.html
+    lsi:
+      - заказать ведение директа
+      - агентство яндекс директ
+    campaign_id: choose-directologist
+
+  - id: penoplast-case
+    query: кейс яндекс директ производство
+    pillar: P2
+    intent: case
+    status: published
+    url: https://blog.mkekspert.ru/articles/penoplast-case.html
+    lsi:
+      - снижение cpl директ
+      - заявки из директа b2b
+    campaign_id: penoplast-case
+
+  - id: metrika-goals
+    query: цели в яндекс метрике для директа
+    pillar: P4
+    intent: how-to
+    status: published
+    url: https://blog.mkekspert.ru/articles/metrika-goals.html
+    lsi:
+      - настройка целей метрика
+      - конверсии для директа
+    campaign_id: metrika-goals
+
+  - id: epk-leads
+    query: единая перфоманс кампания заявки
+    pillar: P4
+    intent: how-to
+    status: published
+    url: https://blog.mkekspert.ru/articles/epk-leads.html
+    lsi:
+      - епк яндекс директ
+      - автостратегии директ b2b
+    campaign_id: epk-leads
+
+  - id: negative-keywords
+    query: минус слова яндекс директ
+    pillar: P4
+    intent: how-to
+    status: published
+    url: https://blog.mkekspert.ru/articles/negative-keywords.html
+    lsi:
+      - минусация семантики
+    campaign_id: negative-keywords
+
+  - id: budget-waste
+    query: слив бюджета яндекс директ
+    pillar: P1
+    intent: info
+    status: published
+    url: https://blog.mkekspert.ru/articles/budget-waste.html
+    lsi:
+      - куда уходит бюджет директа
+    campaign_id: budget-waste
+
+  - id: autotarget-b2b
+    query: автотаргет яндекс директ b2b
+    pillar: P4
+    intent: how-to
+    status: published
+    url: https://blog.mkekspert.ru/articles/autotarget-b2b.html
+    lsi:
+      - автотаргетинг директ отключить
+    campaign_id: autotarget-b2b
+
+  - id: razbor-direct-commercial
+    query: бесплатный разбор яндекс директ
+    pillar: P3
+    intent: commercial
+    status: published
+    url: https://mkekspert.ru/razbor-direct
+    lsi:
+      - аудит рекламы бесплатно
+      - разбор директа москва
+    campaign_id: razbor-direct
+
+  # Очередь на бриф / статью
+  - id: offline-conversions
+    query: офлайн конверсии яндекс директ crm
+    pillar: P4
+    intent: how-to
+    status: idea
+    url: ""
+    lsi:
+      - загрузка офлайн конверсий
+      - обучение стратегии директ
+    campaign_id: offline-conversions
+
+  - id: search-retargeting
+    query: поисковый ретаргетинг яндекс директ
+    pillar: P4
+    intent: how-to
+    status: idea
+    url: ""
+    lsi:
+      - ретаргетинг на поиске
+    campaign_id: search-retargeting
+
+  - id: bot-protection-direct
+    query: фейковые заявки яндекс директ
+    pillar: P1
+    intent: info
+    status: idea
+    url: ""
+    lsi:
+      - боты в заявках директ
+    campaign_id: bot-protection-direct
