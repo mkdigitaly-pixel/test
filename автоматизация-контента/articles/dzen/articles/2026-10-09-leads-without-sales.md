@@ -7,7 +7,7 @@ lsi: ["качество заявок из директа", "нецелевые �
 cta_url: "https://mkekspert.ru/razbor-direct?utm_source=dzen&utm_medium=article&utm_campaign=leads-without-sales"
 utm_campaign: "leads-without-sales"
 platform: dzen
-status: approved
+status: published
 cover_headline: "Заявки есть. Где продажи?"
 cover_subline: "Проверяем путь клиента"
 ---

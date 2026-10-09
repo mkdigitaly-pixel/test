@@ -4,7 +4,9 @@
 Авторский голос: Мария Ковалева, mkekspert.
 Площадка: Дзен, klientyandtrafik.
 ID: leads-without-sales.
-Статус: самостоятельный черновик для чтения и согласования.
+Статус: опубликовано в Дзене по прямому поручению пользователя.
+Дзен: https://dzen.ru/a/asiU3YwtABJA4YPI
+Блог: https://blog.mkekspert.ru/articles/leads-without-sales.html
 
 ## Задача
 
