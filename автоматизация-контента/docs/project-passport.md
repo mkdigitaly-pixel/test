@@ -2,20 +2,36 @@
 
 Куда что лежит и как зайти. **Секреты (токены) сюда не пишем** — только имена переменных и где они хранятся.
 
-Обновлено: 2026-10-03.
+Обновлено: 2026-10-09.
 
 ---
 
-## 1. Репозиторий и код
+## 1. Зачем проект
+
+Автоматизация контента **МК Эксперт** (Мария Ковалева): длинные статьи → блог + RSS → Дзен; тизеры и свои посты → Telegram / VK; обложки на GitHub Pages.
+
+Три публичные «витрины»:
+
+| Витрина | URL | Кто правит |
+|---------|-----|------------|
+| Сайт | https://mkekspert.ru | Tilda |
+| Блог статей | https://blog.mkekspert.ru | этот репо → ветка `gh-pages` |
+| Соцсети | Дзен / TG / VK | `publish.py` + очереди |
+
+---
+
+## 2. Репозиторий и код
 
 | Что | Значение |
 |-----|----------|
 | GitHub | https://github.com/mkdigitaly-pixel/test |
 | SSH remote | `git@github.com:mkdigitaly-pixel/test.git` |
 | Папка проекта в репо | `автоматизация-контента/` |
-| Рабочая ветка агента (сейчас) | `cursor/schedule-catchup-8631` |
-| Базовая ветка для PR | `cursor/rename-test-to-work-e9d0` (далее — по договорённости) |
-| PR | https://github.com/mkdigitaly-pixel/test/pull/8 |
+| Рабочая ветка контента | `cursor/schedule-catchup-8631` |
+| Стиль блога (Onest) | `cursor/blog-onest-style-8631` → PR #12 |
+| Базовая ветка для PR | `cursor/rename-test-to-work-e9d0` |
+| PR расписания / контента | https://github.com/mkdigitaly-pixel/test/pull/8 |
+| PR стиля блога | https://github.com/mkdigitaly-pixel/test/pull/12 |
 
 ### Как открыть код у себя
 
@@ -25,20 +41,20 @@
 
 ---
 
-## 2. Cloud Agent (Cursor)
+## 3. Cloud Agent (Cursor)
 
 | Что | Значение |
 |-----|----------|
 | Чат агента | https://cursor.com/agents/bc-95eaf9e4-d3bb-4ef3-9ef2-76fc8a2a8631 |
 | Аккаунт владельца | mkdigitaly@gmail.com (Мария Ковалева) |
 | Режим | Self-hosted / private worker |
-| Таймер расписания | `schedule-run-daily` — cron `5 7,9,11 * * *` (UTC) → 10:05 / 12:05 / 14:05 МСК |
+| Таймер расписания | `schedule-run-daily` — cron `5 7,9,11 * * *` (UTC) → **10:05 / 12:05 / 14:05 МСК** |
 
 Агент сам запускает `python3 publish.py schedule run` по таймеру.
 
 ---
 
-## 3. Сайты и каналы (публичные ссылки)
+## 4. Сайты и каналы (публичные ссылки)
 
 | Куда | URL |
 |------|-----|
@@ -60,12 +76,25 @@
 | GitHub Pages | ветка `gh-pages` репо `mkdigitaly-pixel/test` |
 | Домен | `blog.mkekspert.ru` → CNAME на GitHub Pages |
 | Деплой | `publish.py` / `dzen_rss.deploy_gh_pages()` после статей |
+| Шаблон HTML/CSS | `automation/dzen_rss.py` (`BLOG_CSS`, `BLOG_FONTS`, `_site_chrome`) |
 
 Основной сайт **mkekspert.ru** — Tilda (не этот блог).
 
+### Стиль блога (актуально)
+
+| Элемент | Как |
+|---------|-----|
+| Шрифт | **Onest** (Google Fonts): текст 400, меню/кнопки 500–600, заголовки 700–800 |
+| Фон | ivory `#FDFBF7` (brandbook) |
+| Акцент / кнопки | терракота `#A85A32` |
+| Текст | графит `#3D3D3D` |
+| Карточки | белые, скругление, лёгкая тень, hover |
+
+Палитра-источник: `brandbook/tokens.json`, `brandbook/colors.md`.
+
 ---
 
-## 4. Где лежат файлы (структура)
+## 5. Где лежат файлы (структура)
 
 Корень: `автоматизация-контента/`
 
@@ -93,6 +122,7 @@
 ├── references/            # голос, разметка, бренд
 ├── plan/                  # контент-план, расписание
 ├── brandbook/             # цвета / токены
+├── content/               # черновики Tilda-home и др.
 ├── .env                   # флаги (например VK_PUBLISH) — не коммитить
 ├── automation/.env        # токены — не коммитить
 └── ДОСТУПЫ.env            # Tilda / Webmaster — не коммитить
@@ -100,18 +130,18 @@
 
 ---
 
-## 5. Секреты и доступы (где лежат, что означают)
+## 6. Секреты и доступы (где лежат, что означают)
 
 **Не коммитить:** `.env`, `automation/.env`, `ДОСТУПЫ.env`.
 
 | Файл | Что внутри (имена ключей) |
 |------|---------------------------|
 | `automation/.env` | `TELEGRAM_BOT_TOKEN`, `TELEGRAM_MAIN_CHANNEL_ID`, `TELEGRAM_DZEN_CHANNEL_ID`, `VK_ACCESS_TOKEN`, `VK_USER_TOKEN`, `VK_GROUP_ID`, `VK_PHOTOS`, `VK_PUBLISH`, `AUTO_PUBLISH`, `DZEN_*`, Tilda-ключи (если скопированы) |
-| `.env` (корень папки) | `VK_PUBLISH` (флаг паузы VK) |
+| `.env` (корень папки) | `VK_PUBLISH` (флаг паузы VK; перекрывает automation/.env) |
 | `ДОСТУПЫ.env` | `TILDA_*`, `WEBMASTER_YANDEX_VERIFICATION` |
 | Образец без секретов | `automation/.env.example` |
 
-### Важные флаги сейчас
+### Важные флаги сейчас (2026-10-09)
 
 | Флаг | Значение | Смысл |
 |------|----------|--------|
@@ -120,12 +150,14 @@
 | `VK_PUBLISH` | `off` | **Новые посты/тизеры VK не публикуются** (слоты ждут) |
 | `DZEN_PUBLISH_MODE` | `auto` | Длинные статьи → RSS, короткие → zen_sync |
 | `DZEN_RSS_DEPLOY_GH_PAGES` | `true` | После статьи — деплой на blog |
+| `DZEN_RSS_DRAFT` | `false` | В RSS без native-draft |
+| `DZEN_TG_NOTIFY` | `false` | Без доп. TG-уведомлений о RSS |
 
-Чтобы снова публиковать VK: в `automation/.env` поставить `VK_PUBLISH=on` и написать агенту.
+Чтобы снова публиковать VK: в `automation/.env` (и корневой `.env`) поставить `VK_PUBLISH=on` и написать агенту.
 
 ---
 
-## 6. Как зайти в кабинеты
+## 7. Как зайти в кабинеты
 
 | Сервис | Как зайти |
 |--------|-----------|
@@ -138,18 +170,23 @@
 | Яндекс.Метрика | счётчик блога/сайта `97606312` |
 | Яндекс.Вебмастер | verification в `ДОСТУПЫ.env` / мета на blog |
 
-Логина/пароля Студии Дзена в `.env` **нет** — публикация статей через RSS.
+Логина/пароля Студии Дзена в `.env` **нет** — публикация статей через RSS (`dzen-feed.xml`).
 
 ---
 
-## 7. Как публикуется (поток)
+## 8. Как публикуется (поток)
+
+Ритм (`queue/posting-schedule.yaml`, timezone `Europe/Moscow`):
 
 ```
 вт/чт 10:00  publish_dzen     → HTML + feed.xml → blog.mkekspert.ru → Дзен забирает RSS
 вт/чт 12:00  publish_teasers  → TG тизер (+ VK тизер, если VK_PUBLISH=on)
-пн/… 11:00   publish_tg_post  → @mariyaprodirect
-сб/… 11:00   publish_vk_post  → VK (сейчас на паузе)
+ср     11:00  publish_tg_post  → @mariyaprodirect
+пт     11:00  publish_vk_post  → VK (сейчас на паузе)
+ср/пт  15:00  vc_manual        → VC.ru вручную (опционально)
 ```
+
+Таймер агента бьёт в 10:05 / 12:05 / 14:05 МСК и догоняет просроченные слоты.
 
 Команды вручную:
 
@@ -165,21 +202,44 @@ python3 publish.py publish tg-post <id>
 
 Очереди: `queue/publish-queue.yaml`, `queue/posts-queue.yaml`, `queue/posting-schedule.yaml`.
 
+### Статус кампаний Дзен (снимок)
+
+| Статус | id |
+|--------|-----|
+| published | `7-errors-direct`, `penoplast-case`, `no-leads-direct`, `autotarget-b2b`, `metrika-goals`, `epk-leads`, `rsa-vs-search`, `budget-waste`, `choose-directologist` |
+| approved (в расписании) | `audit-direct`, `landing-conversion`, `negative-keywords` |
+| draft | `chp-upp-case`, `offline-conversions`, `search-retargeting` |
+
+### Ближайшие слоты (ориентир)
+
+| Дата | Действие | id |
+|------|----------|-----|
+| 2026-10-09 | dzen + teasers | `audit-direct` |
+| 2026-10-10 | vk-post | `vk-week6` (ждёт `VK_PUBLISH=on`) |
+| 2026-10-14 | dzen + teasers | `direct-price` |
+| 2026-10-15 | tg-post | `tg-week7` |
+| 2026-10-16 | dzen + teasers | `landing-conversion` |
+
+Актуальный список: `python3 publish.py schedule list`.
+
 ---
 
-## 8. Обложки
+## 9. Обложки
 
 | Размер | Файл | Куда |
 |--------|------|------|
-| 1200×630 | `assets/covers/{slug}.jpg` | Дзен / TG |
+| 1200×630 | `assets/covers/{slug}.jpg` | Дзен / TG / блог |
 | 1080×1080 | `assets/covers/{slug}-vk.jpg` | VK вручную |
 
-Стиль: тёмный бренд как в Telegram (`references/brand-visual.md`) — **без пластилина**.  
-Готовые URL: `https://blog.mkekspert.ru/covers/{slug}-vk.jpg`.
+Стиль: тёмный бренд как в Telegram (`references/brand-visual.md`, `generate_cover.py`) — **без пластилина / claymorphism**.  
+Готовые URL: `https://blog.mkekspert.ru/covers/{slug}.jpg` и `{slug}-vk.jpg`.
+
+Генерация: Cloud Agent (GenerateImage) → `assets/covers/`; fallback PIL в `generate_cover.py`.  
+Чеклисты: `docs/covers-cloud-agent.md`, `checklists/covers-codex-pc.md`.
 
 ---
 
-## 9. Что сказать агенту (шпаргалка)
+## 10. Что сказать агенту (шпаргалка)
 
 | Нужно | Фраза |
 |-------|--------|
@@ -189,10 +249,12 @@ python3 publish.py publish tg-post <id>
 | Не трогать VK | уже `VK_PUBLISH=off` |
 | Картинка к VK-посту | «ссылку на обложку для поста #N» |
 | Статья в блог/RSS | «опубликуй dzen &lt;id&gt;» |
+| Паспорт / доступы | «паспорт проекта» / этот файл |
+| Стиль блога | Onest + ivory + терракота уже в шаблоне и на live |
 
 ---
 
-## 10. Связанные инструкции
+## 11. Связанные инструкции
 
 | Тема | Файл |
 |------|------|
@@ -203,3 +265,5 @@ python3 publish.py publish tg-post <id>
 | Обложки | `docs/covers-cloud-agent.md`, `checklists/covers-codex-pc.md` |
 | Голос Марии | `references/maria-voice.md` |
 | Расписание (текст) | `plan/posting-schedule.md` |
+| Цвета бренда | `brandbook/colors.md`, `brandbook/tokens.json` |
+| Правила агента | `AGENTS.md` |
