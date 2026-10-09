@@ -1,99 +1,200 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Минус-слова в Яндекс Директе для B2B: как собираю и как часто чищу — МК Эксперт</title>
-<meta name="description" content="Как в B2B собираю минус-слова в Директе из отчёта по запросам, какие маски режу сразу и почему разовая чистка не работает.">
-<meta property="og:title" content="Минус-слова в Яндекс Директе для B2B: как собираю и как часто чищу — МК Эксперт">
-<meta property="og:description" content="Как в B2B собираю минус-слова в Директе из отчёта по запросам, какие маски режу сразу и почему разовая чистка не работает.">
-<meta property="og:site_name" content="МК Эксперт">
-<meta property="og:url" content="https://blog.mkekspert.ru/articles/negative-keywords.html">
-<meta property="og:type" content="website">
-<link rel="canonical" href="https://blog.mkekspert.ru/articles/negative-keywords.html">
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-<link rel="icon" type="image/png" sizes="120x120" href="/favicon-120.png">
-<link rel="apple-touch-icon" href="/favicon-120.png">
-<link rel="alternate" type="application/rss+xml" title="МК Эксперт — RSS" href="/dzen-feed.xml">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<meta property="og:image" content="https://blog.mkekspert.ru/covers/negative-keywords.jpg">
-<meta property="og:type" content="article">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Минус-слова в Яндекс Директе для B2B: как собираю и как часто чищу", "description": "Как в B2B собираю минус-слова в Директе из отчёта по запросам, какие маски режу сразу и почему разовая чистка не работает.", "mainEntityOfPage": "https://blog.mkekspert.ru/articles/negative-keywords.html", "author": {"@type": "Person", "name": "Мария Ковалева"}, "publisher": {"@type": "Organization", "name": "МК Эксперт", "logo": {"@type": "ImageObject", "url": "https://blog.mkekspert.ru/favicon-120.png"}}, "inLanguage": "ru-RU", "image": ["https://blog.mkekspert.ru/covers/negative-keywords.jpg", "https://blog.mkekspert.ru/covers/negative-keywords-vk.jpg"]}</script>
-
-<link rel="stylesheet" href="../blog-theme.css?v=20261008">
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-(function(m,e,t,r,i,k,a){
-m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-m[i].l=1*new Date();
-for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-})(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
-ym(97606312, 'init', {webvisor:true, clickmap:true, referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/97606312" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-</head>
-<body>
-<header class="blog-header">
-  <div class="blog-header-inner">
-    <a class="blog-brand" href="https://mkekspert.ru/"><strong><span>МК</span> ЭКСПЕРТ</strong><small>Яндекс Директ. Больше, чем реклама.</small></a>
-    <nav class="blog-nav" aria-label="Основное меню"><a href="https://mkekspert.ru/#services">Услуги</a><a href="https://mkekspert.ru/portfolio">Кейсы</a><a href="https://mkekspert.ru/#about">Обо мне</a><a href="https://mkekspert.ru/#reviews">Отзывы</a><a href="/" aria-current="page">Блог</a><a href="https://mkekspert.ru/#contacts">Контакты</a></nav>
-    <a class="blog-button" href="https://mkekspert.ru/razbor-direct?utm_source=blog&amp;utm_medium=header&amp;utm_campaign=design">Обсудить проект <span aria-hidden="true">→</span></a>
-    <details class="blog-mobile-menu"><summary aria-label="Открыть меню"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></summary><nav aria-label="Мобильное меню"><a href="https://mkekspert.ru/#services">Услуги</a><a href="https://mkekspert.ru/portfolio">Кейсы</a><a href="https://mkekspert.ru/#about">Обо мне</a><a href="https://mkekspert.ru/#reviews">Отзывы</a><a href="/" aria-current="page">Блог</a><a href="https://mkekspert.ru/#contacts">Контакты</a></nav></details>
-  </div>
-</header>
-
-
-<main class="site article-wrap">
-<figure class="cover-wrap"><picture><source media="(max-width: 640px)" srcset="https://blog.mkekspert.ru/covers/negative-keywords-vk.jpg" type="image/jpeg"><img class="cover" src="https://blog.mkekspert.ru/covers/negative-keywords.jpg" alt="Минус-слова в Яндекс Директе для B2B: как собираю и как часто чищу" width="1200" height="675" decoding="async" sizes="(max-width: 720px) 100vw, 720px"></picture></figure>
-<p class="meta-line"><a href="/">← Все статьи</a> · Яндекс Директ · B2B</p>
-<article>
-<h1>Минус-слова в Яндекс Директе для B2B: как собираю и как часто чищу</h1>
-<p>Минус-слова в Директе не делают один раз «под ключ». В B2B отчёт по запросам обрастает мусором каждую неделю: вакансии, учёба, соседние ниши, «своими руками».</p>
-<p>Я не держу в голове энциклопедию минусов. Держу ритуал чистки.</p>
-<h2>Откуда беру список</h2>
-<p>Отчёт «поисковые запросы» за 7 или 14 дней. Сортирую по кликам и расходу, не по алфавиту. То, что потратило деньги и не заявка — в минус или в отдельную группу, если вдруг пригодился бы.</p>
-<p>Смотрю не только «очевидный треш». Смотрю формулировки «почти наши»: другая мощность, другой материал, розница вместо опта.</p>
-<h2>Что минусую почти всегда в производстве и стройке</h2>
-<ul><li>вакансии, резюме, обучение, курсы, диплом;</li><li>своими руками, чертёж, схема, скачать;</li><li>б/у, авито, аренда — если вы продаёте новое или подряд;</li><li>бесплатно, торрент, реферат;</li><li>чужие бренды, если не ведёте отдельную брендовую кампанию.</li></ul>
-<p>Гео: города, куда не едете. Если отгрузка по ЦФО, «Владивосток» в запросе — не ваш клик.</p>
-<h2>Чего не минусую панически</h2>
-<p>Информационные запросы вперемешку с коммерческими иногда оставляю в отдельной группе с маленьким бюджетом, если цикл длинный и человек сначала ищет ГОСТ, потом поставщика. Не в основной кампании на заявку.</p>
-<p>Минус на слишком общем уровне вычищает и нужный спрос. «Цена» минусовать в лоб в B2B опасно: закупщик как раз ищет цену.</p>
-<h2>Где держать минусы</h2>
-<p>На кампании — общее для ниши. На группе — уточнения под конкретную услугу. Не пложу один и тот же список в десяти местах, потом невозможно сопровождать.</p>
-<p>После чистки смотрю, не упали ли целевые формулировки. Если «заказать» пропал вместе с «курсы» — переборщила, откатываю.</p>
-<h2>Как часто</h2>
-<p>Раз в неделю на активном бюджете. На маленьком — раз в две. После запуска новой группы — через несколько дней, не через месяц.</p>
-<p>Автотаргет без этой привычки бессмысленно включать: он будет тащить то, что вы не успеваете минусовать.</p>
-<h2>Что сделать на этой неделе</h2>
-<p>Выгрузите запросы. Выделите 20 строк с кликами без заявок. Добавьте минус. Поставьте в календарь повтор.</p>
-<p>На разборе я как раз хожу по этому отчёту вместе с вами и собираю первую пачку — дальше список живёт, если его не бросать.</p>
-<p><a href="https://mkekspert.ru/razbor-direct?utm_source=dzen&utm_medium=article&utm_campaign=negative-keywords">Бесплатный разбор Яндекс Директ</a></p>
-<p><a href="https://t.me/mariyaprodirect">Канал в Telegram</a></p>
-
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+
+<meta charset="utf-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Минус-слова в Яндекс Директе для B2B: как собираю и как часто чищу — МК Эксперт</title>
+
+<meta name="description" content="Как в B2B собираю минус-слова в Директе из отчёта по запросам, какие маски режу сразу и почему разовая чистка не работает.">
+
+<meta property="og:title" content="Минус-слова в Яндекс Директе для B2B: как собираю и как часто чищу — МК Эксперт">
+
+<meta property="og:description" content="Как в B2B собираю минус-слова в Директе из отчёта по запросам, какие маски режу сразу и почему разовая чистка не работает.">
+
+<meta property="og:site_name" content="МК Эксперт">
+
+<meta property="og:url" content="https://blog.mkekspert.ru/articles/negative-keywords.html">
+
+<meta property="og:type" content="website">
+
+<link rel="canonical" href="https://blog.mkekspert.ru/articles/negative-keywords.html">
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+
+<link rel="icon" type="image/png" sizes="120x120" href="/favicon-120.png">
+
+<link rel="apple-touch-icon" href="/favicon-120.png">
+
+<link rel="alternate" type="application/rss+xml" title="МК Эксперт — RSS" href="/dzen-feed.xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<meta property="og:image" content="https://blog.mkekspert.ru/covers/negative-keywords.jpg">
+
+<meta property="og:type" content="article">
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Минус-слова в Яндекс Директе для B2B: как собираю и как часто чищу", "description": "Как в B2B собираю минус-слова в Директе из отчёта по запросам, какие маски режу сразу и почему разовая чистка не работает.", "mainEntityOfPage": "https://blog.mkekspert.ru/articles/negative-keywords.html", "author": {"@type": "Person", "name": "Мария Ковалева"}, "publisher": {"@type": "Organization", "name": "МК Эксперт", "logo": {"@type": "ImageObject", "url": "https://blog.mkekspert.ru/favicon-120.png"}}, "inLanguage": "ru-RU", "image": ["https://blog.mkekspert.ru/covers/negative-keywords.jpg", "https://blog.mkekspert.ru/covers/negative-keywords-vk.jpg"], "datePublished": "2026-09-14T05:48:23+00:00"}</script>
+
+
+
+<link rel="stylesheet" href="../blog-theme.css?v=20261008">
+
+<!-- Yandex.Metrika counter -->
+
+<script type="text/javascript">
+
+(function(m,e,t,r,i,k,a){
+
+m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+
+m[i].l=1*new Date();
+
+for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+
+k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+
+})(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+ym(97606312, 'init', {webvisor:true, clickmap:true, referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+
+</script>
+
+<noscript><div><img src="https://mc.yandex.ru/watch/97606312" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+
+<!-- /Yandex.Metrika counter -->
+
+<meta property="article:published_time" content="2026-09-14T05:48:23+00:00">
+</head>
+
+<body>
+
+<header class="blog-header">
+
+  <div class="blog-header-inner">
+
+    <a class="blog-brand" href="https://mkekspert.ru/"><strong><span>МК</span> ЭКСПЕРТ</strong><small>Яндекс Директ. Больше, чем реклама.</small></a>
+
+    <nav class="blog-nav" aria-label="Основное меню"><a href="https://mkekspert.ru/#services">Услуги</a><a href="https://mkekspert.ru/portfolio">Кейсы</a><a href="https://mkekspert.ru/#about">Обо мне</a><a href="https://mkekspert.ru/#reviews">Отзывы</a><a href="/" aria-current="page">Блог</a><a href="https://mkekspert.ru/#contacts">Контакты</a></nav>
+
+    <a class="blog-button" href="https://mkekspert.ru/razbor-direct?utm_source=blog&amp;utm_medium=header&amp;utm_campaign=design">Обсудить проект <span aria-hidden="true">→</span></a>
+
+    <details class="blog-mobile-menu"><summary aria-label="Открыть меню"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></summary><nav aria-label="Мобильное меню"><a href="https://mkekspert.ru/#services">Услуги</a><a href="https://mkekspert.ru/portfolio">Кейсы</a><a href="https://mkekspert.ru/#about">Обо мне</a><a href="https://mkekspert.ru/#reviews">Отзывы</a><a href="/" aria-current="page">Блог</a><a href="https://mkekspert.ru/#contacts">Контакты</a></nav></details>
+
+  </div>
+
+</header>
+
+
+
+
+
+<main class="site article-wrap">
+
+<figure class="cover-wrap"><picture><source media="(max-width: 640px)" srcset="https://blog.mkekspert.ru/covers/negative-keywords-vk.jpg" type="image/jpeg"><img class="cover" src="https://blog.mkekspert.ru/covers/negative-keywords.jpg" alt="Минус-слова в Яндекс Директе для B2B: как собираю и как часто чищу" width="1200" height="675" decoding="async" sizes="(max-width: 720px) 100vw, 720px"></picture></figure>
+
+<p class="meta-line"><a href="/">← Все статьи</a> · Яндекс Директ · B2B</p>
+
+<article>
+
+<h1>Минус-слова в Яндекс Директе для B2B: как собираю и как часто чищу</h1>
+<p class="publication-date">Опубликовано: <time datetime="2026-09-14T05:48:23+00:00">14 сентября 2026</time></p>
+
+
+<p>Минус-слова в Директе не делают один раз «под ключ». В B2B отчёт по запросам обрастает мусором каждую неделю: вакансии, учёба, соседние ниши, «своими руками».</p>
+
+<p>Я не держу в голове энциклопедию минусов. Держу ритуал чистки.</p>
+
+<h2>Откуда беру список</h2>
+
+<p>Отчёт «поисковые запросы» за 7 или 14 дней. Сортирую по кликам и расходу, не по алфавиту. То, что потратило деньги и не заявка — в минус или в отдельную группу, если вдруг пригодился бы.</p>
+
+<p>Смотрю не только «очевидный треш». Смотрю формулировки «почти наши»: другая мощность, другой материал, розница вместо опта.</p>
+
+<h2>Что минусую почти всегда в производстве и стройке</h2>
+
+<ul><li>вакансии, резюме, обучение, курсы, диплом;</li><li>своими руками, чертёж, схема, скачать;</li><li>б/у, авито, аренда — если вы продаёте новое или подряд;</li><li>бесплатно, торрент, реферат;</li><li>чужие бренды, если не ведёте отдельную брендовую кампанию.</li></ul>
+
+<p>Гео: города, куда не едете. Если отгрузка по ЦФО, «Владивосток» в запросе — не ваш клик.</p>
+
+<h2>Чего не минусую панически</h2>
+
+<p>Информационные запросы вперемешку с коммерческими иногда оставляю в отдельной группе с маленьким бюджетом, если цикл длинный и человек сначала ищет ГОСТ, потом поставщика. Не в основной кампании на заявку.</p>
+
+<p>Минус на слишком общем уровне вычищает и нужный спрос. «Цена» минусовать в лоб в B2B опасно: закупщик как раз ищет цену.</p>
+
+<h2>Где держать минусы</h2>
+
+<p>На кампании — общее для ниши. На группе — уточнения под конкретную услугу. Не пложу один и тот же список в десяти местах, потом невозможно сопровождать.</p>
+
+<p>После чистки смотрю, не упали ли целевые формулировки. Если «заказать» пропал вместе с «курсы» — переборщила, откатываю.</p>
+
+<h2>Как часто</h2>
+
+<p>Раз в неделю на активном бюджете. На маленьком — раз в две. После запуска новой группы — через несколько дней, не через месяц.</p>
+
+<p>Автотаргет без этой привычки бессмысленно включать: он будет тащить то, что вы не успеваете минусовать.</p>
+
+<h2>Что сделать на этой неделе</h2>
+
+<p>Выгрузите запросы. Выделите 20 строк с кликами без заявок. Добавьте минус. Поставьте в календарь повтор.</p>
+
+<p>На разборе я как раз хожу по этому отчёту вместе с вами и собираю первую пачку — дальше список живёт, если его не бросать.</p>
+
+<p><a href="https://mkekspert.ru/razbor-direct?utm_source=dzen&utm_medium=article&utm_campaign=negative-keywords">Бесплатный разбор Яндекс Директ</a></p>
+
+<p><a href="https://t.me/mariyaprodirect">Канал в Telegram</a></p>
+
+
+
 </article>
-<section class="cta seo-related" aria-label="Услуги и статьи по теме"><h2>Продолжить по теме</h2><ul><li><a href="https://mkekspert.ru/vedenie-yandex-direct">Оптимизация запросов и кампаний</a></li><li><a href="https://blog.mkekspert.ru/articles/7-errors-direct.html">Ошибки, которые мешают рекламе</a></li></ul></section>
-<p class="cta">
-Нужен разбор кабинета?
-<br>
-<a class="btn" href="https://mkekspert.ru/razbor-direct?utm_source=blog&utm_medium=article&utm_campaign=negative-keywords">Бесплатный разбор Директа</a>
-<br>
-<a href="https://mkekspert.ru">mkekspert.ru</a>
-· <a href="https://t.me/Mariya1740">Telegram</a>
-</p>
-</main>
-
-<footer class="blog-footer" id="contacts"><div class="blog-footer-inner">
-  <div class="blog-footer-top">
-    <a class="blog-brand" href="https://mkekspert.ru/"><strong><span>МК</span> ЭКСПЕРТ</strong><small>Яндекс Директ. Больше, чем реклама.</small></a>
-    <nav aria-label="Навигация в подвале"><a href="https://mkekspert.ru/#services">Услуги</a><a href="https://mkekspert.ru/portfolio">Кейсы</a><a href="/">Блог</a><a href="https://t.me/mariyaprodirect">Telegram</a><a href="https://dzen.ru/klientyandtrafik">Дзен</a><a href="https://vk.ru/klientyandtrafik">ВКонтакте</a></nav>
-    <address><a href="tel:+79630853896">+7 (963) 085-38-96</a><a href="mailto:ekspertmk@yandex.ru">ekspertmk@yandex.ru</a><span>Санкт-Петербург, Кондратьевский пр., 68/4</span><span>Работаю с компаниями по всей России онлайн</span></address>
-  </div>
-  <div class="blog-footer-bottom"><span>© 2026 МК Эксперт · Мария Ковалева</span><a href="https://mkekspert.ru/policy">Политика конфиденциальности</a><span>Информация на сайте не является публичной офертой</span></div>
-</div></footer>
-
-</body>
-</html>
+<section class="cta seo-related" aria-label="Услуги и статьи по теме"><h2>Продолжить по теме</h2><ul><li><a href="https://mkekspert.ru/vedenie-yandex-direct">Оптимизация запросов и кампаний</a></li><li><a href="https://blog.mkekspert.ru/articles/7-errors-direct.html">Ошибки, которые мешают рекламе</a></li></ul></section>
+
+<p class="cta">
+
+Нужен разбор кабинета?
+
+<br>
+
+<a class="btn" href="https://mkekspert.ru/razbor-direct?utm_source=blog&utm_medium=article&utm_campaign=negative-keywords">Бесплатный разбор Директа</a>
+
+<br>
+
+<a href="https://mkekspert.ru">mkekspert.ru</a>
+
+· <a href="https://t.me/Mariya1740">Telegram</a>
+
+</p>
+
+</main>
+
+
+
+<footer class="blog-footer" id="contacts"><div class="blog-footer-inner">
+
+  <div class="blog-footer-top">
+
+    <a class="blog-brand" href="https://mkekspert.ru/"><strong><span>МК</span> ЭКСПЕРТ</strong><small>Яндекс Директ. Больше, чем реклама.</small></a>
+
+    <nav aria-label="Навигация в подвале"><a href="https://mkekspert.ru/#services">Услуги</a><a href="https://mkekspert.ru/portfolio">Кейсы</a><a href="/">Блог</a><a href="https://t.me/mariyaprodirect">Telegram</a><a href="https://dzen.ru/klientyandtrafik">Дзен</a><a href="https://vk.ru/klientyandtrafik">ВКонтакте</a></nav>
+
+    <address><a href="tel:+79630853896">+7 (963) 085-38-96</a><a href="mailto:ekspertmk@yandex.ru">ekspertmk@yandex.ru</a><span>Санкт-Петербург, Кондратьевский пр., 68/4</span><span>Работаю с компаниями по всей России онлайн</span></address>
+
+  </div>
+
+  <div class="blog-footer-bottom"><span>© 2026 МК Эксперт · Мария Ковалева</span><a href="https://mkekspert.ru/policy">Политика конфиденциальности</a><span>Информация на сайте не является публичной офертой</span></div>
+
+</div></footer>
+
+
+
+</body>
+
+</html>
+
