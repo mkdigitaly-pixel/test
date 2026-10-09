@@ -233,14 +233,18 @@ items:
   cover: assets/covers/direct-owner-report.jpg
 - id: tg-practice-2026-10-21
   platform: tg
-  status: draft
+  status: approved
   topic: Практический пост по теме недели
   scheduled: '2026-10-21T14:00:00+05:00'
+  post: articles/tg/2026-10-21-practice.md
+  cover: assets/covers/crm-first-steps.jpg
 - id: vk-practice-2026-10-24
   platform: vk
-  status: draft
+  status: approved
   topic: Практический пост по теме недели
   scheduled: '2026-10-24T14:00:00+05:00'
+  post: articles/vk/2026-10-24-practice.md
+  cover: assets/covers/mobile-form-check.jpg
 - id: tg-practice-2026-10-28
   platform: tg
   status: draft

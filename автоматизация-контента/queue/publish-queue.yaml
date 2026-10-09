@@ -255,21 +255,31 @@ items:
   notes: Новый график по поручению пользователя; оригинальный материал. Черновики
     требуют подготовки текста и креатива.
 - id: crm-first-steps
-  status: draft
+  status: approved
   topic: 'Как связать первое обращение с результатом сделки: минимальный учёт'
   dzen_url: ''
   scheduled_dzen: '2026-10-20T12:00:00+05:00'
   scheduled_teasers: '2026-10-20T14:00:00+05:00'
   notes: Новый график по поручению пользователя; оригинальный материал. Черновики
     требуют подготовки текста и креатива.
+  dzen_article: articles/dzen/articles/2026-10-20-crm-first-steps.md
+  cover: assets/covers/crm-first-steps.jpg
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-20-crm-first-steps.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-20-crm-first-steps.md
+  approved_at: '2026-10-09T13:00:00+00:00'
 - id: mobile-form-check
-  status: draft
+  status: approved
   topic: 'Форма заявки на телефоне: проверка пути клиента'
   dzen_url: ''
   scheduled_dzen: '2026-10-23T12:00:00+05:00'
   scheduled_teasers: '2026-10-23T14:00:00+05:00'
   notes: Новый график по поручению пользователя; оригинальный материал. Черновики
     требуют подготовки текста и креатива.
+  dzen_article: articles/dzen/articles/2026-10-23-mobile-form-check.md
+  cover: assets/covers/mobile-form-check.jpg
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-23-mobile-form-check.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-23-mobile-form-check.md
+  approved_at: '2026-10-09T13:00:00+00:00'
 - id: b2b-ad-offer
   status: draft
   topic: Как указать условия B2B-заказа в объявлении
