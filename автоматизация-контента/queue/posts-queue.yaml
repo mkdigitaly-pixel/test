@@ -211,3 +211,73 @@ items:
   cover_headline: Мария Ковалева
   cover_subline: Яндекс Директ B2B
   notes: Публикуется вручную или отдельной командой — не в posting-schedule
+- id: first-audit-questions
+  platform: vk
+  status: approved
+  topic: Что подготовить перед разбором рекламы
+  scheduled: '2026-10-10T14:00:00+05:00'
+  post: articles/vk/2026-10-10-first-audit-questions.md
+- id: lead-statuses
+  platform: tg
+  status: approved
+  topic: Понятные записи о результате обработки заявки
+  scheduled: '2026-10-14T14:00:00+05:00'
+  post: articles/tg/2026-10-14-lead-statuses.md
+  cover: assets/covers/qualified-leads.jpg
+- id: report-next-step
+  platform: vk
+  status: approved
+  topic: Что изменить после рекламного отчёта
+  scheduled: '2026-10-17T14:00:00+05:00'
+  post: articles/vk/2026-10-17-report-next-step.md
+  cover: assets/covers/direct-owner-report.jpg
+- id: tg-practice-2026-10-21
+  platform: tg
+  status: draft
+  topic: Практический пост по теме недели
+  scheduled: '2026-10-21T14:00:00+05:00'
+- id: vk-practice-2026-10-24
+  platform: vk
+  status: draft
+  topic: Практический пост по теме недели
+  scheduled: '2026-10-24T14:00:00+05:00'
+- id: tg-practice-2026-10-28
+  platform: tg
+  status: draft
+  topic: Практический пост по теме недели
+  scheduled: '2026-10-28T14:00:00+05:00'
+- id: vk-practice-2026-10-31
+  platform: vk
+  status: draft
+  topic: Практический пост по теме недели
+  scheduled: '2026-10-31T14:00:00+05:00'
+- id: tg-practice-2026-11-04
+  platform: tg
+  status: draft
+  topic: Практический пост по теме недели
+  scheduled: '2026-11-04T14:00:00+05:00'
+- id: vk-practice-2026-11-07
+  platform: vk
+  status: draft
+  topic: Практический пост по теме недели
+  scheduled: '2026-11-07T14:00:00+05:00'
+- id: tg-practice-2026-11-11
+  platform: tg
+  status: draft
+  topic: Практический пост по теме недели
+  scheduled: '2026-11-11T14:00:00+05:00'
+- id: vk-practice-2026-11-14
+  platform: vk
+  status: draft
+  topic: Практический пост по теме недели
+  scheduled: '2026-11-14T14:00:00+05:00'
+- id: tg-practice-2026-11-18
+  platform: tg
+  status: draft
+  topic: Практический пост по теме недели
+  scheduled: '2026-11-18T14:00:00+05:00'
+- id: vk-practice-2026-11-21
+  platform: vk
+  status: draft
+  topic: Практический пост по теме недели
+  scheduled: '2026-11-21T14:00:00+05:00'

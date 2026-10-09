@@ -1,7 +1,8 @@
 #!/bin/bash
-# Автозапуск слотов на сегодня (МСК). Вызывается cron / Cloud Agent timer.
 set -euo pipefail
-cd "$(dirname "$0")"
-python3 publish.py schedule prepare-covers
-python3 publish.py schedule sync-urls
+cd -- "$(dirname -- "$0")"
+# One launcher; publish.py also locks direct schedule invocations.
+exec 9>../queue/.launcher.lock
+flock -n 9 || exit 0
 python3 publish.py schedule run
+python3 save-publication-state.py

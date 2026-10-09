@@ -10,6 +10,7 @@ import re
 import shutil
 import subprocess
 import time
+import tempfile
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
@@ -162,6 +163,8 @@ def deploy_rss_public(
     """Публикация RSS: GitHub Pages (blog.mkekspert.ru) → git push ветки кода → SFTP (опц.)."""
     results: list[str] = []
     gh_msg = deploy_gh_pages(campaign_id=campaign_id, dry_run=dry_run)
+    if not dry_run and os.getenv("DZEN_RSS_DEPLOY_GH_PAGES", "true").lower() in ("1", "true", "yes") and not gh_msg:
+        raise RuntimeError("GitHub Pages: публикация не подтверждена")
     if gh_msg:
         results.append(gh_msg)
     git_msg = deploy_feed_git(campaign_id=campaign_id, cover_rel=cover_rel, dry_run=dry_run)
@@ -237,13 +240,14 @@ def format_pub_date_ru(raw: str) -> str:
     parsed = _parse_item_datetime(raw)
     if not parsed:
         return ""
-    # даты публикаций показываем по Москве
-    local = parsed.astimezone(timezone(timedelta(hours=3)))
+    # The editorial calendar uses Asia/Yekaterinburg (UTC+5).
+    local = parsed.astimezone(timezone(timedelta(hours=5)))
     return f"{local.day} {_MONTHS_RU[local.month]} {local.year}"
 
 
 def _item_pub_raw(item: dict[str, Any]) -> str:
     for key in (
+        "blog_published_at",
         "dzen_published_at",
         "dzen_republished_at",
         "published_at",
@@ -373,6 +377,9 @@ def _site_chrome(inner: str, *, title: str, description: str, canonical: str, ex
     if yandex:
         metas += f'<meta name="yandex-verification" content="{html.escape(yandex)}" />\n'
     metrika = _metrika_snippet()
+    template_dir = ROOT / "automation" / "templates"
+    header = (template_dir / "blog-header.html").read_text(encoding="utf-8")
+    footer = (template_dir / "blog-footer.html").read_text(encoding="utf-8")
     return f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -391,19 +398,15 @@ def _site_chrome(inner: str, *, title: str, description: str, canonical: str, ex
 <link rel="icon" type="image/png" sizes="120x120" href="/favicon-120.png">
 <link rel="apple-touch-icon" href="/favicon-120.png">
 <link rel="alternate" type="application/rss+xml" title="МК Эксперт — RSS" href="/dzen-feed.xml">
-{extra_head}<style>{BLOG_CSS}</style>
+{extra_head}<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/blog-theme.css?v=20261008">
 {metrika}</head>
 <body>
-<header class="site top">
-<a class="brand" href="/">МК Эксперт</a>
-<nav class="nav" aria-label="Меню">
-<a href="/">Блог</a>
-<a href="https://mkekspert.ru">Сайт</a>
-<a href="https://mkekspert.ru/razbor-direct">Разбор Директа</a>
-<a href="https://dzen.ru/klientyandtrafik">Дзен</a>
-</nav>
-</header>
+{header}
 {inner}
+{footer}
 </body>
 </html>
 """
@@ -448,7 +451,9 @@ def _article_html_page(campaign_id: str, body_html: str, post: dict[str, Any] | 
         cover_block = ""
     published_label = str(post.get("published_label") or "").strip()
     published_iso = str(post.get("published_at") or "").strip()
-    date_bit = f" · <time datetime=\"{html.escape(published_iso[:10])}\">{html.escape(published_label)}</time>" if published_label else ""
+    if published_label and published_iso:
+        date_html = f'<p class="publication-date">Опубликовано: <time datetime="{html.escape(published_iso)}">{html.escape(published_label)}</time></p>'
+        body = re.sub(r'(<h1\b[^>]*>.*?</h1>)', lambda m: m.group(1) + '\n' + date_html, body, count=1, flags=re.DOTALL)
     schema = {
         "@context": "https://schema.org",
         "@type": "Article",
@@ -468,16 +473,16 @@ def _article_html_page(campaign_id: str, body_html: str, post: dict[str, Any] | 
         if cover_square and cover_square != cover_url:
             schema["image"].append(cover_square)
     if published_iso:
-        schema["datePublished"] = published_iso[:10]
+        schema["datePublished"] = published_iso
     og_image = f'<meta property="og:image" content="{html.escape(cover_url)}">\n' if cover_url else ""
     og_image += '<meta property="og:type" content="article">\n'
     if published_iso:
-        og_image += f'<meta property="article:published_time" content="{html.escape(published_iso[:10])}">\n'
+        og_image += f'<meta property="article:published_time" content="{html.escape(published_iso)}">\n'
     extra = og_image + f'<script type="application/ld+json">{json.dumps(schema, ensure_ascii=False)}</script>\n'
     inner = f"""
 <main class="site article-wrap">
 {cover_block}
-<p class="meta-line"><a href="/">← Все статьи</a> · Яндекс Директ · B2B{date_bit}</p>
+<p class="meta-line"><a href="/">← Все статьи</a> · Яндекс Директ · B2B</p>
 <article>
 {body}
 </article>
@@ -532,10 +537,12 @@ def _article_body_html(item: dict[str, Any]) -> str:
 BLOG_SITE_DIR = ROOT / "articles" / "dzen" / "blog-site"
 
 
-def _blog_posts() -> list[dict[str, Any]]:
+def _blog_posts(campaign_id: str = "") -> list[dict[str, Any]]:
     posts: list[dict[str, Any]] = []
     seen: set[str] = set()
     for item in _queue_items():
+        if item.get("status") != "published" and item.get("id") != campaign_id:
+            continue
         post = _blog_post_meta(item)
         if not post or post["id"] in seen:
             continue
@@ -552,10 +559,10 @@ def _blog_posts() -> list[dict[str, Any]]:
     return posts
 
 
-def _blog_index_html() -> str:
+def _blog_index_html(posts: list[dict[str, Any]] | None = None) -> str:
     """Главная blog.mkekspert.ru — лента статей с обложками (SEO + Дзен)."""
     site = SITE_URL.rstrip("/")
-    posts = _blog_posts()
+    posts = _blog_posts() if posts is None else posts
     cards = []
     for p in posts:
         if p["cover_url"]:
@@ -664,7 +671,7 @@ def _blog_sitemap_xml(posts: list[dict[str, Any]]) -> str:
     return "\n".join(lines) + "\n"
 
 
-def _collect_gh_pages_files() -> dict[str, bytes]:
+def _collect_gh_pages_files(campaign_id: str = "") -> dict[str, bytes]:
     """Файлы для ветки gh-pages: блог, feed, covers, SEO."""
     files: dict[str, bytes] = {}
     if FEED_FILE.is_file():
@@ -676,8 +683,8 @@ def _collect_gh_pages_files() -> dict[str, bytes]:
         "Allow: /dzen-feed.xml\n"
         "Sitemap: https://blog.mkekspert.ru/sitemap.xml\n"
     ).encode()
-    posts = _blog_posts()
-    files["index.html"] = _blog_index_html().encode("utf-8")
+    posts = _blog_posts(campaign_id)
+    files["index.html"] = _blog_index_html(posts).encode("utf-8")
     files["sitemap.xml"] = _blog_sitemap_xml(posts).encode("utf-8")
     if BLOG_SITE_DIR.is_dir():
         for path in BLOG_SITE_DIR.rglob("*"):
@@ -691,6 +698,8 @@ def _collect_gh_pages_files() -> dict[str, bytes]:
         for cover in COVERS_DIR.glob("*.jpg"):
             files[f"covers/{cover.name}"] = cover.read_bytes()
     for item in _queue_items():
+        if item.get("status") != "published" and item.get("id") != campaign_id:
+            continue
         post = _blog_post_meta(item)
         if not post:
             continue
@@ -703,16 +712,56 @@ def _collect_gh_pages_files() -> dict[str, bytes]:
     return files
 
 
+def _with_publication_date(page: str, published_iso: str) -> str:
+    """Add the known publication date while preserving the reviewed article layout."""
+    label = format_pub_date_ru(published_iso)
+    if not label or not re.search(r'<h1\b', page):
+        return page
+    page = re.sub(r'\s*<p class="publication-date">.*?</p>\s*', '', page, flags=re.DOTALL)
+    page = re.sub(r'(<p class="meta-line">.*?)(?: · <time\b[^>]*>.*?</time>)(.*?</p>)', r'\1\2', page, flags=re.DOTALL)
+    date_html = f'<p class="publication-date">Опубликовано: <time datetime="{html.escape(published_iso)}">{html.escape(label)}</time></p>'
+    page = re.sub(r'(<h1\b[^>]*>.*?</h1>)', lambda m: m.group(1) + '\n' + date_html + '\n', page, count=1, flags=re.DOTALL)
+    def schema_date(match):
+        try:
+            data = json.loads(match.group(1))
+        except ValueError:
+            return match.group(0)
+        if isinstance(data, dict) and data.get('@type') == 'Article':
+            data['datePublished'] = published_iso
+            return '<script type="application/ld+json">' + json.dumps(data, ensure_ascii=False) + '</script>'
+        return match.group(0)
+    page = re.sub(r'<script type="application/ld\+json">(.*?)</script>', schema_date, page, flags=re.DOTALL)
+    meta = f'<meta property="article:published_time" content="{html.escape(published_iso)}">'
+    if re.search(r'<meta property="article:published_time"[^>]*>', page):
+        page = re.sub(r'<meta property="article:published_time"[^>]*>', lambda m: meta, page)
+    else:
+        page = page.replace('</head>', meta + '\n</head>', 1)
+    return page
+
+
+def _write_gh_pages_files(worktree: Path, files: dict[str, bytes], campaign_id: str = "") -> None:
+    posts = {p['id']: p for p in _blog_posts(campaign_id)}
+    for rel_path, content in files.items():
+        dest = worktree / rel_path
+        if rel_path.startswith("articles/") and dest.exists() and rel_path != f"articles/{campaign_id}.html":
+            post = posts.get(Path(rel_path).stem)
+            if not post or not post.get('published_at'):
+                continue
+            content = _with_publication_date(dest.read_text(encoding='utf-8'),post['published_at']).encode('utf-8')
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_bytes(content)
+
+
 def deploy_gh_pages(*, campaign_id: str = "", dry_run: bool = False) -> str:
     """Деплой на GitHub Pages (ветка gh-pages) → blog.mkekspert.ru."""
     if os.getenv("DZEN_RSS_DEPLOY_GH_PAGES", "true").lower() not in ("1", "true", "yes"):
         return ""
-    files = _collect_gh_pages_files()
+    files = _collect_gh_pages_files(campaign_id)
     if not files:
         return "gh-pages: нет файлов для деплоя"
 
     git_root = _git_root()
-    worktree = git_root / ".gh-pages-deploy"
+    worktree = Path(tempfile.mkdtemp(prefix="mkekspert-blog-"))
     label = campaign_id or "blog"
 
     try:
@@ -728,13 +777,6 @@ def deploy_gh_pages(*, campaign_id: str = "", dry_run: bool = False) -> str:
         timeout=60,
     )
     branch_exists = bool(remote_check.stdout.strip())
-
-    if worktree.exists():
-        subprocess.run(
-            ["git", "worktree", "remove", "--force", str(worktree)],
-            cwd=git_root,
-            capture_output=True,
-        )
 
     try:
         if branch_exists:
@@ -765,18 +807,7 @@ def deploy_gh_pages(*, campaign_id: str = "", dry_run: bool = False) -> str:
         print(f"⚠ gh-pages worktree: {err}")
         return ""
 
-    for entry in worktree.iterdir():
-        if entry.name == ".git":
-            continue
-        if entry.is_dir():
-            shutil.rmtree(entry)
-        else:
-            entry.unlink()
-
-    for rel_path, content in files.items():
-        dest = worktree / rel_path
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        dest.write_bytes(content)
+    _write_gh_pages_files(worktree, files, campaign_id)
 
     if dry_run:
         subprocess.run(
@@ -812,21 +843,8 @@ def deploy_gh_pages(*, campaign_id: str = "", dry_run: bool = False) -> str:
         text=True,
     )
     if push.returncode != 0:
-        # ветка только для деплоя сайта — перезаписываем содержимое
-        push = subprocess.run(
-            ["git", "push", "--force-with-lease", "origin", "HEAD:gh-pages"],
-            cwd=worktree,
-            capture_output=True,
-            text=True,
-        )
-        if push.returncode != 0:
-            print(f"⚠ gh-pages push: {(push.stderr or push.stdout).strip()}")
-            subprocess.run(
-                ["git", "worktree", "remove", "--force", str(worktree)],
-                cwd=git_root,
-                capture_output=True,
-            )
-            return ""
+        subprocess.run(["git", "worktree", "remove", "--force", str(worktree)], cwd=git_root, capture_output=True)
+        raise RuntimeError("GitHub Pages: push отклонён; повторить после проверки свежей ветки")
     subprocess.run(
         ["git", "worktree", "remove", "--force", str(worktree)],
         cwd=git_root,

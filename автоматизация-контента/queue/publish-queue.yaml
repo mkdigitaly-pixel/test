@@ -9,6 +9,7 @@ items:
   published_at: '2026-08-30T09:38:13+00:00'
   notes: Опубликовано в @mariyaprodirect до разделения каналов — дальше только DZEN-канал
   dzen_rss_pending: false
+  blog_published_at: '2026-09-02T11:29:13+00:00'
 - id: penoplast-case
   status: published
   scheduled_dzen: '2026-09-02T10:00:00+03:00'
@@ -27,6 +28,8 @@ items:
   notes: RSS + schedule; dzen_url и тизеры — автоматически
   dzen_html_path: articles/dzen/html/2026-08-30-penoplast-case.html
   dzen_rss_pending: false
+  tg_teaser_published_at: '2026-09-02T12:00:08.587189+03:00'
+  blog_published_at: '2026-09-02T11:29:13+00:00'
 - id: no-leads-direct
   status: published
   topic: Почему нет заявок в Директе — что проверяю в кабинете
@@ -42,6 +45,8 @@ items:
   dzen_html_path: articles/dzen/html/2026-09-09-no-leads-direct.html
   dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
   dzen_published_at: '2026-09-12T15:51:46.824197+03:00'
+  tg_teaser_published_at: '2026-09-17T12:28:43.227847+03:00'
+  blog_published_at: '2026-09-02T11:29:13+00:00'
 - id: autotarget-b2b
   status: published
   topic: Автотаргет в Директе для B2B — когда помогает, а когда съедает бюджет
@@ -58,6 +63,8 @@ items:
   dzen_html_path: articles/dzen/html/2026-09-11-autotarget-b2b.html
   dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
   dzen_published_at: '2026-09-12T15:52:53.544138+03:00'
+  tg_teaser_published_at: '2026-09-17T12:28:43.227877+03:00'
+  blog_published_at: '2026-09-02T11:29:13+00:00'
 - id: chp-upp-case
   status: draft
   topic: Кейс ЧП/УПП — заявка 8017→1800 ₽
@@ -79,6 +86,8 @@ items:
   dzen_html_path: articles/dzen/html/2026-09-23-metrika-goals.html
   dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
   dzen_published_at: '2026-09-30T10:55:41.594872+03:00'
+  tg_teaser_published_at: '2026-09-30T10:55:31.299616+03:00'
+  blog_published_at: '2026-09-14T05:48:23+00:00'
 - id: epk-leads
   status: published
   topic: ЕПК под заявки в B2B
@@ -94,6 +103,8 @@ items:
   dzen_html_path: articles/dzen/html/2026-09-25-epk-leads.html
   dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
   dzen_published_at: '2026-09-30T10:55:50.870050+03:00'
+  tg_teaser_published_at: '2026-09-30T10:55:31.299616+03:00'
+  blog_published_at: '2026-09-14T05:48:23+00:00'
 - id: offline-conversions
   status: draft
   topic: Офлайн-конверсии и CRM — обучение стратегии Директа
@@ -123,6 +134,8 @@ items:
   dzen_html_path: articles/dzen/html/2026-09-30-rsa-vs-search.html
   dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
   dzen_published_at: '2026-09-30T10:56:01.183435+03:00'
+  tg_teaser_published_at: '2026-09-30T12:05:53.629066+03:00'
+  blog_published_at: '2026-09-14T05:48:23+00:00'
 - id: budget-waste
   status: published
   topic: Куда сливается бюджет в Директе
@@ -138,6 +151,8 @@ items:
   dzen_published_at: '2026-10-02T10:05:24.982652+03:00'
   dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-02-budget.md
   dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-02-budget.md
+  tg_teaser_published_at: '2026-10-02T12:05:22.345315+03:00'
+  blog_published_at: '2026-09-14T05:48:23+00:00'
 - id: choose-directologist
   status: published
   topic: Как выбрать директолога для B2B
@@ -153,8 +168,9 @@ items:
   dzen_published_at: '2026-10-07T10:06:19.864572+03:00'
   dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-07-choose.md
   dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-07-choose.md
+  blog_published_at: '2026-09-14T05:48:23+00:00'
 - id: audit-direct
-  status: approved
+  status: published
   topic: Что входит в аудит Яндекс Директа
   dzen_article: articles/dzen/articles/2026-10-09-audit-direct.md
   cover: assets/covers/audit-direct.jpg
@@ -163,8 +179,9 @@ items:
   dzen_url: https://dzen.ru/a/aqtjAkjUgT5jjGcQ
   notes: RSS first-connect — оригинальная статья, не копия канала
   dzen_rss_pending: false
+  blog_published_at: '2026-09-14T05:48:23+00:00'
 - id: landing-conversion
-  status: approved
+  status: published
   topic: Посадочная не конвертирует трафик из Директа
   dzen_article: articles/dzen/articles/2026-10-16-landing-conversion.md
   cover: assets/covers/landing-conversion.jpg
@@ -173,8 +190,9 @@ items:
   dzen_url: https://dzen.ru/a/aqtjAEjUgT5jjGcH
   notes: RSS first-connect — оригинальная статья, не копия канала
   dzen_rss_pending: false
+  blog_published_at: '2026-09-14T05:48:23+00:00'
 - id: negative-keywords
-  status: approved
+  status: published
   topic: Минус-слова в Директе для B2B
   dzen_article: articles/dzen/articles/2026-10-21-negative-keywords.md
   cover: assets/covers/negative-keywords.jpg
@@ -183,6 +201,7 @@ items:
   dzen_url: https://dzen.ru/a/aqtjAN8hLg35mhq0
   notes: RSS first-connect — оригинальная статья, не копия канала
   dzen_rss_pending: false
+  blog_published_at: '2026-09-14T05:48:23+00:00'
 - id: leads-without-sales
   status: published
   approved_at: '2026-10-09T07:11:59.208164+00:00'
@@ -194,9 +213,120 @@ items:
   cover_subline: ''
   dzen_url: https://dzen.ru/a/asiU3YwtABJA4YPI
   dzen_rss_pending: false
-  notes: Пользователь поручил создать креатив и разместить статью в Дзене. Обложка
-    imagegen; без дополнительных постов в TG/VK.
+  notes: Новый график по поручению пользователя; оригинальный материал. Черновики
+    требуют подготовки текста и креатива.
   dzen_html_path: articles/dzen/html/2026-10-09-leads-without-sales.html
   dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
   dzen_published_at: '2026-10-09T07:22:07.775559+00:00'
   published_at: '2026-10-09T07:22:07.775559+00:00'
+  scheduled_dzen: '2026-10-09T12:00:00+05:00'
+  scheduled_teasers: '2026-10-09T14:00:00+05:00'
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-09-leads-without-sales.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-09-leads-without-sales.md
+  blog_published_at: '2026-10-09T07:12:44+00:00'
+- id: qualified-leads
+  status: approved
+  topic: Как определить подходящую заявку для бизнеса
+  dzen_url: ''
+  dzen_article: articles/dzen/articles/2026-10-13-qualified-leads.md
+  cover: assets/covers/qualified-leads.jpg
+  approved_at: '2026-10-09T08:10:00+00:00'
+  scheduled_dzen: '2026-10-13T12:00:00+05:00'
+  scheduled_teasers: '2026-10-13T14:00:00+05:00'
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-13-qualified-leads.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-13-qualified-leads.md
+  notes: Новый график по поручению пользователя; оригинальный материал. Черновики
+    требуют подготовки текста и креатива.
+- id: direct-owner-report
+  status: approved
+  topic: 6 вопросов к рекламному отчёту для собственника
+  dzen_url: ''
+  dzen_article: articles/dzen/articles/2026-10-16-direct-owner-report.md
+  cover: assets/covers/direct-owner-report.jpg
+  approved_at: '2026-10-09T08:10:00+00:00'
+  scheduled_dzen: '2026-10-16T12:00:00+05:00'
+  scheduled_teasers: '2026-10-16T14:00:00+05:00'
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-16-direct-owner-report.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-16-direct-owner-report.md
+  notes: Новый график по поручению пользователя; оригинальный материал. Черновики
+    требуют подготовки текста и креатива.
+- id: crm-first-steps
+  status: draft
+  topic: 'Как связать первое обращение с результатом сделки: минимальный учёт'
+  dzen_url: ''
+  scheduled_dzen: '2026-10-20T12:00:00+05:00'
+  scheduled_teasers: '2026-10-20T14:00:00+05:00'
+  notes: Новый график по поручению пользователя; оригинальный материал. Черновики
+    требуют подготовки текста и креатива.
+- id: mobile-form-check
+  status: draft
+  topic: 'Форма заявки на телефоне: проверка пути клиента'
+  dzen_url: ''
+  scheduled_dzen: '2026-10-23T12:00:00+05:00'
+  scheduled_teasers: '2026-10-23T14:00:00+05:00'
+  notes: Новый график по поручению пользователя; оригинальный материал. Черновики
+    требуют подготовки текста и креатива.
+- id: b2b-ad-offer
+  status: draft
+  topic: Как указать условия B2B-заказа в объявлении
+  dzen_url: ''
+  scheduled_dzen: '2026-10-27T12:00:00+05:00'
+  scheduled_teasers: '2026-10-27T14:00:00+05:00'
+  notes: Новый график по поручению пользователя; оригинальный материал. Черновики
+    требуют подготовки текста и креатива.
+- id: call-outcomes
+  status: draft
+  topic: Что записывать после рекламного звонка для анализа обращений
+  dzen_url: ''
+  scheduled_dzen: '2026-10-30T12:00:00+05:00'
+  scheduled_teasers: '2026-10-30T14:00:00+05:00'
+  notes: Новый график по поручению пользователя; оригинальный материал. Черновики
+    требуют подготовки текста и креатива.
+- id: campaign-budget-test
+  status: draft
+  topic: Как задать условия проверки рекламной гипотезы
+  dzen_url: ''
+  scheduled_dzen: '2026-11-03T12:00:00+05:00'
+  scheduled_teasers: '2026-11-03T14:00:00+05:00'
+  notes: Новый график по поручению пользователя; оригинальный материал. Черновики
+    требуют подготовки текста и креатива.
+- id: regional-lead-quality
+  status: draft
+  topic: Как разбирать качество обращений по регионам
+  dzen_url: ''
+  scheduled_dzen: '2026-11-06T12:00:00+05:00'
+  scheduled_teasers: '2026-11-06T14:00:00+05:00'
+  notes: Новый график по поручению пользователя; оригинальный материал. Черновики
+    требуют подготовки текста и креатива.
+- id: season-demand-check
+  status: draft
+  topic: Как отделить сезонность от проблем рекламы
+  dzen_url: ''
+  scheduled_dzen: '2026-11-10T12:00:00+05:00'
+  scheduled_teasers: '2026-11-10T14:00:00+05:00'
+  notes: Новый график по поручению пользователя; оригинальный материал. Черновики
+    требуют подготовки текста и креатива.
+- id: repeat-client-ads
+  status: draft
+  topic: Как учитывать повторных клиентов при оценке рекламы
+  dzen_url: ''
+  scheduled_dzen: '2026-11-13T12:00:00+05:00'
+  scheduled_teasers: '2026-11-13T14:00:00+05:00'
+  notes: Новый график по поручению пользователя; оригинальный материал. Черновики
+    требуют подготовки текста и креатива.
+- id: sales-delay-report
+  status: draft
+  topic: Как оценивать рекламу при длинном цикле сделки
+  dzen_url: ''
+  scheduled_dzen: '2026-11-17T12:00:00+05:00'
+  scheduled_teasers: '2026-11-17T14:00:00+05:00'
+  notes: Новый график по поручению пользователя; оригинальный материал. Черновики
+    требуют подготовки текста и креатива.
+- id: site-request-check
+  status: draft
+  topic: Как проверить передачу заявки с сайта до менеджера
+  dzen_url: ''
+  scheduled_dzen: '2026-11-20T12:00:00+05:00'
+  scheduled_teasers: '2026-11-20T14:00:00+05:00'
+  notes: Новый график по поручению пользователя; оригинальный материал. Черновики
+    требуют подготовки текста и креатива.
