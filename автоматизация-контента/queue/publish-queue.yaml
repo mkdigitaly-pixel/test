@@ -224,6 +224,10 @@ items:
   dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-09-leads-without-sales.md
   dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-09-leads-without-sales.md
   blog_published_at: '2026-10-09T07:12:44+00:00'
+  tg_teaser_published_at: '2026-10-09T12:59:21.805314+00:00'
+  tg_teaser_message_id: 152
+  vk_teaser_published_at: '2026-10-09T12:59:23.403820+00:00'
+  vk_teaser_message_id: 229
 - id: qualified-leads
   status: approved
   topic: Как определить подходящую заявку для бизнеса

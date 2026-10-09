@@ -559,7 +559,8 @@ slots:
   time: '14:00'
   action: publish_teasers
   campaign_id: leads-without-sales
-  status: scheduled
+  status: done
+  completed_at: '2026-10-09T17:59:21.318723+05:00'
 - date: '2026-10-13'
   time: '12:00'
   action: publish_dzen
