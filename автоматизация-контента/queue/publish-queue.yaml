@@ -183,3 +183,16 @@ items:
   dzen_url: https://dzen.ru/a/aqtjAN8hLg35mhq0
   notes: RSS first-connect — оригинальная статья, не копия канала
   dzen_rss_pending: false
+- id: leads-without-sales
+  status: approved
+  approved_at: '2026-10-09T07:11:59.208164+00:00'
+  topic: 'Заявки из Яндекс Директа есть, а продаж нет: что проверить до увеличения
+    бюджета'
+  dzen_article: articles/dzen/articles/2026-10-09-leads-without-sales.md
+  cover: assets/covers/leads-without-sales.jpg
+  cover_headline: Заявки есть. Где продажи?
+  cover_subline: ''
+  dzen_url: ''
+  dzen_rss_pending: false
+  notes: Пользователь поручил создать креатив и разместить статью в Дзене. Обложка
+    imagegen; без дополнительных постов в TG/VK.
