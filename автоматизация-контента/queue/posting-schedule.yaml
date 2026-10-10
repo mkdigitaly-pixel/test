@@ -685,7 +685,8 @@ slots:
   time: '14:00'
   action: publish_vk_post
   post_id: first-audit-questions
-  status: scheduled
+  status: done
+  completed_at: '2026-10-10T14:00:01.677219+05:00'
 - date: '2026-10-14'
   time: '14:00'
   action: publish_tg_post

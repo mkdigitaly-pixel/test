@@ -149,3 +149,15 @@ items:
   brief: briefs/covers/leads-without-sales.md
   vk_post_id: 229
   requested_at: '2026-10-09T12:59:23Z'
+- id: first-audit-questions
+  slug: first-audit-questions
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Что подготовить перед разбором рекламы
+  subline: vk
+  out_landscape: assets/covers/first-audit-questions.jpg
+  out_vk: assets/covers/first-audit-questions-vk.jpg
+  brief: briefs/covers/first-audit-questions.md
+  vk_post_id: 230
+  requested_at: '2026-10-10T09:00:04Z'

@@ -213,10 +213,12 @@ items:
   notes: Публикуется вручную или отдельной командой — не в posting-schedule
 - id: first-audit-questions
   platform: vk
-  status: approved
+  status: published
   topic: Что подготовить перед разбором рекламы
   scheduled: '2026-10-10T14:00:00+05:00'
   post: articles/vk/2026-10-10-first-audit-questions.md
+  published_at: '2026-10-10T09:00:04.434806+00:00'
+  message_id: 230
 - id: lead-statuses
   platform: tg
   status: approved
