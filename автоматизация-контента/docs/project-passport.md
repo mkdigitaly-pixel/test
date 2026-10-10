@@ -1,205 +1,106 @@
-# Паспорт проекта mkekspert (контент-автоматизация)
+# Паспорт проекта mkekspert
 
-Куда что лежит и как зайти. **Секреты (токены) сюда не пишем** — только имена переменных и где они хранятся.
+Обновлено 10 октября 2026. Секреты в этом документе не хранить.
 
-Обновлено: 2026-10-03.
+## Управление проектом
 
----
+Пользователь поручил вести публикации в Telegram, VK и Дзене и самостоятельно организовать график. Пауза от 9 октября снята для нового расписания. Старые ожидающие слоты отменены, выполненные сохранены.
 
-## 1. Репозиторий и код
+Действующее время — **Asia/Yekaterinburg (UTC+5)**:
 
-| Что | Значение |
-|-----|----------|
-| GitHub | https://github.com/mkdigitaly-pixel/test |
-| SSH remote | `git@github.com:mkdigitaly-pixel/test.git` |
-| Папка проекта в репо | `автоматизация-контента/` |
-| Рабочая ветка агента (сейчас) | `cursor/schedule-catchup-8631` |
-| Базовая ветка для PR | `cursor/rename-test-to-work-e9d0` (далее — по договорённости) |
-| PR | https://github.com/mkdigitaly-pixel/test/pull/8 |
+- Дзен: вторник и пятница, 12:00. Публикация статьи в блоге/RSS; появление в Дзене зависит от загрузки RSS площадкой.
+- Telegram: вторник, среда и пятница, 14:00.
+- VK: вторник, пятница и суббота, 14:00.
+- Во вторник/пятницу соцсети получают адаптированные тизеры статьи с реальной ссылкой; в среду/субботу — собственные практические посты.
 
-### Как открыть код у себя
+При задержке импорта в Дзен тизеры ожидают ссылку. Планировщик проверяет их каждые 5 минут. Слоты старше 24 часов не отправляются залпом: требуется проверка и перенос.
 
-1. GitHub → репозиторий `mkdigitaly-pixel/test`
-2. Или на ПК: `git clone git@github.com:mkdigitaly-pixel/test.git`
-3. Папка: `test/автоматизация-контента/`
+## Код и сервер
 
----
+- Репозиторий: https://github.com/mkdigitaly-pixel/test
+- Папка: `автоматизация-контента/`.
+- Текущая серверная рабочая ветка: `cursor/project-passport-8631`.
+- Сервер: `144.31.24.150`, локальный SSH-профиль `alfahost`, доступ по ключу.
+- Репозиторий на сервере: `/opt/work`; проект: `/opt/work/автоматизация-контента`.
+- Прежний Cursor Agent: https://cursor.com/agents/bc-95eaf9e4-d3bb-4ef3-9ef2-76fc8a2a8631
+- Существующие PR: https://github.com/mkdigitaly-pixel/test/pull/8 и https://github.com/mkdigitaly-pixel/test/pull/12
 
-## 2. Cloud Agent (Cursor)
+## Публикации и контроль
 
-| Что | Значение |
-|-----|----------|
-| Чат агента | https://cursor.com/agents/bc-95eaf9e4-d3bb-4ef3-9ef2-76fc8a2a8631 |
-| Аккаунт владельца | mkdigitaly@gmail.com (Мария Ковалева) |
-| Режим | Self-hosted / private worker |
-| Таймер расписания | `schedule-run-daily` — cron `5 7,9,11 * * *` (UTC) → 10:05 / 12:05 / 14:05 МСК |
+Серверный cron: `/etc/cron.d/mkekspert-content`, каждые 5 минут запускает `automation/run-schedule.sh`. Логи: `/var/log/mkekspert-content.log`, ротация в `/etc/logrotate.d/mkekspert-content`.
 
-Агент сам запускает `python3 publish.py schedule run` по таймеру.
+`publish.py` блокирует одновременные запуски расписания и использует часовой пояс из очереди. После публикации сохраняет статусы и номера сообщений. Для тизеров результат Telegram и VK сохраняется отдельно, чтобы ошибка второй площадки не дублировала первую. Статусы архивируются в GitHub.
 
----
+Подготовка контента и проверка результатов выполняются ежедневной автоматизацией этого чата в 09:00 по Екатеринбургу. Она поддерживает запас на 14 дней, проверяет официальные источники, готовит тексты и обложки, устраняет подтверждённые ошибки. Она требует работающего ПК и приложения Codex. Готовые публикации выполняются сервером независимо от ПК.
 
-## 3. Сайты и каналы (публичные ссылки)
+Один исполнитель публикаций — серверное расписание. Старый таймер Cursor `schedule-run-daily` не нужен; не создавать копии таймеров и не вызывать публикацию заранее из ежедневной проверки.
 
-| Куда | URL |
-|------|-----|
-| Сайт (Tilda) | https://mkekspert.ru |
-| Разбор Директа | https://mkekspert.ru/razbor-direct |
-| Блог статей | https://blog.mkekspert.ru |
-| RSS для Дзена | https://blog.mkekspert.ru/dzen-feed.xml |
-| Обложки | https://blog.mkekspert.ru/covers/{slug}.jpg и `{slug}-vk.jpg` |
-| Дзен-канал | https://dzen.ru/klientyandtrafik |
-| Telegram основной | https://t.me/mariyaprodirect (`@mariyaprodirect`) |
-| Telegram Дзен-sync | `@dzenkovaleva` (статьи → @zen_sync_bot) |
-| VK группа | https://vk.com/klientyandtrafik (id `222121025`) |
-| Личка Марии | `@Mariya1740` |
+Основные файлы:
 
-### Где правится хостинг блога
+- `queue/posting-schedule.yaml`: слоты и их статусы;
+- `queue/publish-queue.yaml`: статьи, ссылки, отдельные результаты тизеров;
+- `queue/posts-queue.yaml`: собственные посты и номера сообщений;
+- `articles/dzen/articles/`, `articles/dzen/teasers/tg/`, `articles/dzen/teasers/vk/`: тексты;
+- `articles/tg/`, `articles/vk/`: собственные посты;
+- `assets/covers/`: готовые креативы;
+- `automation/templates/`, `articles/dzen/blog-site/blog-theme.css`: дизайн блога;
+- `briefs/covers/`: описание и промпты креативов.
 
-| Что | Где |
-|-----|-----|
-| GitHub Pages | ветка `gh-pages` репо `mkdigitaly-pixel/test` |
-| Домен | `blog.mkekspert.ru` → CNAME на GitHub Pages |
-| Деплой | `publish.py` / `dzen_rss.deploy_gh_pages()` после статей |
+## Сайты и каналы
 
-Основной сайт **mkekspert.ru** — Tilda (не этот блог).
+- Сайт: https://mkekspert.ru (Tilda; публикация требует отдельного явного согласия).
+- Разбор Директа: https://mkekspert.ru/razbor-direct
+- Блог: https://blog.mkekspert.ru
+- RSS: https://blog.mkekspert.ru/dzen-feed.xml
+- Дзен: https://dzen.ru/klientyandtrafik
+- Telegram: https://t.me/mariyaprodirect
+- VK: https://vk.com/klientyandtrafik, сообщество `222121025`.
+- Личный контакт Марии: `@Mariya1740`.
+- Обложки: `https://blog.mkekspert.ru/covers/{slug}.jpg`.
 
----
+Блог размещён в ветке `gh-pages`. Дизайн: Onest, фон ivory `#FDFBF7`, терракота `#A85A32`, графит `#3D3D3D`. Деплой сохраняет существующие страницы и файлы проверки сайта. Будущие утверждённые статьи не появляются в блоге раньше своего слота.
 
-## 4. Где лежат файлы (структура)
+## Доступы и флаги
 
-Корень: `автоматизация-контента/`
+Токены: `automation/.env`; переопределения: `.env` в корне проекта; отдельные доступы: `ДОСТУПЫ.env`. В корневом `.env` значения имеют приоритет. Эти файлы не коммитить и не выводить в журналы.
 
-```
-автоматизация-контента/
-├── articles/
-│   ├── dzen/articles/     # полные статьи → RSS / Дзен
-│   ├── dzen/teasers/tg/   # тизеры → @mariyaprodirect
-│   ├── dzen/teasers/vk/   # тизеры → VK (сейчас на паузе)
-│   ├── dzen/html/         # HTML-экспорт статей
-│   ├── dzen/feed.xml      # локальная RSS-лента
-│   ├── dzen/blog-site/    # favicon, zen_*.html, home-assets → gh-pages
-│   ├── tg/                # свои посты Telegram
-│   └── vk/                # свои посты VK
-├── assets/covers/         # обложки JPG (16:9 и *-vk 1:1)
-├── automation/            # publish.py, dzen_rss.py, generate_cover.py, .env
-├── queue/
-│   ├── publish-queue.yaml     # кампании Дзен
-│   ├── posts-queue.yaml       # посты TG/VK
-│   ├── posting-schedule.yaml  # расписание слотов
-│   └── covers-inbox.yaml      # очередь обложек
-├── briefs/covers/         # брифы на обложки
-├── docs/                  # инструкции (этот файл здесь)
-├── checklists/            # чеклисты настройки
-├── references/            # голос, разметка, бренд
-├── plan/                  # контент-план, расписание
-├── brandbook/             # цвета / токены
-├── .env                   # флаги (например VK_PUBLISH) — не коммитить
-├── automation/.env        # токены — не коммитить
-└── ДОСТУПЫ.env            # Tilda / Webmaster — не коммитить
-```
+Рабочие флаги: `AUTO_PUBLISH=true`, `DRY_RUN=false`, `VK_PUBLISH=on`, `VK_PHOTOS=manual`, `DZEN_PUBLISH_MODE=rss`, `DZEN_RSS_DRAFT=false`, `DZEN_TG_NOTIFY=false`.
 
----
+VK получает текст автоматически. Загрузка фото через VK API запрещена действующими инструкциями проекта; обложку можно прикрепить вручную. Не выполнять повторные пробы загрузки.
 
-## 5. Секреты и доступы (где лежат, что означают)
+Для паузы установить `AUTO_PUBLISH=false`, `DRY_RUN=true`, `VK_PUBLISH=off` и обновить AGENTS.md. При возобновлении пересмотреть просроченные слоты.
 
-**Не коммитить:** `.env`, `automation/.env`, `ДОСТУПЫ.env`.
+Проверка без публикации: `python3 automation/publish.py schedule run --dry-run`. Перед повтором неизвестного сетевого результата проверить сам канал. Ошибки сохраняются без токенов.
 
-| Файл | Что внутри (имена ключей) |
-|------|---------------------------|
-| `automation/.env` | `TELEGRAM_BOT_TOKEN`, `TELEGRAM_MAIN_CHANNEL_ID`, `TELEGRAM_DZEN_CHANNEL_ID`, `VK_ACCESS_TOKEN`, `VK_USER_TOKEN`, `VK_GROUP_ID`, `VK_PHOTOS`, `VK_PUBLISH`, `AUTO_PUBLISH`, `DZEN_*`, Tilda-ключи (если скопированы) |
-| `.env` (корень папки) | `VK_PUBLISH` (флаг паузы VK) |
-| `ДОСТУПЫ.env` | `TILDA_*`, `WEBMASTER_YANDEX_VERIFICATION` |
-| Образец без секретов | `automation/.env.example` |
+## Запас контента на запуске
 
-### Важные флаги сейчас
+Статья «Заявки есть, а продаж нет» опубликована: https://dzen.ru/a/asiU3YwtABJA4YPI. Её тизеры назначены на 9 октября, 14:00.
 
-| Флаг | Значение | Смысл |
-|------|----------|--------|
-| `AUTO_PUBLISH` | `true` | Расписание публикует по-настоящему |
-| `VK_PHOTOS` | `manual` | В VK только текст; картинки крепит Мария |
-| `VK_PUBLISH` | `off` | **Новые посты/тизеры VK не публикуются** (слоты ждут) |
-| `DZEN_PUBLISH_MODE` | `auto` | Длинные статьи → RSS, короткие → zen_sync |
-| `DZEN_RSS_DEPLOY_GH_PAGES` | `true` | После статьи — деплой на blog |
+Готовы четыре статьи с креативами на 13, 16, 20 и 23 октября, восемь тизеров и собственные посты на 10, 14, 17, 21 и 24 октября. Запас покрывает две недели. Последующие слоты — редакционный план; они должны получить готовые тексты и обложки до отправки.
 
-Чтобы снова публиковать VK: в `automation/.env` поставить `VK_PUBLISH=on` и написать агенту.
+Тизеры статьи от 9 октября опубликованы: https://t.me/mariyaprodirect/152 и https://vk.com/wall-222121025_229. Ежедневная проверка активна в Codex: «Контент mkekspert — подготовка и контроль».
 
----
+Даты существующих страниц восстановлены по первому добавлению страницы в историю ветки gh-pages, сохранены в blog_published_at и отображаются под заголовком. Новые страницы получают фактическую дату при публикации.
 
-## 6. Как зайти в кабинеты
+## Проверка автозагрузки VK — 10 октября 2026
 
-| Сервис | Как зайти |
-|--------|-----------|
-| GitHub | github.com под аккаунтом с доступом к `mkdigitaly-pixel/test` |
-| Cursor Cloud Agent | https://cursor.com → Agents → чат выше |
-| Дзен Студия | https://dzen.ru/studio → канал «Клиенты и трафик» / klientyandtrafik |
-| Telegram | приложение / web → `@mariyaprodirect`, `@dzenkovaleva` |
-| VK | vk.com → сообщество klientyandtrafik (админ-права) |
-| Tilda | tilda.cc → проект mkekspert (ключи в `ДОСТУПЫ.env`) |
-| Яндекс.Метрика | счётчик блога/сайта `97606312` |
-| Яндекс.Вебмастер | verification в `ДОСТУПЫ.env` / мета на blog |
+По явной просьбе пользователя выполнена одна попытка прикрепить готовую обложку к посту https://vk.com/wall-222121025_229. VK отклонил первый запрос photos.getWallUploadServer: код 9, Flood control. Файл не загружен, запись не изменена. Повторов не было. VK_PHOTOS=manual сохранён; расписание текстовых публикаций продолжает работать. Результат без секретов: queue/vk-photo-attempt.json.
 
-Логина/пароля Студии Дзена в `.env` **нет** — публикация статей через RSS.
+## Обновление доступа VK — 10 октября 2026
 
----
+Пользователь самостоятельно получил новый пользовательский ключ и сохранил его в закрытом локальном файле. Ключ заменён на сервере; старые настройки сохранены в приватной резервной копии. Остальные токены и рабочие флаги не изменены.
 
-## 7. Как публикуется (поток)
+Выполнена одна проверка нового доступа на существующем посте https://vk.com/wall-222121025_229. Первый запрос wall.getById отклонён: код 9, Flood control. Запросов photos.* не было, файл не загружен, пост не изменён. Смена ключа не устранила ограничение. Повторы не выполнять без нового основания; VK_PHOTOS=manual сохраняется.
 
-```
-вт/чт 10:00  publish_dzen     → HTML + feed.xml → blog.mkekspert.ru → Дзен забирает RSS
-вт/чт 12:00  publish_teasers  → TG тизер (+ VK тизер, если VK_PUBLISH=on)
-пн/… 11:00   publish_tg_post  → @mariyaprodirect
-сб/… 11:00   publish_vk_post  → VK (сейчас на паузе)
-```
+Результаты без секретов: queue/vk-access-refresh.json и queue/vk-photo-refresh-check.json. Причина и срок ограничения не раскрыты ответом VK; действительность разрешений на фото остаётся неподтверждённой.
 
-Команды вручную:
+## Ответ поддержки VK и отключение стороннего доступа — 10 октября 2026
 
-```bash
-cd автоматизация-контента/automation
-python3 publish.py schedule run
-python3 publish.py schedule list
-python3 publish.py publish dzen <id>
-python3 publish.py publish teasers <id>
-python3 publish.py publish tg-post <id>
-# VK сейчас: не вызывать, пока VK_PUBLISH=off
-```
+Пользователь передал ответ поддержки: некоторые сторонние приложения ограничиваются при нарушениях использования API. Это общий ответ, а не подтверждение точной причины нашего Flood control. Используемый для фото доступ выдавался через Kate Mobile; повторная выдача ключа результата не изменила.
 
-Очереди: `queue/publish-queue.yaml`, `queue/posts-queue.yaml`, `queue/posting-schedule.yaml`.
+VK_USER_TOKEN очищен в активных настройках сервера, чтобы не использовать это подключение для загрузки фото или чтения канала. Секретные резервные копии закрыты. Ключ сообщества и остальные настройки сохранены; VK_PUBLISH=on, VK_PHOTOS=manual. Новых запросов к VK при отключении не выполнялось.
 
----
+Инструкция checklists/vk-photo-token.md обновлена: получение ключей через Kate Mobile больше не предлагается. Для автоматических фото требуется подтверждённый поддержкой VK способ подключения; новую авторизацию VK ID нельзя считать достаточным подтверждением доступа к photos.*.
 
-## 8. Обложки
+Пользователю следует самостоятельно отозвать ненужную авторизацию Kate Mobile в кабинете VK ID. Отключение ключа на сервере не отзывает разрешение приложения. Результат без секретов: queue/vk-support-followup.json.
 
-| Размер | Файл | Куда |
-|--------|------|------|
-| 1200×630 | `assets/covers/{slug}.jpg` | Дзен / TG |
-| 1080×1080 | `assets/covers/{slug}-vk.jpg` | VK вручную |
-
-Стиль: тёмный бренд как в Telegram (`references/brand-visual.md`) — **без пластилина**.  
-Готовые URL: `https://blog.mkekspert.ru/covers/{slug}-vk.jpg`.
-
----
-
-## 9. Что сказать агенту (шпаргалка)
-
-| Нужно | Фраза |
-|-------|--------|
-| Запустить расписание | «запусти schedule run» |
-| Статус очереди | «что по расписанию?» |
-| Снова публиковать VK | «включи VK_PUBLISH=on» |
-| Не трогать VK | уже `VK_PUBLISH=off` |
-| Картинка к VK-посту | «ссылку на обложку для поста #N» |
-| Статья в блог/RSS | «опубликуй dzen &lt;id&gt;» |
-
----
-
-## 10. Связанные инструкции
-
-| Тема | Файл |
-|------|------|
-| Каналы и очереди | `docs/content-channels.md` |
-| Агент и cron | `docs/automation-agent.md` |
-| RSS → Дзен | `checklists/dzen-rss-tilda.md` |
-| VK фото / пауза | `checklists/vk-photo-token.md` |
-| Обложки | `docs/covers-cloud-agent.md`, `checklists/covers-codex-pc.md` |
-| Голос Марии | `references/maria-voice.md` |
-| Расписание (текст) | `plan/posting-schedule.md` |

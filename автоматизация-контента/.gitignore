@@ -1,0 +1,8 @@
+.env
+automation/.env
+ДОСТУПЫ.env
+__pycache__/
+*.lock
+*.tmp
+*.upload-tmp
+*.log
