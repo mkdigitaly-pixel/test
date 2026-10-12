@@ -630,7 +630,7 @@ def _blog_index_html(posts: list[dict[str, Any]] | None = None) -> str:
                 )
             img = (
                 f'<div class="post-media"><picture>{sources}'
-                f'<img src="{html.escape(p["cover_url"])}" alt="" loading="lazy" '
+                f'<img src="{html.escape(p["cover_url"])}" alt="{html.escape(p["title"], quote=True)}" loading="lazy" '
                 f'decoding="async" width="640" height="400" '
                 f'sizes="(max-width: 640px) 100vw, 320px">'
                 f"</picture></div>"
