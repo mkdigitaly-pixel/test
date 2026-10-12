@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import html
+import hashlib
 import json
 import os
 import re
@@ -12,6 +13,7 @@ import subprocess
 import time
 import tempfile
 from datetime import datetime, timedelta, timezone
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 from typing import Any
 from xml.etree import ElementTree as ET
@@ -245,18 +247,61 @@ def format_pub_date_ru(raw: str) -> str:
     return f"{local.day} {_MONTHS_RU[local.month]} {local.year}"
 
 
+
+
+def _verified_publication_date(raw: Any = "") -> str:
+    """Actual publication date only: never infer it from a schedule or filename."""
+    text = str(raw or "").strip()
+    if not text:
+        return ""
+    try:
+        parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
+    except ValueError:
+        return ""
+    if parsed.date() > datetime.now(timezone.utc).date():
+        return ""
+    return text
+
+
+def _rss_article_publication_dates() -> dict[str, str]:
+    """Use the blog RSS date, independently of publication on other platforms."""
+    if not FEED_FILE.is_file():
+        return {}
+    dates = {}
+    root = ET.fromstring(FEED_FILE.read_bytes())
+    for item in root.findall("./channel/item"):
+        url = item.findtext("link", "")
+        prefix = f"{SITE_URL.rstrip('/')}/articles/"
+        if not url.startswith(prefix) or not url.endswith(".html"):
+            continue
+        cid = url[len(prefix):-5]
+        if not re.fullmatch(r"[a-z0-9-]+", cid):
+            continue
+        try:
+            parsed = parsedate_to_datetime(item.findtext("pubDate", ""))
+            if parsed.tzinfo is None:
+                continue
+            date = _verified_publication_date(parsed.isoformat())
+        except (TypeError, ValueError, OverflowError):
+            continue
+        if date:
+            dates[cid] = date
+    return dates
+
+
+def _publication_time_html(raw: Any = "") -> str:
+    date = _verified_publication_date(raw)
+    if not date:
+        return ""
+    label = format_pub_date_ru(date)
+    return f'<time class="post-date" datetime="{html.escape(date)}">{label}</time>'
+
+
+
 def _item_pub_raw(item: dict[str, Any]) -> str:
-    for key in (
-        "blog_published_at",
-        "dzen_published_at",
-        "dzen_republished_at",
-        "published_at",
-        "scheduled_dzen",
-    ):
-        raw = str(item.get(key) or "").strip()
-        if raw:
-            return raw
-    return ""
+    """Actual blog date, independently of a schedule or another platform."""
+    known = _verified_publication_date(item.get("blog_published_at"))
+    return known or _rss_article_publication_dates().get(str(item.get("id") or ""), "")
 
 
 def _cover_urls(cover_rel: str) -> tuple[str, str]:
@@ -298,51 +343,14 @@ def _blog_post_meta(item: dict[str, Any]) -> dict[str, Any] | None:
         "url": article_site_link(cid),
         "status": status,
         "published_at": published_at,
+        "modified_at": _verified_publication_date(item.get("blog_modified_at")),
         "published_label": format_pub_date_ru(published_at),
         "keyword": str(meta.get("main_keyword") or "").strip(),
     }
 
 
-BLOG_CSS = """
-:root{--ink:#141414;--muted:#5a5a5a;--accent:#1a7a3a;--line:#e5e5e0;--paper:#fff}
-*{box-sizing:border-box}
-body{margin:0;font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;background:#f3f1eb;color:var(--ink);line-height:1.55}
-a{color:#1d4ed8;text-underline-offset:3px}
-.site{max-width:960px;margin:0 auto;padding:1.5rem 1.25rem 4rem}
-.top{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:0.75rem 1.5rem;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--line);font-family:system-ui,sans-serif}
-.brand{font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);font-weight:700;text-decoration:none}
-.nav{display:flex;flex-wrap:wrap;gap:0.85rem 1.1rem;font-size:0.9rem}
-.nav a{color:var(--muted);text-decoration:none}
-.nav a:hover{color:var(--ink)}
-.hero h1{font-size:clamp(1.75rem,3.5vw,2.35rem);line-height:1.15;margin:0 0 0.6rem}
-.hero p{margin:0 0 2rem;color:var(--muted);font-size:1.05rem;max-width:36rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem}
-.post{display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--line);border-radius:4px;overflow:hidden;text-decoration:none;color:inherit;transition:border-color .15s}
-.post:hover{border-color:#bbb}
-.post-media{display:block;width:100%;aspect-ratio:16/10;background:#ddd;overflow:hidden}
-.post-media img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
-.post-body{padding:1rem 1.1rem 1.2rem;display:flex;flex-direction:column;gap:0.45rem;flex:1}
-.post-body h2{font-size:1.05rem;line-height:1.3;margin:0;font-weight:700}
-.post-body p{margin:0;font-size:0.92rem;color:var(--muted);font-family:system-ui,sans-serif}
-.post-date{font-family:system-ui,sans-serif;font-size:0.78rem;color:var(--muted);letter-spacing:0.02em}
-.article-wrap{max-width:720px;margin:0 auto}
-.article-wrap .cover-wrap{margin:0 0 1.25rem;border-radius:4px;overflow:hidden;background:#ddd}
-.article-wrap .cover{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:center;display:block;border-radius:0;margin:0}
-.article-wrap h1{font-size:clamp(1.5rem,3vw,2rem);line-height:1.2;margin:0 0 1rem}
-.article-wrap h2,.article-wrap h3{margin-top:1.6em}
-.article-wrap img{max-width:100%;height:auto;border-radius:4px}
-.article-wrap figure{margin:1.5em 0}
-.cta{margin-top:2.5rem;padding-top:1.25rem;border-top:1px solid var(--line);font-family:system-ui,sans-serif;font-size:0.9rem;color:var(--muted)}
-.meta-line{font-family:system-ui,sans-serif;font-size:0.85rem;color:var(--muted);margin:0 0 1rem}
-@media (max-width:640px){
-.site{padding:1rem 1rem 3rem}
-.grid{grid-template-columns:1fr;gap:1.1rem}
-.post-media{aspect-ratio:1/1}
-.article-wrap .cover-wrap{margin-left:-1rem;margin-right:-1rem;border-radius:0;width:calc(100% + 2rem)}
-.article-wrap .cover{aspect-ratio:1/1}
-}
-@media (max-width:560px){.grid{grid-template-columns:1fr}}
-"""
+BLOG_CSS = (ROOT / "articles/dzen/blog-site/blog-theme.css").read_text(encoding="utf-8")
+BLOG_STYLE_VERSION = hashlib.sha256(BLOG_CSS.encode("utf-8")).hexdigest()[:12]
 
 
 BLOG_METRIKA_ID = os.getenv("DZEN_BLOG_METRIKA_ID", "97606312").strip()
@@ -368,7 +376,7 @@ ym({BLOG_METRIKA_ID}, 'init', {{webvisor:true, clickmap:true, referrer: document
 """
 
 
-def _site_chrome(inner: str, *, title: str, description: str, canonical: str, extra_head: str = "") -> str:
+def _site_chrome(inner: str, *, title: str, description: str, canonical: str, extra_head: str = "", og_type: str = "website") -> str:
     zen = os.getenv("DZEN_ZEN_VERIFICATION", "").strip()
     yandex = os.getenv("DZEN_YANDEX_VERIFICATION", "").strip()
     metas = ""
@@ -391,7 +399,7 @@ def _site_chrome(inner: str, *, title: str, description: str, canonical: str, ex
 <meta property="og:description" content="{html.escape(description)}">
 <meta property="og:site_name" content="МК Эксперт">
 <meta property="og:url" content="{html.escape(canonical)}">
-<meta property="og:type" content="website">
+<meta property="og:type" content="{html.escape(og_type)}">
 <link rel="canonical" href="{html.escape(canonical)}">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -401,7 +409,7 @@ def _site_chrome(inner: str, *, title: str, description: str, canonical: str, ex
 {extra_head}<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/blog-theme.css?v=20261008">
+<link rel="stylesheet" href="/blog-theme.css?v={BLOG_STYLE_VERSION}">
 {metrika}</head>
 <body>
 {header}
@@ -410,6 +418,38 @@ def _site_chrome(inner: str, *, title: str, description: str, canonical: str, ex
 </body>
 </html>
 """
+
+
+
+ARTICLE_RELATED_LINKS = {
+    'no-leads-direct': [('/audit-yandex-direct', 'Аудит рекламы и аналитики'), ('/vedenie-yandex-direct', 'Ведение и оптимизация кампаний'), ('https://blog.mkekspert.ru/articles/metrika-goals.html', 'Как проверить цели Метрики')],
+    '7-errors-direct': [('/audit-yandex-direct', 'Аудит Яндекс Директа'), ('https://blog.mkekspert.ru/articles/no-leads-direct.html', 'Почему реклама не приносит заявки')],
+    'audit-direct': [('/audit-yandex-direct', 'Заказать аудит Яндекс Директа'), ('https://blog.mkekspert.ru/articles/7-errors-direct.html', 'Типичные ошибки в рекламных кампаниях')],
+    'penoplast-case': [('/yandex-direct-dlya-b2b', 'Реклама для B2B и производства'), ('/keys-ppu', 'Кейс рекламы промышленного оборудования')],
+    'autotarget-b2b': [('/yandex-direct-dlya-b2b', 'Яндекс Директ для B2B'), ('/vedenie-yandex-direct', 'Оптимизация действующих кампаний')],
+    'metrika-goals': [('/nastrojka-yandex-direct', 'Настройка рекламы с аналитикой'), ('/audit-yandex-direct', 'Аудит кампаний и целей Метрики')],
+    'epk-leads': [('/nastrojka-yandex-direct', 'Настройка Яндекс Директа для бизнеса'), ('/vedenie-yandex-direct', 'Ведение и оптимизация рекламы')],
+    'rsa-vs-search': [('/nastrojka-yandex-direct', 'Подготовка и запуск рекламы'), ('/vedenie-yandex-direct', 'Проверка запросов и площадок')],
+    'budget-waste': [('/audit-yandex-direct', 'Проверка причин расхода бюджета'), ('/vedenie-yandex-direct', 'Сопровождение и оптимизация рекламы')],
+    'choose-directologist': [('/nastrojka-yandex-direct', 'Что входит в настройку рекламы'), ('/portfolio', 'Кейсы Яндекс Директа')],
+    'landing-conversion': [('/nastrojka-yandex-direct', 'Подготовка рекламы и посадочной страницы'), ('/keys-ppu', 'Кейс: реклама и посадочная страница для производства')],
+    'negative-keywords': [('/vedenie-yandex-direct', 'Оптимизация запросов и кампаний'), ('https://blog.mkekspert.ru/articles/7-errors-direct.html', 'Ошибки, которые мешают рекламе')],
+    'leads-without-sales': [('/audit-yandex-direct', 'Аудит рекламы и аналитики'), ('/vedenie-yandex-direct', 'Оптимизация рекламы по обращениям')],
+    'direct-price': [('/nastrojka-yandex-direct', 'Стоимость и состав настройки рекламы'), ('/vedenie-yandex-direct', 'Стоимость ведения Яндекс Директа')],
+}
+
+
+def _article_related_html(campaign_id: str) -> str:
+    links = ARTICLE_RELATED_LINKS.get(campaign_id, [
+        ('/audit-yandex-direct', 'Аудит рекламы и аналитики'),
+        ('/nastrojka-yandex-direct', 'Настройка Яндекс Директа для бизнеса'),
+    ])
+    items = []
+    for target, label in links:
+        url = 'https://mkekspert.ru' + target if target.startswith('/') else target
+        items.append(f'<li><a href="{html.escape(url)}">{html.escape(label)}</a></li>')
+    return ('<section class="cta seo-related" aria-label="Услуги и статьи по теме">'
+            '<h2>Продолжить по теме</h2><ul>' + ''.join(items) + '</ul></section>')
 
 
 def _article_html_page(campaign_id: str, body_html: str, post: dict[str, Any] | None = None) -> str:
@@ -450,7 +490,7 @@ def _article_html_page(campaign_id: str, body_html: str, post: dict[str, Any] | 
     else:
         cover_block = ""
     published_label = str(post.get("published_label") or "").strip()
-    published_iso = str(post.get("published_at") or "").strip()
+    published_iso = _verified_publication_date(post.get("published_at"))
     if published_label and published_iso:
         date_html = f'<p class="publication-date">Опубликовано: <time datetime="{html.escape(published_iso)}">{html.escape(published_label)}</time></p>'
         body = re.sub(r'(<h1\b[^>]*>.*?</h1>)', lambda m: m.group(1) + '\n' + date_html, body, count=1, flags=re.DOTALL)
@@ -460,9 +500,10 @@ def _article_html_page(campaign_id: str, body_html: str, post: dict[str, Any] | 
         "headline": title,
         "description": description,
         "mainEntityOfPage": link,
-        "author": {"@type": "Person", "name": "Мария Ковалева"},
+        "author": {"@type": "Person", "@id": "https://mkekspert.ru/#maria", "name": "Мария Ковалева", "url": "https://mkekspert.ru/#about"},
         "publisher": {
             "@type": "Organization",
+            "@id": "https://mkekspert.ru/#organization",
             "name": "МК Эксперт",
             "logo": {"@type": "ImageObject", "url": f"{SITE_URL.rstrip('/')}/favicon-120.png"},
         },
@@ -475,10 +516,21 @@ def _article_html_page(campaign_id: str, body_html: str, post: dict[str, Any] | 
     if published_iso:
         schema["datePublished"] = published_iso
     og_image = f'<meta property="og:image" content="{html.escape(cover_url)}">\n' if cover_url else ""
-    og_image += '<meta property="og:type" content="article">\n'
     if published_iso:
         og_image += f'<meta property="article:published_time" content="{html.escape(published_iso)}">\n'
-    extra = og_image + f'<script type="application/ld+json">{json.dumps(schema, ensure_ascii=False)}</script>\n'
+    modified = _verified_publication_date(post.get("modified_at"))
+    if modified:
+        schema["dateModified"] = modified
+    breadcrumbs = {
+        "@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Главная", "item": "https://mkekspert.ru/"},
+            {"@type": "ListItem", "position": 2, "name": "Блог", "item": SITE_URL.rstrip("/") + "/"},
+            {"@type": "ListItem", "position": 3, "name": title, "item": link},
+        ],
+    }
+    graph = {"@context": "https://schema.org", "@graph": [schema, breadcrumbs]}
+    schema_json = json.dumps(graph, ensure_ascii=False).replace("<", "\\u003c")
+    extra = og_image + f'<script type="application/ld+json">{schema_json}</script>\n' 
     inner = f"""
 <main class="site article-wrap">
 {cover_block}
@@ -486,6 +538,7 @@ def _article_html_page(campaign_id: str, body_html: str, post: dict[str, Any] | 
 <article>
 {body}
 </article>
+{_article_related_html(campaign_id)}
 <p class="cta">
 <a href="https://mkekspert.ru/razbor-direct?utm_source=blog&utm_medium=article&utm_campaign={html.escape(campaign_id)}">Бесплатный разбор Директа</a>
 · <a href="https://mkekspert.ru">mkekspert.ru</a>
@@ -499,7 +552,9 @@ def _article_html_page(campaign_id: str, body_html: str, post: dict[str, Any] | 
         description=description,
         canonical=link,
         extra_head=extra,
+        og_type="article",
     )
+
 
 
 def _queue_items() -> list[dict[str, Any]]:
@@ -593,6 +648,7 @@ def _blog_index_html(posts: list[dict[str, Any]] | None = None) -> str:
             f"{img}"
             f'<div class="post-body">{date_html}<h2>{html.escape(p["title"])}</h2>'
             f'<p>{html.escape(p["description"][:180])}{"…" if len(p["description"]) > 180 else ""}</p>'
+            '<div class="post-more">Читать статью <span aria-hidden="true">↗</span></div>'
             f"</div></a>"
         )
     grid = "\n".join(cards) if cards else "<p>Статьи появятся после публикации.</p>"
@@ -640,9 +696,12 @@ def _blog_index_html(posts: list[dict[str, Any]] | None = None) -> str:
     inner = f"""
 <main class="site">
 <section class="hero">
-<h1>Блог о Яндекс Директе для B2B</h1>
-<p>Кейсы с цифрами, разборы кабинета и практика. Без воды — только то, что работает в Директе.</p>
+<p class="eyebrow">Блог · Яндекс Директ</p>
+<h1>Блог о <span>Яндекс Директе</span> для B2B</h1>
+<p>Кейсы с цифрами, разборы кабинета и практика — то, что реально двигает заявки.</p>
+<a class="hero-cta" href="https://mkekspert.ru/razbor-direct?utm_source=blog&utm_medium=index&utm_campaign=home">Бесплатный разбор Директа</a>
 </section>
+<p class="section-label">Статьи и разборы</p>
 <section class="grid" aria-label="Статьи">
 {grid}
 </section>
@@ -658,17 +717,107 @@ def _blog_index_html(posts: list[dict[str, Any]] | None = None) -> str:
     )
 
 
-def _blog_sitemap_xml(posts: list[dict[str, Any]]) -> str:
+
+def _sitemap_lastmod(raw: str = "") -> str:
+    """Дата для <lastmod> в формате YYYY-MM-DD (Яндекс Вебмастер)."""
+    text = _verified_publication_date(raw)
+    if text:
+        try:
+            return datetime.fromisoformat(text.replace("Z", "+00:00")).strftime("%Y-%m-%d")
+        except ValueError:
+            pass
+    return ""
+
+
+
+def _blog_contacts_html() -> str:
+    """Страница контактов/географии — URL для модерации региона в Вебмастере."""
     site = SITE_URL.rstrip("/")
-    urls = [f"{site}/"] + [p["url"] for p in posts]
+    schema = {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "МК Эксперт",
+        "url": "https://mkekspert.ru",
+        "description": "Ведение и аудит Яндекс Директа для B2B",
+        "areaServed": [
+            {"@type": "Country", "name": "Россия"},
+            {"@type": "City", "name": "Москва"},
+            {"@type": "City", "name": "Санкт-Петербург"},
+        ],
+        "founder": {"@type": "Person", "name": "Мария Ковалева"},
+        "sameAs": [
+            "https://dzen.ru/klientyandtrafik",
+            "https://t.me/mariyaprodirect",
+            "https://vk.ru/klientyandtrafik",
+        ],
+    }
+    extra = f'<script type="application/ld+json">{json.dumps(schema, ensure_ascii=False)}</script>\n'
+    inner = f"""
+<main class="site">
+<section class="hero">
+<p class="eyebrow">Контакты · география</p>
+<h1>Где работаем</h1>
+<p>Блог МК Эксперт — часть сайта mkekspert.ru. Разборы и ведение Яндекс Директа для B2B.</p>
+</section>
+<div class="contacts-card" id="geo">
+<h2>Регион обслуживания</h2>
+<p>Работаю с компаниями <strong>по всей России</strong> онлайн. Формат работы можно обсудить в Telegram.</p>
+<ul>
+<li><strong>Регион обслуживания:</strong> Россия, онлайн</li>
+<li><strong>Сайт:</strong> <a href="https://mkekspert.ru">mkekspert.ru</a></li>
+<li><strong>Разбор Директа:</strong> <a href="https://mkekspert.ru/razbor-direct">mkekspert.ru/razbor-direct</a></li>
+<li><strong>Telegram:</strong> <a href="https://t.me/Mariya1740">@Mariya1740</a> · канал <a href="https://t.me/mariyaprodirect">@mariyaprodirect</a></li>
+<li><strong>Дзен:</strong> <a href="https://dzen.ru/klientyandtrafik">klientyandtrafik</a></li>
+</ul>
+</div>
+<p><a class="hero-cta" href="https://mkekspert.ru/razbor-direct?utm_source=blog&utm_medium=contacts&utm_campaign=geo">Записаться на разбор</a></p>
+</main>
+"""
+    return _site_chrome(
+        inner,
+        title="Контакты и регион — МК Эксперт",
+        description="МК Эксперт: Москва, Санкт-Петербург и регионы России. Контакты Марии Ковалевой, разбор Яндекс Директа для B2B.",
+        canonical=f"{site}/contacts.html",
+        extra_head=extra,
+    )
+
+
+
+def _blog_sitemap_xml(posts: list[dict[str, Any]]) -> str:
+    """Sitemap блога для Вебмастера: https://blog.mkekspert.ru/sitemap.xml"""
+    site = SITE_URL.rstrip("/")
+    newest = ""
+    for p in posts:
+        cand = str(p.get("published_at") or "")
+        if cand and cand > newest:
+            newest = cand
+    home_mod = _sitemap_lastmod(newest)
+    entries: list[tuple[str, str, str]] = [
+        (f"{site}/", home_mod, "1.0"),
+        (f"{site}/contacts.html", "", "0.6"),
+    ]
+    for p in posts:
+        entries.append(
+            (
+                str(p["url"]),
+                _sitemap_lastmod(str(p.get("modified_at") or p.get("published_at") or "")),
+                "0.8",
+            )
+        )
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
     ]
-    for u in urls:
-        lines.append(f"  <url><loc>{html.escape(u)}</loc></url>")
+    for loc, lastmod, priority in entries:
+        lines.append("  <url>")
+        lines.append(f"    <loc>{html.escape(loc)}</loc>")
+        if lastmod:
+            lines.append(f"    <lastmod>{lastmod}</lastmod>")
+        lines.append(f"    <priority>{priority}</priority>")
+        lines.append("  </url>")
     lines.append("</urlset>")
     return "\n".join(lines) + "\n"
+
 
 
 def _collect_gh_pages_files(campaign_id: str = "") -> dict[str, bytes]:
@@ -677,6 +826,7 @@ def _collect_gh_pages_files(campaign_id: str = "") -> dict[str, bytes]:
     if FEED_FILE.is_file():
         files["dzen-feed.xml"] = FEED_FILE.read_bytes()
     files["CNAME"] = b"blog.mkekspert.ru\n"
+    files[".nojekyll"] = b""
     files["robots.txt"] = (
         "User-agent: *\n"
         "Allow: /\n"
@@ -685,18 +835,20 @@ def _collect_gh_pages_files(campaign_id: str = "") -> dict[str, bytes]:
     ).encode()
     posts = _blog_posts(campaign_id)
     files["index.html"] = _blog_index_html(posts).encode("utf-8")
+    files["contacts.html"] = _blog_contacts_html().encode("utf-8")
     files["sitemap.xml"] = _blog_sitemap_xml(posts).encode("utf-8")
     if BLOG_SITE_DIR.is_dir():
         for path in BLOG_SITE_DIR.rglob("*"):
             if not path.is_file() or path.name.startswith("."):
                 continue
             rel = path.relative_to(BLOG_SITE_DIR).as_posix()
-            if rel == "index.html":
+            if rel in {"index.html", "contacts.html", "sitemap.xml", "robots.txt", "CNAME"}:
                 continue
             files[rel] = path.read_bytes()
     if COVERS_DIR.is_dir():
         for cover in COVERS_DIR.glob("*.jpg"):
             files[f"covers/{cover.name}"] = cover.read_bytes()
+            files[f"dzen-covers/{cover.name}"] = files[f"covers/{cover.name}"]
     for item in _queue_items():
         if item.get("status") != "published" and item.get("id") != campaign_id:
             continue
@@ -739,6 +891,19 @@ def _with_publication_date(page: str, published_iso: str) -> str:
     return page
 
 
+def _page_publication_date(page: str) -> str:
+    for raw in re.findall(r'<script\b[^>]*type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', page, re.DOTALL):
+        try:
+            data = json.loads(raw)
+        except ValueError:
+            continue
+        nodes = data.get("@graph", [data]) if isinstance(data, dict) else data
+        for node in nodes if isinstance(nodes, list) else []:
+            if isinstance(node, dict) and node.get("@type") in ("Article", "BlogPosting"):
+                return _verified_publication_date(node.get("datePublished"))
+    return ""
+
+
 def _write_gh_pages_files(worktree: Path, files: dict[str, bytes], campaign_id: str = "") -> None:
     posts = {p['id']: p for p in _blog_posts(campaign_id)}
     for rel_path, content in files.items():
@@ -747,7 +912,10 @@ def _write_gh_pages_files(worktree: Path, files: dict[str, bytes], campaign_id: 
             post = posts.get(Path(rel_path).stem)
             if not post or not post.get('published_at'):
                 continue
-            content = _with_publication_date(dest.read_text(encoding='utf-8'),post['published_at']).encode('utf-8')
+            existing = dest.read_text(encoding="utf-8")
+            if _page_publication_date(existing) == post["published_at"] and 'class="publication-date"' in existing:
+                continue
+            content = _with_publication_date(existing,post['published_at']).encode('utf-8')
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_bytes(content)
 
@@ -761,6 +929,8 @@ def deploy_gh_pages(*, campaign_id: str = "", dry_run: bool = False) -> str:
         return "gh-pages: нет файлов для деплоя"
 
     git_root = _git_root()
+    if not (git_root / ".git").exists():
+        raise ValueError("Blog deployment requires a Git checkout")
     worktree = Path(tempfile.mkdtemp(prefix="mkekspert-blog-"))
     label = campaign_id or "blog"
 
@@ -981,21 +1151,10 @@ def _queue_article_titles(queue_items: list[dict[str, Any]] | None = None) -> li
 
 
 def _parse_item_pub_date(item: dict[str, Any]) -> datetime:
-    """Свежая дата — только у материалов, которых ещё нет в канале."""
-    if not item.get("dzen_url"):
-        return datetime.now(timezone.utc)
-    for key in ("published_at", "dzen_published_at", "dzen_republished_at"):
-        raw = str(item.get(key) or "").strip()
-        if not raw:
-            continue
-        try:
-            parsed = datetime.fromisoformat(raw.replace("Z", "+00:00"))
-        except ValueError:
-            continue
-        if parsed.tzinfo is None:
-            parsed = parsed.replace(tzinfo=timezone.utc)
-        return parsed.astimezone(timezone.utc)
-    return datetime.now(timezone.utc)
+    actual = _parse_item_datetime(_item_pub_raw(item))
+    if actual is None:
+        raise ValueError("RSS article has no verified publication date")
+    return actual
 
 
 def unique_archive_fill(existing_titles: list[str], needed: int) -> list[dict[str, Any]]:
@@ -1030,8 +1189,11 @@ def _item_eligible_for_rss(item: dict[str, Any], *, channel_titles: list[str] | 
     if not path.is_file():
         return False
     if status == "published":
-        return True
+        return bool(_item_pub_raw(item))
     if status != "approved":
+        return False
+    # An approval does not prove a publication date.
+    if not _item_pub_raw(item):
         return False
     # будущие approved не кладём заранее — иначе Дзен забирает всё сразу
     if str(item.get("dzen_url") or "").strip():
@@ -1221,7 +1383,7 @@ def upsert_article_item(
         guid=guid,
         title=title,
         link=link,
-        pub_date=pub_date or datetime.now(timezone.utc),
+        pub_date=pub_date or _parse_item_datetime(_item_pub_raw(next((i for i in _queue_items() if i.get("id") == campaign_id), {"id": campaign_id}))) or datetime.now(timezone.utc),
         description=description,
         content_html=content,
         cover_url=cover_url,

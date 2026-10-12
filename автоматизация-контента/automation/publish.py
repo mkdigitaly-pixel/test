@@ -1127,7 +1127,7 @@ def ensure_standalone_cover(post_id: str, path: Path) -> Path | None:
 def publish_dzen_article(
     item: dict[str, Any], *, dry_run: bool, token: str, channel: str
 ) -> None:
-    from dzen_rss import FEED_FILE, FEED_LINK, cover_public_url, deploy_rss_public, rss_draft_mode, upsert_article_item
+    from dzen_rss import FEED_FILE, FEED_LINK, cover_public_url, deploy_rss_public, rss_draft_mode, upsert_article_item, _item_pub_raw
 
     rel = article_path(item)
     if not rel:
@@ -1186,7 +1186,7 @@ def publish_dzen_article(
     draft = rss_draft_mode()
     deployed: list[str] = []
     if not dry_run:
-        item['blog_published_at'] = datetime.now(timezone.utc).isoformat()
+        item['blog_published_at'] = _item_pub_raw(item) or datetime.now(timezone.utc).isoformat()
         current_items = load_queue()
         current = find_queue_item(current_items, item['id'])
         if current:
