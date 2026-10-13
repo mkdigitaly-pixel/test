@@ -241,6 +241,7 @@ items:
   dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-13-qualified-leads.md
   notes: Новый график по поручению пользователя; оригинальный материал. Черновики
     требуют подготовки текста и креатива.
+  blog_published_at: '2026-10-13T07:00:02+00:00'
 - id: direct-owner-report
   status: approved
   topic: 6 вопросов к рекламному отчёту для собственника
