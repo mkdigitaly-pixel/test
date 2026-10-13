@@ -161,3 +161,17 @@ items:
   brief: briefs/covers/first-audit-questions.md
   vk_post_id: 230
   requested_at: '2026-10-10T09:00:04Z'
+- id: qualified-leads
+  slug: qualified-leads
+  status: waiting_codex
+  platforms:
+  - dzen
+  - tg
+  - vk
+  headline: Как определить подходящую заявку для бизнеса
+  subline: mkekspert
+  out_landscape: assets/covers/qualified-leads.jpg
+  out_vk: assets/covers/qualified-leads-vk.jpg
+  brief: briefs/covers/qualified-leads.md
+  vk_post_id: 232
+  requested_at: '2026-10-13T09:00:05Z'

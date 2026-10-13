@@ -571,7 +571,8 @@ slots:
   time: '14:00'
   action: publish_teasers
   campaign_id: qualified-leads
-  status: scheduled
+  status: done
+  completed_at: '2026-10-13T14:00:01.656407+05:00'
 - date: '2026-10-16'
   time: '12:00'
   action: publish_dzen
