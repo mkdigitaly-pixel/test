@@ -280,22 +280,38 @@ items:
   dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-23-mobile-form-check.md
   dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-23-mobile-form-check.md
   approved_at: '2026-10-09T13:00:00+00:00'
-- id: b2b-ad-offer
-  status: draft
-  topic: Как указать условия B2B-заказа в объявлении
+- id: ai-search-visibility
+  status: approved
+  topic: 'Сайт в ответах Алисы и Google: что SEO-специалист может измерить'
   dzen_url: ''
   scheduled_dzen: '2026-10-27T12:00:00+05:00'
   scheduled_teasers: '2026-10-27T14:00:00+05:00'
-  notes: Новый график по поручению пользователя; оригинальный материал. Черновики
-    требуют подготовки текста и креатива.
-- id: call-outcomes
-  status: draft
-  topic: Что записывать после рекламного звонка для анализа обращений
+  notes: Согласованная SEO-тема; тексты, отдельные тизеры и imagegen-обложка готовы.
+    Тизеры только с подтверждённой ссылкой Дзен.
+  approved_at: '2026-10-13T06:29:27.141965+00:00'
+  topic_approved_at: '2026-10-13'
+  approval_source: 'Мария: согласовано, темы T1–T4'
+  replaces_draft_id: b2b-ad-offer
+  dzen_article: articles/dzen/articles/2026-10-27-ai-search-visibility.md
+  cover: assets/covers/ai-search-visibility.jpg
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-27-ai-search-visibility.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-27-ai-search-visibility.md
+- id: visual-search-report
+  status: approved
+  topic: 'Поиск по картинке: что проверить в новом отчёте Search Console'
   dzen_url: ''
   scheduled_dzen: '2026-10-30T12:00:00+05:00'
   scheduled_teasers: '2026-10-30T14:00:00+05:00'
-  notes: Новый график по поручению пользователя; оригинальный материал. Черновики
-    требуют подготовки текста и креатива.
+  notes: Согласованная SEO-тема; тексты, отдельные тизеры и imagegen-обложка готовы.
+    Тизеры только с подтверждённой ссылкой Дзен.
+  approved_at: '2026-10-13T06:29:27.141965+00:00'
+  topic_approved_at: '2026-10-13'
+  approval_source: 'Мария: согласовано, темы T1–T4'
+  replaces_draft_id: call-outcomes
+  dzen_article: articles/dzen/articles/2026-10-30-visual-search-report.md
+  cover: assets/covers/visual-search-report.jpg
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-30-visual-search-report.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-30-visual-search-report.md
 - id: campaign-budget-test
   status: draft
   topic: Как задать условия проверки рекламной гипотезы

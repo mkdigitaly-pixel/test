@@ -18,6 +18,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import html as html_lib
 import json
 import os
@@ -67,6 +68,10 @@ class PublishResult:
     ok: bool
     message: str
     message_id: int | None = None
+
+
+class TelegramRejectedError(RuntimeError):
+    """Telegram explicitly rejected the request without creating a message."""
 
 
 def load_env() -> None:
@@ -494,7 +499,7 @@ def telegram_api(method: str, payload: dict[str, Any], token: str) -> dict[str, 
     resp = requests.post(url, json=payload, timeout=60)
     data = resp.json()
     if not data.get("ok"):
-        raise RuntimeError(f"Telegram API {method}: {data.get('description', data)}")
+        raise TelegramRejectedError(f"Telegram API {method}: {data.get('description', data)}")
     return data
 
 
@@ -538,7 +543,7 @@ def publish_telegram(
             )
         data = resp.json()
         if not data.get("ok"):
-            raise RuntimeError(data.get("description", data))
+            raise TelegramRejectedError(data.get("description", data))
         return PublishResult("telegram", True, "Фото + текст", data["result"]["message_id"])
 
     reply_to: int | None = None
@@ -553,7 +558,7 @@ def publish_telegram(
                 )
             data = resp.json()
             if not data.get("ok"):
-                raise RuntimeError(data.get("description", data))
+                raise TelegramRejectedError(data.get("description", data))
             reply_to = data["result"]["message_id"]
         else:
             print("⚠ Текст >1024 — публикуем без обложки.", file=sys.stderr)
@@ -1304,6 +1309,66 @@ def _request_codex_cover(item_id: str, *, vk_post_id: int | None = None) -> None
     except Exception as exc:  # noqa: BLE001
         print(f"ℹ covers request ({item_id}): {exc}", file=sys.stderr)
 
+def record_tg_post_stage(post_id: str, phase: str, state: str, message_id: int | None = None) -> None:
+    posts = load_posts_queue()
+    item = find_posts_item(posts, post_id)
+    if not item:
+        raise RuntimeError(f"Нет поста {post_id} для сохранения результата TG")
+    item[f"tg_{phase}_send_state"] = state
+    if message_id:
+        item[f"tg_{phase}_message_id"] = message_id
+        item[f"tg_{phase}_published_at"] = datetime.now(timezone.utc).isoformat()
+    save_posts_queue(posts)
+
+
+def publish_long_standalone_tg(post_id: str, text: str, channel: str, token: str, cover: Path, *, dry_run: bool) -> PublishResult:
+    if dry_run:
+        return publish_telegram(text, channel, token, cover=cover, dry_run=True, parse_mode="HTML")
+    if len(text) > TG_MESSAGE_LIMIT:
+        raise ValueError(f"Текст {len(text)} символов — лимит Telegram {TG_MESSAGE_LIMIT}.")
+    posts = load_posts_queue()
+    item = find_posts_item(posts, post_id)
+    if not item:
+        raise RuntimeError(f"Нет поста {post_id} для сохранения результата TG")
+    digest = hashlib.sha256(text.encode("utf-8") + cover.read_bytes()).hexdigest()
+    if item.get("tg_content_sha256") and item["tg_content_sha256"] != digest:
+        raise RuntimeError("Материал TG изменён после начала отправки; требуется проверка канала")
+    # Persist before sending: an interrupted request must never be retried blindly.
+    for phase in ("cover", "text"):
+        if not item.get(f"tg_{phase}_message_id") and item.get(f"tg_{phase}_send_state") in ("inflight", "unknown"):
+            raise RuntimeError(f"Результат TG {phase} неизвестен; сначала проверьте канал")
+    item["tg_content_sha256"] = digest
+    save_posts_queue(posts)
+    for phase in ("cover", "text"):
+        item = find_posts_item(load_posts_queue(), post_id) or {}
+        if item.get(f"tg_{phase}_message_id"):
+            continue
+        record_tg_post_stage(post_id, phase, "inflight")
+        try:
+            if phase == "cover":
+                result = publish_telegram("", channel, token, cover=cover)
+                if not result.ok or not result.message_id:
+                    raise ValueError("Нет подтверждённого номера обложки TG")
+                message_id = result.message_id
+            else:
+                payload = {"chat_id": channel, "text": text, "parse_mode": "HTML",
+                           "disable_web_page_preview": False,
+                           "reply_parameters": {"message_id": item["tg_cover_message_id"]}}
+                result = telegram_api("sendMessage", payload, token)
+                message_id = result["result"]["message_id"]
+                if not message_id:
+                    raise ValueError("Нет подтверждённого номера текста TG")
+        except TelegramRejectedError:
+            record_tg_post_stage(post_id, phase, "rejected")
+            raise
+        except Exception as exc:
+            record_tg_post_stage(post_id, phase, "unknown")
+            raise RuntimeError(f"Результат TG {phase} неизвестен; сначала проверьте канал. {redacted_error(exc)}") from None
+        record_tg_post_stage(post_id, phase, "confirmed", message_id)
+    item = find_posts_item(load_posts_queue(), post_id) or {}
+    return PublishResult("telegram", True, "Фото + полный текст; оба результата сохранены", item["tg_text_message_id"])
+
+
 def publish_standalone_tg(post_id: str, *, dry_run: bool, force: bool) -> int:
     posts = load_posts_queue()
     post_item = find_posts_item(posts, post_id)
@@ -1330,7 +1395,10 @@ def publish_standalone_tg(post_id: str, *, dry_run: bool, force: bool) -> int:
     if not dry_run and (not token or not ch):
         raise SystemExit("Заполните TELEGRAM_BOT_TOKEN и TELEGRAM_MAIN_CHANNEL_ID")
     cover = resolve_cover_path(post_item or {}) or resolve_standalone_cover(post_id)
-    r = publish_telegram(text, ch or "@dry-run", token or "dry", cover=cover, dry_run=dry_run, parse_mode="HTML")
+    if post_item and cover and len(text) > TG_CAPTION_LIMIT:
+        r = publish_long_standalone_tg(post_id, text, ch or "@dry-run", token or "dry", cover, dry_run=dry_run)
+    else:
+        r = publish_telegram(text, ch or "@dry-run", token or "dry", cover=cover, dry_run=dry_run, parse_mode="HTML")
     print(f"TG пост ({ch or 'dry-run'}): {r.message}")
     if not dry_run and post_item:
         mark_post_published(post_id, r.message_id)

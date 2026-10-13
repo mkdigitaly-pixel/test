@@ -247,16 +247,32 @@ items:
   scheduled: '2026-10-24T14:00:00+05:00'
   post: articles/vk/2026-10-24-practice.md
   cover: assets/covers/mobile-form-check.jpg
-- id: tg-practice-2026-10-28
+- id: query-description-seo
   platform: tg
-  status: draft
-  topic: Практический пост по теме недели
+  status: approved
+  topic: 'Описание запросов в Директе: что обсудить SEO-специалисту с директологом'
   scheduled: '2026-10-28T14:00:00+05:00'
-- id: vk-practice-2026-10-31
+  approved_at: '2026-10-13T06:29:27.141965+00:00'
+  topic_approved_at: '2026-10-13'
+  approval_source: 'Мария: согласовано, темы T1–T4'
+  replaces_draft_id: tg-practice-2026-10-28
+  post: articles/tg/2026-10-28-query-description-seo.md
+  cover: assets/covers/query-description-seo.jpg
+  notes: Самостоятельный SEO-пост, без связи с Дзеном. Обложка готова; VK публикует
+    текст.
+- id: product-data-seo
   platform: vk
-  status: draft
-  topic: Практический пост по теме недели
+  status: approved
+  topic: 'База товаров для SEO: что проверить до подготовки каталога и фида'
   scheduled: '2026-10-31T14:00:00+05:00'
+  approved_at: '2026-10-13T06:29:27.141965+00:00'
+  topic_approved_at: '2026-10-13'
+  approval_source: 'Мария: согласовано, темы T1–T4'
+  replaces_draft_id: vk-practice-2026-10-31
+  post: articles/vk/2026-10-31-product-data-seo.md
+  cover: assets/covers/product-data-seo.jpg
+  notes: Самостоятельный SEO-пост, без связи с Дзеном. Обложка готова; VK публикует
+    текст.
 - id: tg-practice-2026-11-04
   platform: tg
   status: draft
