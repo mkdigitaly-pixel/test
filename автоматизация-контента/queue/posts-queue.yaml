@@ -221,11 +221,13 @@ items:
   message_id: 230
 - id: lead-statuses
   platform: tg
-  status: approved
+  status: published
   topic: Понятные записи о результате обработки заявки
   scheduled: '2026-10-14T14:00:00+05:00'
   post: articles/tg/2026-10-14-lead-statuses.md
   cover: assets/covers/qualified-leads.jpg
+  published_at: '2026-10-14T09:00:02.641664+00:00'
+  message_id: 155
 - id: report-next-step
   platform: vk
   status: approved
