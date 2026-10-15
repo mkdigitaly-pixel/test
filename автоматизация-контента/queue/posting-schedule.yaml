@@ -13,11 +13,18 @@ rhythm:
     after: dzen_article
     delay_hours: 2
   tg_own:
-    day: wednesday
-    time: '14:00'
+    days: &id001
+    - monday
+    - tuesday
+    - wednesday
+    - thursday
+    - friday
+    - saturday
+    - sunday
+    time: '18:00'
   vk_own:
-    day: saturday
-    time: '14:00'
+    days: *id001
+    time: '18:00'
 slots:
 - date: '2026-09-02'
   time: '10:00'
@@ -751,3 +758,12 @@ slots:
   post_id: vk-practice-2026-11-21
   status: scheduled
 catchup_hours: 24
+daily_social_transition:
+  approved_on: '2026-10-15'
+  approval_source: 'Мария: Да, каждый день в обеих площадках'
+  new_posts_time: '18:00'
+  preserve_existing_slots: true
+  existing_own_post_counts_for_its_platform_day: true
+  teaser_counts_as_own_post: false
+  new_topics_status: awaiting_topic_approval
+  topics_brief: briefs/2026-10-15-daily-topics-proposal.md
