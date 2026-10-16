@@ -1237,6 +1237,9 @@ def publish_dzen_article(
 def publish_dzen_teasers(
     item: dict[str, Any], *, dry_run: bool, token: str, main_ch: str, vk_token: str, vk_group: str
 ) -> None:
+    if item.get("teasers_enabled") is False:
+        print("Тизеры отключены: тема раскрыта самостоятельным постом")
+        return
     url = item.get("dzen_url", "")
     if not url and not dry_run:
         url = sync_dzen_url(item["id"])
@@ -1633,12 +1636,15 @@ def execute_schedule_slot(slot: dict[str, Any], *, dry_run: bool) -> tuple[bool,
         return True, f"dzen {cid}"
 
     if action == "publish_teasers":
-        if not dry_run:
-            sync_dzen_url(cid)
         items = load_queue()
         item = find_queue_item(items, cid)
         if not item:
             return False, f"нет кампании {cid}"
+        if item.get("teasers_enabled") is False:
+            return True, f"teasers {cid}: отключены, тема раскрыта самостоятельным постом"
+        if not dry_run:
+            sync_dzen_url(cid)
+            item = find_queue_item(load_queue(), cid) or item
         if not item.get("dzen_url") and not dry_run:
             return False, "dzen_url ещё нет — pending (повтор через 5 минут)"
         ensure_campaign_covers(cid, dry_run=dry_run)

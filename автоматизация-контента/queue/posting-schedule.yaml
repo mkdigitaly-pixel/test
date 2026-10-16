@@ -589,7 +589,10 @@ slots:
   time: '14:00'
   action: publish_teasers
   campaign_id: direct-owner-report
-  status: scheduled
+  status: cancelled
+  cancelled_reason: 'Поручение Марии: тема совпадает с самостоятельным постом; проверено
+    по файлам'
+  cancelled_at: '2026-10-16T04:20:54.206829+00:00'
 - date: '2026-10-20'
   time: '12:00'
   action: publish_dzen
@@ -599,7 +602,10 @@ slots:
   time: '14:00'
   action: publish_teasers
   campaign_id: crm-first-steps
-  status: scheduled
+  status: cancelled
+  cancelled_reason: 'Поручение Марии: тема совпадает с самостоятельным постом; проверено
+    по файлам'
+  cancelled_at: '2026-10-16T04:20:54.206833+00:00'
 - date: '2026-10-23'
   time: '12:00'
   action: publish_dzen
@@ -609,7 +615,10 @@ slots:
   time: '14:00'
   action: publish_teasers
   campaign_id: mobile-form-check
-  status: scheduled
+  status: cancelled
+  cancelled_reason: 'Поручение Марии: тема совпадает с самостоятельным постом; проверено
+    по файлам'
+  cancelled_at: '2026-10-16T04:20:54.206836+00:00'
 - date: '2026-10-27'
   time: '12:00'
   action: publish_dzen
@@ -633,63 +642,87 @@ slots:
 - date: '2026-11-03'
   time: '12:00'
   action: publish_dzen
-  campaign_id: campaign-budget-test
+  campaign_id: ai-blog-editor
   status: scheduled
 - date: '2026-11-03'
   time: '14:00'
   action: publish_teasers
   campaign_id: campaign-budget-test
-  status: scheduled
+  status: cancelled
+  cancelled_reason: 'Поручение Марии: тема совпадает с самостоятельным постом; проверено
+    по файлам'
+  cancelled_at: '2026-10-16T04:20:54.206840+00:00'
+  replaced_by: ai-blog-editor
 - date: '2026-11-06'
   time: '12:00'
   action: publish_dzen
-  campaign_id: regional-lead-quality
+  campaign_id: ai-meta-factcheck
   status: scheduled
 - date: '2026-11-06'
   time: '14:00'
   action: publish_teasers
   campaign_id: regional-lead-quality
-  status: scheduled
+  status: cancelled
+  cancelled_reason: 'Поручение Марии: тема совпадает с самостоятельным постом; проверено
+    по файлам'
+  cancelled_at: '2026-10-16T04:20:54.206842+00:00'
+  replaced_by: ai-meta-factcheck
 - date: '2026-11-10'
   time: '12:00'
   action: publish_dzen
-  campaign_id: season-demand-check
+  campaign_id: ai-content-labels
   status: scheduled
 - date: '2026-11-10'
   time: '14:00'
   action: publish_teasers
   campaign_id: season-demand-check
-  status: scheduled
+  status: cancelled
+  cancelled_reason: 'Поручение Марии: тема совпадает с самостоятельным постом; проверено
+    по файлам'
+  cancelled_at: '2026-10-16T04:20:54.206844+00:00'
+  replaced_by: ai-content-labels
 - date: '2026-11-13'
   time: '12:00'
   action: publish_dzen
-  campaign_id: repeat-client-ads
+  campaign_id: market-benchmark-check
   status: scheduled
 - date: '2026-11-13'
   time: '14:00'
   action: publish_teasers
   campaign_id: repeat-client-ads
-  status: scheduled
+  status: cancelled
+  cancelled_reason: 'Поручение Марии: тема совпадает с самостоятельным постом; проверено
+    по файлам'
+  cancelled_at: '2026-10-16T04:20:54.206847+00:00'
+  replaced_by: market-benchmark-check
 - date: '2026-11-17'
   time: '12:00'
   action: publish_dzen
-  campaign_id: sales-delay-report
+  campaign_id: safari-attribution
   status: scheduled
 - date: '2026-11-17'
   time: '14:00'
   action: publish_teasers
   campaign_id: sales-delay-report
-  status: scheduled
+  status: cancelled
+  cancelled_reason: 'Поручение Марии: тема совпадает с самостоятельным постом; проверено
+    по файлам'
+  cancelled_at: '2026-10-16T04:20:54.206848+00:00'
+  replaced_by: safari-attribution
 - date: '2026-11-20'
   time: '12:00'
   action: publish_dzen
-  campaign_id: site-request-check
+  campaign_id: max-direct-test
   status: scheduled
 - date: '2026-11-20'
   time: '14:00'
   action: publish_teasers
   campaign_id: site-request-check
-  status: scheduled
+  status: cancelled
+  cancelled_reason: 'Поручение Марии: тема совпадает с самостоятельным постом; проверено
+    по файлам'
+  cancelled_at: '2026-10-16T04:20:54.206850+00:00'
+  replaced_by: max-direct-test
 - date: '2026-10-10'
   time: '14:00'
   action: publish_vk_post
@@ -757,6 +790,156 @@ slots:
   action: publish_vk_post
   post_id: vk-practice-2026-11-21
   status: scheduled
+- date: '2026-11-24'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: crm-audience-data
+  status: scheduled
+- date: '2026-11-27'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: ozon-reviews-site
+  status: scheduled
+- date: '2026-12-01'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: ugc-fresh-data
+  status: scheduled
+- date: '2026-12-04'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: video-author-markup
+  status: scheduled
+- date: '2026-12-08'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: maps-new-customers
+  status: scheduled
+- date: '2026-12-11'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: llms-txt-limits
+  status: scheduled
+- date: '2026-10-16'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-ai-blog-editor-tg
+  status: scheduled
+- date: '2026-10-16'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-ai-blog-editor-vk
+  status: scheduled
+- date: '2026-10-24'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-ai-meta-factcheck-tg
+  status: scheduled
+- date: '2026-10-25'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-ai-meta-factcheck-vk
+  status: scheduled
+- date: '2026-10-29'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-ai-content-labels-tg
+  status: scheduled
+- date: '2026-10-29'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-ai-content-labels-vk
+  status: scheduled
+- date: '2026-10-17'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-market-benchmark-check-tg
+  status: scheduled
+- date: '2026-10-18'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-market-benchmark-check-vk
+  status: scheduled
+- date: '2026-10-20'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-safari-attribution-tg
+  status: scheduled
+- date: '2026-10-21'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-safari-attribution-vk
+  status: scheduled
+- date: '2026-10-18'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-max-direct-test-tg
+  status: scheduled
+- date: '2026-10-19'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-max-direct-test-vk
+  status: scheduled
+- date: '2026-10-25'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-crm-audience-data-tg
+  status: scheduled
+- date: '2026-10-26'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-crm-audience-data-vk
+  status: scheduled
+- date: '2026-10-23'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-ozon-reviews-site-tg
+  status: scheduled
+- date: '2026-10-23'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-ozon-reviews-site-vk
+  status: scheduled
+- date: '2026-10-26'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-ugc-fresh-data-tg
+  status: scheduled
+- date: '2026-10-27'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-ugc-fresh-data-vk
+  status: scheduled
+- date: '2026-10-27'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-video-author-markup-tg
+  status: scheduled
+- date: '2026-10-28'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-video-author-markup-vk
+  status: scheduled
+- date: '2026-10-22'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-maps-new-customers-tg
+  status: scheduled
+- date: '2026-10-22'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-maps-new-customers-vk
+  status: scheduled
+- date: '2026-10-19'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-llms-txt-limits-tg
+  status: scheduled
+- date: '2026-10-20'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-llms-txt-limits-vk
+  status: scheduled
 catchup_hours: 24
 daily_social_transition:
   approved_on: '2026-10-15'
@@ -765,5 +948,21 @@ daily_social_transition:
   preserve_existing_slots: true
   existing_own_post_counts_for_its_platform_day: true
   teaser_counts_as_own_post: false
-  new_topics_status: awaiting_topic_approval
+  new_topics_status: content_ready
   topics_brief: briefs/2026-10-15-daily-topics-proposal.md
+  approved_topics:
+  - P03
+  - P04
+  - P05
+  - P06
+  - P07
+  - P08
+  - P09
+  - P10
+  - P11
+  - P12
+  - P13
+  - P14
+  withdrawn_topics:
+  - P01
+  - P02

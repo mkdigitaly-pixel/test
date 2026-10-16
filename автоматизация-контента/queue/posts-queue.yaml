@@ -305,3 +305,339 @@ items:
   status: draft
   topic: Практический пост по теме недели
   scheduled: '2026-11-21T14:00:00+05:00'
+- id: daily-ai-blog-editor-tg
+  platform: tg
+  status: approved
+  topic: Можно ли отдать ИИ весь блог и больше его не открывать?
+  editorial_topic_id: P03
+  scheduled: '2026-10-16T18:00:00+05:00'
+  post: articles/tg/2026-10-16-ai-blog-editor.md
+  cover: assets/covers/ai-blog-editor.jpg
+  approved_at: '2026-10-16T04:20:54.206859+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-ai-blog-editor-vk
+  platform: vk
+  status: approved
+  topic: Можно ли отдать ИИ весь блог и больше его не открывать?
+  editorial_topic_id: P03
+  scheduled: '2026-10-16T18:00:00+05:00'
+  post: articles/vk/2026-10-16-ai-blog-editor.md
+  cover: assets/covers/ai-blog-editor.jpg
+  approved_at: '2026-10-16T04:20:54.206862+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-ai-meta-factcheck-tg
+  platform: tg
+  status: approved
+  topic: 'В статье всё правильно, а title уже наврал: как проверять ИИ-метаданные'
+  editorial_topic_id: P04
+  scheduled: '2026-10-24T18:00:00+05:00'
+  post: articles/tg/2026-10-24-ai-meta-factcheck.md
+  cover: assets/covers/ai-meta-factcheck.jpg
+  approved_at: '2026-10-16T04:20:54.206864+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-ai-meta-factcheck-vk
+  platform: vk
+  status: approved
+  topic: 'В статье всё правильно, а title уже наврал: как проверять ИИ-метаданные'
+  editorial_topic_id: P04
+  scheduled: '2026-10-25T18:00:00+05:00'
+  post: articles/vk/2026-10-25-ai-meta-factcheck.md
+  cover: assets/covers/ai-meta-factcheck.jpg
+  approved_at: '2026-10-16T04:20:54.206866+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-ai-content-labels-tg
+  platform: tg
+  status: approved
+  topic: 'Нужна ли специальная маркировка ИИ-текстов: как проверять SEO-новости'
+  editorial_topic_id: P05
+  scheduled: '2026-10-29T18:00:00+05:00'
+  post: articles/tg/2026-10-29-ai-content-labels.md
+  cover: assets/covers/ai-content-labels.jpg
+  approved_at: '2026-10-16T04:20:54.206867+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-ai-content-labels-vk
+  platform: vk
+  status: approved
+  topic: 'Нужна ли специальная маркировка ИИ-текстов: как проверять SEO-новости'
+  editorial_topic_id: P05
+  scheduled: '2026-10-29T18:00:00+05:00'
+  post: articles/vk/2026-10-29-ai-content-labels.md
+  cover: assets/covers/ai-content-labels.jpg
+  approved_at: '2026-10-16T04:20:54.206868+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-market-benchmark-check-tg
+  platform: tg
+  status: approved
+  topic: 'Трафик снизился: проблема сайта или всей ниши?'
+  editorial_topic_id: P06
+  scheduled: '2026-10-17T18:00:00+05:00'
+  post: articles/tg/2026-10-17-market-benchmark-check.md
+  cover: assets/covers/market-benchmark-check.jpg
+  approved_at: '2026-10-16T04:20:54.206871+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-market-benchmark-check-vk
+  platform: vk
+  status: approved
+  topic: 'Трафик снизился: проблема сайта или всей ниши?'
+  editorial_topic_id: P06
+  scheduled: '2026-10-18T18:00:00+05:00'
+  post: articles/vk/2026-10-18-market-benchmark-check.md
+  cover: assets/covers/market-benchmark-check.jpg
+  approved_at: '2026-10-16T04:20:54.206873+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-safari-attribution-tg
+  platform: tg
+  status: approved
+  topic: Почему повторная покупка с iPhone может менять картину эффективности SEO
+  editorial_topic_id: P07
+  scheduled: '2026-10-20T18:00:00+05:00'
+  post: articles/tg/2026-10-20-safari-attribution.md
+  cover: assets/covers/safari-attribution.jpg
+  approved_at: '2026-10-16T04:20:54.206874+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-safari-attribution-vk
+  platform: vk
+  status: approved
+  topic: Почему повторная покупка с iPhone может менять картину эффективности SEO
+  editorial_topic_id: P07
+  scheduled: '2026-10-21T18:00:00+05:00'
+  post: articles/vk/2026-10-21-safari-attribution.md
+  cover: assets/covers/safari-attribution.jpg
+  approved_at: '2026-10-16T04:20:54.206876+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-max-direct-test-tg
+  platform: tg
+  status: approved
+  topic: 'Реклама в MAX через Директ: что проверить до первого теста'
+  editorial_topic_id: P08
+  scheduled: '2026-10-18T18:00:00+05:00'
+  post: articles/tg/2026-10-18-max-direct-test.md
+  cover: assets/covers/max-direct-test.jpg
+  approved_at: '2026-10-16T04:20:54.206878+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-max-direct-test-vk
+  platform: vk
+  status: approved
+  topic: 'Реклама в MAX через Директ: что проверить до первого теста'
+  editorial_topic_id: P08
+  scheduled: '2026-10-19T18:00:00+05:00'
+  post: articles/vk/2026-10-19-max-direct-test.md
+  cover: assets/covers/max-direct-test.jpg
+  approved_at: '2026-10-16T04:20:54.206879+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-crm-audience-data-tg
+  platform: tg
+  status: approved
+  topic: База клиентов есть. Почему из неё ещё не получается аудитория для рекламы?
+  editorial_topic_id: P09
+  scheduled: '2026-10-25T18:00:00+05:00'
+  post: articles/tg/2026-10-25-crm-audience-data.md
+  cover: assets/covers/crm-audience-data.jpg
+  approved_at: '2026-10-16T04:20:54.206881+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-crm-audience-data-vk
+  platform: vk
+  status: approved
+  topic: База клиентов есть. Почему из неё ещё не получается аудитория для рекламы?
+  editorial_topic_id: P09
+  scheduled: '2026-10-26T18:00:00+05:00'
+  post: articles/vk/2026-10-26-crm-audience-data.md
+  cover: assets/covers/crm-audience-data.jpg
+  approved_at: '2026-10-16T04:20:54.206882+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-ozon-reviews-site-tg
+  platform: tg
+  status: approved
+  topic: Отзывы остались на Ozon. Как использовать их на своём сайте?
+  editorial_topic_id: P10
+  scheduled: '2026-10-23T18:00:00+05:00'
+  post: articles/tg/2026-10-23-ozon-reviews-site.md
+  cover: assets/covers/ozon-reviews-site.jpg
+  approved_at: '2026-10-16T04:20:54.206884+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-ozon-reviews-site-vk
+  platform: vk
+  status: approved
+  topic: Отзывы остались на Ozon. Как использовать их на своём сайте?
+  editorial_topic_id: P10
+  scheduled: '2026-10-23T18:00:00+05:00'
+  post: articles/vk/2026-10-23-ozon-reviews-site.md
+  cover: assets/covers/ozon-reviews-site.jpg
+  approved_at: '2026-10-16T04:20:54.206886+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-ugc-fresh-data-tg
+  platform: tg
+  status: approved
+  topic: 'UGC Fresh Data: кому подходит программа Google для пользовательского контента'
+  editorial_topic_id: P11
+  scheduled: '2026-10-26T18:00:00+05:00'
+  post: articles/tg/2026-10-26-ugc-fresh-data.md
+  cover: assets/covers/ugc-fresh-data.jpg
+  approved_at: '2026-10-16T04:20:54.206887+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-ugc-fresh-data-vk
+  platform: vk
+  status: approved
+  topic: 'UGC Fresh Data: кому подходит программа Google для пользовательского контента'
+  editorial_topic_id: P11
+  scheduled: '2026-10-27T18:00:00+05:00'
+  post: articles/vk/2026-10-27-ugc-fresh-data.md
+  cover: assets/covers/ugc-fresh-data.jpg
+  approved_at: '2026-10-16T04:20:54.206888+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-video-author-markup-tg
+  platform: tg
+  status: approved
+  topic: 'У видео на сайте тоже есть автор: что проверить в VideoObject'
+  editorial_topic_id: P12
+  scheduled: '2026-10-27T18:00:00+05:00'
+  post: articles/tg/2026-10-27-video-author-markup.md
+  cover: assets/covers/video-author-markup.jpg
+  approved_at: '2026-10-16T04:20:54.206889+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-video-author-markup-vk
+  platform: vk
+  status: approved
+  topic: 'У видео на сайте тоже есть автор: что проверить в VideoObject'
+  editorial_topic_id: P12
+  scheduled: '2026-10-28T18:00:00+05:00'
+  post: articles/vk/2026-10-28-video-author-markup.md
+  cover: assets/covers/video-author-markup.jpg
+  approved_at: '2026-10-16T04:20:54.206891+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-maps-new-customers-tg
+  platform: tg
+  status: approved
+  topic: Карты приносят маршруты или клиентов? Как читать кейс локального продвижения
+  editorial_topic_id: P13
+  scheduled: '2026-10-22T18:00:00+05:00'
+  post: articles/tg/2026-10-22-maps-new-customers.md
+  cover: assets/covers/maps-new-customers.jpg
+  approved_at: '2026-10-16T04:20:54.206892+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-maps-new-customers-vk
+  platform: vk
+  status: approved
+  topic: Карты приносят маршруты или клиентов? Как читать кейс локального продвижения
+  editorial_topic_id: P13
+  scheduled: '2026-10-22T18:00:00+05:00'
+  post: articles/vk/2026-10-22-maps-new-customers.md
+  cover: assets/covers/maps-new-customers.jpg
+  approved_at: '2026-10-16T04:20:54.206894+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-llms-txt-limits-tg
+  platform: tg
+  status: approved
+  topic: 'Нужен ли сайту llms.txt: где заканчиваются обещания GEO'
+  editorial_topic_id: P14
+  scheduled: '2026-10-19T18:00:00+05:00'
+  post: articles/tg/2026-10-19-llms-txt-limits.md
+  cover: assets/covers/llms-txt-limits.jpg
+  approved_at: '2026-10-16T04:20:54.206895+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+- id: daily-llms-txt-limits-vk
+  platform: vk
+  status: approved
+  topic: 'Нужен ли сайту llms.txt: где заканчиваются обещания GEO'
+  editorial_topic_id: P14
+  scheduled: '2026-10-20T18:00:00+05:00'
+  post: articles/vk/2026-10-20-llms-txt-limits.md
+  cover: assets/covers/llms-txt-limits.jpg
+  approved_at: '2026-10-16T04:20:54.206897+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
