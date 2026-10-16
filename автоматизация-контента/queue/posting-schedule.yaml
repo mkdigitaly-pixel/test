@@ -584,7 +584,8 @@ slots:
   time: '12:00'
   action: publish_dzen
   campaign_id: direct-owner-report
-  status: scheduled
+  status: done
+  completed_at: '2026-10-16T12:00:01.455688+05:00'
 - date: '2026-10-16'
   time: '14:00'
   action: publish_teasers
