@@ -268,6 +268,7 @@ items:
   - report-next-step
   teasers_disabled_reason: Совпадение подтверждено в briefs/2026-10-16-teaser-overlap-audit.md;
     поручение Марии 15 октября
+  blog_published_at: '2026-10-16T07:00:01+00:00'
 - id: crm-first-steps
   status: approved
   topic: 'Как связать первое обращение с результатом сделки: минимальный учёт'
