@@ -825,12 +825,14 @@ slots:
   time: '18:00'
   action: publish_tg_post
   post_id: daily-ai-blog-editor-tg
-  status: scheduled
+  status: done
+  completed_at: '2026-10-16T18:00:01.834586+05:00'
 - date: '2026-10-16'
   time: '18:00'
   action: publish_vk_post
   post_id: daily-ai-blog-editor-vk
-  status: scheduled
+  status: done
+  completed_at: '2026-10-16T18:00:01.834586+05:00'
 - date: '2026-10-24'
   time: '18:00'
   action: publish_tg_post

@@ -175,3 +175,15 @@ items:
   brief: briefs/covers/qualified-leads.md
   vk_post_id: 232
   requested_at: '2026-10-13T09:00:05Z'
+- id: daily-ai-blog-editor-vk
+  slug: ai-blog-editor
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Можно ли отдать ИИ весь блог и больше его не открывать?
+  subline: vk
+  out_landscape: assets/covers/ai-blog-editor.jpg
+  out_vk: assets/covers/ai-blog-editor-vk.jpg
+  brief: briefs/covers/ai-blog-editor.md
+  vk_post_id: 233
+  requested_at: '2026-10-16T13:00:09Z'
