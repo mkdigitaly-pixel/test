@@ -2,12 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://blog.mkekspert.ru/</loc>
-    <lastmod>2026-10-13</lastmod>
+    <lastmod>2026-10-16</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://blog.mkekspert.ru/contacts.html</loc>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://blog.mkekspert.ru/articles/qualified-leads.html</loc>
+    <lastmod>2026-10-13</lastmod>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://blog.mkekspert.ru/articles/leads-without-sales.html</loc>
@@ -75,8 +80,8 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://blog.mkekspert.ru/articles/qualified-leads.html</loc>
-    <lastmod>2026-10-13</lastmod>
+    <loc>https://blog.mkekspert.ru/articles/direct-owner-report.html</loc>
+    <lastmod>2026-10-16</lastmod>
     <priority>0.8</priority>
   </url>
 </urlset>
