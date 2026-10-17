@@ -135,3 +135,67 @@ items:
   vk_post_id: 228
   requested_at: '2026-10-03T14:38:27Z'
   note: 'accidental publish while VK_PUBLISH=off; post #228 deleted'
+- id: leads-without-sales
+  slug: leads-without-sales
+  status: waiting_codex
+  platforms:
+  - dzen
+  - tg
+  - vk
+  headline: Заявки есть. Где продажи?
+  subline: mkekspert
+  out_landscape: assets/covers/leads-without-sales.jpg
+  out_vk: assets/covers/leads-without-sales-vk.jpg
+  brief: briefs/covers/leads-without-sales.md
+  vk_post_id: 229
+  requested_at: '2026-10-09T12:59:23Z'
+- id: first-audit-questions
+  slug: first-audit-questions
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Что подготовить перед разбором рекламы
+  subline: vk
+  out_landscape: assets/covers/first-audit-questions.jpg
+  out_vk: assets/covers/first-audit-questions-vk.jpg
+  brief: briefs/covers/first-audit-questions.md
+  vk_post_id: 230
+  requested_at: '2026-10-10T09:00:04Z'
+- id: qualified-leads
+  slug: qualified-leads
+  status: waiting_codex
+  platforms:
+  - dzen
+  - tg
+  - vk
+  headline: Как определить подходящую заявку для бизнеса
+  subline: mkekspert
+  out_landscape: assets/covers/qualified-leads.jpg
+  out_vk: assets/covers/qualified-leads-vk.jpg
+  brief: briefs/covers/qualified-leads.md
+  vk_post_id: 232
+  requested_at: '2026-10-13T09:00:05Z'
+- id: daily-ai-blog-editor-vk
+  slug: ai-blog-editor
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Можно ли отдать ИИ весь блог и больше его не открывать?
+  subline: vk
+  out_landscape: assets/covers/ai-blog-editor.jpg
+  out_vk: assets/covers/ai-blog-editor-vk.jpg
+  brief: briefs/covers/ai-blog-editor.md
+  vk_post_id: 233
+  requested_at: '2026-10-16T13:00:09Z'
+- id: report-next-step
+  slug: direct-owner-report
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Что изменить после рекламного отчёта
+  subline: vk
+  out_landscape: assets/covers/direct-owner-report.jpg
+  out_vk: assets/covers/direct-owner-report-vk.jpg
+  brief: briefs/covers/direct-owner-report.md
+  vk_post_id: 234
+  requested_at: '2026-10-17T09:00:04Z'
