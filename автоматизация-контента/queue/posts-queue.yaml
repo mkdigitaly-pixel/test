@@ -230,11 +230,13 @@ items:
   message_id: 155
 - id: report-next-step
   platform: vk
-  status: approved
+  status: published
   topic: Что изменить после рекламного отчёта
   scheduled: '2026-10-17T14:00:00+05:00'
   post: articles/vk/2026-10-17-report-next-step.md
   cover: assets/covers/direct-owner-report.jpg
+  published_at: '2026-10-17T09:00:04.029157+00:00'
+  message_id: 234
 - id: tg-practice-2026-10-21
   platform: tg
   status: approved
