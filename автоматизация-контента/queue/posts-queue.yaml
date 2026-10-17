@@ -404,7 +404,7 @@ items:
     прикрепления
 - id: daily-market-benchmark-check-tg
   platform: tg
-  status: approved
+  status: published
   topic: 'Трафик снизился: проблема сайта или всей ниши?'
   editorial_topic_id: P06
   scheduled: '2026-10-17T18:00:00+05:00'
@@ -416,6 +416,15 @@ items:
   fact_checked_at: '2026-10-15'
   notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
     прикрепления
+  tg_content_sha256: 427c589d678c43310ca02d1b48c0611f0f0c2bd1aad1fa1dea23524c165c635e
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 158
+  tg_cover_published_at: '2026-10-17T13:00:07.747577+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 159
+  tg_text_published_at: '2026-10-17T13:00:08.319667+00:00'
+  published_at: '2026-10-17T13:00:08.441498+00:00'
+  message_id: 159
 - id: daily-market-benchmark-check-vk
   platform: vk
   status: approved

@@ -858,7 +858,8 @@ slots:
   time: '18:00'
   action: publish_tg_post
   post_id: daily-market-benchmark-check-tg
-  status: scheduled
+  status: done
+  completed_at: '2026-10-17T18:00:02.170500+05:00'
 - date: '2026-10-18'
   time: '18:00'
   action: publish_vk_post
