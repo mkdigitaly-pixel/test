@@ -663,3 +663,48 @@ items:
   fact_checked_at: '2026-10-15'
   notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
     прикрепления
+- id: daily-impressions-without-clicks-tg
+  platform: tg
+  status: approved
+  topic: Показы растут, а переходов больше не стало. Мы точно радуемся тем цифрам?
+  editorial_topic_id: P17
+  scheduled: '2026-10-30T18:00:00+05:00'
+  post: articles/tg/2026-10-30-impressions-without-clicks.md
+  cover: assets/covers/impressions-without-clicks.jpg
+  approved_at: '2026-10-17T17:15:45.043186+00:00'
+  topic_approved_at: '2026-10-17'
+  approval_source: 'Мария: «1 и 3» — P17 и P19, 17 октября 2026'
+  fact_checked_at: '2026-10-17'
+  fact_review_due: '2026-10-29'
+  notes: Самостоятельный пост без связи с Дзеном. VK публикует текст, обложка для
+    ручного прикрепления.
+- id: daily-impressions-without-clicks-vk
+  platform: vk
+  status: approved
+  topic: Показы растут, а переходов больше не стало. Мы точно радуемся тем цифрам?
+  editorial_topic_id: P17
+  scheduled: '2026-10-30T18:00:00+05:00'
+  post: articles/vk/2026-10-30-impressions-without-clicks.md
+  cover: assets/covers/impressions-without-clicks.jpg
+  approved_at: '2026-10-17T17:15:45.043225+00:00'
+  topic_approved_at: '2026-10-17'
+  approval_source: 'Мария: «1 и 3» — P17 и P19, 17 октября 2026'
+  fact_checked_at: '2026-10-17'
+  fact_review_due: '2026-10-29'
+  notes: Самостоятельный пост без связи с Дзеном. VK публикует текст, обложка для
+    ручного прикрепления.
+- id: daily-alice-purchase-site-role-tg
+  platform: tg
+  status: approved
+  topic: Товар можно купить прямо из Поиска и Алисы AI. Что теперь делать SEO-специалисту?
+  editorial_topic_id: P19
+  scheduled: '2026-10-31T18:00:00+05:00'
+  post: articles/tg/2026-10-31-alice-purchase-site-role.md
+  cover: assets/covers/alice-purchase-site-role.jpg
+  approved_at: '2026-10-17T17:15:45.043238+00:00'
+  topic_approved_at: '2026-10-17'
+  approval_source: 'Мария: «1 и 3» — P17 и P19, 17 октября 2026'
+  fact_checked_at: '2026-10-17'
+  fact_review_due: '2026-10-30'
+  notes: Самостоятельный пост без связи с Дзеном. VK публикует текст, обложка для
+    ручного прикрепления.

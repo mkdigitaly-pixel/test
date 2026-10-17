@@ -945,6 +945,21 @@ slots:
   action: publish_vk_post
   post_id: daily-llms-txt-limits-vk
   status: scheduled
+- date: '2026-10-30'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-impressions-without-clicks-tg
+  status: scheduled
+- date: '2026-10-30'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-impressions-without-clicks-vk
+  status: scheduled
+- date: '2026-10-31'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-alice-purchase-site-role-tg
+  status: scheduled
 catchup_hours: 24
 daily_social_transition:
   approved_on: '2026-10-15'
@@ -968,6 +983,17 @@ daily_social_transition:
   - P12
   - P13
   - P14
+  - P17
+  - P19
   withdrawn_topics:
   - P01
   - P02
+  last_stock_replenishment:
+    prepared_on: '2026-10-17'
+    coverage_from: '2026-10-18'
+    coverage_through: '2026-10-31'
+    own_tg_ready: 14
+    own_vk_ready: 14
+    approved_topics:
+    - P17
+    - P19
