@@ -427,7 +427,7 @@ items:
   message_id: 159
 - id: daily-market-benchmark-check-vk
   platform: vk
-  status: approved
+  status: published
   topic: 'Трафик снизился: проблема сайта или всей ниши?'
   editorial_topic_id: P06
   scheduled: '2026-10-18T18:00:00+05:00'
@@ -439,6 +439,8 @@ items:
   fact_checked_at: '2026-10-15'
   notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
     прикрепления
+  published_at: '2026-10-18T13:00:06.022983+00:00'
+  message_id: 235
 - id: daily-safari-attribution-tg
   platform: tg
   status: approved
@@ -469,7 +471,7 @@ items:
     прикрепления
 - id: daily-max-direct-test-tg
   platform: tg
-  status: approved
+  status: published
   topic: 'Реклама в MAX через Директ: что проверить до первого теста'
   editorial_topic_id: P08
   scheduled: '2026-10-18T18:00:00+05:00'
@@ -481,6 +483,15 @@ items:
   fact_checked_at: '2026-10-15'
   notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
     прикрепления
+  tg_content_sha256: 5c9d611828639fbca921938cc775697a4e5991cdd5922803fe75b217f6c05a9f
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 160
+  tg_cover_published_at: '2026-10-18T13:00:07.726839+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 161
+  tg_text_published_at: '2026-10-18T13:00:08.226885+00:00'
+  published_at: '2026-10-18T13:00:08.330299+00:00'
+  message_id: 161
 - id: daily-max-direct-test-vk
   platform: vk
   status: approved

@@ -199,3 +199,15 @@ items:
   brief: briefs/covers/direct-owner-report.md
   vk_post_id: 234
   requested_at: '2026-10-17T09:00:04Z'
+- id: daily-market-benchmark-check-vk
+  slug: market-benchmark-check
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: 'Трафик снизился: проблема сайта или всей ниши?'
+  subline: vk
+  out_landscape: assets/covers/market-benchmark-check.jpg
+  out_vk: assets/covers/market-benchmark-check-vk.jpg
+  brief: briefs/covers/market-benchmark-check.md
+  vk_post_id: 235
+  requested_at: '2026-10-18T13:00:06Z'
