@@ -211,3 +211,15 @@ items:
   brief: briefs/covers/market-benchmark-check.md
   vk_post_id: 235
   requested_at: '2026-10-18T13:00:06Z'
+- id: daily-max-direct-test-vk
+  slug: max-direct-test
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: 'Реклама в MAX через Директ: что проверить до первого теста'
+  subline: vk
+  out_landscape: assets/covers/max-direct-test.jpg
+  out_vk: assets/covers/max-direct-test-vk.jpg
+  brief: briefs/covers/max-direct-test.md
+  vk_post_id: 236
+  requested_at: '2026-10-19T13:00:06Z'

@@ -500,7 +500,7 @@ items:
   message_id: 161
 - id: daily-max-direct-test-vk
   platform: vk
-  status: approved
+  status: published
   topic: 'Реклама в MAX через Директ: что проверить до первого теста'
   editorial_topic_id: P08
   scheduled: '2026-10-19T18:00:00+05:00'
@@ -512,6 +512,8 @@ items:
   fact_checked_at: '2026-10-15'
   notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
     прикрепления
+  published_at: '2026-10-19T13:00:06.213667+00:00'
+  message_id: 236
 - id: daily-crm-audience-data-tg
   platform: tg
   status: approved
@@ -654,7 +656,7 @@ items:
     прикрепления
 - id: daily-llms-txt-limits-tg
   platform: tg
-  status: approved
+  status: published
   topic: 'Нужен ли сайту llms.txt: где заканчиваются обещания GEO'
   editorial_topic_id: P14
   scheduled: '2026-10-19T18:00:00+05:00'
@@ -666,6 +668,15 @@ items:
   fact_checked_at: '2026-10-15'
   notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
     прикрепления
+  tg_content_sha256: 5b08268b56cd3d364bde1a9f82894629d097bdcc3df93aed50b8305effedad73
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 162
+  tg_cover_published_at: '2026-10-19T13:00:08.837574+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 163
+  tg_text_published_at: '2026-10-19T13:00:09.436744+00:00'
+  published_at: '2026-10-19T13:00:09.601279+00:00'
+  message_id: 163
 - id: daily-llms-txt-limits-vk
   platform: vk
   status: approved
