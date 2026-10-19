@@ -766,12 +766,20 @@ slots:
   time: '14:00'
   action: publish_tg_post
   post_id: tg-practice-2026-11-04
-  status: scheduled
+  status: cancelled
+  cancelled_reason: Незаполненный черновик заменён готовым согласованным постом в
+    18:00
+  cancelled_at: '2026-10-19T04:48:49.435012+00:00'
+  replaced_by: daily-direct-product-catalog-tg
 - date: '2026-11-07'
   time: '14:00'
   action: publish_vk_post
   post_id: vk-practice-2026-11-07
-  status: scheduled
+  status: cancelled
+  cancelled_reason: Незаполненный черновик заменён готовым согласованным постом в
+    18:00
+  cancelled_at: '2026-10-19T04:48:49.435012+00:00'
+  replaced_by: daily-seo-redesign-pages-vk
 - date: '2026-11-11'
   time: '14:00'
   action: publish_tg_post
@@ -961,6 +969,76 @@ slots:
   time: '18:00'
   action: publish_tg_post
   post_id: daily-alice-purchase-site-role-tg
+  status: scheduled
+- date: '2026-11-01'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-direct-click-lead-cost-tg
+  status: scheduled
+- date: '2026-11-01'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-direct-click-lead-cost-vk
+  status: scheduled
+- date: '2026-11-02'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-direct-strategy-changes-tg
+  status: scheduled
+- date: '2026-11-02'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-direct-strategy-changes-vk
+  status: scheduled
+- date: '2026-11-03'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-direct-brand-demand-tg
+  status: scheduled
+- date: '2026-11-03'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-direct-brand-demand-vk
+  status: scheduled
+- date: '2026-11-04'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-direct-product-catalog-tg
+  status: scheduled
+- date: '2026-11-04'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-direct-product-catalog-vk
+  status: scheduled
+- date: '2026-11-05'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-direct-b2b-directions-tg
+  status: scheduled
+- date: '2026-11-05'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-direct-b2b-directions-vk
+  status: scheduled
+- date: '2026-11-06'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-direct-seo-query-exchange-tg
+  status: scheduled
+- date: '2026-11-06'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-direct-seo-query-exchange-vk
+  status: scheduled
+- date: '2026-11-07'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-seo-redesign-pages-tg
+  status: scheduled
+- date: '2026-11-07'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-seo-redesign-pages-vk
   status: scheduled
 catchup_hours: 24
 daily_social_transition:

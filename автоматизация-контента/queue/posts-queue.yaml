@@ -279,14 +279,20 @@ items:
     текст.
 - id: tg-practice-2026-11-04
   platform: tg
-  status: draft
+  status: cancelled
   topic: Практический пост по теме недели
   scheduled: '2026-11-04T14:00:00+05:00'
+  cancelled_reason: Заменён согласованной темой D01–D07 по ответу Марии 19 октября
+  cancelled_at: '2026-10-19T04:48:49.435012+00:00'
+  replaced_by: daily-direct-product-catalog-tg
 - id: vk-practice-2026-11-07
   platform: vk
-  status: draft
+  status: cancelled
   topic: Практический пост по теме недели
   scheduled: '2026-11-07T14:00:00+05:00'
+  cancelled_reason: Заменён согласованной темой D01–D07 по ответу Марии 19 октября
+  cancelled_at: '2026-10-19T04:48:49.435012+00:00'
+  replaced_by: daily-seo-redesign-pages-vk
 - id: tg-practice-2026-11-11
   platform: tg
   status: draft
@@ -719,3 +725,227 @@ items:
   fact_review_due: '2026-10-30'
   notes: Самостоятельный пост без связи с Дзеном. VK публикует текст, обложка для
     ручного прикрепления.
+- id: daily-direct-click-lead-cost-tg
+  platform: tg
+  editorial_topic_id: D01
+  topic: Клик в Директе подорожал. А заявка — тоже?
+  scheduled: '2026-11-01T18:00:00+05:00'
+  post: articles/tg/2026-11-01-direct-click-lead-cost.md
+  cover: assets/covers/direct-click-lead-cost.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-10-31'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-click-lead-cost-vk
+  platform: vk
+  editorial_topic_id: D01
+  topic: Клик в Директе подорожал. А заявка — тоже?
+  scheduled: '2026-11-01T18:00:00+05:00'
+  post: articles/vk/2026-11-01-direct-click-lead-cost.md
+  cover: assets/covers/direct-click-lead-cost.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-10-31'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-strategy-changes-tg
+  platform: tg
+  editorial_topic_id: D02
+  topic: Каждый день правлю Директ. Когда уже оценивать результат?
+  scheduled: '2026-11-02T18:00:00+05:00'
+  post: articles/tg/2026-11-02-direct-strategy-changes.md
+  cover: assets/covers/direct-strategy-changes.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-01'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-strategy-changes-vk
+  platform: vk
+  editorial_topic_id: D02
+  topic: Каждый день правлю Директ. Когда уже оценивать результат?
+  scheduled: '2026-11-02T18:00:00+05:00'
+  post: articles/vk/2026-11-02-direct-strategy-changes.md
+  cover: assets/covers/direct-strategy-changes.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-01'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-brand-demand-tg
+  platform: tg
+  editorial_topic_id: D03
+  topic: По названию компании заявки дешёвые. А новый спрос Директ приводит?
+  scheduled: '2026-11-03T18:00:00+05:00'
+  post: articles/tg/2026-11-03-direct-brand-demand.md
+  cover: assets/covers/direct-brand-demand.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-02'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-brand-demand-vk
+  platform: vk
+  editorial_topic_id: D03
+  topic: По названию компании заявки дешёвые. А новый спрос Директ приводит?
+  scheduled: '2026-11-03T18:00:00+05:00'
+  post: articles/vk/2026-11-03-direct-brand-demand.md
+  cover: assets/covers/direct-brand-demand.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-02'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-product-catalog-tg
+  platform: tg
+  editorial_topic_id: D04
+  topic: Рекламировали товар. Какие страницы теперь попадают в объявления ЕПК?
+  scheduled: '2026-11-04T18:00:00+05:00'
+  post: articles/tg/2026-11-04-direct-product-catalog.md
+  cover: assets/covers/direct-product-catalog.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-03'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-product-catalog-vk
+  platform: vk
+  editorial_topic_id: D04
+  topic: Рекламировали товар. Какие страницы теперь попадают в объявления ЕПК?
+  scheduled: '2026-11-04T18:00:00+05:00'
+  post: articles/vk/2026-11-04-direct-product-catalog.md
+  cover: assets/covers/direct-product-catalog.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-03'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-b2b-directions-tg
+  platform: tg
+  editorial_topic_id: D05
+  topic: Два направления бизнеса — одна кампания? Разбираем B2B-кейс Директа
+  scheduled: '2026-11-05T18:00:00+05:00'
+  post: articles/tg/2026-11-05-direct-b2b-directions.md
+  cover: assets/covers/direct-b2b-directions.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-04'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-b2b-directions-vk
+  platform: vk
+  editorial_topic_id: D05
+  topic: Два направления бизнеса — одна кампания? Разбираем B2B-кейс Директа
+  scheduled: '2026-11-05T18:00:00+05:00'
+  post: articles/vk/2026-11-05-direct-b2b-directions.md
+  cover: assets/covers/direct-b2b-directions.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-04'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-seo-query-exchange-tg
+  platform: tg
+  editorial_topic_id: D06
+  topic: Директ уже проверил спрос. Почему SEO начинает с нуля?
+  scheduled: '2026-11-06T18:00:00+05:00'
+  post: articles/tg/2026-11-06-direct-seo-query-exchange.md
+  cover: assets/covers/direct-seo-query-exchange.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-05'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-seo-query-exchange-vk
+  platform: vk
+  editorial_topic_id: D06
+  topic: Директ уже проверил спрос. Почему SEO начинает с нуля?
+  scheduled: '2026-11-06T18:00:00+05:00'
+  post: articles/vk/2026-11-06-direct-seo-query-exchange.md
+  cover: assets/covers/direct-seo-query-exchange.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-05'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-seo-redesign-pages-tg
+  platform: tg
+  editorial_topic_id: D07
+  topic: Редизайн согласовали. А страницы, которые приводили клиентов, сохранили?
+  scheduled: '2026-11-07T18:00:00+05:00'
+  post: articles/tg/2026-11-07-seo-redesign-pages.md
+  cover: assets/covers/seo-redesign-pages.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-06'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-seo-redesign-pages-vk
+  platform: vk
+  editorial_topic_id: D07
+  topic: Редизайн согласовали. А страницы, которые приводили клиентов, сохранили?
+  scheduled: '2026-11-07T18:00:00+05:00'
+  post: articles/vk/2026-11-07-seo-redesign-pages.md
+  cover: assets/covers/seo-redesign-pages.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-06'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
