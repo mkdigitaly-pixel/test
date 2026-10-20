@@ -291,6 +291,7 @@ items:
   - tg-practice-2026-10-21
   teasers_disabled_reason: Совпадение подтверждено в briefs/2026-10-16-teaser-overlap-audit.md;
     поручение Марии 15 октября
+  blog_published_at: '2026-10-20T07:00:02+00:00'
 - id: mobile-form-check
   status: approved
   topic: 'Форма заявки на телефоне: проверка пути клиента'
