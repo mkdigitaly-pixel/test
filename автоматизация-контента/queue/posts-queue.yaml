@@ -449,7 +449,7 @@ items:
   message_id: 235
 - id: daily-safari-attribution-tg
   platform: tg
-  status: approved
+  status: published
   topic: Почему повторная покупка с iPhone может менять картину эффективности SEO
   editorial_topic_id: P07
   scheduled: '2026-10-20T18:00:00+05:00'
@@ -461,6 +461,15 @@ items:
   fact_checked_at: '2026-10-15'
   notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
     прикрепления
+  tg_content_sha256: f32abad50c3565fcd2ed81d7794d5822a527493bbf0f2c183d4041310fa89e95
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 164
+  tg_cover_published_at: '2026-10-20T13:00:06.738428+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 165
+  tg_text_published_at: '2026-10-20T13:00:07.314935+00:00'
+  published_at: '2026-10-20T13:00:07.466102+00:00'
+  message_id: 165
 - id: daily-safari-attribution-vk
   platform: vk
   status: approved
@@ -679,7 +688,7 @@ items:
   message_id: 163
 - id: daily-llms-txt-limits-vk
   platform: vk
-  status: approved
+  status: published
   topic: 'Нужен ли сайту llms.txt: где заканчиваются обещания GEO'
   editorial_topic_id: P14
   scheduled: '2026-10-20T18:00:00+05:00'
@@ -691,6 +700,8 @@ items:
   fact_checked_at: '2026-10-15'
   notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
     прикрепления
+  published_at: '2026-10-20T13:00:10.127089+00:00'
+  message_id: 237
 - id: daily-impressions-without-clicks-tg
   platform: tg
   status: approved

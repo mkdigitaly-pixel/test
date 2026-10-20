@@ -223,3 +223,15 @@ items:
   brief: briefs/covers/max-direct-test.md
   vk_post_id: 236
   requested_at: '2026-10-19T13:00:06Z'
+- id: daily-llms-txt-limits-vk
+  slug: llms-txt-limits
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: 'Нужен ли сайту llms.txt: где заканчиваются обещания GEO'
+  subline: vk
+  out_landscape: assets/covers/llms-txt-limits.jpg
+  out_vk: assets/covers/llms-txt-limits-vk.jpg
+  brief: briefs/covers/llms-txt-limits.md
+  vk_post_id: 237
+  requested_at: '2026-10-20T13:00:10Z'
