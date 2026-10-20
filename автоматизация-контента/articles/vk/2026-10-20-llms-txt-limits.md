@@ -27,4 +27,4 @@ topic_approval: "Мария, 15 октября 2026: посты и статьи 
 Вы выделяете время на эксперименты с ИИ-видимостью отдельно от обязательных работ по сайту?
 
 Источники:
-- [Руководство Google по генеративному поиску](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)
+- Руководство Google по генеративному поиску: https://developers.google.com/search/docs/fundamentals/ai-optimization-guide

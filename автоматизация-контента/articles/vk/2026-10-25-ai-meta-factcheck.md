@@ -27,6 +27,6 @@ topic_approval: "Мария, 15 октября 2026: посты и статьи 
 Что у вас чаще «додумывает» генератор: сроки, преимущества, наличие или характеристики?
 
 Источники:
-- [ИИ-контент и метаданные](https://developers.google.com/search/docs/fundamentals/using-gen-ai-content)
-- [Заголовки ссылок в Google](https://developers.google.com/search/docs/appearance/title-link)
-- [Правила структурированных данных](https://developers.google.com/search/docs/appearance/structured-data/sd-policies)
+- ИИ-контент и метаданные: https://developers.google.com/search/docs/fundamentals/using-gen-ai-content
+- Заголовки ссылок в Google: https://developers.google.com/search/docs/appearance/title-link
+- Правила структурированных данных: https://developers.google.com/search/docs/appearance/structured-data/sd-policies

@@ -27,4 +27,4 @@ topic_approval: "Мария, 15 октября 2026: посты и статьи 
 Какие сведения в отзывах вы сами ищете перед покупкой: ограничения, комплектацию, использование или обслуживание?
 
 Источники:
-- [Импорт отзывов Ozon в Яндекс KIT](https://b2b.yandex.ru/adv/news/v-yandeks-kit-poyavilsya-import-otzyvov-s-ozon)
+- Импорт отзывов Ozon в Яндекс KIT: https://b2b.yandex.ru/adv/news/v-yandeks-kit-poyavilsya-import-otzyvov-s-ozon

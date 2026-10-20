@@ -27,5 +27,5 @@ Google описывает UGC Fresh Data как отдельную програ�
 Что сложнее поддерживать на UGC-площадке: качество обсуждений, модерацию или техническую доступность страниц?
 
 Источники:
-- [Условия UGC Fresh Data Program](https://developers.google.com/search/docs/appearance/ugc-fresh-data-program)
-- [Журнал документации Google](https://developers.google.com/search/updates)
+- Условия UGC Fresh Data Program: https://developers.google.com/search/docs/appearance/ugc-fresh-data-program
+- Журнал документации Google: https://developers.google.com/search/updates

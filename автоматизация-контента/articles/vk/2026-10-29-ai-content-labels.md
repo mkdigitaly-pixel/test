@@ -27,5 +27,5 @@ topic_approval: "Мария, 15 октября 2026: посты и статьи 
 Вы проверяете первоисточник сами или в команде есть отдельный человек, который разбирает такие новости?
 
 Источники:
-- [Руководство Google об ИИ-контенте](https://developers.google.com/search/docs/fundamentals/using-gen-ai-content)
-- [Журнал обновлений Search Central](https://developers.google.com/search/updates)
+- Руководство Google об ИИ-контенте: https://developers.google.com/search/docs/fundamentals/using-gen-ai-content
+- Журнал обновлений Search Central: https://developers.google.com/search/updates

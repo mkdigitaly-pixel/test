@@ -27,4 +27,4 @@ SEO-специалисту полезно обсуждать с контекст
 Что чаще мешает использовать CRM в маркетинге: пропуски в данных или разные определения одних и тех же статусов?
 
 Источники:
-- [Универсальный формат Яндекс Аудиторий](https://b2b.yandex.ru/adv/news/universalnyy-segment-yandex-auditorii)
+- Универсальный формат Яндекс Аудиторий: https://b2b.yandex.ru/adv/news/universalnyy-segment-yandex-auditorii

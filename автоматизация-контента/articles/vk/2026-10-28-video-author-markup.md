@@ -27,5 +27,5 @@ topic_approval: "Мария, 15 октября 2026: посты и статьи 
 Какие поля в разметке видео у вас заполняются вручную, а какие приходят из CMS?
 
 Источники:
-- [Документация VideoObject](https://developers.google.com/search/docs/appearance/structured-data/video)
-- [Изменения документации Google](https://developers.google.com/search/updates)
+- Документация VideoObject: https://developers.google.com/search/docs/appearance/structured-data/video
+- Изменения документации Google: https://developers.google.com/search/updates

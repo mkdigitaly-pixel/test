@@ -27,4 +27,4 @@ SEO-специалисту, который работает с локально�
 У вас команда одинаково понимает, кого считать новым клиентом из локального канала?
 
 Источники:
-- [Опубликованный кейс MYBOX](https://b2b.yandex.ru/adv/solutions/cases/prodvizhenie-v-yandeks-kartah-dostavki-sushi-i-rollov-mybox)
+- Опубликованный кейс MYBOX: https://b2b.yandex.ru/adv/solutions/cases/prodvizhenie-v-yandeks-kartah-dostavki-sushi-i-rollov-mybox

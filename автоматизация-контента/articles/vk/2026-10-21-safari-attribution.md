@@ -27,5 +27,5 @@ topic_approval: "Мария, 15 октября 2026: посты и статьи 
 Как вы объясняете команде разницу между источником в отчёте и полным путём покупателя?
 
 Источники:
-- [Настройки счётчика Метрики](https://yandex.ru/support/metrica/ru/general/counter-general)
-- [Материал Яндекса об аналитике устройств Apple](https://b2b.yandex.ru/adv/edu/materials/analitika-vizitov-s-ustrojstv-apple)
+- Настройки счётчика Метрики: https://yandex.ru/support/metrica/ru/general/counter-general
+- Материал Яндекса об аналитике устройств Apple: https://b2b.yandex.ru/adv/edu/materials/analitika-vizitov-s-ustrojstv-apple
