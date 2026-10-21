@@ -747,7 +747,8 @@ slots:
   time: '14:00'
   action: publish_tg_post
   post_id: tg-practice-2026-10-21
-  status: scheduled
+  status: done
+  completed_at: '2026-10-21T14:00:01.846484+05:00'
 - date: '2026-10-24'
   time: '14:00'
   action: publish_vk_post
