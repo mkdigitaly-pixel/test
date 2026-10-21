@@ -886,7 +886,8 @@ slots:
   time: '18:00'
   action: publish_vk_post
   post_id: daily-safari-attribution-vk
-  status: scheduled
+  status: done
+  completed_at: '2026-10-21T18:00:01.882396+05:00'
 - date: '2026-10-18'
   time: '18:00'
   action: publish_tg_post

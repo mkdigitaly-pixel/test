@@ -235,3 +235,15 @@ items:
   brief: briefs/covers/llms-txt-limits.md
   vk_post_id: 237
   requested_at: '2026-10-20T13:00:10Z'
+- id: daily-safari-attribution-vk
+  slug: safari-attribution
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Почему повторная покупка с iPhone может менять картину эффективности SEO
+  subline: vk
+  out_landscape: assets/covers/safari-attribution.jpg
+  out_vk: assets/covers/safari-attribution-vk.jpg
+  brief: briefs/covers/safari-attribution.md
+  vk_post_id: 238
+  requested_at: '2026-10-21T13:00:05Z'
