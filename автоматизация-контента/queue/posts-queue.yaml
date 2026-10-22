@@ -641,7 +641,7 @@ items:
     прикрепления
 - id: daily-maps-new-customers-tg
   platform: tg
-  status: approved
+  status: published
   topic: Карты приносят маршруты или клиентов? Как читать кейс локального продвижения
   editorial_topic_id: P13
   scheduled: '2026-10-22T18:00:00+05:00'
@@ -653,9 +653,18 @@ items:
   fact_checked_at: '2026-10-15'
   notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
     прикрепления
+  tg_content_sha256: c59b67850aed51e635bf4993a8a7c3a39ffba189b7828ba5b540daa0a764e4f2
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 167
+  tg_cover_published_at: '2026-10-22T13:00:05.306968+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 168
+  tg_text_published_at: '2026-10-22T13:00:05.740726+00:00'
+  published_at: '2026-10-22T13:00:05.864060+00:00'
+  message_id: 168
 - id: daily-maps-new-customers-vk
   platform: vk
-  status: approved
+  status: published
   topic: Карты приносят маршруты или клиентов? Как читать кейс локального продвижения
   editorial_topic_id: P13
   scheduled: '2026-10-22T18:00:00+05:00'
@@ -667,6 +676,8 @@ items:
   fact_checked_at: '2026-10-15'
   notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
     прикрепления
+  published_at: '2026-10-22T13:00:07.890743+00:00'
+  message_id: 239
 - id: daily-llms-txt-limits-tg
   platform: tg
   status: published

@@ -247,3 +247,15 @@ items:
   brief: briefs/covers/safari-attribution.md
   vk_post_id: 238
   requested_at: '2026-10-21T13:00:05Z'
+- id: daily-maps-new-customers-vk
+  slug: maps-new-customers
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Карты приносят маршруты или клиентов? Как читать кейс локального продвижения
+  subline: vk
+  out_landscape: assets/covers/maps-new-customers.jpg
+  out_vk: assets/covers/maps-new-customers-vk.jpg
+  brief: briefs/covers/maps-new-customers.md
+  vk_post_id: 239
+  requested_at: '2026-10-22T13:00:08Z'

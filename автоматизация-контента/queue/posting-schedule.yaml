@@ -944,12 +944,14 @@ slots:
   time: '18:00'
   action: publish_tg_post
   post_id: daily-maps-new-customers-tg
-  status: scheduled
+  status: done
+  completed_at: '2026-10-22T18:00:02.090174+05:00'
 - date: '2026-10-22'
   time: '18:00'
   action: publish_vk_post
   post_id: daily-maps-new-customers-vk
-  status: scheduled
+  status: done
+  completed_at: '2026-10-22T18:00:02.090174+05:00'
 - date: '2026-10-19'
   time: '18:00'
   action: publish_tg_post
