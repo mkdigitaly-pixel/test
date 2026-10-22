@@ -34,6 +34,3 @@ cover: assets/covers/direct-brand-demand.png
 Так становится легче договориться о бюджете и объяснить, почему общая стоимость обращения не должна закрывать разговор о составе спроса.
 
 Вы отдельно оцениваете заявки по бренду и по общим запросам? Что меняется в выводах, когда их разделяете?
-
-Отчёт Директа по запросам: https://yandex.ru/support/direct/ru/statistics/library/search-queries
-Упоминание бренда в автотаргетинге: https://yandex.ru/support/direct/ru/impression-criteria/autotargeting

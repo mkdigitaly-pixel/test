@@ -40,5 +40,3 @@ cover: assets/covers/direct-b2b-directions.png
 Внешний кейс помогает заметить такую гипотезу. Решение для своего бизнеса всё равно нужно проверить на собственном спросе, данных и ограничениях. Обещать повторение чужих результатов оснований нет.
 
 Как вы делите рекламу: по услугам компании, задачам клиентов или по тому, как исторически сложился кабинет?
-
-Кейс Qmedia — первичный материал автора: https://ppc.world/articles/my-vystroili-prodvizhenie-s-nulya-i-poluchili-70-konversiy-za-pervyy-mesyac-keys-b2b-proekta-so-slozhnym-ciklom-sdelki/

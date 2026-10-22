@@ -36,6 +36,3 @@ cover: assets/covers/direct-seo-query-exchange.png
 Есть и встречная польза для рекламы: SEO-специалист лучше знает структуру сайта и может подсказать подходящую страницу под конкретное намерение.
 
 Как у вас устроен этот обмен: общая встреча и выводы есть или специалисты знакомятся с данными друг друга только в итоговом отчёте?
-
-Запросы в Директе: https://yandex.ru/support/direct/ru/statistics/library/search-queries
-Статистика Вебмастера: https://yandex.ru/support/webmaster/ru/service/statistics

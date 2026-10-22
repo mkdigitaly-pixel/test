@@ -36,6 +36,3 @@ cover: assets/covers/direct-seo-query-exchange.png
 Для этого не обязательно сразу строить сложную интеграцию. Можно начать с общей выгрузки, понятных условий сравнения и разговора двух специалистов.
 
 У вас SEO и Директ регулярно обмениваются запросами и наблюдениями по страницам?
-
-[Отчёт по запросам Директа](https://yandex.ru/support/direct/ru/statistics/library/search-queries)
-[Статистика запросов Вебмастера](https://yandex.ru/support/webmaster/ru/service/statistics)
