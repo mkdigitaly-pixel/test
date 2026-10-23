@@ -259,3 +259,15 @@ items:
   brief: briefs/covers/maps-new-customers.md
   vk_post_id: 239
   requested_at: '2026-10-22T13:00:08Z'
+- id: daily-ozon-reviews-site-vk
+  slug: ozon-reviews-site
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Отзывы остались на Ozon. Как использовать их на своём сайте?
+  subline: vk
+  out_landscape: assets/covers/ozon-reviews-site.jpg
+  out_vk: assets/covers/ozon-reviews-site-vk.jpg
+  brief: briefs/covers/ozon-reviews-site.md
+  vk_post_id: 240
+  requested_at: '2026-10-23T13:00:07Z'

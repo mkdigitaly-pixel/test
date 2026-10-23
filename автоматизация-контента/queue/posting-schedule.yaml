@@ -915,12 +915,14 @@ slots:
   time: '18:00'
   action: publish_tg_post
   post_id: daily-ozon-reviews-site-tg
-  status: scheduled
+  status: done
+  completed_at: '2026-10-23T18:00:01.858978+05:00'
 - date: '2026-10-23'
   time: '18:00'
   action: publish_vk_post
   post_id: daily-ozon-reviews-site-vk
-  status: scheduled
+  status: done
+  completed_at: '2026-10-23T18:00:01.858978+05:00'
 - date: '2026-10-26'
   time: '18:00'
   action: publish_tg_post
