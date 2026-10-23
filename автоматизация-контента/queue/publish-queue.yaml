@@ -297,7 +297,7 @@ items:
   dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
   dzen_published_at: '2026-10-20T12:00:10.484600+05:00'
 - id: mobile-form-check
-  status: approved
+  status: published
   topic: 'Форма заявки на телефоне: проверка пути клиента'
   dzen_url: ''
   scheduled_dzen: '2026-10-23T12:00:00+05:00'
@@ -315,6 +315,10 @@ items:
   teasers_disabled_reason: Совпадение подтверждено в briefs/2026-10-16-teaser-overlap-audit.md;
     поручение Марии 15 октября
   blog_published_at: '2026-10-23T07:00:02+00:00'
+  dzen_rss_pending: true
+  dzen_html_path: articles/dzen/html/2026-10-23-mobile-form-check.html
+  dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
+  dzen_published_at: '2026-10-23T12:00:09.667882+05:00'
 - id: ai-search-visibility
   status: approved
   topic: 'Сайт в ответах Алисы и Google: что SEO-специалист может измерить'
