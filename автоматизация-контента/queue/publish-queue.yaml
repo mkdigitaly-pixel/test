@@ -9,6 +9,7 @@ items:
   published_at: '2026-08-30T09:38:13+00:00'
   notes: Опубликовано в @mariyaprodirect до разделения каналов — дальше только DZEN-канал
   dzen_rss_pending: false
+  blog_published_at: '2026-09-02T11:29:13+00:00'
 - id: penoplast-case
   status: published
   scheduled_dzen: '2026-09-02T10:00:00+03:00'
@@ -27,6 +28,8 @@ items:
   notes: RSS + schedule; dzen_url и тизеры — автоматически
   dzen_html_path: articles/dzen/html/2026-08-30-penoplast-case.html
   dzen_rss_pending: false
+  tg_teaser_published_at: '2026-09-02T12:00:08.587189+03:00'
+  blog_published_at: '2026-09-02T11:29:13+00:00'
 - id: no-leads-direct
   status: published
   topic: Почему нет заявок в Директе — что проверяю в кабинете
@@ -42,6 +45,8 @@ items:
   dzen_html_path: articles/dzen/html/2026-09-09-no-leads-direct.html
   dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
   dzen_published_at: '2026-09-12T15:51:46.824197+03:00'
+  tg_teaser_published_at: '2026-09-17T12:28:43.227847+03:00'
+  blog_published_at: '2026-09-02T11:29:13+00:00'
 - id: autotarget-b2b
   status: published
   topic: Автотаргет в Директе для B2B — когда помогает, а когда съедает бюджет
@@ -58,6 +63,8 @@ items:
   dzen_html_path: articles/dzen/html/2026-09-11-autotarget-b2b.html
   dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
   dzen_published_at: '2026-09-12T15:52:53.544138+03:00'
+  tg_teaser_published_at: '2026-09-17T12:28:43.227877+03:00'
+  blog_published_at: '2026-09-02T11:29:13+00:00'
 - id: chp-upp-case
   status: draft
   topic: Кейс ЧП/УПП — заявка 8017→1800 ₽
@@ -79,6 +86,8 @@ items:
   dzen_html_path: articles/dzen/html/2026-09-23-metrika-goals.html
   dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
   dzen_published_at: '2026-09-30T10:55:41.594872+03:00'
+  tg_teaser_published_at: '2026-09-30T10:55:31.299616+03:00'
+  blog_published_at: '2026-09-14T05:48:23+00:00'
 - id: epk-leads
   status: published
   topic: ЕПК под заявки в B2B
@@ -94,6 +103,8 @@ items:
   dzen_html_path: articles/dzen/html/2026-09-25-epk-leads.html
   dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
   dzen_published_at: '2026-09-30T10:55:50.870050+03:00'
+  tg_teaser_published_at: '2026-09-30T10:55:31.299616+03:00'
+  blog_published_at: '2026-09-14T05:48:23+00:00'
 - id: offline-conversions
   status: draft
   topic: Офлайн-конверсии и CRM — обучение стратегии Директа
@@ -123,6 +134,8 @@ items:
   dzen_html_path: articles/dzen/html/2026-09-30-rsa-vs-search.html
   dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
   dzen_published_at: '2026-09-30T10:56:01.183435+03:00'
+  tg_teaser_published_at: '2026-09-30T12:05:53.629066+03:00'
+  blog_published_at: '2026-09-14T05:48:23+00:00'
 - id: budget-waste
   status: published
   topic: Куда сливается бюджет в Директе
@@ -138,6 +151,8 @@ items:
   dzen_published_at: '2026-10-02T10:05:24.982652+03:00'
   dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-02-budget.md
   dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-02-budget.md
+  tg_teaser_published_at: '2026-10-02T12:05:22.345315+03:00'
+  blog_published_at: '2026-09-14T05:48:23+00:00'
 - id: choose-directologist
   status: published
   topic: Как выбрать директолога для B2B
@@ -153,8 +168,9 @@ items:
   dzen_published_at: '2026-10-07T10:06:19.864572+03:00'
   dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-07-choose.md
   dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-07-choose.md
+  blog_published_at: '2026-09-14T05:48:23+00:00'
 - id: audit-direct
-  status: approved
+  status: published
   topic: Что входит в аудит Яндекс Директа
   dzen_article: articles/dzen/articles/2026-10-09-audit-direct.md
   cover: assets/covers/audit-direct.jpg
@@ -163,8 +179,9 @@ items:
   dzen_url: https://dzen.ru/a/aqtjAkjUgT5jjGcQ
   notes: RSS first-connect — оригинальная статья, не копия канала
   dzen_rss_pending: false
+  blog_published_at: '2026-09-14T05:48:23+00:00'
 - id: landing-conversion
-  status: approved
+  status: published
   topic: Посадочная не конвертирует трафик из Директа
   dzen_article: articles/dzen/articles/2026-10-16-landing-conversion.md
   cover: assets/covers/landing-conversion.jpg
@@ -173,8 +190,9 @@ items:
   dzen_url: https://dzen.ru/a/aqtjAEjUgT5jjGcH
   notes: RSS first-connect — оригинальная статья, не копия канала
   dzen_rss_pending: false
+  blog_published_at: '2026-09-14T05:48:23+00:00'
 - id: negative-keywords
-  status: approved
+  status: published
   topic: Минус-слова в Директе для B2B
   dzen_article: articles/dzen/articles/2026-10-21-negative-keywords.md
   cover: assets/covers/negative-keywords.jpg
@@ -183,3 +201,387 @@ items:
   dzen_url: https://dzen.ru/a/aqtjAN8hLg35mhq0
   notes: RSS first-connect — оригинальная статья, не копия канала
   dzen_rss_pending: false
+  blog_published_at: '2026-09-14T05:48:23+00:00'
+- id: leads-without-sales
+  status: published
+  approved_at: '2026-10-09T07:11:59.208164+00:00'
+  topic: 'Заявки из Яндекс Директа есть, а продаж нет: что проверить до увеличения
+    бюджета'
+  dzen_article: articles/dzen/articles/2026-10-09-leads-without-sales.md
+  cover: assets/covers/leads-without-sales.jpg
+  cover_headline: Заявки есть. Где продажи?
+  cover_subline: ''
+  dzen_url: https://dzen.ru/a/asiU3YwtABJA4YPI
+  dzen_rss_pending: false
+  notes: Новый график по поручению пользователя; оригинальный материал. Черновики
+    требуют подготовки текста и креатива.
+  dzen_html_path: articles/dzen/html/2026-10-09-leads-without-sales.html
+  dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
+  dzen_published_at: '2026-10-09T07:22:07.775559+00:00'
+  published_at: '2026-10-09T07:22:07.775559+00:00'
+  scheduled_dzen: '2026-10-09T12:00:00+05:00'
+  scheduled_teasers: '2026-10-09T14:00:00+05:00'
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-09-leads-without-sales.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-09-leads-without-sales.md
+  blog_published_at: '2026-10-09T07:12:44+00:00'
+  tg_teaser_published_at: '2026-10-09T12:59:21.805314+00:00'
+  tg_teaser_message_id: 152
+  vk_teaser_published_at: '2026-10-09T12:59:23.403820+00:00'
+  vk_teaser_message_id: 229
+- id: qualified-leads
+  status: published
+  topic: Как определить подходящую заявку для бизнеса
+  dzen_url: https://dzen.ru/a/as3XTYwtABJAALCz
+  dzen_article: articles/dzen/articles/2026-10-13-qualified-leads.md
+  cover: assets/covers/qualified-leads.jpg
+  approved_at: '2026-10-09T08:10:00+00:00'
+  scheduled_dzen: '2026-10-13T12:00:00+05:00'
+  scheduled_teasers: '2026-10-13T14:00:00+05:00'
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-13-qualified-leads.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-13-qualified-leads.md
+  notes: Новый график по поручению пользователя; оригинальный материал. Черновики
+    требуют подготовки текста и креатива.
+  blog_published_at: '2026-10-13T07:00:02+00:00'
+  dzen_rss_pending: false
+  dzen_html_path: articles/dzen/html/2026-10-13-qualified-leads.html
+  dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
+  dzen_published_at: '2026-10-13T12:00:10.332124+05:00'
+  tg_teaser_published_at: '2026-10-13T09:00:03.627080+00:00'
+  tg_teaser_message_id: 154
+  vk_teaser_published_at: '2026-10-13T09:00:05.218804+00:00'
+  vk_teaser_message_id: 232
+- id: direct-owner-report
+  status: published
+  topic: 6 вопросов к рекламному отчёту для собственника
+  dzen_url: https://dzen.ru/a/atHMNYwtABJAGXOf
+  dzen_article: articles/dzen/articles/2026-10-16-direct-owner-report.md
+  cover: assets/covers/direct-owner-report.jpg
+  approved_at: '2026-10-09T08:10:00+00:00'
+  scheduled_dzen: '2026-10-16T12:00:00+05:00'
+  scheduled_teasers: '2026-10-16T14:00:00+05:00'
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-16-direct-owner-report.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-16-direct-owner-report.md
+  notes: Новый график по поручению пользователя; оригинальный материал. Черновики
+    требуют подготовки текста и креатива.
+  teasers_enabled: false
+  standalone_post_ids:
+  - report-next-step
+  teasers_disabled_reason: Совпадение подтверждено в briefs/2026-10-16-teaser-overlap-audit.md;
+    поручение Марии 15 октября
+  blog_published_at: '2026-10-16T07:00:01+00:00'
+  dzen_rss_pending: false
+  dzen_html_path: articles/dzen/html/2026-10-16-direct-owner-report.html
+  dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
+  dzen_published_at: '2026-10-16T12:00:10.961403+05:00'
+- id: crm-first-steps
+  status: published
+  topic: 'Как связать первое обращение с результатом сделки: минимальный учёт'
+  dzen_url: https://dzen.ru/a/atcSJopu2GVJddIy
+  scheduled_dzen: '2026-10-20T12:00:00+05:00'
+  scheduled_teasers: '2026-10-20T14:00:00+05:00'
+  notes: Новый график по поручению пользователя; оригинальный материал. Черновики
+    требуют подготовки текста и креатива.
+  dzen_article: articles/dzen/articles/2026-10-20-crm-first-steps.md
+  cover: assets/covers/crm-first-steps.jpg
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-20-crm-first-steps.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-20-crm-first-steps.md
+  approved_at: '2026-10-09T13:00:00+00:00'
+  teasers_enabled: false
+  standalone_post_ids:
+  - tg-practice-2026-10-21
+  teasers_disabled_reason: Совпадение подтверждено в briefs/2026-10-16-teaser-overlap-audit.md;
+    поручение Марии 15 октября
+  blog_published_at: '2026-10-20T07:00:02+00:00'
+  dzen_rss_pending: false
+  dzen_html_path: articles/dzen/html/2026-10-20-crm-first-steps.html
+  dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
+  dzen_published_at: '2026-10-20T12:00:10.484600+05:00'
+- id: mobile-form-check
+  status: published
+  topic: 'Форма заявки на телефоне: проверка пути клиента'
+  dzen_url: https://dzen.ru/a/atsGZYwtABJARVLv
+  scheduled_dzen: '2026-10-23T12:00:00+05:00'
+  scheduled_teasers: '2026-10-23T14:00:00+05:00'
+  notes: Новый график по поручению пользователя; оригинальный материал. Черновики
+    требуют подготовки текста и креатива.
+  dzen_article: articles/dzen/articles/2026-10-23-mobile-form-check.md
+  cover: assets/covers/mobile-form-check.jpg
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-23-mobile-form-check.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-23-mobile-form-check.md
+  approved_at: '2026-10-09T13:00:00+00:00'
+  teasers_enabled: false
+  standalone_post_ids:
+  - vk-practice-2026-10-24
+  teasers_disabled_reason: Совпадение подтверждено в briefs/2026-10-16-teaser-overlap-audit.md;
+    поручение Марии 15 октября
+  blog_published_at: '2026-10-23T07:00:02+00:00'
+  dzen_rss_pending: false
+  dzen_html_path: articles/dzen/html/2026-10-23-mobile-form-check.html
+  dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
+  dzen_published_at: '2026-10-23T12:00:09.667882+05:00'
+- id: ai-search-visibility
+  status: approved
+  topic: 'Сайт в ответах Алисы и Google: что SEO-специалист может измерить'
+  dzen_url: ''
+  scheduled_dzen: '2026-10-27T12:00:00+05:00'
+  scheduled_teasers: '2026-10-27T14:00:00+05:00'
+  notes: Согласованная SEO-тема; тексты, отдельные тизеры и imagegen-обложка готовы.
+    Тизеры только с подтверждённой ссылкой Дзен.
+  approved_at: '2026-10-13T06:29:27.141965+00:00'
+  topic_approved_at: '2026-10-13'
+  approval_source: 'Мария: согласовано, темы T1–T4'
+  replaces_draft_id: b2b-ad-offer
+  dzen_article: articles/dzen/articles/2026-10-27-ai-search-visibility.md
+  cover: assets/covers/ai-search-visibility.jpg
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-27-ai-search-visibility.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-27-ai-search-visibility.md
+- id: visual-search-report
+  status: approved
+  topic: 'Поиск по картинке: что проверить в новом отчёте Search Console'
+  dzen_url: ''
+  scheduled_dzen: '2026-10-30T12:00:00+05:00'
+  scheduled_teasers: '2026-10-30T14:00:00+05:00'
+  notes: Согласованная SEO-тема; тексты, отдельные тизеры и imagegen-обложка готовы.
+    Тизеры только с подтверждённой ссылкой Дзен.
+  approved_at: '2026-10-13T06:29:27.141965+00:00'
+  topic_approved_at: '2026-10-13'
+  approval_source: 'Мария: согласовано, темы T1–T4'
+  replaces_draft_id: call-outcomes
+  dzen_article: articles/dzen/articles/2026-10-30-visual-search-report.md
+  cover: assets/covers/visual-search-report.jpg
+  dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-30-visual-search-report.md
+  dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-30-visual-search-report.md
+- id: ai-blog-editor
+  status: approved
+  topic: Можно ли отдать ИИ весь блог и больше его не открывать?
+  editorial_topic_id: P03
+  dzen_url: ''
+  dzen_article: articles/dzen/articles/2026-11-03-ai-blog-editor.md
+  cover: assets/covers/ai-blog-editor.jpg
+  scheduled_dzen: '2026-11-03T12:00:00+05:00'
+  approved_at: '2026-10-16T04:20:54.206718+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: посты и статьи P03–P14 согласованы; P01/P02 исключены'
+  teasers_enabled: false
+  teasers_disabled_reason: Та же тема раскрыта в самостоятельных TG/VK; совпадение
+    проверено по содержанию и editorial_topic_id
+  standalone_post_ids:
+  - daily-ai-blog-editor-tg
+  - daily-ai-blog-editor-vk
+  fact_checked_at: '2026-10-15'
+  fact_review_due: '2026-11-02'
+  replaces_draft_id: campaign-budget-test
+- id: ai-meta-factcheck
+  status: approved
+  topic: 'В статье всё правильно, а title уже наврал: как проверять ИИ-метаданные'
+  editorial_topic_id: P04
+  dzen_url: ''
+  dzen_article: articles/dzen/articles/2026-11-06-ai-meta-factcheck.md
+  cover: assets/covers/ai-meta-factcheck.jpg
+  scheduled_dzen: '2026-11-06T12:00:00+05:00'
+  approved_at: '2026-10-16T04:20:54.206746+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: посты и статьи P03–P14 согласованы; P01/P02 исключены'
+  teasers_enabled: false
+  teasers_disabled_reason: Та же тема раскрыта в самостоятельных TG/VK; совпадение
+    проверено по содержанию и editorial_topic_id
+  standalone_post_ids:
+  - daily-ai-meta-factcheck-tg
+  - daily-ai-meta-factcheck-vk
+  fact_checked_at: '2026-10-15'
+  fact_review_due: '2026-11-05'
+  replaces_draft_id: regional-lead-quality
+- id: ai-content-labels
+  status: approved
+  topic: 'Нужна ли специальная маркировка ИИ-текстов: как проверять SEO-новости'
+  editorial_topic_id: P05
+  dzen_url: ''
+  dzen_article: articles/dzen/articles/2026-11-10-ai-content-labels.md
+  cover: assets/covers/ai-content-labels.jpg
+  scheduled_dzen: '2026-11-10T12:00:00+05:00'
+  approved_at: '2026-10-16T04:20:54.206754+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: посты и статьи P03–P14 согласованы; P01/P02 исключены'
+  teasers_enabled: false
+  teasers_disabled_reason: Та же тема раскрыта в самостоятельных TG/VK; совпадение
+    проверено по содержанию и editorial_topic_id
+  standalone_post_ids:
+  - daily-ai-content-labels-tg
+  - daily-ai-content-labels-vk
+  fact_checked_at: '2026-10-15'
+  fact_review_due: '2026-11-09'
+  replaces_draft_id: season-demand-check
+- id: market-benchmark-check
+  status: approved
+  topic: 'Трафик снизился: проблема сайта или всей ниши?'
+  editorial_topic_id: P06
+  dzen_url: ''
+  dzen_article: articles/dzen/articles/2026-11-13-market-benchmark-check.md
+  cover: assets/covers/market-benchmark-check.jpg
+  scheduled_dzen: '2026-11-13T12:00:00+05:00'
+  approved_at: '2026-10-16T04:20:54.206761+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: посты и статьи P03–P14 согласованы; P01/P02 исключены'
+  teasers_enabled: false
+  teasers_disabled_reason: Та же тема раскрыта в самостоятельных TG/VK; совпадение
+    проверено по содержанию и editorial_topic_id
+  standalone_post_ids:
+  - daily-market-benchmark-check-tg
+  - daily-market-benchmark-check-vk
+  fact_checked_at: '2026-10-15'
+  fact_review_due: '2026-11-12'
+  replaces_draft_id: repeat-client-ads
+- id: safari-attribution
+  status: approved
+  topic: Почему повторная покупка с iPhone может менять картину эффективности SEO
+  editorial_topic_id: P07
+  dzen_url: ''
+  dzen_article: articles/dzen/articles/2026-11-17-safari-attribution.md
+  cover: assets/covers/safari-attribution.jpg
+  scheduled_dzen: '2026-11-17T12:00:00+05:00'
+  approved_at: '2026-10-16T04:20:54.206768+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: посты и статьи P03–P14 согласованы; P01/P02 исключены'
+  teasers_enabled: false
+  teasers_disabled_reason: Та же тема раскрыта в самостоятельных TG/VK; совпадение
+    проверено по содержанию и editorial_topic_id
+  standalone_post_ids:
+  - daily-safari-attribution-tg
+  - daily-safari-attribution-vk
+  fact_checked_at: '2026-10-15'
+  fact_review_due: '2026-11-16'
+  replaces_draft_id: sales-delay-report
+- id: max-direct-test
+  status: approved
+  topic: 'Реклама в MAX через Директ: что проверить до первого теста'
+  editorial_topic_id: P08
+  dzen_url: ''
+  dzen_article: articles/dzen/articles/2026-11-20-max-direct-test.md
+  cover: assets/covers/max-direct-test.jpg
+  scheduled_dzen: '2026-11-20T12:00:00+05:00'
+  approved_at: '2026-10-16T04:20:54.206774+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: посты и статьи P03–P14 согласованы; P01/P02 исключены'
+  teasers_enabled: false
+  teasers_disabled_reason: Та же тема раскрыта в самостоятельных TG/VK; совпадение
+    проверено по содержанию и editorial_topic_id
+  standalone_post_ids:
+  - daily-max-direct-test-tg
+  - daily-max-direct-test-vk
+  fact_checked_at: '2026-10-15'
+  fact_review_due: '2026-11-19'
+  replaces_draft_id: site-request-check
+- id: crm-audience-data
+  status: approved
+  topic: База клиентов есть. Почему из неё ещё не получается аудитория для рекламы?
+  editorial_topic_id: P09
+  dzen_url: ''
+  dzen_article: articles/dzen/articles/2026-11-24-crm-audience-data.md
+  cover: assets/covers/crm-audience-data.jpg
+  scheduled_dzen: '2026-11-24T12:00:00+05:00'
+  approved_at: '2026-10-16T04:20:54.206782+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: посты и статьи P03–P14 согласованы; P01/P02 исключены'
+  teasers_enabled: false
+  teasers_disabled_reason: Та же тема раскрыта в самостоятельных TG/VK; совпадение
+    проверено по содержанию и editorial_topic_id
+  standalone_post_ids:
+  - daily-crm-audience-data-tg
+  - daily-crm-audience-data-vk
+  fact_checked_at: '2026-10-15'
+  fact_review_due: '2026-11-23'
+- id: ozon-reviews-site
+  status: approved
+  topic: Отзывы остались на Ozon. Как использовать их на своём сайте?
+  editorial_topic_id: P10
+  dzen_url: ''
+  dzen_article: articles/dzen/articles/2026-11-27-ozon-reviews-site.md
+  cover: assets/covers/ozon-reviews-site.jpg
+  scheduled_dzen: '2026-11-27T12:00:00+05:00'
+  approved_at: '2026-10-16T04:20:54.206787+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: посты и статьи P03–P14 согласованы; P01/P02 исключены'
+  teasers_enabled: false
+  teasers_disabled_reason: Та же тема раскрыта в самостоятельных TG/VK; совпадение
+    проверено по содержанию и editorial_topic_id
+  standalone_post_ids:
+  - daily-ozon-reviews-site-tg
+  - daily-ozon-reviews-site-vk
+  fact_checked_at: '2026-10-15'
+  fact_review_due: '2026-11-26'
+- id: ugc-fresh-data
+  status: approved
+  topic: 'UGC Fresh Data: кому подходит программа Google для пользовательского контента'
+  editorial_topic_id: P11
+  dzen_url: ''
+  dzen_article: articles/dzen/articles/2026-12-01-ugc-fresh-data.md
+  cover: assets/covers/ugc-fresh-data.jpg
+  scheduled_dzen: '2026-12-01T12:00:00+05:00'
+  approved_at: '2026-10-16T04:20:54.206793+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: посты и статьи P03–P14 согласованы; P01/P02 исключены'
+  teasers_enabled: false
+  teasers_disabled_reason: Та же тема раскрыта в самостоятельных TG/VK; совпадение
+    проверено по содержанию и editorial_topic_id
+  standalone_post_ids:
+  - daily-ugc-fresh-data-tg
+  - daily-ugc-fresh-data-vk
+  fact_checked_at: '2026-10-15'
+  fact_review_due: '2026-11-30'
+- id: video-author-markup
+  status: approved
+  topic: 'У видео на сайте тоже есть автор: что проверить в VideoObject'
+  editorial_topic_id: P12
+  dzen_url: ''
+  dzen_article: articles/dzen/articles/2026-12-04-video-author-markup.md
+  cover: assets/covers/video-author-markup.jpg
+  scheduled_dzen: '2026-12-04T12:00:00+05:00'
+  approved_at: '2026-10-16T04:20:54.206798+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: посты и статьи P03–P14 согласованы; P01/P02 исключены'
+  teasers_enabled: false
+  teasers_disabled_reason: Та же тема раскрыта в самостоятельных TG/VK; совпадение
+    проверено по содержанию и editorial_topic_id
+  standalone_post_ids:
+  - daily-video-author-markup-tg
+  - daily-video-author-markup-vk
+  fact_checked_at: '2026-10-15'
+  fact_review_due: '2026-12-03'
+- id: maps-new-customers
+  status: approved
+  topic: Карты приносят маршруты или клиентов? Как читать кейс локального продвижения
+  editorial_topic_id: P13
+  dzen_url: ''
+  dzen_article: articles/dzen/articles/2026-12-08-maps-new-customers.md
+  cover: assets/covers/maps-new-customers.jpg
+  scheduled_dzen: '2026-12-08T12:00:00+05:00'
+  approved_at: '2026-10-16T04:20:54.206803+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: посты и статьи P03–P14 согласованы; P01/P02 исключены'
+  teasers_enabled: false
+  teasers_disabled_reason: Та же тема раскрыта в самостоятельных TG/VK; совпадение
+    проверено по содержанию и editorial_topic_id
+  standalone_post_ids:
+  - daily-maps-new-customers-tg
+  - daily-maps-new-customers-vk
+  fact_checked_at: '2026-10-15'
+  fact_review_due: '2026-12-07'
+- id: llms-txt-limits
+  status: approved
+  topic: 'Нужен ли сайту llms.txt: где заканчиваются обещания GEO'
+  editorial_topic_id: P14
+  dzen_url: ''
+  dzen_article: articles/dzen/articles/2026-12-11-llms-txt-limits.md
+  cover: assets/covers/llms-txt-limits.jpg
+  scheduled_dzen: '2026-12-11T12:00:00+05:00'
+  approved_at: '2026-10-16T04:20:54.206809+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: посты и статьи P03–P14 согласованы; P01/P02 исключены'
+  teasers_enabled: false
+  teasers_disabled_reason: Та же тема раскрыта в самостоятельных TG/VK; совпадение
+    проверено по содержанию и editorial_topic_id
+  standalone_post_ids:
+  - daily-llms-txt-limits-tg
+  - daily-llms-txt-limits-vk
+  fact_checked_at: '2026-10-15'
+  fact_review_due: '2026-12-10'

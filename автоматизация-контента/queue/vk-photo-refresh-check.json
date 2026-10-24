@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-10-10T06:40:47.349641+00:00",
+  "post_id": 229,
+  "post_url": "https://vk.com/wall-222121025_229",
+  "cover": "assets/covers/leads-without-sales.jpg",
+  "attempts": 1,
+  "status": "rejected",
+  "stage": "wall.getById",
+  "photo_uploaded": false,
+  "post_edited": false,
+  "vk_photos_mode": "manual",
+  "error_code": 9,
+  "error_message": "Flood control"
+}
