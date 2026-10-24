@@ -299,7 +299,7 @@ items:
 - id: mobile-form-check
   status: published
   topic: 'Форма заявки на телефоне: проверка пути клиента'
-  dzen_url: ''
+  dzen_url: https://dzen.ru/a/atsGZYwtABJARVLv
   scheduled_dzen: '2026-10-23T12:00:00+05:00'
   scheduled_teasers: '2026-10-23T14:00:00+05:00'
   notes: Новый график по поручению пользователя; оригинальный материал. Черновики
@@ -315,7 +315,7 @@ items:
   teasers_disabled_reason: Совпадение подтверждено в briefs/2026-10-16-teaser-overlap-audit.md;
     поручение Марии 15 октября
   blog_published_at: '2026-10-23T07:00:02+00:00'
-  dzen_rss_pending: true
+  dzen_rss_pending: false
   dzen_html_path: articles/dzen/html/2026-10-23-mobile-form-check.html
   dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
   dzen_published_at: '2026-10-23T12:00:09.667882+05:00'
