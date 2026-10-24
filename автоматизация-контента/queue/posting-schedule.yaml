@@ -850,7 +850,8 @@ slots:
   time: '18:00'
   action: publish_tg_post
   post_id: daily-ai-meta-factcheck-tg
-  status: scheduled
+  status: done
+  completed_at: '2026-10-24T18:00:01.603507+05:00'
 - date: '2026-10-25'
   time: '18:00'
   action: publish_vk_post
