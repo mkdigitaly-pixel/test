@@ -271,3 +271,15 @@ items:
   brief: briefs/covers/ozon-reviews-site.md
   vk_post_id: 240
   requested_at: '2026-10-23T13:00:07Z'
+- id: vk-practice-2026-10-24
+  slug: mobile-form-check
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Практический пост по теме недели
+  subline: vk
+  out_landscape: assets/covers/mobile-form-check.jpg
+  out_vk: assets/covers/mobile-form-check-vk.jpg
+  brief: briefs/covers/mobile-form-check.md
+  vk_post_id: 241
+  requested_at: '2026-10-24T09:00:04Z'

@@ -248,11 +248,13 @@ items:
   message_id: 166
 - id: vk-practice-2026-10-24
   platform: vk
-  status: approved
+  status: published
   topic: Практический пост по теме недели
   scheduled: '2026-10-24T14:00:00+05:00'
   post: articles/vk/2026-10-24-practice.md
   cover: assets/covers/mobile-form-check.jpg
+  published_at: '2026-10-24T09:00:04.708632+00:00'
+  message_id: 241
 - id: query-description-seo
   platform: tg
   status: approved
