@@ -381,7 +381,7 @@ items:
   message_id: 172
 - id: daily-ai-meta-factcheck-vk
   platform: vk
-  status: approved
+  status: published
   topic: 'В статье всё правильно, а title уже наврал: как проверять ИИ-метаданные'
   editorial_topic_id: P04
   scheduled: '2026-10-25T18:00:00+05:00'
@@ -393,6 +393,8 @@ items:
   fact_checked_at: '2026-10-15'
   notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
     прикрепления
+  published_at: '2026-10-25T13:00:03.825744+00:00'
+  message_id: 242
 - id: daily-ai-content-labels-tg
   platform: tg
   status: approved
@@ -540,7 +542,7 @@ items:
   message_id: 236
 - id: daily-crm-audience-data-tg
   platform: tg
-  status: approved
+  status: published
   topic: База клиентов есть. Почему из неё ещё не получается аудитория для рекламы?
   editorial_topic_id: P09
   scheduled: '2026-10-25T18:00:00+05:00'
@@ -552,6 +554,15 @@ items:
   fact_checked_at: '2026-10-15'
   notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
     прикрепления
+  tg_content_sha256: 84471fe3d445d9f52825c308921012e81015c969863ed1aae9655e4f8c6ee71c
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 173
+  tg_cover_published_at: '2026-10-25T13:00:04.929950+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 174
+  tg_text_published_at: '2026-10-25T13:00:05.389443+00:00'
+  published_at: '2026-10-25T13:00:05.521614+00:00'
+  message_id: 174
 - id: daily-crm-audience-data-vk
   platform: vk
   status: approved

@@ -283,3 +283,15 @@ items:
   brief: briefs/covers/mobile-form-check.md
   vk_post_id: 241
   requested_at: '2026-10-24T09:00:04Z'
+- id: daily-ai-meta-factcheck-vk
+  slug: ai-meta-factcheck
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: 'В статье всё правильно, а title уже наврал: как проверять ИИ-метаданные'
+  subline: vk
+  out_landscape: assets/covers/ai-meta-factcheck.jpg
+  out_vk: assets/covers/ai-meta-factcheck-vk.jpg
+  brief: briefs/covers/ai-meta-factcheck.md
+  vk_post_id: 242
+  requested_at: '2026-10-25T13:00:03Z'
