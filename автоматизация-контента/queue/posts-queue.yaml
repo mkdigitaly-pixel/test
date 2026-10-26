@@ -577,7 +577,7 @@ items:
   message_id: 174
 - id: daily-crm-audience-data-vk
   platform: vk
-  status: approved
+  status: published
   topic: База клиентов есть. Почему из неё ещё не получается аудитория для рекламы?
   editorial_topic_id: P09
   scheduled: '2026-10-26T18:00:00+05:00'
@@ -589,6 +589,8 @@ items:
   fact_checked_at: '2026-10-15'
   notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
     прикрепления
+  published_at: '2026-10-26T13:00:04.961592+00:00'
+  message_id: 243
 - id: daily-ozon-reviews-site-tg
   platform: tg
   status: published
@@ -1060,7 +1062,7 @@ items:
   approved_at: '2026-10-19T04:48:49.435012+00:00'
 - id: b2b-wholesale-retail-tg
   platform: tg
-  status: approved
+  status: published
   topic: В рекламе — опт, в заявках — «продайте одну штуку». Что проверить в Директе?
   editorial_topic_id: B01
   scheduled: '2026-10-26T18:00:00+05:00'
@@ -1074,6 +1076,15 @@ items:
   replaces_post_id: daily-ugc-fresh-data-tg
   notes: 'Самостоятельная версия; источники в briefs/trends/2026-10-26.md. TG: обложка
     и полный текст отдельно. VK_PHOTOS=manual.'
+  tg_content_sha256: d207b0b59847c9063c41cdd936af8559df5d1bc0fbfd5b8de550e3e84917c27a
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 175
+  tg_cover_published_at: '2026-10-26T13:00:06.498158+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 176
+  tg_text_published_at: '2026-10-26T13:00:06.906590+00:00'
+  published_at: '2026-10-26T13:00:07.053351+00:00'
+  message_id: 176
 - id: b2b-wholesale-retail-vk
   platform: vk
   status: approved

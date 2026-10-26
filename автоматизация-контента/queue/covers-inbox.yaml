@@ -295,3 +295,15 @@ items:
   brief: briefs/covers/ai-meta-factcheck.md
   vk_post_id: 242
   requested_at: '2026-10-25T13:00:03Z'
+- id: daily-crm-audience-data-vk
+  slug: crm-audience-data
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: База клиентов есть. Почему из неё ещё не получается аудитория для рекламы?
+  subline: vk
+  out_landscape: assets/covers/crm-audience-data.jpg
+  out_vk: assets/covers/crm-audience-data-vk.jpg
+  brief: briefs/covers/crm-audience-data.md
+  vk_post_id: 243
+  requested_at: '2026-10-26T13:00:05Z'

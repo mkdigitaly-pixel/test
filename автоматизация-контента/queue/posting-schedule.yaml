@@ -937,7 +937,8 @@ slots:
   time: '18:00'
   action: publish_vk_post
   post_id: daily-crm-audience-data-vk
-  status: scheduled
+  status: done
+  completed_at: '2026-10-26T18:00:01.548035+05:00'
 - date: '2026-10-23'
   time: '18:00'
   action: publish_tg_post
@@ -954,10 +955,11 @@ slots:
   time: '18:00'
   action: publish_tg_post
   post_id: b2b-wholesale-retail-tg
-  status: scheduled
+  status: done
   replaces_post_id: daily-ugc-fresh-data-tg
   replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
     общих SEO-материалов: приоритет Директ и B2B'
+  completed_at: '2026-10-26T18:00:01.548035+05:00'
 - date: '2026-10-27'
   time: '18:00'
   action: publish_vk_post
