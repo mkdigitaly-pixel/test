@@ -320,7 +320,7 @@ items:
   dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
   dzen_published_at: '2026-10-23T12:00:09.667882+05:00'
 - id: ai-search-visibility
-  status: approved
+  status: deferred
   topic: 'Сайт в ответах Алисы и Google: что SEO-специалист может измерить'
   dzen_url: ''
   scheduled_dzen: '2026-10-27T12:00:00+05:00'
@@ -335,8 +335,13 @@ items:
   cover: assets/covers/ai-search-visibility.jpg
   dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-27-ai-search-visibility.md
   dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-27-ai-search-visibility.md
+  deferred_at: '2026-10-26T07:36:33.099823+05:00'
+  deferred_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  replaced_by: b2b-wholesale-retail
+  teasers_enabled: false
 - id: visual-search-report
-  status: approved
+  status: deferred
   topic: 'Поиск по картинке: что проверить в новом отчёте Search Console'
   dzen_url: ''
   scheduled_dzen: '2026-10-30T12:00:00+05:00'
@@ -351,6 +356,11 @@ items:
   cover: assets/covers/visual-search-report.jpg
   dzen_teaser_tg: articles/dzen/teasers/tg/2026-10-30-visual-search-report.md
   dzen_teaser_vk: articles/dzen/teasers/vk/2026-10-30-visual-search-report.md
+  deferred_at: '2026-10-26T07:36:33.099823+05:00'
+  deferred_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  replaced_by: b2b-long-sales-cycle
+  teasers_enabled: false
 - id: ai-blog-editor
   status: approved
   topic: Можно ли отдать ИИ весь блог и больше его не открывать?
@@ -585,3 +595,47 @@ items:
   - daily-llms-txt-limits-vk
   fact_checked_at: '2026-10-15'
   fact_review_due: '2026-12-10'
+- id: b2b-wholesale-retail
+  status: approved
+  topic: В рекламе — опт, в заявках — одна штука. Что проверить в Яндекс Директе
+  editorial_topic_id: B01
+  dzen_url: ''
+  dzen_article: articles/dzen/articles/2026-10-27-b2b-wholesale-retail.md
+  cover: assets/covers/b2b-wholesale-retail.jpg
+  scheduled_dzen: '2026-10-27T12:00:00+05:00'
+  approved_at: '2026-10-26T07:36:33.099823+05:00'
+  topic_approved_at: '2026-10-26'
+  approval_source: 'Мария: «Согласовать весь пакет», прямой ответ на B01–B05, 10 собственных
+    версий TG/VK и две статьи Дзена'
+  fact_checked_at: '2026-10-26'
+  fact_review_due: '2026-10-27'
+  teasers_enabled: false
+  teasers_disabled_reason: Редакционная тема совпадает с собственными версиями TG/VK
+    B01; прямое правило Марии
+  standalone_post_ids:
+  - b2b-wholesale-retail-tg
+  - b2b-wholesale-retail-vk
+  replaces_campaign_id: ai-search-visibility
+  source_brief: briefs/trends/2026-10-26.md
+- id: b2b-long-sales-cycle
+  status: approved
+  topic: Сделка через два месяца, отчёт нужен сейчас. Как оценивать Директ в B2B
+  editorial_topic_id: B02
+  dzen_url: ''
+  dzen_article: articles/dzen/articles/2026-10-30-b2b-long-sales-cycle.md
+  cover: assets/covers/b2b-long-sales-cycle.jpg
+  scheduled_dzen: '2026-10-30T12:00:00+05:00'
+  approved_at: '2026-10-26T07:36:33.099823+05:00'
+  topic_approved_at: '2026-10-26'
+  approval_source: 'Мария: «Согласовать весь пакет», прямой ответ на B01–B05, 10 собственных
+    версий TG/VK и две статьи Дзена'
+  fact_checked_at: '2026-10-26'
+  fact_review_due: '2026-10-29'
+  teasers_enabled: false
+  teasers_disabled_reason: Редакционная тема совпадает с собственными версиями TG/VK
+    B02; прямое правило Марии
+  standalone_post_ids:
+  - b2b-long-sales-cycle-tg
+  - b2b-long-sales-cycle-vk
+  replaces_campaign_id: visual-search-report
+  source_brief: briefs/trends/2026-10-26.md

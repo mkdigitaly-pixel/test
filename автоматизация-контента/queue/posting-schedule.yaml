@@ -625,23 +625,37 @@ slots:
 - date: '2026-10-27'
   time: '12:00'
   action: publish_dzen
-  campaign_id: ai-search-visibility
+  campaign_id: b2b-wholesale-retail
   status: scheduled
+  replaces_campaign_id: ai-search-visibility
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
 - date: '2026-10-27'
   time: '14:00'
   action: publish_teasers
   campaign_id: ai-search-visibility
-  status: scheduled
+  status: cancelled
+  cancelled_at: '2026-10-26T07:36:33.099823+05:00'
+  cancelled_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B; у заменяющей статьи совпадение с
+    собственными постами, teasers_enabled=false'
 - date: '2026-10-30'
   time: '12:00'
   action: publish_dzen
-  campaign_id: visual-search-report
+  campaign_id: b2b-long-sales-cycle
   status: scheduled
+  replaces_campaign_id: visual-search-report
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
 - date: '2026-10-30'
   time: '14:00'
   action: publish_teasers
   campaign_id: visual-search-report
-  status: scheduled
+  status: cancelled
+  cancelled_at: '2026-10-26T07:36:33.099823+05:00'
+  cancelled_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B; у заменяющей статьи совпадение с
+    собственными постами, teasers_enabled=false'
 - date: '2026-11-03'
   time: '12:00'
   action: publish_dzen
@@ -764,8 +778,11 @@ slots:
 - date: '2026-10-31'
   time: '14:00'
   action: publish_vk_post
-  post_id: product-data-seo
+  post_id: b2b-supply-geography-vk
   status: scheduled
+  replaces_post_id: product-data-seo
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
 - date: '2026-11-04'
   time: '14:00'
   action: publish_tg_post
@@ -861,13 +878,19 @@ slots:
 - date: '2026-10-29'
   time: '18:00'
   action: publish_tg_post
-  post_id: daily-ai-content-labels-tg
+  post_id: b2b-catalog-retargeting-tg
   status: scheduled
+  replaces_post_id: daily-ai-content-labels-tg
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
 - date: '2026-10-29'
   time: '18:00'
   action: publish_vk_post
-  post_id: daily-ai-content-labels-vk
+  post_id: b2b-catalog-retargeting-vk
   status: scheduled
+  replaces_post_id: daily-ai-content-labels-vk
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
 - date: '2026-10-17'
   time: '18:00'
   action: publish_tg_post
@@ -930,23 +953,35 @@ slots:
 - date: '2026-10-26'
   time: '18:00'
   action: publish_tg_post
-  post_id: daily-ugc-fresh-data-tg
+  post_id: b2b-wholesale-retail-tg
   status: scheduled
+  replaces_post_id: daily-ugc-fresh-data-tg
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
 - date: '2026-10-27'
   time: '18:00'
   action: publish_vk_post
-  post_id: daily-ugc-fresh-data-vk
+  post_id: b2b-wholesale-retail-vk
   status: scheduled
+  replaces_post_id: daily-ugc-fresh-data-vk
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
 - date: '2026-10-27'
   time: '18:00'
   action: publish_tg_post
-  post_id: daily-video-author-markup-tg
+  post_id: b2b-long-sales-cycle-tg
   status: scheduled
+  replaces_post_id: daily-video-author-markup-tg
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
 - date: '2026-10-28'
   time: '18:00'
   action: publish_vk_post
-  post_id: daily-video-author-markup-vk
+  post_id: b2b-long-sales-cycle-vk
   status: scheduled
+  replaces_post_id: daily-video-author-markup-vk
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
 - date: '2026-10-22'
   time: '18:00'
   action: publish_tg_post
@@ -974,18 +1009,27 @@ slots:
 - date: '2026-10-30'
   time: '18:00'
   action: publish_tg_post
-  post_id: daily-impressions-without-clicks-tg
+  post_id: b2b-buyer-landing-tg
   status: scheduled
+  replaces_post_id: daily-impressions-without-clicks-tg
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
 - date: '2026-10-30'
   time: '18:00'
   action: publish_vk_post
-  post_id: daily-impressions-without-clicks-vk
+  post_id: b2b-buyer-landing-vk
   status: scheduled
+  replaces_post_id: daily-impressions-without-clicks-vk
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
 - date: '2026-10-31'
   time: '18:00'
   action: publish_tg_post
-  post_id: daily-alice-purchase-site-role-tg
+  post_id: b2b-supply-geography-tg
   status: scheduled
+  replaces_post_id: daily-alice-purchase-site-role-tg
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
 - date: '2026-11-01'
   time: '18:00'
   action: publish_tg_post
@@ -1056,6 +1100,20 @@ slots:
   action: publish_vk_post
   post_id: daily-seo-redesign-pages-vk
   status: scheduled
+- date: '2026-11-08'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-impressions-without-clicks-tg
+  status: scheduled
+  rescheduled_reason: Сохранён утверждённый материал вне недели, освобождённой для
+    B2B; поддержан запас на 14 дней
+- date: '2026-11-08'
+  time: '14:00'
+  action: publish_vk_post
+  post_id: product-data-seo
+  status: scheduled
+  rescheduled_reason: Сохранён утверждённый материал вне недели, освобождённой для
+    B2B; поддержан запас на 14 дней
 catchup_hours: 24
 daily_social_transition:
   approved_on: '2026-10-15'
