@@ -626,10 +626,11 @@ slots:
   time: '12:00'
   action: publish_dzen
   campaign_id: b2b-wholesale-retail
-  status: scheduled
+  status: done
   replaces_campaign_id: ai-search-visibility
   replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
     общих SEO-материалов: приоритет Директ и B2B'
+  completed_at: '2026-10-27T12:00:01.997893+05:00'
 - date: '2026-10-27'
   time: '14:00'
   action: publish_teasers
