@@ -618,6 +618,7 @@ items:
   source_brief: briefs/trends/2026-10-26.md
   fact_reviewed_at: '2026-10-27T09:06:32.913681+05:00'
   fact_review_source: briefs/2026-10-27-fact-review.md
+  blog_published_at: '2026-10-27T07:00:02+00:00'
 - id: b2b-long-sales-cycle
   status: approved
   topic: Сделка через два месяца, отчёт нужен сейчас. Как оценивать Директ в B2B
