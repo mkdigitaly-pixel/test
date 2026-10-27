@@ -307,3 +307,15 @@ items:
   brief: briefs/covers/crm-audience-data.md
   vk_post_id: 243
   requested_at: '2026-10-26T13:00:05Z'
+- id: b2b-wholesale-retail-vk
+  slug: b2b-wholesale-retail
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: В рекламе — опт, в заявках — «продайте одну штуку». Что проверить в Директе?
+  subline: vk
+  out_landscape: assets/covers/b2b-wholesale-retail.jpg
+  out_vk: assets/covers/b2b-wholesale-retail-vk.jpg
+  brief: briefs/covers/b2b-wholesale-retail.md
+  vk_post_id: 244
+  requested_at: '2026-10-27T13:00:05Z'
