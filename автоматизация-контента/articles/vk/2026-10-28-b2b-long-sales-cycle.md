@@ -4,9 +4,9 @@ platform: vk
 content_type: standalone
 editorial_topic_id: B02
 topic_approved_at: '2026-10-26'
-fact_checked_at: '2026-10-26'
+fact_checked_at: '2026-10-27'
 cover: assets/covers/b2b-long-sales-cycle.png
-fact_review_due: '2026-10-27'
+fact_reviewed_at: '2026-10-27T09:06:32.913681+05:00'
 ---
 
 **В отчёте за месяц нет оплат из Директа. Реклама не работает — или сделки ещё не успели закрыться?**
