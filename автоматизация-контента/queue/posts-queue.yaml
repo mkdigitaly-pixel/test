@@ -257,7 +257,7 @@ items:
   message_id: 241
 - id: query-description-seo
   platform: tg
-  status: approved
+  status: published
   topic: 'Описание запросов в Директе: что обсудить SEO-специалисту с директологом'
   scheduled: '2026-10-28T14:00:00+05:00'
   approved_at: '2026-10-13T06:29:27.141965+00:00'
@@ -271,6 +271,15 @@ items:
   fact_checked_at: '2026-10-28'
   fact_reviewed_at: '2026-10-28T08:59:05.225485+05:00'
   fact_review_source: briefs/2026-10-28-publication-check.md
+  tg_content_sha256: 6c6409d62948e52a9a82da179d31717fb8becba7b58ef0de5a3b324cb1c1d6f0
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 179
+  tg_cover_published_at: '2026-10-28T09:00:02.978507+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 180
+  tg_text_published_at: '2026-10-28T09:00:03.595159+00:00'
+  published_at: '2026-10-28T09:00:03.753121+00:00'
+  message_id: 180
 - id: product-data-seo
   platform: vk
   status: approved
