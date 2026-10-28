@@ -4,9 +4,9 @@ platform: tg
 content_type: standalone
 editorial_topic_id: B03
 topic_approved_at: '2026-10-26'
-fact_checked_at: '2026-10-26'
+fact_checked_at: '2026-10-28'
 cover: assets/covers/b2b-catalog-retargeting.png
-fact_review_due: '2026-10-28'
+fact_reviewed_at: '2026-10-28T08:59:05.225485+05:00'
 ---
 
 **Закупщик скачал каталог и исчез. Показывать ему снова «Купите наше оборудование»?**
