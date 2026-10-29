@@ -635,8 +635,7 @@ items:
   topic_approved_at: '2026-10-26'
   approval_source: 'Мария: «Согласовать весь пакет», прямой ответ на B01–B05, 10 собственных
     версий TG/VK и две статьи Дзена'
-  fact_checked_at: '2026-10-26'
-  fact_review_due: '2026-10-29'
+  fact_checked_at: '2026-10-29'
   teasers_enabled: false
   teasers_disabled_reason: Редакционная тема совпадает с собственными версиями TG/VK
     B02; прямое правило Марии
@@ -645,3 +644,5 @@ items:
   - b2b-long-sales-cycle-vk
   replaces_campaign_id: visual-search-report
   source_brief: briefs/trends/2026-10-26.md
+  fact_reviewed_at: '2026-10-29T09:03:46.117240+05:00'
+  fact_review_source: briefs/2026-10-29-fact-review.md

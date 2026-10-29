@@ -4,9 +4,10 @@ platform: tg
 content_type: standalone
 editorial_topic_id: B04
 topic_approved_at: '2026-10-26'
-fact_checked_at: '2026-10-26'
+fact_checked_at: '2026-10-29'
 cover: assets/covers/b2b-buyer-landing.png
-fact_review_due: '2026-10-29'
+fact_reviewed_at: '2026-10-29T09:03:46.117240+05:00'
+fact_review_source: briefs/2026-10-29-fact-review.md
 ---
 
 **Покупатель пришёл из Директа за оборудованием. Почему на странице он читает только «надёжный партнёр»?**
