@@ -331,3 +331,15 @@ items:
   brief: briefs/covers/b2b-long-sales-cycle.md
   vk_post_id: 245
   requested_at: '2026-10-28T13:00:05Z'
+- id: b2b-catalog-retargeting-vk
+  slug: b2b-catalog-retargeting
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Каталог скачали, заявку не оставили. Что показывать этому покупателю дальше?
+  subline: vk
+  out_landscape: assets/covers/b2b-catalog-retargeting.jpg
+  out_vk: assets/covers/b2b-catalog-retargeting-vk.jpg
+  brief: briefs/covers/b2b-catalog-retargeting.md
+  vk_post_id: 246
+  requested_at: '2026-10-29T13:00:06Z'
