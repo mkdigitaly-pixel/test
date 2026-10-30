@@ -644,10 +644,11 @@ slots:
   time: '12:00'
   action: publish_dzen
   campaign_id: b2b-long-sales-cycle
-  status: scheduled
+  status: done
   replaces_campaign_id: visual-search-report
   replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
     общих SEO-материалов: приоритет Директ и B2B'
+  completed_at: '2026-10-30T12:00:01.776311+05:00'
 - date: '2026-10-30'
   time: '14:00'
   action: publish_teasers
