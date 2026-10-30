@@ -1260,11 +1260,12 @@ items:
   topic_approved_at: '2026-10-26'
   approval_source: 'Мария: «Согласовать весь пакет», прямой ответ на B01–B05, 10 собственных
     версий TG/VK и две статьи Дзена'
-  fact_checked_at: '2026-10-26'
+  fact_checked_at: '2026-10-30'
   replaces_post_id: daily-alice-purchase-site-role-tg
   notes: 'Самостоятельная версия; источники в briefs/trends/2026-10-26.md. TG: обложка
     и полный текст отдельно. VK_PHOTOS=manual.'
-  fact_review_due: '2026-10-30'
+  fact_reviewed_at: '2026-10-30T09:03:08.790422+05:00'
+  fact_review_source: briefs/2026-10-30-fact-review.md
 - id: b2b-supply-geography-vk
   platform: vk
   status: approved
@@ -1278,8 +1279,9 @@ items:
   topic_approved_at: '2026-10-26'
   approval_source: 'Мария: «Согласовать весь пакет», прямой ответ на B01–B05, 10 собственных
     версий TG/VK и две статьи Дзена'
-  fact_checked_at: '2026-10-26'
+  fact_checked_at: '2026-10-30'
   replaces_post_id: product-data-seo
   notes: 'Самостоятельная версия; источники в briefs/trends/2026-10-26.md. TG: обложка
     и полный текст отдельно. VK_PHOTOS=manual.'
-  fact_review_due: '2026-10-30'
+  fact_reviewed_at: '2026-10-30T09:03:08.790422+05:00'
+  fact_review_source: briefs/2026-10-30-fact-review.md

@@ -5,9 +5,10 @@ platform: vk
 content_type: standalone
 editorial_topic_id: B05
 topic_approved_at: '2026-10-26'
-fact_checked_at: '2026-10-26'
+fact_checked_at: '2026-10-30'
 cover: assets/covers/b2b-supply-geography.png
-fact_review_due: '2026-10-30'
+fact_reviewed_at: '2026-10-30T09:03:08.790422+05:00'
+fact_review_source: briefs/2026-10-30-fact-review.md
 ---
 
 **«Мы работаем по всей России». А конкретно этот заказ компания сможет выполнить?**
