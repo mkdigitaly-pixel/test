@@ -343,3 +343,16 @@ items:
   brief: briefs/covers/b2b-catalog-retargeting.md
   vk_post_id: 246
   requested_at: '2026-10-29T13:00:06Z'
+- id: b2b-buyer-landing-vk
+  slug: b2b-buyer-landing
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Покупатель ищет оборудование. А посадочная рассказывает только, какие
+    вы надёжные
+  subline: vk
+  out_landscape: assets/covers/b2b-buyer-landing.jpg
+  out_vk: assets/covers/b2b-buyer-landing-vk.jpg
+  brief: briefs/covers/b2b-buyer-landing.md
+  vk_post_id: 247
+  requested_at: '2026-10-30T13:00:07Z'

@@ -1211,7 +1211,7 @@ items:
   message_id: 246
 - id: b2b-buyer-landing-tg
   platform: tg
-  status: approved
+  status: published
   topic: Покупатель ищет оборудование. А посадочная рассказывает только, какие вы
     надёжные
   editorial_topic_id: B04
@@ -1228,9 +1228,18 @@ items:
     и полный текст отдельно. VK_PHOTOS=manual.'
   fact_reviewed_at: '2026-10-29T09:03:46.117240+05:00'
   fact_review_source: briefs/2026-10-29-fact-review.md
+  tg_content_sha256: 1dc24dbbef5e60dc8c7b0cf3e8a4e9a7ae933416ced0755cfa088a335da235dd
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 183
+  tg_cover_published_at: '2026-10-30T13:00:05.996262+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 184
+  tg_text_published_at: '2026-10-30T13:00:06.511160+00:00'
+  published_at: '2026-10-30T13:00:06.674480+00:00'
+  message_id: 184
 - id: b2b-buyer-landing-vk
   platform: vk
-  status: approved
+  status: published
   topic: Покупатель ищет оборудование. А посадочная рассказывает только, какие вы
     надёжные
   editorial_topic_id: B04
@@ -1247,6 +1256,8 @@ items:
     и полный текст отдельно. VK_PHOTOS=manual.'
   fact_reviewed_at: '2026-10-29T09:03:46.117240+05:00'
   fact_review_source: briefs/2026-10-29-fact-review.md
+  published_at: '2026-10-30T13:00:07.823312+00:00'
+  message_id: 247
 - id: b2b-supply-geography-tg
   platform: tg
   status: approved
