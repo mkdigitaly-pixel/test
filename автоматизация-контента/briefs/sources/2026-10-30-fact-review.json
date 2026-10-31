@@ -1,0 +1,93 @@
+{
+  "checked_at": "2026-10-30T09:03:08.790422+05:00",
+  "fact_reviewed_items": [
+    {
+      "id": "b2b-supply-geography-tg",
+      "path": "articles/tg/2026-10-31-b2b-supply-geography.md",
+      "body_sha256_before": "4bbb778599126c5fd676d72030dbeac9372fcd3defb0d79a3da59c73e896d6c5",
+      "body_sha256_after": "4bbb778599126c5fd676d72030dbeac9372fcd3defb0d79a3da59c73e896d6c5",
+      "body_unchanged": true
+    },
+    {
+      "id": "b2b-supply-geography-vk",
+      "path": "articles/vk/2026-10-31-b2b-supply-geography.md",
+      "body_sha256_before": "8ceedd9f7fdf2b6eff24a4e8058ab3dee165e8733df55f46cec26e1b0f7cbc91",
+      "body_sha256_after": "8ceedd9f7fdf2b6eff24a4e8058ab3dee165e8733df55f46cec26e1b0f7cbc91",
+      "body_unchanged": true
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://yandex.ru/support/direct/ru/efficiency/geotargeting",
+      "http_status": 200,
+      "final_url": "https://yandex.ru/support/direct/ru/efficiency/geotargeting",
+      "retrieved_at": "2026-10-30T09:03:09.360004+05:00",
+      "sha256": "695e3c81265761e4470d5520261099f17fe59227f7a743ba89a27663a710a128",
+      "checks": {
+        "География показов": true,
+        "контекст": true,
+        "местоположени": true
+      },
+      "finding": "Выбранные регионы и интерес к ним учитываются вместе с геолокацией и другими сигналами."
+    },
+    {
+      "url": "https://b2b.yandex.ru/adv/news/obnovlenie-geotargetinga-v-direkte",
+      "http_status": 200,
+      "final_url": "https://b2b.yandex.ru/adv/news/obnovlenie-geotargetinga-v-direkte",
+      "retrieved_at": "2026-10-30T09:03:09.965716+05:00",
+      "sha256": "af2a94d198630835c7f61820a06869f7af2c659fadc62f3b7f113de7206d70a7",
+      "checks": {
+        "Обновление геотаргетинга": true,
+        "2026": true,
+        "настройка расширенного географического таргетинга больше": true,
+        "недоступна": true
+      },
+      "finding": "Обновление от 31 августа 2026: отдельная настройка расширенного геотаргетинга больше недоступна; материал не выдаёт это за новость текущей недели."
+    }
+  ],
+  "body_changes": false,
+  "schedule_sha256": "c3c2cc564846b484ba8d37e08d1ddff0a9b0531e7a57fdd41c5220675bfd8db6",
+  "article_queue_sha256": "36e8f8575b6de582661596583ded9dbcae27eb0dd57e342b202773e7a869f6ce",
+  "confirmed_receipts": {
+    "tg": {
+      "id": "b2b-catalog-retargeting-tg",
+      "cover_message_id": 181,
+      "text_message_id": 182,
+      "both_confirmed": true
+    },
+    "vk": {
+      "id": "b2b-catalog-retargeting-vk",
+      "message_id": 246,
+      "source": "saved_server_receipt_only"
+    }
+  },
+  "today_article_preflight": {
+    "id": "b2b-long-sales-cycle",
+    "scheduled": "2026-10-30T12:00:00+05:00",
+    "fact_checked_at": "2026-10-29",
+    "cover_and_article_exist": true,
+    "teasers_enabled": false,
+    "sent_early": false
+  },
+  "approved_stock": {
+    "tg": 10,
+    "vk": 10,
+    "through": "2026-11-08",
+    "missing_in_14_day_window": [
+      "2026-11-09",
+      "2026-11-10",
+      "2026-11-11",
+      "2026-11-12"
+    ],
+    "full_14_day_stock": false
+  },
+  "pending_approval": {
+    "topics": [
+      "B06",
+      "B07",
+      "B08"
+    ],
+    "first_requested_on": "2026-10-27",
+    "repeated_request_sent": false
+  }
+}

@@ -135,3 +135,237 @@ items:
   vk_post_id: 228
   requested_at: '2026-10-03T14:38:27Z'
   note: 'accidental publish while VK_PUBLISH=off; post #228 deleted'
+- id: leads-without-sales
+  slug: leads-without-sales
+  status: waiting_codex
+  platforms:
+  - dzen
+  - tg
+  - vk
+  headline: Заявки есть. Где продажи?
+  subline: mkekspert
+  out_landscape: assets/covers/leads-without-sales.jpg
+  out_vk: assets/covers/leads-without-sales-vk.jpg
+  brief: briefs/covers/leads-without-sales.md
+  vk_post_id: 229
+  requested_at: '2026-10-09T12:59:23Z'
+- id: first-audit-questions
+  slug: first-audit-questions
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Что подготовить перед разбором рекламы
+  subline: vk
+  out_landscape: assets/covers/first-audit-questions.jpg
+  out_vk: assets/covers/first-audit-questions-vk.jpg
+  brief: briefs/covers/first-audit-questions.md
+  vk_post_id: 230
+  requested_at: '2026-10-10T09:00:04Z'
+- id: qualified-leads
+  slug: qualified-leads
+  status: waiting_codex
+  platforms:
+  - dzen
+  - tg
+  - vk
+  headline: Как определить подходящую заявку для бизнеса
+  subline: mkekspert
+  out_landscape: assets/covers/qualified-leads.jpg
+  out_vk: assets/covers/qualified-leads-vk.jpg
+  brief: briefs/covers/qualified-leads.md
+  vk_post_id: 232
+  requested_at: '2026-10-13T09:00:05Z'
+- id: daily-ai-blog-editor-vk
+  slug: ai-blog-editor
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Можно ли отдать ИИ весь блог и больше его не открывать?
+  subline: vk
+  out_landscape: assets/covers/ai-blog-editor.jpg
+  out_vk: assets/covers/ai-blog-editor-vk.jpg
+  brief: briefs/covers/ai-blog-editor.md
+  vk_post_id: 233
+  requested_at: '2026-10-16T13:00:09Z'
+- id: report-next-step
+  slug: direct-owner-report
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Что изменить после рекламного отчёта
+  subline: vk
+  out_landscape: assets/covers/direct-owner-report.jpg
+  out_vk: assets/covers/direct-owner-report-vk.jpg
+  brief: briefs/covers/direct-owner-report.md
+  vk_post_id: 234
+  requested_at: '2026-10-17T09:00:04Z'
+- id: daily-market-benchmark-check-vk
+  slug: market-benchmark-check
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: 'Трафик снизился: проблема сайта или всей ниши?'
+  subline: vk
+  out_landscape: assets/covers/market-benchmark-check.jpg
+  out_vk: assets/covers/market-benchmark-check-vk.jpg
+  brief: briefs/covers/market-benchmark-check.md
+  vk_post_id: 235
+  requested_at: '2026-10-18T13:00:06Z'
+- id: daily-max-direct-test-vk
+  slug: max-direct-test
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: 'Реклама в MAX через Директ: что проверить до первого теста'
+  subline: vk
+  out_landscape: assets/covers/max-direct-test.jpg
+  out_vk: assets/covers/max-direct-test-vk.jpg
+  brief: briefs/covers/max-direct-test.md
+  vk_post_id: 236
+  requested_at: '2026-10-19T13:00:06Z'
+- id: daily-llms-txt-limits-vk
+  slug: llms-txt-limits
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: 'Нужен ли сайту llms.txt: где заканчиваются обещания GEO'
+  subline: vk
+  out_landscape: assets/covers/llms-txt-limits.jpg
+  out_vk: assets/covers/llms-txt-limits-vk.jpg
+  brief: briefs/covers/llms-txt-limits.md
+  vk_post_id: 237
+  requested_at: '2026-10-20T13:00:10Z'
+- id: daily-safari-attribution-vk
+  slug: safari-attribution
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Почему повторная покупка с iPhone может менять картину эффективности SEO
+  subline: vk
+  out_landscape: assets/covers/safari-attribution.jpg
+  out_vk: assets/covers/safari-attribution-vk.jpg
+  brief: briefs/covers/safari-attribution.md
+  vk_post_id: 238
+  requested_at: '2026-10-21T13:00:05Z'
+- id: daily-maps-new-customers-vk
+  slug: maps-new-customers
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Карты приносят маршруты или клиентов? Как читать кейс локального продвижения
+  subline: vk
+  out_landscape: assets/covers/maps-new-customers.jpg
+  out_vk: assets/covers/maps-new-customers-vk.jpg
+  brief: briefs/covers/maps-new-customers.md
+  vk_post_id: 239
+  requested_at: '2026-10-22T13:00:08Z'
+- id: daily-ozon-reviews-site-vk
+  slug: ozon-reviews-site
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Отзывы остались на Ozon. Как использовать их на своём сайте?
+  subline: vk
+  out_landscape: assets/covers/ozon-reviews-site.jpg
+  out_vk: assets/covers/ozon-reviews-site-vk.jpg
+  brief: briefs/covers/ozon-reviews-site.md
+  vk_post_id: 240
+  requested_at: '2026-10-23T13:00:07Z'
+- id: vk-practice-2026-10-24
+  slug: mobile-form-check
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Практический пост по теме недели
+  subline: vk
+  out_landscape: assets/covers/mobile-form-check.jpg
+  out_vk: assets/covers/mobile-form-check-vk.jpg
+  brief: briefs/covers/mobile-form-check.md
+  vk_post_id: 241
+  requested_at: '2026-10-24T09:00:04Z'
+- id: daily-ai-meta-factcheck-vk
+  slug: ai-meta-factcheck
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: 'В статье всё правильно, а title уже наврал: как проверять ИИ-метаданные'
+  subline: vk
+  out_landscape: assets/covers/ai-meta-factcheck.jpg
+  out_vk: assets/covers/ai-meta-factcheck-vk.jpg
+  brief: briefs/covers/ai-meta-factcheck.md
+  vk_post_id: 242
+  requested_at: '2026-10-25T13:00:03Z'
+- id: daily-crm-audience-data-vk
+  slug: crm-audience-data
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: База клиентов есть. Почему из неё ещё не получается аудитория для рекламы?
+  subline: vk
+  out_landscape: assets/covers/crm-audience-data.jpg
+  out_vk: assets/covers/crm-audience-data-vk.jpg
+  brief: briefs/covers/crm-audience-data.md
+  vk_post_id: 243
+  requested_at: '2026-10-26T13:00:05Z'
+- id: b2b-wholesale-retail-vk
+  slug: b2b-wholesale-retail
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: В рекламе — опт, в заявках — «продайте одну штуку». Что проверить в Директе?
+  subline: vk
+  out_landscape: assets/covers/b2b-wholesale-retail.jpg
+  out_vk: assets/covers/b2b-wholesale-retail-vk.jpg
+  brief: briefs/covers/b2b-wholesale-retail.md
+  vk_post_id: 244
+  requested_at: '2026-10-27T13:00:05Z'
+- id: b2b-long-sales-cycle-vk
+  slug: b2b-long-sales-cycle
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: В B2B покупают через два месяца. Как понять, работает ли Директ сейчас?
+  subline: vk
+  out_landscape: assets/covers/b2b-long-sales-cycle.jpg
+  out_vk: assets/covers/b2b-long-sales-cycle-vk.jpg
+  brief: briefs/covers/b2b-long-sales-cycle.md
+  vk_post_id: 245
+  requested_at: '2026-10-28T13:00:05Z'
+- id: b2b-catalog-retargeting-vk
+  slug: b2b-catalog-retargeting
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Каталог скачали, заявку не оставили. Что показывать этому покупателю дальше?
+  subline: vk
+  out_landscape: assets/covers/b2b-catalog-retargeting.jpg
+  out_vk: assets/covers/b2b-catalog-retargeting-vk.jpg
+  brief: briefs/covers/b2b-catalog-retargeting.md
+  vk_post_id: 246
+  requested_at: '2026-10-29T13:00:06Z'
+- id: b2b-buyer-landing-vk
+  slug: b2b-buyer-landing
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Покупатель ищет оборудование. А посадочная рассказывает только, какие
+    вы надёжные
+  subline: vk
+  out_landscape: assets/covers/b2b-buyer-landing.jpg
+  out_vk: assets/covers/b2b-buyer-landing-vk.jpg
+  brief: briefs/covers/b2b-buyer-landing.md
+  vk_post_id: 247
+  requested_at: '2026-10-30T13:00:07Z'
+- id: b2b-supply-geography-vk
+  slug: b2b-supply-geography
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Завод находится в одном городе, а покупатели — по всей России. Как выбирать
+    географию Директа?
+  subline: vk
+  out_landscape: assets/covers/b2b-supply-geography.jpg
+  out_vk: assets/covers/b2b-supply-geography-vk.jpg
+  brief: briefs/covers/b2b-supply-geography.md
+  vk_post_id: 248
+  requested_at: '2026-10-31T09:00:05Z'

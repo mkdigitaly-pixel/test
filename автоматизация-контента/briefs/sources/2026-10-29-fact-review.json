@@ -1,0 +1,116 @@
+{
+  "checked_at": "2026-10-29T09:03:46.117240+05:00",
+  "fact_reviewed_items": [
+    {
+      "id": "b2b-buyer-landing-tg",
+      "path": "articles/tg/2026-10-30-b2b-buyer-landing.md",
+      "body_sha256_before": "2fe6451317612e404a6ef0e184dbd930af2e6802965b24d24b02a023710f890c",
+      "body_sha256_after": "2fe6451317612e404a6ef0e184dbd930af2e6802965b24d24b02a023710f890c",
+      "body_unchanged": true
+    },
+    {
+      "id": "b2b-buyer-landing-vk",
+      "path": "articles/vk/2026-10-30-b2b-buyer-landing.md",
+      "body_sha256_before": "be15bb0b1c24d976cd0c53f442581dfcf7d4947120ab65705c23ff5f79f3d54d",
+      "body_sha256_after": "be15bb0b1c24d976cd0c53f442581dfcf7d4947120ab65705c23ff5f79f3d54d",
+      "body_unchanged": true
+    },
+    {
+      "id": "b2b-long-sales-cycle",
+      "path": "articles/dzen/articles/2026-10-30-b2b-long-sales-cycle.md",
+      "body_sha256_before": "844e30688d65f54204a8c6d2cd6e7aecf73bf239c5616805e1fd9bd16f9e3a1d",
+      "body_sha256_after": "844e30688d65f54204a8c6d2cd6e7aecf73bf239c5616805e1fd9bd16f9e3a1d",
+      "body_unchanged": true
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://yandex.ru/support/direct/ru/impression-criteria/autotargeting",
+      "title": "Автотаргетинг",
+      "final_url": "https://yandex.ru/support/direct/ru/impression-criteria/autotargeting",
+      "http_status": 200,
+      "retrieved_at": "2026-10-29T09:03:46.638903+05:00",
+      "sha256": "eb54a50dc7b0ba0afab1820e595db83f0d225935733722252d4e0e72ecab1b94",
+      "checks": {
+        "странице перехода": true,
+        "объявлении": true,
+        "поисковому запросу": true
+      }
+    },
+    {
+      "url": "https://yandex.ru/support/metrica/ru/crm/about",
+      "title": "Загрузка данных из CRM",
+      "final_url": "https://yandex.ru/support/metrica/ru/crm/about",
+      "http_status": 200,
+      "retrieved_at": "2026-10-29T09:03:47.446725+05:00",
+      "sha256": "b90c8c28bb69d8c53680ebd2070b9beffb4b2ad36ae59133a1b4288ab030e4e3",
+      "checks": {
+        "идентификатор": true,
+        "статус": true,
+        "111": true
+      }
+    },
+    {
+      "url": "https://www.yandex.ru/support/metrica/ru/data/offline-conversion-data",
+      "title": "Передача и обработка данных",
+      "final_url": "https://www.yandex.ru/support/metrica/ru/data/offline-conversion-data",
+      "http_status": 200,
+      "retrieved_at": "2026-10-29T09:03:48.168794+05:00",
+      "sha256": "aee9339b64612062814852d3e8a2ed1dd73428b227fb989e4c2fb267ae1c7f5f",
+      "checks": {
+        "DateTime": true,
+        "Target": true,
+        "21": true
+      }
+    },
+    {
+      "url": "https://yandex.ru/support/metrica/ru/special-mode",
+      "title": "Специальный режим работы Метрики",
+      "final_url": "https://yandex.ru/support/metrica/ru/special-mode",
+      "http_status": 200,
+      "retrieved_at": "2026-10-29T09:03:48.668694+05:00",
+      "sha256": "035bef53923b669cd1ba2250aa0a8629073baa06bc48dce8fa0c5abeadf8c8f2",
+      "checks": {
+        "временно сокращен": true,
+        "10": true,
+        "3": true,
+        "Загрузка офлайн-данных": true
+      }
+    }
+  ],
+  "body_changes": false,
+  "schedule_sha256": "17579852f0cccd578e1f7b97cc296b88747198da4e3adc8bdfe899124790ff40",
+  "confirmed_receipts": {
+    "tg": {
+      "id": "query-description-seo",
+      "cover_message_id": 179,
+      "text_message_id": 180,
+      "both_confirmed": true
+    },
+    "vk": {
+      "id": "b2b-long-sales-cycle-vk",
+      "message_id": 245,
+      "source": "saved_server_receipt_only"
+    }
+  },
+  "approved_stock": {
+    "tg": 11,
+    "vk": 11,
+    "through": "2026-11-08",
+    "missing_in_14_day_window": [
+      "2026-11-09",
+      "2026-11-10",
+      "2026-11-11"
+    ],
+    "full_14_day_stock": false
+  },
+  "pending_approval": {
+    "topics": [
+      "B06",
+      "B07",
+      "B08"
+    ],
+    "first_requested_on": "2026-10-27",
+    "repeated_request_sent": false
+  }
+}

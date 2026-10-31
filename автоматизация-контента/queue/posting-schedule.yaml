@@ -1,29 +1,30 @@
-timezone: Europe/Moscow
+timezone: Asia/Yekaterinburg
 rhythm:
   dzen_article:
     days:
     - tuesday
-    - thursday
-    time: '10:00'
+    - friday
+    time: '12:00'
   teasers:
     days:
     - tuesday
-    - thursday
-    time: '12:00'
+    - friday
+    time: '14:00'
     after: dzen_article
     delay_hours: 2
   tg_own:
-    day: wednesday
-    time: '11:00'
-  vk_own:
-    day: friday
-    time: '11:00'
-  vc_manual:
-    days:
+    days: &id001
+    - monday
+    - tuesday
     - wednesday
+    - thursday
     - friday
-    time: '15:00'
-    optional: true
+    - saturday
+    - sunday
+    time: '18:00'
+  vk_own:
+    days: *id001
+    time: '18:00'
 slots:
 - date: '2026-09-02'
   time: '10:00'
@@ -31,54 +32,63 @@ slots:
   campaign_id: penoplast-case
   status: done
   completed_at: '2026-09-02T10:00:46.100176+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-02'
   time: '12:00'
   action: publish_teasers
   campaign_id: penoplast-case
   status: done
   completed_at: '2026-09-02T12:00:08.587189+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-03'
   time: '11:00'
   action: publish_tg_post
   post_id: tg-5-errors-reminder
   status: done
   completed_at: '2026-09-03T11:00:29.254596+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-09'
   time: '10:00'
   action: publish_dzen
   campaign_id: no-leads-direct
   status: done
   completed_at: '2026-09-12T15:51:40.163221+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-09'
   time: '12:00'
   action: publish_teasers
   campaign_id: no-leads-direct
   status: done
   completed_at: '2026-09-17T12:28:43.227847+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-10'
   time: '11:00'
   action: publish_tg_post
   post_id: tg-week2
   status: done
   completed_at: '2026-09-13T11:26:21.062549+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-11'
   time: '10:00'
   action: publish_dzen
   campaign_id: autotarget-b2b
   status: done
   completed_at: '2026-09-12T15:51:40.163221+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-11'
   time: '12:00'
   action: publish_teasers
   campaign_id: autotarget-b2b
   status: done
   completed_at: '2026-09-17T12:28:43.227877+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-12'
   time: '11:00'
   action: publish_vk_post
   post_id: vk-week2
   status: done
   completed_at: '2026-09-13T11:37:47.215890+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-16'
   time: '10:00'
   action: publish_dzen
@@ -86,6 +96,7 @@ slots:
   status: cancelled
   error: нет контента в очереди / draft пустой
   completed_at: '2026-09-30T10:55:25.052438+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-16'
   time: '12:00'
   action: publish_teasers
@@ -93,12 +104,14 @@ slots:
   status: cancelled
   error: нет контента в очереди / draft пустой
   completed_at: '2026-09-30T10:55:25.052438+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-17'
   time: '11:00'
   action: publish_tg_post
   post_id: tg-week3
   status: done
   completed_at: '2026-09-30T10:55:31.299616+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-18'
   time: '10:00'
   action: publish_dzen
@@ -106,6 +119,7 @@ slots:
   status: cancelled
   error: нет контента в очереди / draft пустой
   completed_at: '2026-09-30T10:55:25.052438+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-18'
   time: '12:00'
   action: publish_teasers
@@ -113,6 +127,7 @@ slots:
   status: cancelled
   error: нет контента в очереди / draft пустой
   completed_at: '2026-09-30T10:55:25.052438+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-18'
   time: '15:00'
   action: vc_manual
@@ -120,292 +135,1033 @@ slots:
   status: cancelled
   error: VC вручную — просрочено, не блокируем catch-up
   completed_at: '2026-09-30T10:55:25.052438+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-19'
   time: '11:00'
   action: publish_vk_post
   post_id: vk-week3
   status: done
   completed_at: '2026-09-30T10:55:31.299616+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-23'
   time: '10:00'
   action: publish_dzen
   campaign_id: metrika-goals
   status: done
   completed_at: '2026-09-30T10:55:31.299616+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-23'
   time: '12:00'
   action: publish_teasers
   campaign_id: metrika-goals
   status: done
   completed_at: '2026-09-30T10:55:31.299616+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-24'
   time: '11:00'
   action: publish_tg_post
   post_id: tg-week4
   status: done
   completed_at: '2026-09-30T10:55:31.299616+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-25'
   time: '10:00'
   action: publish_dzen
   campaign_id: epk-leads
   status: done
   completed_at: '2026-09-30T10:55:31.299616+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-25'
   time: '12:00'
   action: publish_teasers
   campaign_id: epk-leads
   status: done
   completed_at: '2026-09-30T10:55:31.299616+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-26'
   time: '11:00'
   action: publish_vk_post
   post_id: vk-week4
   status: done
   completed_at: '2026-09-30T10:55:31.299616+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-30'
   time: '10:00'
   action: publish_dzen
   campaign_id: rsa-vs-search
   status: done
   completed_at: '2026-09-30T10:55:31.299616+03:00'
+  timezone: Europe/Moscow
 - date: '2026-09-30'
   time: '12:00'
   action: publish_teasers
   campaign_id: rsa-vs-search
   status: done
   completed_at: '2026-09-30T12:05:53.629066+03:00'
+  timezone: Europe/Moscow
 - date: '2026-10-01'
   time: '11:00'
   action: publish_tg_post
   post_id: tg-week5
   status: done
   completed_at: '2026-10-01T12:05:22.387105+03:00'
+  timezone: Europe/Moscow
 - date: '2026-10-02'
   time: '10:00'
   action: publish_dzen
   campaign_id: budget-waste
   status: done
   completed_at: '2026-10-02T10:05:18.230446+03:00'
+  timezone: Europe/Moscow
 - date: '2026-10-02'
   time: '12:00'
   action: publish_teasers
   campaign_id: budget-waste
   status: done
   completed_at: '2026-10-02T12:05:22.345315+03:00'
+  timezone: Europe/Moscow
 - date: '2026-10-03'
   time: '11:00'
   action: publish_vk_post
   post_id: vk-week5
   status: done
   completed_at: '2026-10-03T12:09:25.683958+03:00'
+  timezone: Europe/Moscow
 - date: '2026-10-07'
   time: '10:00'
   action: publish_dzen
   campaign_id: choose-directologist
   status: done
   completed_at: '2026-10-07T10:06:13.049580+03:00'
+  timezone: Europe/Moscow
 - date: '2026-10-07'
   time: '12:00'
   action: publish_teasers
   campaign_id: choose-directologist
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-08'
   time: '11:00'
   action: publish_tg_post
   post_id: tg-week6
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-09'
   time: '10:00'
   action: publish_dzen
   campaign_id: audit-direct
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-09'
   time: '12:00'
   action: publish_teasers
   campaign_id: audit-direct
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-10'
   time: '11:00'
   action: publish_vk_post
   post_id: vk-week6
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-14'
   time: '10:00'
   action: publish_dzen
   campaign_id: direct-price
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-14'
   time: '12:00'
   action: publish_teasers
   campaign_id: direct-price
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-15'
   time: '11:00'
   action: publish_tg_post
   post_id: tg-week7
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-16'
   time: '10:00'
   action: publish_dzen
   campaign_id: landing-conversion
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-16'
   time: '12:00'
   action: publish_teasers
   campaign_id: landing-conversion
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-17'
   time: '11:00'
   action: publish_vk_post
   post_id: vk-week7
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-21'
   time: '10:00'
   action: publish_dzen
   campaign_id: negative-keywords
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-21'
   time: '12:00'
   action: publish_teasers
   campaign_id: negative-keywords
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-22'
   time: '11:00'
   action: publish_tg_post
   post_id: tg-week8
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-23'
   time: '10:00'
   action: publish_dzen
   campaign_id: yandex-business
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-23'
   time: '12:00'
   action: publish_teasers
   campaign_id: yandex-business
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-24'
   time: '11:00'
   action: publish_vk_post
   post_id: vk-week8
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-28'
   time: '10:00'
   action: publish_dzen
   campaign_id: direct-2026
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-28'
   time: '12:00'
   action: publish_teasers
   campaign_id: direct-2026
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-29'
   time: '11:00'
   action: publish_tg_post
   post_id: tg-week9
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-30'
   time: '10:00'
   action: publish_dzen
   campaign_id: crm-leads
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-30'
   time: '12:00'
   action: publish_teasers
   campaign_id: crm-leads
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-10-31'
   time: '11:00'
   action: publish_vk_post
   post_id: vk-week9
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-11-04'
   time: '10:00'
   action: publish_dzen
   campaign_id: seasonal-b2b
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-11-04'
   time: '12:00'
   action: publish_teasers
   campaign_id: seasonal-b2b
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-11-05'
   time: '11:00'
   action: publish_tg_post
   post_id: tg-week10
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-11-06'
   time: '10:00'
   action: publish_dzen
   campaign_id: competitor-analysis
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-11-06'
   time: '12:00'
   action: publish_teasers
   campaign_id: competitor-analysis
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-11-07'
   time: '11:00'
   action: publish_vk_post
   post_id: vk-week10
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-11-11'
   time: '10:00'
   action: publish_dzen
   campaign_id: calltracking
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-11-11'
   time: '12:00'
   action: publish_teasers
   campaign_id: calltracking
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-11-12'
   time: '11:00'
   action: publish_tg_post
   post_id: tg-week11
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-11-13'
   time: '10:00'
   action: publish_dzen
   campaign_id: remarketing-b2b
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-11-13'
   time: '12:00'
   action: publish_teasers
   campaign_id: remarketing-b2b
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-11-14'
   time: '11:00'
   action: publish_vk_post
   post_id: vk-week11
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-11-18'
   time: '10:00'
   action: publish_dzen
   campaign_id: niche-production
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-11-18'
   time: '12:00'
   action: publish_teasers
   campaign_id: niche-production
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-11-19'
   time: '11:00'
   action: publish_tg_post
   post_id: tg-week12
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-11-20'
   time: '10:00'
   action: publish_dzen
   campaign_id: faq-direct
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-11-20'
   time: '12:00'
   action: publish_teasers
   campaign_id: faq-direct
-  status: scheduled
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
 - date: '2026-11-21'
   time: '11:00'
   action: publish_vk_post
   post_id: vk-week12
+  status: cancelled
+  timezone: Europe/Moscow
+  cancelled_reason: Новый график по поручению пользователя от 2026-10-09; без отправки
+    старого накопленного контента
+- date: '2026-10-09'
+  time: '14:00'
+  action: publish_teasers
+  campaign_id: leads-without-sales
+  status: done
+  completed_at: '2026-10-09T17:59:21.318723+05:00'
+- date: '2026-10-13'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: qualified-leads
+  status: done
+  completed_at: '2026-10-13T12:00:02.102404+05:00'
+- date: '2026-10-13'
+  time: '14:00'
+  action: publish_teasers
+  campaign_id: qualified-leads
+  status: done
+  completed_at: '2026-10-13T14:00:01.656407+05:00'
+- date: '2026-10-16'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: direct-owner-report
+  status: done
+  completed_at: '2026-10-16T12:00:01.455688+05:00'
+- date: '2026-10-16'
+  time: '14:00'
+  action: publish_teasers
+  campaign_id: direct-owner-report
+  status: cancelled
+  cancelled_reason: 'Поручение Марии: тема совпадает с самостоятельным постом; проверено
+    по файлам'
+  cancelled_at: '2026-10-16T04:20:54.206829+00:00'
+- date: '2026-10-20'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: crm-first-steps
+  status: done
+  completed_at: '2026-10-20T12:00:02.004900+05:00'
+- date: '2026-10-20'
+  time: '14:00'
+  action: publish_teasers
+  campaign_id: crm-first-steps
+  status: cancelled
+  cancelled_reason: 'Поручение Марии: тема совпадает с самостоятельным постом; проверено
+    по файлам'
+  cancelled_at: '2026-10-16T04:20:54.206833+00:00'
+- date: '2026-10-23'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: mobile-form-check
+  status: done
+  completed_at: '2026-10-23T12:00:01.801675+05:00'
+- date: '2026-10-23'
+  time: '14:00'
+  action: publish_teasers
+  campaign_id: mobile-form-check
+  status: cancelled
+  cancelled_reason: 'Поручение Марии: тема совпадает с самостоятельным постом; проверено
+    по файлам'
+  cancelled_at: '2026-10-16T04:20:54.206836+00:00'
+- date: '2026-10-27'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: b2b-wholesale-retail
+  status: done
+  replaces_campaign_id: ai-search-visibility
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  completed_at: '2026-10-27T12:00:01.997893+05:00'
+- date: '2026-10-27'
+  time: '14:00'
+  action: publish_teasers
+  campaign_id: ai-search-visibility
+  status: cancelled
+  cancelled_at: '2026-10-26T07:36:33.099823+05:00'
+  cancelled_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B; у заменяющей статьи совпадение с
+    собственными постами, teasers_enabled=false'
+- date: '2026-10-30'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: b2b-long-sales-cycle
+  status: done
+  replaces_campaign_id: visual-search-report
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  completed_at: '2026-10-30T12:00:01.776311+05:00'
+- date: '2026-10-30'
+  time: '14:00'
+  action: publish_teasers
+  campaign_id: visual-search-report
+  status: cancelled
+  cancelled_at: '2026-10-26T07:36:33.099823+05:00'
+  cancelled_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B; у заменяющей статьи совпадение с
+    собственными постами, teasers_enabled=false'
+- date: '2026-11-03'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: ai-blog-editor
   status: scheduled
+- date: '2026-11-03'
+  time: '14:00'
+  action: publish_teasers
+  campaign_id: campaign-budget-test
+  status: cancelled
+  cancelled_reason: 'Поручение Марии: тема совпадает с самостоятельным постом; проверено
+    по файлам'
+  cancelled_at: '2026-10-16T04:20:54.206840+00:00'
+  replaced_by: ai-blog-editor
+- date: '2026-11-06'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: ai-meta-factcheck
+  status: scheduled
+- date: '2026-11-06'
+  time: '14:00'
+  action: publish_teasers
+  campaign_id: regional-lead-quality
+  status: cancelled
+  cancelled_reason: 'Поручение Марии: тема совпадает с самостоятельным постом; проверено
+    по файлам'
+  cancelled_at: '2026-10-16T04:20:54.206842+00:00'
+  replaced_by: ai-meta-factcheck
+- date: '2026-11-10'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: ai-content-labels
+  status: scheduled
+- date: '2026-11-10'
+  time: '14:00'
+  action: publish_teasers
+  campaign_id: season-demand-check
+  status: cancelled
+  cancelled_reason: 'Поручение Марии: тема совпадает с самостоятельным постом; проверено
+    по файлам'
+  cancelled_at: '2026-10-16T04:20:54.206844+00:00'
+  replaced_by: ai-content-labels
+- date: '2026-11-13'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: market-benchmark-check
+  status: scheduled
+- date: '2026-11-13'
+  time: '14:00'
+  action: publish_teasers
+  campaign_id: repeat-client-ads
+  status: cancelled
+  cancelled_reason: 'Поручение Марии: тема совпадает с самостоятельным постом; проверено
+    по файлам'
+  cancelled_at: '2026-10-16T04:20:54.206847+00:00'
+  replaced_by: market-benchmark-check
+- date: '2026-11-17'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: safari-attribution
+  status: scheduled
+- date: '2026-11-17'
+  time: '14:00'
+  action: publish_teasers
+  campaign_id: sales-delay-report
+  status: cancelled
+  cancelled_reason: 'Поручение Марии: тема совпадает с самостоятельным постом; проверено
+    по файлам'
+  cancelled_at: '2026-10-16T04:20:54.206848+00:00'
+  replaced_by: safari-attribution
+- date: '2026-11-20'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: max-direct-test
+  status: scheduled
+- date: '2026-11-20'
+  time: '14:00'
+  action: publish_teasers
+  campaign_id: site-request-check
+  status: cancelled
+  cancelled_reason: 'Поручение Марии: тема совпадает с самостоятельным постом; проверено
+    по файлам'
+  cancelled_at: '2026-10-16T04:20:54.206850+00:00'
+  replaced_by: max-direct-test
+- date: '2026-10-10'
+  time: '14:00'
+  action: publish_vk_post
+  post_id: first-audit-questions
+  status: done
+  completed_at: '2026-10-10T14:00:01.677219+05:00'
+- date: '2026-10-14'
+  time: '14:00'
+  action: publish_tg_post
+  post_id: lead-statuses
+  status: done
+  completed_at: '2026-10-14T14:00:01.412330+05:00'
+- date: '2026-10-17'
+  time: '14:00'
+  action: publish_vk_post
+  post_id: report-next-step
+  status: done
+  completed_at: '2026-10-17T14:00:01.705849+05:00'
+- date: '2026-10-21'
+  time: '14:00'
+  action: publish_tg_post
+  post_id: tg-practice-2026-10-21
+  status: done
+  completed_at: '2026-10-21T14:00:01.846484+05:00'
+- date: '2026-10-24'
+  time: '14:00'
+  action: publish_vk_post
+  post_id: vk-practice-2026-10-24
+  status: done
+  completed_at: '2026-10-24T14:00:01.882847+05:00'
+- date: '2026-10-28'
+  time: '14:00'
+  action: publish_tg_post
+  post_id: query-description-seo
+  status: done
+  completed_at: '2026-10-28T14:00:01.243822+05:00'
+- date: '2026-10-31'
+  time: '14:00'
+  action: publish_vk_post
+  post_id: b2b-supply-geography-vk
+  status: done
+  replaces_post_id: product-data-seo
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  completed_at: '2026-10-31T14:00:01.640765+05:00'
+- date: '2026-11-04'
+  time: '14:00'
+  action: publish_tg_post
+  post_id: tg-practice-2026-11-04
+  status: cancelled
+  cancelled_reason: Незаполненный черновик заменён готовым согласованным постом в
+    18:00
+  cancelled_at: '2026-10-19T04:48:49.435012+00:00'
+  replaced_by: daily-direct-product-catalog-tg
+- date: '2026-11-07'
+  time: '14:00'
+  action: publish_vk_post
+  post_id: vk-practice-2026-11-07
+  status: cancelled
+  cancelled_reason: Незаполненный черновик заменён готовым согласованным постом в
+    18:00
+  cancelled_at: '2026-10-19T04:48:49.435012+00:00'
+  replaced_by: daily-seo-redesign-pages-vk
+- date: '2026-11-11'
+  time: '14:00'
+  action: publish_tg_post
+  post_id: tg-practice-2026-11-11
+  status: scheduled
+- date: '2026-11-14'
+  time: '14:00'
+  action: publish_vk_post
+  post_id: vk-practice-2026-11-14
+  status: scheduled
+- date: '2026-11-18'
+  time: '14:00'
+  action: publish_tg_post
+  post_id: tg-practice-2026-11-18
+  status: scheduled
+- date: '2026-11-21'
+  time: '14:00'
+  action: publish_vk_post
+  post_id: vk-practice-2026-11-21
+  status: scheduled
+- date: '2026-11-24'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: crm-audience-data
+  status: scheduled
+- date: '2026-11-27'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: ozon-reviews-site
+  status: scheduled
+- date: '2026-12-01'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: ugc-fresh-data
+  status: scheduled
+- date: '2026-12-04'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: video-author-markup
+  status: scheduled
+- date: '2026-12-08'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: maps-new-customers
+  status: scheduled
+- date: '2026-12-11'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: llms-txt-limits
+  status: scheduled
+- date: '2026-10-16'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-ai-blog-editor-tg
+  status: done
+  completed_at: '2026-10-16T18:00:01.834586+05:00'
+- date: '2026-10-16'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-ai-blog-editor-vk
+  status: done
+  completed_at: '2026-10-16T18:00:01.834586+05:00'
+- date: '2026-10-24'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-ai-meta-factcheck-tg
+  status: done
+  completed_at: '2026-10-24T18:00:01.603507+05:00'
+- date: '2026-10-25'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-ai-meta-factcheck-vk
+  status: done
+  completed_at: '2026-10-25T18:00:01.248673+05:00'
+- date: '2026-10-29'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: b2b-catalog-retargeting-tg
+  status: done
+  replaces_post_id: daily-ai-content-labels-tg
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  completed_at: '2026-10-29T18:00:01.234624+05:00'
+- date: '2026-10-29'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: b2b-catalog-retargeting-vk
+  status: done
+  replaces_post_id: daily-ai-content-labels-vk
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  completed_at: '2026-10-29T18:00:01.234624+05:00'
+- date: '2026-10-17'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-market-benchmark-check-tg
+  status: done
+  completed_at: '2026-10-17T18:00:02.170500+05:00'
+- date: '2026-10-18'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-market-benchmark-check-vk
+  status: done
+  completed_at: '2026-10-18T18:00:02.148009+05:00'
+- date: '2026-10-20'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-safari-attribution-tg
+  status: done
+  completed_at: '2026-10-20T18:00:02.156139+05:00'
+- date: '2026-10-21'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-safari-attribution-vk
+  status: done
+  completed_at: '2026-10-21T18:00:01.882396+05:00'
+- date: '2026-10-18'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-max-direct-test-tg
+  status: done
+  completed_at: '2026-10-18T18:00:02.148009+05:00'
+- date: '2026-10-19'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-max-direct-test-vk
+  status: done
+  completed_at: '2026-10-19T18:00:02.213482+05:00'
+- date: '2026-10-25'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-crm-audience-data-tg
+  status: done
+  completed_at: '2026-10-25T18:00:01.248673+05:00'
+- date: '2026-10-26'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-crm-audience-data-vk
+  status: done
+  completed_at: '2026-10-26T18:00:01.548035+05:00'
+- date: '2026-10-23'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-ozon-reviews-site-tg
+  status: done
+  completed_at: '2026-10-23T18:00:01.858978+05:00'
+- date: '2026-10-23'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-ozon-reviews-site-vk
+  status: done
+  completed_at: '2026-10-23T18:00:01.858978+05:00'
+- date: '2026-10-26'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: b2b-wholesale-retail-tg
+  status: done
+  replaces_post_id: daily-ugc-fresh-data-tg
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  completed_at: '2026-10-26T18:00:01.548035+05:00'
+- date: '2026-10-27'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: b2b-wholesale-retail-vk
+  status: done
+  replaces_post_id: daily-ugc-fresh-data-vk
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  completed_at: '2026-10-27T18:00:01.705941+05:00'
+- date: '2026-10-27'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: b2b-long-sales-cycle-tg
+  status: done
+  replaces_post_id: daily-video-author-markup-tg
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  completed_at: '2026-10-27T18:00:01.705941+05:00'
+- date: '2026-10-28'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: b2b-long-sales-cycle-vk
+  status: done
+  replaces_post_id: daily-video-author-markup-vk
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  completed_at: '2026-10-28T18:00:01.779866+05:00'
+- date: '2026-10-22'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-maps-new-customers-tg
+  status: done
+  completed_at: '2026-10-22T18:00:02.090174+05:00'
+- date: '2026-10-22'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-maps-new-customers-vk
+  status: done
+  completed_at: '2026-10-22T18:00:02.090174+05:00'
+- date: '2026-10-19'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-llms-txt-limits-tg
+  status: done
+  completed_at: '2026-10-19T18:00:02.213482+05:00'
+- date: '2026-10-20'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-llms-txt-limits-vk
+  status: done
+  completed_at: '2026-10-20T18:00:02.156139+05:00'
+- date: '2026-10-30'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: b2b-buyer-landing-tg
+  status: done
+  replaces_post_id: daily-impressions-without-clicks-tg
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  completed_at: '2026-10-30T18:00:02.133221+05:00'
+- date: '2026-10-30'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: b2b-buyer-landing-vk
+  status: done
+  replaces_post_id: daily-impressions-without-clicks-vk
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  completed_at: '2026-10-30T18:00:02.133221+05:00'
+- date: '2026-10-31'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: b2b-supply-geography-tg
+  status: done
+  replaces_post_id: daily-alice-purchase-site-role-tg
+  replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  completed_at: '2026-10-31T18:00:01.322126+05:00'
+- date: '2026-11-01'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-direct-click-lead-cost-tg
+  status: scheduled
+- date: '2026-11-01'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-direct-click-lead-cost-vk
+  status: scheduled
+- date: '2026-11-02'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-direct-strategy-changes-tg
+  status: scheduled
+- date: '2026-11-02'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-direct-strategy-changes-vk
+  status: scheduled
+- date: '2026-11-03'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-direct-brand-demand-tg
+  status: scheduled
+- date: '2026-11-03'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-direct-brand-demand-vk
+  status: scheduled
+- date: '2026-11-04'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-direct-product-catalog-tg
+  status: scheduled
+- date: '2026-11-04'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-direct-product-catalog-vk
+  status: scheduled
+- date: '2026-11-05'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-direct-b2b-directions-tg
+  status: scheduled
+- date: '2026-11-05'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-direct-b2b-directions-vk
+  status: scheduled
+- date: '2026-11-06'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-direct-seo-query-exchange-tg
+  status: scheduled
+- date: '2026-11-06'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-direct-seo-query-exchange-vk
+  status: scheduled
+- date: '2026-11-07'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-seo-redesign-pages-tg
+  status: scheduled
+- date: '2026-11-07'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-seo-redesign-pages-vk
+  status: scheduled
+- date: '2026-11-08'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-impressions-without-clicks-tg
+  status: scheduled
+  rescheduled_reason: Сохранён утверждённый материал вне недели, освобождённой для
+    B2B; поддержан запас на 14 дней
+- date: '2026-11-08'
+  time: '14:00'
+  action: publish_vk_post
+  post_id: product-data-seo
+  status: scheduled
+  rescheduled_reason: Сохранён утверждённый материал вне недели, освобождённой для
+    B2B; поддержан запас на 14 дней
+catchup_hours: 24
+daily_social_transition:
+  approved_on: '2026-10-15'
+  approval_source: 'Мария: Да, каждый день в обеих площадках'
+  new_posts_time: '18:00'
+  preserve_existing_slots: true
+  existing_own_post_counts_for_its_platform_day: true
+  teaser_counts_as_own_post: false
+  new_topics_status: content_ready
+  topics_brief: briefs/2026-10-15-daily-topics-proposal.md
+  approved_topics:
+  - P03
+  - P04
+  - P05
+  - P06
+  - P07
+  - P08
+  - P09
+  - P10
+  - P11
+  - P12
+  - P13
+  - P14
+  - P17
+  - P19
+  withdrawn_topics:
+  - P01
+  - P02
+  last_stock_replenishment:
+    prepared_on: '2026-10-17'
+    coverage_from: '2026-10-18'
+    coverage_through: '2026-10-31'
+    own_tg_ready: 14
+    own_vk_ready: 14
+    approved_topics:
+    - P17
+    - P19

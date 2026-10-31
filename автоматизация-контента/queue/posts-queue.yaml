@@ -211,3 +211,1099 @@ items:
   cover_headline: Мария Ковалева
   cover_subline: Яндекс Директ B2B
   notes: Публикуется вручную или отдельной командой — не в posting-schedule
+- id: first-audit-questions
+  platform: vk
+  status: published
+  topic: Что подготовить перед разбором рекламы
+  scheduled: '2026-10-10T14:00:00+05:00'
+  post: articles/vk/2026-10-10-first-audit-questions.md
+  published_at: '2026-10-10T09:00:04.434806+00:00'
+  message_id: 230
+- id: lead-statuses
+  platform: tg
+  status: published
+  topic: Понятные записи о результате обработки заявки
+  scheduled: '2026-10-14T14:00:00+05:00'
+  post: articles/tg/2026-10-14-lead-statuses.md
+  cover: assets/covers/qualified-leads.jpg
+  published_at: '2026-10-14T09:00:02.641664+00:00'
+  message_id: 155
+- id: report-next-step
+  platform: vk
+  status: published
+  topic: Что изменить после рекламного отчёта
+  scheduled: '2026-10-17T14:00:00+05:00'
+  post: articles/vk/2026-10-17-report-next-step.md
+  cover: assets/covers/direct-owner-report.jpg
+  published_at: '2026-10-17T09:00:04.029157+00:00'
+  message_id: 234
+- id: tg-practice-2026-10-21
+  platform: tg
+  status: published
+  topic: Практический пост по теме недели
+  scheduled: '2026-10-21T14:00:00+05:00'
+  post: articles/tg/2026-10-21-practice.md
+  cover: assets/covers/crm-first-steps.jpg
+  published_at: '2026-10-21T09:00:05.757229+00:00'
+  message_id: 166
+- id: vk-practice-2026-10-24
+  platform: vk
+  status: published
+  topic: Практический пост по теме недели
+  scheduled: '2026-10-24T14:00:00+05:00'
+  post: articles/vk/2026-10-24-practice.md
+  cover: assets/covers/mobile-form-check.jpg
+  published_at: '2026-10-24T09:00:04.708632+00:00'
+  message_id: 241
+- id: query-description-seo
+  platform: tg
+  status: published
+  topic: 'Описание запросов в Директе: что обсудить SEO-специалисту с директологом'
+  scheduled: '2026-10-28T14:00:00+05:00'
+  approved_at: '2026-10-13T06:29:27.141965+00:00'
+  topic_approved_at: '2026-10-13'
+  approval_source: 'Мария: согласовано, темы T1–T4'
+  replaces_draft_id: tg-practice-2026-10-28
+  post: articles/tg/2026-10-28-query-description-seo.md
+  cover: assets/covers/query-description-seo.jpg
+  notes: Самостоятельный SEO-пост, без связи с Дзеном. Обложка готова; VK публикует
+    текст.
+  fact_checked_at: '2026-10-28'
+  fact_reviewed_at: '2026-10-28T08:59:05.225485+05:00'
+  fact_review_source: briefs/2026-10-28-publication-check.md
+  tg_content_sha256: 6c6409d62948e52a9a82da179d31717fb8becba7b58ef0de5a3b324cb1c1d6f0
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 179
+  tg_cover_published_at: '2026-10-28T09:00:02.978507+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 180
+  tg_text_published_at: '2026-10-28T09:00:03.595159+00:00'
+  published_at: '2026-10-28T09:00:03.753121+00:00'
+  message_id: 180
+- id: product-data-seo
+  platform: vk
+  status: approved
+  topic: 'База товаров для SEO: что проверить до подготовки каталога и фида'
+  scheduled: '2026-11-08T14:00:00+05:00'
+  approved_at: '2026-10-13T06:29:27.141965+00:00'
+  topic_approved_at: '2026-10-13'
+  approval_source: 'Мария: согласовано, темы T1–T4'
+  replaces_draft_id: vk-practice-2026-10-31
+  post: articles/vk/2026-10-31-product-data-seo.md
+  cover: assets/covers/product-data-seo.jpg
+  notes: Самостоятельный SEO-пост, без связи с Дзеном. Обложка готова; VK публикует
+    текст.
+  rescheduled_from: '2026-10-31T14:00:00+05:00'
+  rescheduled_reason: Сохранён утверждённый материал вне недели, освобождённой для
+    B2B; поддержан запас на 14 дней
+  fact_review_due: '2026-11-07'
+- id: tg-practice-2026-11-04
+  platform: tg
+  status: cancelled
+  topic: Практический пост по теме недели
+  scheduled: '2026-11-04T14:00:00+05:00'
+  cancelled_reason: Заменён согласованной темой D01–D07 по ответу Марии 19 октября
+  cancelled_at: '2026-10-19T04:48:49.435012+00:00'
+  replaced_by: daily-direct-product-catalog-tg
+- id: vk-practice-2026-11-07
+  platform: vk
+  status: cancelled
+  topic: Практический пост по теме недели
+  scheduled: '2026-11-07T14:00:00+05:00'
+  cancelled_reason: Заменён согласованной темой D01–D07 по ответу Марии 19 октября
+  cancelled_at: '2026-10-19T04:48:49.435012+00:00'
+  replaced_by: daily-seo-redesign-pages-vk
+- id: tg-practice-2026-11-11
+  platform: tg
+  status: draft
+  topic: Практический пост по теме недели
+  scheduled: '2026-11-11T14:00:00+05:00'
+- id: vk-practice-2026-11-14
+  platform: vk
+  status: draft
+  topic: Практический пост по теме недели
+  scheduled: '2026-11-14T14:00:00+05:00'
+- id: tg-practice-2026-11-18
+  platform: tg
+  status: draft
+  topic: Практический пост по теме недели
+  scheduled: '2026-11-18T14:00:00+05:00'
+- id: vk-practice-2026-11-21
+  platform: vk
+  status: draft
+  topic: Практический пост по теме недели
+  scheduled: '2026-11-21T14:00:00+05:00'
+- id: daily-ai-blog-editor-tg
+  platform: tg
+  status: published
+  topic: Можно ли отдать ИИ весь блог и больше его не открывать?
+  editorial_topic_id: P03
+  scheduled: '2026-10-16T18:00:00+05:00'
+  post: articles/tg/2026-10-16-ai-blog-editor.md
+  cover: assets/covers/ai-blog-editor.jpg
+  approved_at: '2026-10-16T04:20:54.206859+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  tg_content_sha256: ec53ee1f3be51ace2d7704cdefcf24313e648f9847cffa9e00b566756ae1b9b8
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 156
+  tg_cover_published_at: '2026-10-16T13:00:06.723831+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 157
+  tg_text_published_at: '2026-10-16T13:00:07.237953+00:00'
+  published_at: '2026-10-16T13:00:07.348299+00:00'
+  message_id: 157
+- id: daily-ai-blog-editor-vk
+  platform: vk
+  status: published
+  topic: Можно ли отдать ИИ весь блог и больше его не открывать?
+  editorial_topic_id: P03
+  scheduled: '2026-10-16T18:00:00+05:00'
+  post: articles/vk/2026-10-16-ai-blog-editor.md
+  cover: assets/covers/ai-blog-editor.jpg
+  approved_at: '2026-10-16T04:20:54.206862+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  published_at: '2026-10-16T13:00:09.248850+00:00'
+  message_id: 233
+- id: daily-ai-meta-factcheck-tg
+  platform: tg
+  status: published
+  topic: 'В статье всё правильно, а title уже наврал: как проверять ИИ-метаданные'
+  editorial_topic_id: P04
+  scheduled: '2026-10-24T18:00:00+05:00'
+  post: articles/tg/2026-10-24-ai-meta-factcheck.md
+  cover: assets/covers/ai-meta-factcheck.jpg
+  approved_at: '2026-10-16T04:20:54.206864+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  tg_content_sha256: f98cddd9e8e28af4b7417bce10f0ed180ba9dc572738be8146003aa96d818517
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 171
+  tg_cover_published_at: '2026-10-24T13:00:03.823291+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 172
+  tg_text_published_at: '2026-10-24T13:00:05.291572+00:00'
+  published_at: '2026-10-24T13:00:05.417858+00:00'
+  message_id: 172
+- id: daily-ai-meta-factcheck-vk
+  platform: vk
+  status: published
+  topic: 'В статье всё правильно, а title уже наврал: как проверять ИИ-метаданные'
+  editorial_topic_id: P04
+  scheduled: '2026-10-25T18:00:00+05:00'
+  post: articles/vk/2026-10-25-ai-meta-factcheck.md
+  cover: assets/covers/ai-meta-factcheck.jpg
+  approved_at: '2026-10-16T04:20:54.206866+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  published_at: '2026-10-25T13:00:03.825744+00:00'
+  message_id: 242
+- id: daily-ai-content-labels-tg
+  platform: tg
+  status: deferred
+  topic: 'Нужна ли специальная маркировка ИИ-текстов: как проверять SEO-новости'
+  editorial_topic_id: P05
+  scheduled: '2026-10-29T18:00:00+05:00'
+  post: articles/tg/2026-10-29-ai-content-labels.md
+  cover: assets/covers/ai-content-labels.jpg
+  approved_at: '2026-10-16T04:20:54.206867+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  deferred_at: '2026-10-26T07:36:33.099823+05:00'
+  deferred_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  replaced_by: b2b-catalog-retargeting-tg
+- id: daily-ai-content-labels-vk
+  platform: vk
+  status: deferred
+  topic: 'Нужна ли специальная маркировка ИИ-текстов: как проверять SEO-новости'
+  editorial_topic_id: P05
+  scheduled: '2026-10-29T18:00:00+05:00'
+  post: articles/vk/2026-10-29-ai-content-labels.md
+  cover: assets/covers/ai-content-labels.jpg
+  approved_at: '2026-10-16T04:20:54.206868+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  deferred_at: '2026-10-26T07:36:33.099823+05:00'
+  deferred_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  replaced_by: b2b-catalog-retargeting-vk
+- id: daily-market-benchmark-check-tg
+  platform: tg
+  status: published
+  topic: 'Трафик снизился: проблема сайта или всей ниши?'
+  editorial_topic_id: P06
+  scheduled: '2026-10-17T18:00:00+05:00'
+  post: articles/tg/2026-10-17-market-benchmark-check.md
+  cover: assets/covers/market-benchmark-check.jpg
+  approved_at: '2026-10-16T04:20:54.206871+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  tg_content_sha256: 427c589d678c43310ca02d1b48c0611f0f0c2bd1aad1fa1dea23524c165c635e
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 158
+  tg_cover_published_at: '2026-10-17T13:00:07.747577+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 159
+  tg_text_published_at: '2026-10-17T13:00:08.319667+00:00'
+  published_at: '2026-10-17T13:00:08.441498+00:00'
+  message_id: 159
+- id: daily-market-benchmark-check-vk
+  platform: vk
+  status: published
+  topic: 'Трафик снизился: проблема сайта или всей ниши?'
+  editorial_topic_id: P06
+  scheduled: '2026-10-18T18:00:00+05:00'
+  post: articles/vk/2026-10-18-market-benchmark-check.md
+  cover: assets/covers/market-benchmark-check.jpg
+  approved_at: '2026-10-16T04:20:54.206873+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  published_at: '2026-10-18T13:00:06.022983+00:00'
+  message_id: 235
+- id: daily-safari-attribution-tg
+  platform: tg
+  status: published
+  topic: Почему повторная покупка с iPhone может менять картину эффективности SEO
+  editorial_topic_id: P07
+  scheduled: '2026-10-20T18:00:00+05:00'
+  post: articles/tg/2026-10-20-safari-attribution.md
+  cover: assets/covers/safari-attribution.jpg
+  approved_at: '2026-10-16T04:20:54.206874+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  tg_content_sha256: f32abad50c3565fcd2ed81d7794d5822a527493bbf0f2c183d4041310fa89e95
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 164
+  tg_cover_published_at: '2026-10-20T13:00:06.738428+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 165
+  tg_text_published_at: '2026-10-20T13:00:07.314935+00:00'
+  published_at: '2026-10-20T13:00:07.466102+00:00'
+  message_id: 165
+- id: daily-safari-attribution-vk
+  platform: vk
+  status: published
+  topic: Почему повторная покупка с iPhone может менять картину эффективности SEO
+  editorial_topic_id: P07
+  scheduled: '2026-10-21T18:00:00+05:00'
+  post: articles/vk/2026-10-21-safari-attribution.md
+  cover: assets/covers/safari-attribution.jpg
+  approved_at: '2026-10-16T04:20:54.206876+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  published_at: '2026-10-21T13:00:05.823298+00:00'
+  message_id: 238
+- id: daily-max-direct-test-tg
+  platform: tg
+  status: published
+  topic: 'Реклама в MAX через Директ: что проверить до первого теста'
+  editorial_topic_id: P08
+  scheduled: '2026-10-18T18:00:00+05:00'
+  post: articles/tg/2026-10-18-max-direct-test.md
+  cover: assets/covers/max-direct-test.jpg
+  approved_at: '2026-10-16T04:20:54.206878+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  tg_content_sha256: 5c9d611828639fbca921938cc775697a4e5991cdd5922803fe75b217f6c05a9f
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 160
+  tg_cover_published_at: '2026-10-18T13:00:07.726839+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 161
+  tg_text_published_at: '2026-10-18T13:00:08.226885+00:00'
+  published_at: '2026-10-18T13:00:08.330299+00:00'
+  message_id: 161
+- id: daily-max-direct-test-vk
+  platform: vk
+  status: published
+  topic: 'Реклама в MAX через Директ: что проверить до первого теста'
+  editorial_topic_id: P08
+  scheduled: '2026-10-19T18:00:00+05:00'
+  post: articles/vk/2026-10-19-max-direct-test.md
+  cover: assets/covers/max-direct-test.jpg
+  approved_at: '2026-10-16T04:20:54.206879+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  published_at: '2026-10-19T13:00:06.213667+00:00'
+  message_id: 236
+- id: daily-crm-audience-data-tg
+  platform: tg
+  status: published
+  topic: База клиентов есть. Почему из неё ещё не получается аудитория для рекламы?
+  editorial_topic_id: P09
+  scheduled: '2026-10-25T18:00:00+05:00'
+  post: articles/tg/2026-10-25-crm-audience-data.md
+  cover: assets/covers/crm-audience-data.jpg
+  approved_at: '2026-10-16T04:20:54.206881+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  tg_content_sha256: 84471fe3d445d9f52825c308921012e81015c969863ed1aae9655e4f8c6ee71c
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 173
+  tg_cover_published_at: '2026-10-25T13:00:04.929950+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 174
+  tg_text_published_at: '2026-10-25T13:00:05.389443+00:00'
+  published_at: '2026-10-25T13:00:05.521614+00:00'
+  message_id: 174
+- id: daily-crm-audience-data-vk
+  platform: vk
+  status: published
+  topic: База клиентов есть. Почему из неё ещё не получается аудитория для рекламы?
+  editorial_topic_id: P09
+  scheduled: '2026-10-26T18:00:00+05:00'
+  post: articles/vk/2026-10-26-crm-audience-data.md
+  cover: assets/covers/crm-audience-data.jpg
+  approved_at: '2026-10-16T04:20:54.206882+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  published_at: '2026-10-26T13:00:04.961592+00:00'
+  message_id: 243
+- id: daily-ozon-reviews-site-tg
+  platform: tg
+  status: published
+  topic: Отзывы остались на Ozon. Как использовать их на своём сайте?
+  editorial_topic_id: P10
+  scheduled: '2026-10-23T18:00:00+05:00'
+  post: articles/tg/2026-10-23-ozon-reviews-site.md
+  cover: assets/covers/ozon-reviews-site.jpg
+  approved_at: '2026-10-16T04:20:54.206884+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  tg_content_sha256: dc1ffd081043c5095af6cdbbe78841e5345d533cfa1f96c37dd8a025f3b3008d
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 169
+  tg_cover_published_at: '2026-10-23T13:00:04.730339+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 170
+  tg_text_published_at: '2026-10-23T13:00:05.133213+00:00'
+  published_at: '2026-10-23T13:00:05.262520+00:00'
+  message_id: 170
+- id: daily-ozon-reviews-site-vk
+  platform: vk
+  status: published
+  topic: Отзывы остались на Ozon. Как использовать их на своём сайте?
+  editorial_topic_id: P10
+  scheduled: '2026-10-23T18:00:00+05:00'
+  post: articles/vk/2026-10-23-ozon-reviews-site.md
+  cover: assets/covers/ozon-reviews-site.jpg
+  approved_at: '2026-10-16T04:20:54.206886+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  published_at: '2026-10-23T13:00:07.584095+00:00'
+  message_id: 240
+- id: daily-ugc-fresh-data-tg
+  platform: tg
+  status: deferred
+  topic: 'UGC Fresh Data: кому подходит программа Google для пользовательского контента'
+  editorial_topic_id: P11
+  scheduled: '2026-10-26T18:00:00+05:00'
+  post: articles/tg/2026-10-26-ugc-fresh-data.md
+  cover: assets/covers/ugc-fresh-data.jpg
+  approved_at: '2026-10-16T04:20:54.206887+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  deferred_at: '2026-10-26T07:36:33.099823+05:00'
+  deferred_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  replaced_by: b2b-wholesale-retail-tg
+- id: daily-ugc-fresh-data-vk
+  platform: vk
+  status: deferred
+  topic: 'UGC Fresh Data: кому подходит программа Google для пользовательского контента'
+  editorial_topic_id: P11
+  scheduled: '2026-10-27T18:00:00+05:00'
+  post: articles/vk/2026-10-27-ugc-fresh-data.md
+  cover: assets/covers/ugc-fresh-data.jpg
+  approved_at: '2026-10-16T04:20:54.206888+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  deferred_at: '2026-10-26T07:36:33.099823+05:00'
+  deferred_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  replaced_by: b2b-wholesale-retail-vk
+- id: daily-video-author-markup-tg
+  platform: tg
+  status: deferred
+  topic: 'У видео на сайте тоже есть автор: что проверить в VideoObject'
+  editorial_topic_id: P12
+  scheduled: '2026-10-27T18:00:00+05:00'
+  post: articles/tg/2026-10-27-video-author-markup.md
+  cover: assets/covers/video-author-markup.jpg
+  approved_at: '2026-10-16T04:20:54.206889+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  deferred_at: '2026-10-26T07:36:33.099823+05:00'
+  deferred_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  replaced_by: b2b-long-sales-cycle-tg
+- id: daily-video-author-markup-vk
+  platform: vk
+  status: deferred
+  topic: 'У видео на сайте тоже есть автор: что проверить в VideoObject'
+  editorial_topic_id: P12
+  scheduled: '2026-10-28T18:00:00+05:00'
+  post: articles/vk/2026-10-28-video-author-markup.md
+  cover: assets/covers/video-author-markup.jpg
+  approved_at: '2026-10-16T04:20:54.206891+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  deferred_at: '2026-10-26T07:36:33.099823+05:00'
+  deferred_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  replaced_by: b2b-long-sales-cycle-vk
+- id: daily-maps-new-customers-tg
+  platform: tg
+  status: published
+  topic: Карты приносят маршруты или клиентов? Как читать кейс локального продвижения
+  editorial_topic_id: P13
+  scheduled: '2026-10-22T18:00:00+05:00'
+  post: articles/tg/2026-10-22-maps-new-customers.md
+  cover: assets/covers/maps-new-customers.jpg
+  approved_at: '2026-10-16T04:20:54.206892+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  tg_content_sha256: c59b67850aed51e635bf4993a8a7c3a39ffba189b7828ba5b540daa0a764e4f2
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 167
+  tg_cover_published_at: '2026-10-22T13:00:05.306968+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 168
+  tg_text_published_at: '2026-10-22T13:00:05.740726+00:00'
+  published_at: '2026-10-22T13:00:05.864060+00:00'
+  message_id: 168
+- id: daily-maps-new-customers-vk
+  platform: vk
+  status: published
+  topic: Карты приносят маршруты или клиентов? Как читать кейс локального продвижения
+  editorial_topic_id: P13
+  scheduled: '2026-10-22T18:00:00+05:00'
+  post: articles/vk/2026-10-22-maps-new-customers.md
+  cover: assets/covers/maps-new-customers.jpg
+  approved_at: '2026-10-16T04:20:54.206894+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  published_at: '2026-10-22T13:00:07.890743+00:00'
+  message_id: 239
+- id: daily-llms-txt-limits-tg
+  platform: tg
+  status: published
+  topic: 'Нужен ли сайту llms.txt: где заканчиваются обещания GEO'
+  editorial_topic_id: P14
+  scheduled: '2026-10-19T18:00:00+05:00'
+  post: articles/tg/2026-10-19-llms-txt-limits.md
+  cover: assets/covers/llms-txt-limits.jpg
+  approved_at: '2026-10-16T04:20:54.206895+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  tg_content_sha256: 5b08268b56cd3d364bde1a9f82894629d097bdcc3df93aed50b8305effedad73
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 162
+  tg_cover_published_at: '2026-10-19T13:00:08.837574+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 163
+  tg_text_published_at: '2026-10-19T13:00:09.436744+00:00'
+  published_at: '2026-10-19T13:00:09.601279+00:00'
+  message_id: 163
+- id: daily-llms-txt-limits-vk
+  platform: vk
+  status: published
+  topic: 'Нужен ли сайту llms.txt: где заканчиваются обещания GEO'
+  editorial_topic_id: P14
+  scheduled: '2026-10-20T18:00:00+05:00'
+  post: articles/vk/2026-10-20-llms-txt-limits.md
+  cover: assets/covers/llms-txt-limits.jpg
+  approved_at: '2026-10-16T04:20:54.206897+00:00'
+  topic_approved_at: '2026-10-15'
+  approval_source: 'Мария: P03–P14 согласованы 15 октября'
+  fact_checked_at: '2026-10-15'
+  notes: Полный самостоятельный пост, не тизер; VK публикует текст, обложка для ручного
+    прикрепления
+  published_at: '2026-10-20T13:00:10.127089+00:00'
+  message_id: 237
+- id: daily-impressions-without-clicks-tg
+  platform: tg
+  status: approved
+  topic: Показы растут, а переходов больше не стало. Мы точно радуемся тем цифрам?
+  editorial_topic_id: P17
+  scheduled: '2026-11-08T18:00:00+05:00'
+  post: articles/tg/2026-10-30-impressions-without-clicks.md
+  cover: assets/covers/impressions-without-clicks.jpg
+  approved_at: '2026-10-17T17:15:45.043186+00:00'
+  topic_approved_at: '2026-10-17'
+  approval_source: 'Мария: «1 и 3» — P17 и P19, 17 октября 2026'
+  fact_checked_at: '2026-10-17'
+  fact_review_due: '2026-11-07'
+  notes: Самостоятельный пост без связи с Дзеном. VK публикует текст, обложка для
+    ручного прикрепления.
+  rescheduled_from: '2026-10-30T18:00:00+05:00'
+  rescheduled_reason: Сохранён утверждённый материал вне недели, освобождённой для
+    B2B; поддержан запас на 14 дней
+- id: daily-impressions-without-clicks-vk
+  platform: vk
+  status: deferred
+  topic: Показы растут, а переходов больше не стало. Мы точно радуемся тем цифрам?
+  editorial_topic_id: P17
+  scheduled: '2026-10-30T18:00:00+05:00'
+  post: articles/vk/2026-10-30-impressions-without-clicks.md
+  cover: assets/covers/impressions-without-clicks.jpg
+  approved_at: '2026-10-17T17:15:45.043225+00:00'
+  topic_approved_at: '2026-10-17'
+  approval_source: 'Мария: «1 и 3» — P17 и P19, 17 октября 2026'
+  fact_checked_at: '2026-10-17'
+  fact_review_due: '2026-10-29'
+  notes: Самостоятельный пост без связи с Дзеном. VK публикует текст, обложка для
+    ручного прикрепления.
+  deferred_at: '2026-10-26T07:36:33.099823+05:00'
+  deferred_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  replaced_by: b2b-buyer-landing-vk
+- id: daily-alice-purchase-site-role-tg
+  platform: tg
+  status: deferred
+  topic: Товар можно купить прямо из Поиска и Алисы AI. Что теперь делать SEO-специалисту?
+  editorial_topic_id: P19
+  scheduled: '2026-10-31T18:00:00+05:00'
+  post: articles/tg/2026-10-31-alice-purchase-site-role.md
+  cover: assets/covers/alice-purchase-site-role.jpg
+  approved_at: '2026-10-17T17:15:45.043238+00:00'
+  topic_approved_at: '2026-10-17'
+  approval_source: 'Мария: «1 и 3» — P17 и P19, 17 октября 2026'
+  fact_checked_at: '2026-10-17'
+  fact_review_due: '2026-10-30'
+  notes: Самостоятельный пост без связи с Дзеном. VK публикует текст, обложка для
+    ручного прикрепления.
+  deferred_at: '2026-10-26T07:36:33.099823+05:00'
+  deferred_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
+    общих SEO-материалов: приоритет Директ и B2B'
+  replaced_by: b2b-supply-geography-tg
+- id: daily-direct-click-lead-cost-tg
+  platform: tg
+  editorial_topic_id: D01
+  topic: Клик в Директе подорожал. А заявка — тоже?
+  scheduled: '2026-11-01T18:00:00+05:00'
+  post: articles/tg/2026-11-01-direct-click-lead-cost.md
+  cover: assets/covers/direct-click-lead-cost.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-10-31'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-click-lead-cost-vk
+  platform: vk
+  editorial_topic_id: D01
+  topic: Клик в Директе подорожал. А заявка — тоже?
+  scheduled: '2026-11-01T18:00:00+05:00'
+  post: articles/vk/2026-11-01-direct-click-lead-cost.md
+  cover: assets/covers/direct-click-lead-cost.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-10-31'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-strategy-changes-tg
+  platform: tg
+  editorial_topic_id: D02
+  topic: Каждый день правлю Директ. Когда уже оценивать результат?
+  scheduled: '2026-11-02T18:00:00+05:00'
+  post: articles/tg/2026-11-02-direct-strategy-changes.md
+  cover: assets/covers/direct-strategy-changes.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-01'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-strategy-changes-vk
+  platform: vk
+  editorial_topic_id: D02
+  topic: Каждый день правлю Директ. Когда уже оценивать результат?
+  scheduled: '2026-11-02T18:00:00+05:00'
+  post: articles/vk/2026-11-02-direct-strategy-changes.md
+  cover: assets/covers/direct-strategy-changes.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-01'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-brand-demand-tg
+  platform: tg
+  editorial_topic_id: D03
+  topic: По названию компании заявки дешёвые. А новый спрос Директ приводит?
+  scheduled: '2026-11-03T18:00:00+05:00'
+  post: articles/tg/2026-11-03-direct-brand-demand.md
+  cover: assets/covers/direct-brand-demand.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-02'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-brand-demand-vk
+  platform: vk
+  editorial_topic_id: D03
+  topic: По названию компании заявки дешёвые. А новый спрос Директ приводит?
+  scheduled: '2026-11-03T18:00:00+05:00'
+  post: articles/vk/2026-11-03-direct-brand-demand.md
+  cover: assets/covers/direct-brand-demand.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-02'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-product-catalog-tg
+  platform: tg
+  editorial_topic_id: D04
+  topic: Рекламировали товар. Какие страницы теперь попадают в объявления ЕПК?
+  scheduled: '2026-11-04T18:00:00+05:00'
+  post: articles/tg/2026-11-04-direct-product-catalog.md
+  cover: assets/covers/direct-product-catalog.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-03'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-product-catalog-vk
+  platform: vk
+  editorial_topic_id: D04
+  topic: Рекламировали товар. Какие страницы теперь попадают в объявления ЕПК?
+  scheduled: '2026-11-04T18:00:00+05:00'
+  post: articles/vk/2026-11-04-direct-product-catalog.md
+  cover: assets/covers/direct-product-catalog.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-03'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-b2b-directions-tg
+  platform: tg
+  editorial_topic_id: D05
+  topic: Два направления бизнеса — одна кампания? Разбираем B2B-кейс Директа
+  scheduled: '2026-11-05T18:00:00+05:00'
+  post: articles/tg/2026-11-05-direct-b2b-directions.md
+  cover: assets/covers/direct-b2b-directions.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-04'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-b2b-directions-vk
+  platform: vk
+  editorial_topic_id: D05
+  topic: Два направления бизнеса — одна кампания? Разбираем B2B-кейс Директа
+  scheduled: '2026-11-05T18:00:00+05:00'
+  post: articles/vk/2026-11-05-direct-b2b-directions.md
+  cover: assets/covers/direct-b2b-directions.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-04'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-seo-query-exchange-tg
+  platform: tg
+  editorial_topic_id: D06
+  topic: Директ уже проверил спрос. Почему SEO начинает с нуля?
+  scheduled: '2026-11-06T18:00:00+05:00'
+  post: articles/tg/2026-11-06-direct-seo-query-exchange.md
+  cover: assets/covers/direct-seo-query-exchange.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-05'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-direct-seo-query-exchange-vk
+  platform: vk
+  editorial_topic_id: D06
+  topic: Директ уже проверил спрос. Почему SEO начинает с нуля?
+  scheduled: '2026-11-06T18:00:00+05:00'
+  post: articles/vk/2026-11-06-direct-seo-query-exchange.md
+  cover: assets/covers/direct-seo-query-exchange.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-05'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-seo-redesign-pages-tg
+  platform: tg
+  editorial_topic_id: D07
+  topic: Редизайн согласовали. А страницы, которые приводили клиентов, сохранили?
+  scheduled: '2026-11-07T18:00:00+05:00'
+  post: articles/tg/2026-11-07-seo-redesign-pages.md
+  cover: assets/covers/seo-redesign-pages.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-06'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: daily-seo-redesign-pages-vk
+  platform: vk
+  editorial_topic_id: D07
+  topic: Редизайн согласовали. А страницы, которые приводили клиентов, сохранили?
+  scheduled: '2026-11-07T18:00:00+05:00'
+  post: articles/vk/2026-11-07-seo-redesign-pages.md
+  cover: assets/covers/seo-redesign-pages.png
+  fact_checked_at: '2026-10-19'
+  fact_review_due: '2026-11-06'
+  topic_approved_at: '2026-10-19'
+  approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
+    2026'
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+    VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
+  status: approved
+  approved_at: '2026-10-19T04:48:49.435012+00:00'
+- id: b2b-wholesale-retail-tg
+  platform: tg
+  status: published
+  topic: В рекламе — опт, в заявках — «продайте одну штуку». Что проверить в Директе?
+  editorial_topic_id: B01
+  scheduled: '2026-10-26T18:00:00+05:00'
+  post: articles/tg/2026-10-26-b2b-wholesale-retail.md
+  cover: assets/covers/b2b-wholesale-retail.png
+  approved_at: '2026-10-26T07:36:33.099823+05:00'
+  topic_approved_at: '2026-10-26'
+  approval_source: 'Мария: «Согласовать весь пакет», прямой ответ на B01–B05, 10 собственных
+    версий TG/VK и две статьи Дзена'
+  fact_checked_at: '2026-10-26'
+  replaces_post_id: daily-ugc-fresh-data-tg
+  notes: 'Самостоятельная версия; источники в briefs/trends/2026-10-26.md. TG: обложка
+    и полный текст отдельно. VK_PHOTOS=manual.'
+  tg_content_sha256: d207b0b59847c9063c41cdd936af8559df5d1bc0fbfd5b8de550e3e84917c27a
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 175
+  tg_cover_published_at: '2026-10-26T13:00:06.498158+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 176
+  tg_text_published_at: '2026-10-26T13:00:06.906590+00:00'
+  published_at: '2026-10-26T13:00:07.053351+00:00'
+  message_id: 176
+- id: b2b-wholesale-retail-vk
+  platform: vk
+  status: published
+  topic: В рекламе — опт, в заявках — «продайте одну штуку». Что проверить в Директе?
+  editorial_topic_id: B01
+  scheduled: '2026-10-27T18:00:00+05:00'
+  post: articles/vk/2026-10-27-b2b-wholesale-retail.md
+  cover: assets/covers/b2b-wholesale-retail.png
+  approved_at: '2026-10-26T07:36:33.099823+05:00'
+  topic_approved_at: '2026-10-26'
+  approval_source: 'Мария: «Согласовать весь пакет», прямой ответ на B01–B05, 10 собственных
+    версий TG/VK и две статьи Дзена'
+  fact_checked_at: '2026-10-26'
+  replaces_post_id: daily-ugc-fresh-data-vk
+  notes: 'Самостоятельная версия; источники в briefs/trends/2026-10-26.md. TG: обложка
+    и полный текст отдельно. VK_PHOTOS=manual.'
+  published_at: '2026-10-27T13:00:05.454424+00:00'
+  message_id: 244
+- id: b2b-long-sales-cycle-tg
+  platform: tg
+  status: published
+  topic: В B2B покупают через два месяца. Как понять, работает ли Директ сейчас?
+  editorial_topic_id: B02
+  scheduled: '2026-10-27T18:00:00+05:00'
+  post: articles/tg/2026-10-27-b2b-long-sales-cycle.md
+  cover: assets/covers/b2b-long-sales-cycle.png
+  approved_at: '2026-10-26T07:36:33.099823+05:00'
+  topic_approved_at: '2026-10-26'
+  approval_source: 'Мария: «Согласовать весь пакет», прямой ответ на B01–B05, 10 собственных
+    версий TG/VK и две статьи Дзена'
+  fact_checked_at: '2026-10-27'
+  replaces_post_id: daily-video-author-markup-tg
+  notes: 'Самостоятельная версия; источники в briefs/trends/2026-10-26.md. TG: обложка
+    и полный текст отдельно. VK_PHOTOS=manual.'
+  fact_reviewed_at: '2026-10-27T09:06:32.913681+05:00'
+  fact_review_source: briefs/2026-10-27-fact-review.md
+  tg_content_sha256: 0660193ec627be7cba4a77d602f92da42b4a003d9440c4883df2fdacacf7a639
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 177
+  tg_cover_published_at: '2026-10-27T13:00:06.840241+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 178
+  tg_text_published_at: '2026-10-27T13:00:07.281492+00:00'
+  published_at: '2026-10-27T13:00:07.432688+00:00'
+  message_id: 178
+- id: b2b-long-sales-cycle-vk
+  platform: vk
+  status: published
+  topic: В B2B покупают через два месяца. Как понять, работает ли Директ сейчас?
+  editorial_topic_id: B02
+  scheduled: '2026-10-28T18:00:00+05:00'
+  post: articles/vk/2026-10-28-b2b-long-sales-cycle.md
+  cover: assets/covers/b2b-long-sales-cycle.png
+  approved_at: '2026-10-26T07:36:33.099823+05:00'
+  topic_approved_at: '2026-10-26'
+  approval_source: 'Мария: «Согласовать весь пакет», прямой ответ на B01–B05, 10 собственных
+    версий TG/VK и две статьи Дзена'
+  fact_checked_at: '2026-10-27'
+  replaces_post_id: daily-video-author-markup-vk
+  notes: 'Самостоятельная версия; источники в briefs/trends/2026-10-26.md. TG: обложка
+    и полный текст отдельно. VK_PHOTOS=manual.'
+  fact_reviewed_at: '2026-10-27T09:06:32.913681+05:00'
+  fact_review_source: briefs/2026-10-27-fact-review.md
+  published_at: '2026-10-28T13:00:05.250383+00:00'
+  message_id: 245
+- id: b2b-catalog-retargeting-tg
+  platform: tg
+  status: published
+  topic: Каталог скачали, заявку не оставили. Что показывать этому покупателю дальше?
+  editorial_topic_id: B03
+  scheduled: '2026-10-29T18:00:00+05:00'
+  post: articles/tg/2026-10-29-b2b-catalog-retargeting.md
+  cover: assets/covers/b2b-catalog-retargeting.png
+  approved_at: '2026-10-26T07:36:33.099823+05:00'
+  topic_approved_at: '2026-10-26'
+  approval_source: 'Мария: «Согласовать весь пакет», прямой ответ на B01–B05, 10 собственных
+    версий TG/VK и две статьи Дзена'
+  fact_checked_at: '2026-10-28'
+  replaces_post_id: daily-ai-content-labels-tg
+  notes: 'Самостоятельная версия; источники в briefs/trends/2026-10-26.md. TG: обложка
+    и полный текст отдельно. VK_PHOTOS=manual.'
+  fact_reviewed_at: '2026-10-28T08:59:05.225485+05:00'
+  fact_review_source: briefs/2026-10-28-publication-check.md
+  tg_content_sha256: 2aa6df31c98f6f49134a5a3db44390fd0c2a9a265033533a4d67673a5d3cc2de
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 181
+  tg_cover_published_at: '2026-10-29T13:00:03.901421+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 182
+  tg_text_published_at: '2026-10-29T13:00:04.388098+00:00'
+  published_at: '2026-10-29T13:00:04.565732+00:00'
+  message_id: 182
+- id: b2b-catalog-retargeting-vk
+  platform: vk
+  status: published
+  topic: Каталог скачали, заявку не оставили. Что показывать этому покупателю дальше?
+  editorial_topic_id: B03
+  scheduled: '2026-10-29T18:00:00+05:00'
+  post: articles/vk/2026-10-29-b2b-catalog-retargeting.md
+  cover: assets/covers/b2b-catalog-retargeting.png
+  approved_at: '2026-10-26T07:36:33.099823+05:00'
+  topic_approved_at: '2026-10-26'
+  approval_source: 'Мария: «Согласовать весь пакет», прямой ответ на B01–B05, 10 собственных
+    версий TG/VK и две статьи Дзена'
+  fact_checked_at: '2026-10-28'
+  replaces_post_id: daily-ai-content-labels-vk
+  notes: 'Самостоятельная версия; источники в briefs/trends/2026-10-26.md. TG: обложка
+    и полный текст отдельно. VK_PHOTOS=manual.'
+  fact_reviewed_at: '2026-10-28T08:59:05.225485+05:00'
+  fact_review_source: briefs/2026-10-28-publication-check.md
+  published_at: '2026-10-29T13:00:05.864654+00:00'
+  message_id: 246
+- id: b2b-buyer-landing-tg
+  platform: tg
+  status: published
+  topic: Покупатель ищет оборудование. А посадочная рассказывает только, какие вы
+    надёжные
+  editorial_topic_id: B04
+  scheduled: '2026-10-30T18:00:00+05:00'
+  post: articles/tg/2026-10-30-b2b-buyer-landing.md
+  cover: assets/covers/b2b-buyer-landing.png
+  approved_at: '2026-10-26T07:36:33.099823+05:00'
+  topic_approved_at: '2026-10-26'
+  approval_source: 'Мария: «Согласовать весь пакет», прямой ответ на B01–B05, 10 собственных
+    версий TG/VK и две статьи Дзена'
+  fact_checked_at: '2026-10-29'
+  replaces_post_id: daily-impressions-without-clicks-tg
+  notes: 'Самостоятельная версия; источники в briefs/trends/2026-10-26.md. TG: обложка
+    и полный текст отдельно. VK_PHOTOS=manual.'
+  fact_reviewed_at: '2026-10-29T09:03:46.117240+05:00'
+  fact_review_source: briefs/2026-10-29-fact-review.md
+  tg_content_sha256: 1dc24dbbef5e60dc8c7b0cf3e8a4e9a7ae933416ced0755cfa088a335da235dd
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 183
+  tg_cover_published_at: '2026-10-30T13:00:05.996262+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 184
+  tg_text_published_at: '2026-10-30T13:00:06.511160+00:00'
+  published_at: '2026-10-30T13:00:06.674480+00:00'
+  message_id: 184
+- id: b2b-buyer-landing-vk
+  platform: vk
+  status: published
+  topic: Покупатель ищет оборудование. А посадочная рассказывает только, какие вы
+    надёжные
+  editorial_topic_id: B04
+  scheduled: '2026-10-30T18:00:00+05:00'
+  post: articles/vk/2026-10-30-b2b-buyer-landing.md
+  cover: assets/covers/b2b-buyer-landing.png
+  approved_at: '2026-10-26T07:36:33.099823+05:00'
+  topic_approved_at: '2026-10-26'
+  approval_source: 'Мария: «Согласовать весь пакет», прямой ответ на B01–B05, 10 собственных
+    версий TG/VK и две статьи Дзена'
+  fact_checked_at: '2026-10-29'
+  replaces_post_id: daily-impressions-without-clicks-vk
+  notes: 'Самостоятельная версия; источники в briefs/trends/2026-10-26.md. TG: обложка
+    и полный текст отдельно. VK_PHOTOS=manual.'
+  fact_reviewed_at: '2026-10-29T09:03:46.117240+05:00'
+  fact_review_source: briefs/2026-10-29-fact-review.md
+  published_at: '2026-10-30T13:00:07.823312+00:00'
+  message_id: 247
+- id: b2b-supply-geography-tg
+  platform: tg
+  status: published
+  topic: Завод находится в одном городе, а покупатели — по всей России. Как выбирать
+    географию Директа?
+  editorial_topic_id: B05
+  scheduled: '2026-10-31T18:00:00+05:00'
+  post: articles/tg/2026-10-31-b2b-supply-geography.md
+  cover: assets/covers/b2b-supply-geography.png
+  approved_at: '2026-10-26T07:36:33.099823+05:00'
+  topic_approved_at: '2026-10-26'
+  approval_source: 'Мария: «Согласовать весь пакет», прямой ответ на B01–B05, 10 собственных
+    версий TG/VK и две статьи Дзена'
+  fact_checked_at: '2026-10-30'
+  replaces_post_id: daily-alice-purchase-site-role-tg
+  notes: 'Самостоятельная версия; источники в briefs/trends/2026-10-26.md. TG: обложка
+    и полный текст отдельно. VK_PHOTOS=manual.'
+  fact_reviewed_at: '2026-10-30T09:03:08.790422+05:00'
+  fact_review_source: briefs/2026-10-30-fact-review.md
+  tg_content_sha256: 6a9923bd7c4f63273e718a6788b3ea3b59f5b18f47bc66bd5f8014c9c804cf5a
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 185
+  tg_cover_published_at: '2026-10-31T13:00:03.743848+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 186
+  tg_text_published_at: '2026-10-31T13:00:04.280981+00:00'
+  published_at: '2026-10-31T13:00:04.453289+00:00'
+  message_id: 186
+- id: b2b-supply-geography-vk
+  platform: vk
+  status: published
+  topic: Завод находится в одном городе, а покупатели — по всей России. Как выбирать
+    географию Директа?
+  editorial_topic_id: B05
+  scheduled: '2026-10-31T14:00:00+05:00'
+  post: articles/vk/2026-10-31-b2b-supply-geography.md
+  cover: assets/covers/b2b-supply-geography.png
+  approved_at: '2026-10-26T07:36:33.099823+05:00'
+  topic_approved_at: '2026-10-26'
+  approval_source: 'Мария: «Согласовать весь пакет», прямой ответ на B01–B05, 10 собственных
+    версий TG/VK и две статьи Дзена'
+  fact_checked_at: '2026-10-30'
+  replaces_post_id: product-data-seo
+  notes: 'Самостоятельная версия; источники в briefs/trends/2026-10-26.md. TG: обложка
+    и полный текст отдельно. VK_PHOTOS=manual.'
+  fact_reviewed_at: '2026-10-30T09:03:08.790422+05:00'
+  fact_review_source: briefs/2026-10-30-fact-review.md
+  published_at: '2026-10-31T09:00:05.156269+00:00'
+  message_id: 248
