@@ -1260,7 +1260,7 @@ items:
   message_id: 247
 - id: b2b-supply-geography-tg
   platform: tg
-  status: approved
+  status: published
   topic: Завод находится в одном городе, а покупатели — по всей России. Как выбирать
     географию Директа?
   editorial_topic_id: B05
@@ -1277,6 +1277,15 @@ items:
     и полный текст отдельно. VK_PHOTOS=manual.'
   fact_reviewed_at: '2026-10-30T09:03:08.790422+05:00'
   fact_review_source: briefs/2026-10-30-fact-review.md
+  tg_content_sha256: 6a9923bd7c4f63273e718a6788b3ea3b59f5b18f47bc66bd5f8014c9c804cf5a
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 185
+  tg_cover_published_at: '2026-10-31T13:00:03.743848+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 186
+  tg_text_published_at: '2026-10-31T13:00:04.280981+00:00'
+  published_at: '2026-10-31T13:00:04.453289+00:00'
+  message_id: 186
 - id: b2b-supply-geography-vk
   platform: vk
   status: published
