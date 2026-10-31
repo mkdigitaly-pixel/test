@@ -356,3 +356,16 @@ items:
   brief: briefs/covers/b2b-buyer-landing.md
   vk_post_id: 247
   requested_at: '2026-10-30T13:00:07Z'
+- id: b2b-supply-geography-vk
+  slug: b2b-supply-geography
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Завод находится в одном городе, а покупатели — по всей России. Как выбирать
+    географию Директа?
+  subline: vk
+  out_landscape: assets/covers/b2b-supply-geography.jpg
+  out_vk: assets/covers/b2b-supply-geography-vk.jpg
+  brief: briefs/covers/b2b-supply-geography.md
+  vk_post_id: 248
+  requested_at: '2026-10-31T09:00:05Z'

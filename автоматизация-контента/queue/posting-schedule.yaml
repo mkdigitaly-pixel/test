@@ -782,10 +782,11 @@ slots:
   time: '14:00'
   action: publish_vk_post
   post_id: b2b-supply-geography-vk
-  status: scheduled
+  status: done
   replaces_post_id: product-data-seo
   replacement_reason: 'Мария 26 октября согласовала весь пакет B01–B05 с заменой будущих
     общих SEO-материалов: приоритет Директ и B2B'
+  completed_at: '2026-10-31T14:00:01.640765+05:00'
 - date: '2026-11-04'
   time: '14:00'
   action: publish_tg_post
