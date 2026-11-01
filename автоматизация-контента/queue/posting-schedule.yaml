@@ -1048,12 +1048,14 @@ slots:
   time: '18:00'
   action: publish_tg_post
   post_id: daily-direct-click-lead-cost-tg
-  status: scheduled
+  status: done
+  completed_at: '2026-11-01T18:00:02.112320+05:00'
 - date: '2026-11-01'
   time: '18:00'
   action: publish_vk_post
   post_id: daily-direct-click-lead-cost-vk
-  status: scheduled
+  status: done
+  completed_at: '2026-11-01T18:00:02.112320+05:00'
 - date: '2026-11-02'
   time: '18:00'
   action: publish_tg_post

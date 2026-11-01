@@ -861,10 +861,19 @@ items:
     2026'
   notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
     VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
-  status: approved
+  status: published
   approved_at: '2026-10-19T04:48:49.435012+00:00'
   fact_reviewed_at: '2026-11-01T09:41:12.426193+05:00'
   fact_review_source: briefs/2026-11-01-fact-review.md
+  tg_content_sha256: e4cb2db9ad872ff75e1a10a196398701e18777ae7ed68798990e29495b8b9495
+  tg_cover_send_state: confirmed
+  tg_cover_message_id: 187
+  tg_cover_published_at: '2026-11-01T13:00:04.389223+00:00'
+  tg_text_send_state: confirmed
+  tg_text_message_id: 188
+  tg_text_published_at: '2026-11-01T13:00:04.926210+00:00'
+  published_at: '2026-11-01T13:00:05.102488+00:00'
+  message_id: 188
 - id: daily-direct-click-lead-cost-vk
   platform: vk
   editorial_topic_id: D01
@@ -878,10 +887,12 @@ items:
     2026'
   notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
     VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
-  status: approved
+  status: published
   approved_at: '2026-10-19T04:48:49.435012+00:00'
   fact_reviewed_at: '2026-11-01T09:41:12.426193+05:00'
   fact_review_source: briefs/2026-11-01-fact-review.md
+  published_at: '2026-11-01T13:00:07.137219+00:00'
+  message_id: 249
 - id: daily-direct-strategy-changes-tg
   platform: tg
   editorial_topic_id: D02

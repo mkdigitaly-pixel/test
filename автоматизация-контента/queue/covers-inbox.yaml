@@ -369,3 +369,15 @@ items:
   brief: briefs/covers/b2b-supply-geography.md
   vk_post_id: 248
   requested_at: '2026-10-31T09:00:05Z'
+- id: daily-direct-click-lead-cost-vk
+  slug: direct-click-lead-cost
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Клик в Директе подорожал. А заявка — тоже?
+  subline: vk
+  out_landscape: assets/covers/direct-click-lead-cost.jpg
+  out_vk: assets/covers/direct-click-lead-cost-vk.jpg
+  brief: briefs/covers/direct-click-lead-cost.md
+  vk_post_id: 249
+  requested_at: '2026-11-01T13:00:07Z'
