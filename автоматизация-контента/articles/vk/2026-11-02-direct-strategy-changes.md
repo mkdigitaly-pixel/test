@@ -1,12 +1,13 @@
 ---
-title: "Каждый день правлю Директ. Когда уже оценивать результат?"
+title: Каждый день правлю Директ. Когда уже оценивать результат?
 platform: vk
 content_type: standalone
 editorial_topic_id: D02
 topic_approved_at: '2026-10-19'
-fact_checked_at: '2026-10-19'
-fact_review_due: '2026-11-01'
+fact_checked_at: '2026-11-01'
 cover: assets/covers/direct-strategy-changes.png
+fact_reviewed_at: '2026-11-01T09:41:12.426193+05:00'
+fact_review_source: briefs/2026-11-01-fact-review.md
 ---
 
 **Если каждый день менять настройки Директа, как потом понять, какая правка помогла?**

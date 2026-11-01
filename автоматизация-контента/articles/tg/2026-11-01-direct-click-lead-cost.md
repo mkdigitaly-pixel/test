@@ -1,12 +1,13 @@
 ---
-title: "Клик в Директе подорожал. А заявка — тоже?"
+title: Клик в Директе подорожал. А заявка — тоже?
 platform: tg
 content_type: standalone
 editorial_topic_id: D01
 topic_approved_at: '2026-10-19'
-fact_checked_at: '2026-10-19'
-fact_review_due: '2026-10-31'
+fact_checked_at: '2026-11-01'
 cover: assets/covers/direct-click-lead-cost.png
+fact_reviewed_at: '2026-11-01T09:41:12.426193+05:00'
+fact_review_source: briefs/2026-11-01-fact-review.md
 ---
 
 **Цена клика выросла. Уже просим директолога срочно всё удешевить?**

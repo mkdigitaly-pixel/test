@@ -1,0 +1,126 @@
+{
+  "checked_at": "2026-11-01T09:41:12.426193+05:00",
+  "fact_reviewed_items": [
+    {
+      "id": "daily-direct-click-lead-cost-tg",
+      "path": "articles/tg/2026-11-01-direct-click-lead-cost.md",
+      "previous_fact_review_due": "2026-10-31",
+      "completed_before_publication": true,
+      "body_sha256_before": "9fce9b55f5d5dd8218b2df483b2613466d06cb6f8630fa17db7e5f5ca41e73da",
+      "body_sha256_after": "9fce9b55f5d5dd8218b2df483b2613466d06cb6f8630fa17db7e5f5ca41e73da",
+      "body_unchanged": true
+    },
+    {
+      "id": "daily-direct-click-lead-cost-vk",
+      "path": "articles/vk/2026-11-01-direct-click-lead-cost.md",
+      "previous_fact_review_due": "2026-10-31",
+      "completed_before_publication": true,
+      "body_sha256_before": "1488625c2246a8709ac53dea17c8be0e54b9a3a62a4dbba29c99beb0e78eeffe",
+      "body_sha256_after": "1488625c2246a8709ac53dea17c8be0e54b9a3a62a4dbba29c99beb0e78eeffe",
+      "body_unchanged": true
+    },
+    {
+      "id": "daily-direct-strategy-changes-tg",
+      "path": "articles/tg/2026-11-02-direct-strategy-changes.md",
+      "previous_fact_review_due": "2026-11-01",
+      "completed_before_publication": true,
+      "body_sha256_before": "46cb1873d9722072785d4878dd00a8f164393c7309fdcea900bfe663b412960c",
+      "body_sha256_after": "46cb1873d9722072785d4878dd00a8f164393c7309fdcea900bfe663b412960c",
+      "body_unchanged": true
+    },
+    {
+      "id": "daily-direct-strategy-changes-vk",
+      "path": "articles/vk/2026-11-02-direct-strategy-changes.md",
+      "previous_fact_review_due": "2026-11-01",
+      "completed_before_publication": true,
+      "body_sha256_before": "dcb169efb497358169cc065c4a46ed184a667508576b08f37d1136870eeaed8d",
+      "body_sha256_after": "dcb169efb497358169cc065c4a46ed184a667508576b08f37d1136870eeaed8d",
+      "body_unchanged": true
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://yandex.ru/support/direct/ru/statistics/performance-stat-guide",
+      "http_status": 200,
+      "final_url": "https://yandex.ru/support/direct/ru/statistics/performance-stat-guide",
+      "retrieved_at": "2026-11-01T09:41:12.970207+05:00",
+      "sha256": "919580de9d9f30a70601ee7b170c547a0444819335d2b2a360f49fd256655fe4",
+      "checks": {
+        "Как оценить результат": true,
+        "CPA": true,
+        "атрибуции": true
+      },
+      "finding": "D01: сравнивать не только клик, но выбранные конверсии и их стоимость при сопоставимых настройках."
+    },
+    {
+      "url": "https://yandex.ru/support/direct/ru/strategies/average-cpa",
+      "http_status": 200,
+      "final_url": "https://yandex.ru/support/direct/ru/strategies/average-cpa",
+      "retrieved_at": "2026-11-01T09:41:13.717392+05:00",
+      "sha256": "e0711994c0abe29e1bd4acd00d7948217aacd6eb9a62bcf353d98b5d29374e5b",
+      "checks": {
+        "Максимум конверсий": true,
+        "первичный сбор статистики": true,
+        "изменяете тип атрибуции": true
+      },
+      "finding": "D02: первичный сбор данных и смена цели/атрибуции требуют времени; не любая правка обнуляет историю."
+    }
+  ],
+  "body_changes": false,
+  "schedule_sha256": "f0c952aac5d0995a5e36027528f027a4f83c520e6501fd5b21b6e2b4b8970e43",
+  "confirmed_receipts": {
+    "tg": {
+      "id": "b2b-supply-geography-tg",
+      "cover_message_id": 185,
+      "text_message_id": 186,
+      "both_confirmed": true
+    },
+    "vk": {
+      "id": "b2b-supply-geography-vk",
+      "message_id": 248,
+      "source": "saved_server_receipt_only"
+    }
+  },
+  "dzen_confirmation": {
+    "checked_on": "2026-11-01",
+    "method": "exact_title_match_in_public_export",
+    "export_url": "https://dzen.ru/api/v3/launcher/export?channel_name=klientyandtrafik",
+    "export_http_status": 200,
+    "export_sha256": "a47d0b0466b2d9253087b718376214cab264f12035a53500c6c63585d8cb717b",
+    "matched_title": "Сделка через два месяца, отчёт нужен сейчас. Как оценивать Директ в B2B",
+    "share_link": "https://dzen.ru/a/auRA9JplqhrbpHF6",
+    "teasers_enabled": false
+  },
+  "blog_confirmation": {
+    "url": "https://blog.mkekspert.ru/articles/b2b-long-sales-cycle.html",
+    "http_status": 200,
+    "sha256": "08c7b2498a66ab73c3f64330c3fb489b7b2326ee5b16aaf01866358a45d1e7a3",
+    "visible_datetime": "2026-10-30T07:00:02+00:00",
+    "official_source_links_count": 3,
+    "rss_matches": 1,
+    "rss_pubDate": "Fri, 30 Oct 2026 07:00:02 +0000"
+  },
+  "approved_stock": {
+    "tg": 8,
+    "vk": 8,
+    "through": "2026-11-08",
+    "missing_in_14_day_window": [
+      "2026-11-09",
+      "2026-11-10",
+      "2026-11-11",
+      "2026-11-12",
+      "2026-11-13",
+      "2026-11-14"
+    ],
+    "full_14_day_stock": false
+  },
+  "pending_approval": {
+    "topics": [
+      "B06",
+      "B07",
+      "B08"
+    ],
+    "first_requested_on": "2026-10-27",
+    "repeated_request_sent": false
+  }
+}

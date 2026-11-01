@@ -1,12 +1,13 @@
 ---
-title: "Каждый день правлю Директ. Когда уже оценивать результат?"
+title: Каждый день правлю Директ. Когда уже оценивать результат?
 platform: tg
 content_type: standalone
 editorial_topic_id: D02
 topic_approved_at: '2026-10-19'
-fact_checked_at: '2026-10-19'
-fact_review_due: '2026-11-01'
+fact_checked_at: '2026-11-01'
 cover: assets/covers/direct-strategy-changes.png
+fact_reviewed_at: '2026-11-01T09:41:12.426193+05:00'
+fact_review_source: briefs/2026-11-01-fact-review.md
 ---
 
 **Понедельник — меняем цель. Вторник — бюджет. Среда — ещё немного настроек. В пятницу спрашиваем: почему нет понятного результата?**

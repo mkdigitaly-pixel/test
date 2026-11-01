@@ -855,8 +855,7 @@ items:
   scheduled: '2026-11-01T18:00:00+05:00'
   post: articles/tg/2026-11-01-direct-click-lead-cost.md
   cover: assets/covers/direct-click-lead-cost.png
-  fact_checked_at: '2026-10-19'
-  fact_review_due: '2026-10-31'
+  fact_checked_at: '2026-11-01'
   topic_approved_at: '2026-10-19'
   approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
     2026'
@@ -864,6 +863,8 @@ items:
     VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
   status: approved
   approved_at: '2026-10-19T04:48:49.435012+00:00'
+  fact_reviewed_at: '2026-11-01T09:41:12.426193+05:00'
+  fact_review_source: briefs/2026-11-01-fact-review.md
 - id: daily-direct-click-lead-cost-vk
   platform: vk
   editorial_topic_id: D01
@@ -871,8 +872,7 @@ items:
   scheduled: '2026-11-01T18:00:00+05:00'
   post: articles/vk/2026-11-01-direct-click-lead-cost.md
   cover: assets/covers/direct-click-lead-cost.png
-  fact_checked_at: '2026-10-19'
-  fact_review_due: '2026-10-31'
+  fact_checked_at: '2026-11-01'
   topic_approved_at: '2026-10-19'
   approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
     2026'
@@ -880,6 +880,8 @@ items:
     VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
   status: approved
   approved_at: '2026-10-19T04:48:49.435012+00:00'
+  fact_reviewed_at: '2026-11-01T09:41:12.426193+05:00'
+  fact_review_source: briefs/2026-11-01-fact-review.md
 - id: daily-direct-strategy-changes-tg
   platform: tg
   editorial_topic_id: D02
@@ -887,8 +889,7 @@ items:
   scheduled: '2026-11-02T18:00:00+05:00'
   post: articles/tg/2026-11-02-direct-strategy-changes.md
   cover: assets/covers/direct-strategy-changes.png
-  fact_checked_at: '2026-10-19'
-  fact_review_due: '2026-11-01'
+  fact_checked_at: '2026-11-01'
   topic_approved_at: '2026-10-19'
   approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
     2026'
@@ -896,6 +897,8 @@ items:
     VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
   status: approved
   approved_at: '2026-10-19T04:48:49.435012+00:00'
+  fact_reviewed_at: '2026-11-01T09:41:12.426193+05:00'
+  fact_review_source: briefs/2026-11-01-fact-review.md
 - id: daily-direct-strategy-changes-vk
   platform: vk
   editorial_topic_id: D02
@@ -903,8 +906,7 @@ items:
   scheduled: '2026-11-02T18:00:00+05:00'
   post: articles/vk/2026-11-02-direct-strategy-changes.md
   cover: assets/covers/direct-strategy-changes.png
-  fact_checked_at: '2026-10-19'
-  fact_review_due: '2026-11-01'
+  fact_checked_at: '2026-11-01'
   topic_approved_at: '2026-10-19'
   approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
     2026'
@@ -912,6 +914,8 @@ items:
     VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
   status: approved
   approved_at: '2026-10-19T04:48:49.435012+00:00'
+  fact_reviewed_at: '2026-11-01T09:41:12.426193+05:00'
+  fact_review_source: briefs/2026-11-01-fact-review.md
 - id: daily-direct-brand-demand-tg
   platform: tg
   editorial_topic_id: D03
