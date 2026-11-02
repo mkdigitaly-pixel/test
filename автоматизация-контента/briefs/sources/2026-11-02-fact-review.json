@@ -1,0 +1,123 @@
+{
+  "checked_at": "2026-11-02T09:00:28.924550+05:00",
+  "fact_reviewed_items": [
+    {
+      "id": "daily-direct-brand-demand-tg",
+      "path": "articles/tg/2026-11-03-direct-brand-demand.md",
+      "body_sha256_before": "6740bcdbe6d7e723d544d0fea55031f1c20cbd8fc7082f104cd6dda2a31afe25",
+      "body_sha256_after": "6740bcdbe6d7e723d544d0fea55031f1c20cbd8fc7082f104cd6dda2a31afe25",
+      "body_change": "none"
+    },
+    {
+      "id": "daily-direct-brand-demand-vk",
+      "path": "articles/vk/2026-11-03-direct-brand-demand.md",
+      "body_sha256_before": "552d354d52f9e739e385bbc6f65e6d3db2a9fadd4679695bfae5217f1dc5fdb6",
+      "body_sha256_after": "552d354d52f9e739e385bbc6f65e6d3db2a9fadd4679695bfae5217f1dc5fdb6",
+      "body_change": "none"
+    },
+    {
+      "id": "ai-blog-editor",
+      "path": "articles/dzen/articles/2026-11-03-ai-blog-editor.md",
+      "body_sha256_before": "bb91a0aa14cc983f892b22366c8753dc942748b28c571862f75248cb06ba54fc",
+      "body_sha256_after": "bfbd7cfda9c141ef956bda549e59461ac7861b5306a48fcf999f0229b5037b31",
+      "body_change": "source_review_date_only"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://yandex.ru/support/direct/ru/statistics/library/search-queries",
+      "final_url": "https://yandex.ru/support/direct/ru/statistics/library/search-queries",
+      "http_status": 200,
+      "retrieved_at": "2026-11-02T09:00:29.419048+05:00",
+      "sha256": "8cb9bfdd652ea62ad21cdc70dde74d9943ea0fe7e4ae1ea9a62614e87f84ea17",
+      "checks": {
+        "Поисковые запросы": true,
+        "Упоминание брендов в запросах": true,
+        "атрибуция": true
+      }
+    },
+    {
+      "url": "https://yandex.ru/support/direct/ru/impression-criteria/autotargeting",
+      "final_url": "https://yandex.ru/support/direct/ru/impression-criteria/autotargeting",
+      "http_status": 200,
+      "retrieved_at": "2026-11-02T09:00:29.865532+05:00",
+      "sha256": "10063c7bfbc9894c1ebd7ebfcea9c04faac9fb3e3a56434e18a706d452e11d5b",
+      "checks": {
+        "Упоминание брендов в запросах": true,
+        "вашего бренда": true,
+        "брендов конкурентов": true
+      }
+    },
+    {
+      "url": "https://developers.google.com/search/docs/fundamentals/using-gen-ai-content",
+      "final_url": "https://developers.google.com/search/docs/fundamentals/using-gen-ai-content",
+      "http_status": 200,
+      "retrieved_at": "2026-11-02T09:00:30.473030+05:00",
+      "sha256": "14e08e5f73fcf873cc8d497ea3914bad4e98cd749e41496138cdecc916b93f6d",
+      "checks": {
+        "accuracy": true,
+        "factcheck": true,
+        "trustworthiness": true
+      }
+    },
+    {
+      "url": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content",
+      "final_url": "https://developers.google.com/search/docs/fundamentals/creating-helpful-content",
+      "http_status": 200,
+      "retrieved_at": "2026-11-02T09:00:31.018459+05:00",
+      "sha256": "e488c3ac2e742e781b8c5a795e488fa0e555cc6e151faf91d8e7512a373d2bf2",
+      "checks": {
+        "people-first": true,
+        "factually accurate": true,
+        "Who, How, and Why": true
+      }
+    }
+  ],
+  "social_bodies_unchanged": true,
+  "article_body_change": "source_review_date_only",
+  "schedule_sha256": "4ad21830a58182b80e7e2ab51ed8174938c96d78b2db90fb594810659ad6e568",
+  "confirmed_receipts": {
+    "tg": {
+      "id": "daily-direct-click-lead-cost-tg",
+      "cover_message_id": 187,
+      "text_message_id": 188,
+      "both_confirmed": true
+    },
+    "vk": {
+      "id": "daily-direct-click-lead-cost-vk",
+      "message_id": 249,
+      "source": "saved_server_receipt_only"
+    }
+  },
+  "approved_stock": {
+    "tg": 7,
+    "vk": 7,
+    "through": "2026-11-08",
+    "missing_in_14_day_window": [
+      "2026-11-09",
+      "2026-11-10",
+      "2026-11-11",
+      "2026-11-12",
+      "2026-11-13",
+      "2026-11-14",
+      "2026-11-15"
+    ],
+    "full_14_day_stock": false
+  },
+  "pending_approval": {
+    "topics": [
+      "B06",
+      "B07",
+      "B08"
+    ],
+    "first_requested_on": "2026-10-27",
+    "repeated_request_sent": false
+  },
+  "article_preflight": {
+    "id": "ai-blog-editor",
+    "rendered_source_links": 2,
+    "review_date_present": true,
+    "teasers_enabled": false,
+    "sent_early": false
+  }
+}

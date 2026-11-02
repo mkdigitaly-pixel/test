@@ -378,9 +378,10 @@ items:
   standalone_post_ids:
   - daily-ai-blog-editor-tg
   - daily-ai-blog-editor-vk
-  fact_checked_at: '2026-10-15'
-  fact_review_due: '2026-11-02'
+  fact_checked_at: '2026-11-02'
   replaces_draft_id: campaign-budget-test
+  fact_reviewed_at: '2026-11-02T09:00:28.924550+05:00'
+  fact_review_source: briefs/2026-11-02-fact-review.md
 - id: ai-meta-factcheck
   status: approved
   topic: 'В статье всё правильно, а title уже наврал: как проверять ИИ-метаданные'

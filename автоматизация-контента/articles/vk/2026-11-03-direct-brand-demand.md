@@ -1,12 +1,13 @@
 ---
-title: "По названию компании заявки дешёвые. А новый спрос Директ приводит?"
+title: По названию компании заявки дешёвые. А новый спрос Директ приводит?
 platform: vk
 content_type: standalone
 editorial_topic_id: D03
 topic_approved_at: '2026-10-19'
-fact_checked_at: '2026-10-19'
-fact_review_due: '2026-11-02'
+fact_checked_at: '2026-11-02'
 cover: assets/covers/direct-brand-demand.png
+fact_reviewed_at: '2026-11-02T09:00:28.924550+05:00'
+fact_review_source: briefs/2026-11-02-fact-review.md
 ---
 
 **Если самые дешёвые заявки в Директе приходят по названию компании, что это говорит о рекламе?**
