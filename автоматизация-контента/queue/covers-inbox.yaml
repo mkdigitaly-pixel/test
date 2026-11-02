@@ -381,3 +381,15 @@ items:
   brief: briefs/covers/direct-click-lead-cost.md
   vk_post_id: 249
   requested_at: '2026-11-01T13:00:07Z'
+- id: daily-direct-strategy-changes-vk
+  slug: direct-strategy-changes
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: Каждый день правлю Директ. Когда уже оценивать результат?
+  subline: vk
+  out_landscape: assets/covers/direct-strategy-changes.jpg
+  out_vk: assets/covers/direct-strategy-changes-vk.jpg
+  brief: briefs/covers/direct-strategy-changes.md
+  vk_post_id: 250
+  requested_at: '2026-11-02T13:00:05Z'
