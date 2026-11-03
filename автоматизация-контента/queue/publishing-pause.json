@@ -1,0 +1,26 @@
+{
+  "status": "paused",
+  "paused_at": "2026-11-03T20:46:20.446553+05:00",
+  "requested_by": "Maria",
+  "reason": "Pause posting pending analytics: user reports no reactions and unsubscribes.",
+  "scope": [
+    "telegram",
+    "vk",
+    "blog_rss",
+    "dzen_new_rss_items"
+  ],
+  "resume_requires_explicit_user_instruction": true,
+  "cron_job_disabled": true,
+  "flags": {
+    "AUTO_PUBLISH": "false",
+    "DRY_RUN": "true",
+    "VK_PUBLISH": "off"
+  },
+  "queues_unchanged_sha256": {
+    "queue/posts-queue.yaml": "247bdb54edf1667056d06c3d411190a3a0c66f7d366db051c0c19618bb76d7b2",
+    "queue/publish-queue.yaml": "3cf1b20fc252c65ef456dec48a26418cd027769920348da15123ebb4a9f74192",
+    "queue/posting-schedule.yaml": "9042bfcc11879f173b00c62108d075947d74aa09e7fc67c7d64b5bdacba6fe00"
+  },
+  "published_content_preserved": true,
+  "catch_up_automatically": false
+}
