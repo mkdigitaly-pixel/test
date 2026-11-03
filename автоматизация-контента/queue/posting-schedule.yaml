@@ -1073,12 +1073,14 @@ slots:
   time: '18:00'
   action: publish_tg_post
   post_id: daily-direct-brand-demand-tg
-  status: scheduled
+  status: done
+  completed_at: '2026-11-03T18:00:01.420973+05:00'
 - date: '2026-11-03'
   time: '18:00'
   action: publish_vk_post
   post_id: daily-direct-brand-demand-vk
-  status: scheduled
+  status: done
+  completed_at: '2026-11-03T18:00:01.420973+05:00'
 - date: '2026-11-04'
   time: '18:00'
   action: publish_tg_post

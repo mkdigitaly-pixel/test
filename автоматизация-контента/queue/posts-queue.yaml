@@ -952,11 +952,17 @@ items:
     2026'
   notes: 'Самостоятельный полный пост. TG: обложка и полный текст одним сообщением;
     VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
-  status: approved
+  status: published
   approved_at: '2026-10-19T04:48:49.435012+00:00'
   fact_reviewed_at: '2026-11-02T09:00:28.924550+05:00'
   fact_review_source: briefs/2026-11-02-fact-review.md
   tg_delivery_format: single_message
+  tg_content_sha256: a03f69025727e942648d509fd46a8b6d37dcca5ab51e1d115601a66d7919bffb
+  tg_post_send_state: confirmed
+  tg_post_message_id: 191
+  tg_post_published_at: '2026-11-03T13:00:04.529865+00:00'
+  published_at: '2026-11-03T13:00:04.654621+00:00'
+  message_id: 191
 - id: daily-direct-brand-demand-vk
   platform: vk
   editorial_topic_id: D03
@@ -970,10 +976,12 @@ items:
     2026'
   notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
     VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
-  status: approved
+  status: published
   approved_at: '2026-10-19T04:48:49.435012+00:00'
   fact_reviewed_at: '2026-11-02T09:00:28.924550+05:00'
   fact_review_source: briefs/2026-11-02-fact-review.md
+  published_at: '2026-11-03T13:00:06.859817+00:00'
+  message_id: 251
 - id: daily-direct-product-catalog-tg
   platform: tg
   editorial_topic_id: D04

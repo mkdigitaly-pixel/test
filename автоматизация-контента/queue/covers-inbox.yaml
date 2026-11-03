@@ -393,3 +393,15 @@ items:
   brief: briefs/covers/direct-strategy-changes.md
   vk_post_id: 250
   requested_at: '2026-11-02T13:00:05Z'
+- id: daily-direct-brand-demand-vk
+  slug: direct-brand-demand
+  status: waiting_codex
+  platforms:
+  - vk
+  headline: По названию компании заявки дешёвые. А новый спрос Директ приводит?
+  subline: vk
+  out_landscape: assets/covers/direct-brand-demand.jpg
+  out_vk: assets/covers/direct-brand-demand-vk.jpg
+  brief: briefs/covers/direct-brand-demand.md
+  vk_post_id: 251
+  requested_at: '2026-11-03T13:00:07Z'
