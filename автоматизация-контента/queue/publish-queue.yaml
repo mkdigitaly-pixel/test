@@ -362,7 +362,7 @@ items:
   replaced_by: b2b-long-sales-cycle
   teasers_enabled: false
 - id: ai-blog-editor
-  status: approved
+  status: published
   topic: Можно ли отдать ИИ весь блог и больше его не открывать?
   editorial_topic_id: P03
   dzen_url: ''
@@ -383,6 +383,10 @@ items:
   fact_reviewed_at: '2026-11-02T09:00:28.924550+05:00'
   fact_review_source: briefs/2026-11-02-fact-review.md
   blog_published_at: '2026-11-03T07:00:02+00:00'
+  dzen_rss_pending: true
+  dzen_html_path: articles/dzen/html/2026-11-03-ai-blog-editor.html
+  dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
+  dzen_published_at: '2026-11-03T12:00:10.159098+05:00'
 - id: ai-meta-factcheck
   status: approved
   topic: 'В статье всё правильно, а title уже наврал: как проверять ИИ-метаданные'

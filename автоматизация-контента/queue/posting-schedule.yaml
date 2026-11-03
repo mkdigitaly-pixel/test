@@ -662,7 +662,8 @@ slots:
   time: '12:00'
   action: publish_dzen
   campaign_id: ai-blog-editor
-  status: scheduled
+  status: done
+  completed_at: '2026-11-03T12:00:02.053208+05:00'
 - date: '2026-11-03'
   time: '14:00'
   action: publish_teasers
