@@ -805,11 +805,12 @@ items:
   approval_source: 'Мария: «1 и 3» — P17 и P19, 17 октября 2026'
   fact_checked_at: '2026-10-17'
   fact_review_due: '2026-11-07'
-  notes: Самостоятельный пост без связи с Дзеном. VK публикует текст, обложка для
-    ручного прикрепления.
+  notes: 'Самостоятельный пост без связи с Дзеном. VK публикует текст, обложка для
+    ручного прикрепления. Telegram: обложка и полный текст одним сообщением.'
   rescheduled_from: '2026-10-30T18:00:00+05:00'
   rescheduled_reason: Сохранён утверждённый материал вне недели, освобождённой для
     B2B; поддержан запас на 14 дней
+  tg_delivery_format: single_message
 - id: daily-impressions-without-clicks-vk
   platform: vk
   status: deferred
@@ -949,12 +950,13 @@ items:
   topic_approved_at: '2026-10-19'
   approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
     2026'
-  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст одним сообщением;
     VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
   status: approved
   approved_at: '2026-10-19T04:48:49.435012+00:00'
   fact_reviewed_at: '2026-11-02T09:00:28.924550+05:00'
   fact_review_source: briefs/2026-11-02-fact-review.md
+  tg_delivery_format: single_message
 - id: daily-direct-brand-demand-vk
   platform: vk
   editorial_topic_id: D03
@@ -984,10 +986,11 @@ items:
   topic_approved_at: '2026-10-19'
   approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
     2026'
-  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст одним сообщением;
     VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
   status: approved
   approved_at: '2026-10-19T04:48:49.435012+00:00'
+  tg_delivery_format: single_message
 - id: daily-direct-product-catalog-vk
   platform: vk
   editorial_topic_id: D04
@@ -1016,10 +1019,11 @@ items:
   topic_approved_at: '2026-10-19'
   approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
     2026'
-  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст одним сообщением;
     VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
   status: approved
   approved_at: '2026-10-19T04:48:49.435012+00:00'
+  tg_delivery_format: single_message
 - id: daily-direct-b2b-directions-vk
   platform: vk
   editorial_topic_id: D05
@@ -1048,10 +1052,11 @@ items:
   topic_approved_at: '2026-10-19'
   approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
     2026'
-  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст одним сообщением;
     VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
   status: approved
   approved_at: '2026-10-19T04:48:49.435012+00:00'
+  tg_delivery_format: single_message
 - id: daily-direct-seo-query-exchange-vk
   platform: vk
   editorial_topic_id: D06
@@ -1080,10 +1085,11 @@ items:
   topic_approved_at: '2026-10-19'
   approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
     2026'
-  notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
+  notes: 'Самостоятельный полный пост. TG: обложка и полный текст одним сообщением;
     VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
   status: approved
   approved_at: '2026-10-19T04:48:49.435012+00:00'
+  tg_delivery_format: single_message
 - id: daily-seo-redesign-pages-vk
   platform: vk
   editorial_topic_id: D07

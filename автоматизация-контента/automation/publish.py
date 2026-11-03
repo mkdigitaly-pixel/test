@@ -50,6 +50,7 @@ DZEN_CHANNEL_SLUG = "klientyandtrafik"
 
 TG_CAPTION_LIMIT = 1024
 TG_MESSAGE_LIMIT = 4096
+TG_RICH_MESSAGE_LIMIT = 32768
 DZEN_TITLE_LIMIT = 140
 
 
@@ -503,77 +504,59 @@ def telegram_api(method: str, payload: dict[str, Any], token: str) -> dict[str, 
     return data
 
 
+def publish_telegram_rich_photo(text: str, channel_id: str, token: str, cover: Path, *, parse_mode: str = "") -> PublishResult:
+    """Upload the cover and complete text in one Telegram rich message."""
+    if parse_mode not in ("", "HTML"):
+        raise ValueError("Единый TG-пост поддерживает HTML или обычный текст")
+    content = text if parse_mode == "HTML" else html_lib.escape(text)
+    paragraphs = re.split(r"\n\s*\n", content.strip())
+    rich_html = '<img src="tg://photo?id=cover"/>\n' + "\n".join(
+        "<p>" + paragraph.replace("\n", "<br/>") + "</p>" for paragraph in paragraphs if paragraph
+    )
+    rich = {"html": rich_html, "media": [{"id": "cover", "media": {"type": "photo", "media": "attach://cover"}}]}
+    with cover.open("rb") as photo:
+        response = requests.post(
+            f"https://api.telegram.org/bot{token}/sendRichMessage",
+            data={"chat_id": channel_id, "rich_message": json.dumps(rich, ensure_ascii=False)},
+            files={"cover": photo}, timeout=120,
+        )
+    data = response.json()
+    if not data.get("ok"):
+        raise TelegramRejectedError(data.get("description", "Telegram отклонил единый пост"))
+    return PublishResult("telegram", True, "Обложка и полный текст одним сообщением", data["result"]["message_id"])
+
+
 def publish_telegram(
-    text: str,
-    channel_id: str,
-    token: str,
-    *,
-    cover: Path | None = None,
-    dry_run: bool = False,
-    parse_mode: str = "",
-    long_post_with_cover: bool = True,
+    text: str, channel_id: str, token: str, *, cover: Path | None = None,
+    dry_run: bool = False, parse_mode: str = "", long_post_with_cover: bool = True,
 ) -> PublishResult:
-    """TG: до 4096 знаков (Premium). Фото+длинный текст — reply к обложке."""
-    if len(text) > TG_MESSAGE_LIMIT:
-        raise ValueError(f"Текст {len(text)} символов — лимит Telegram {TG_MESSAGE_LIMIT}.")
-
+    """A photo with caption, or a single rich message for longer text."""
+    has_cover = cover is not None and cover.is_file()
+    limit = TG_RICH_MESSAGE_LIMIT if has_cover and long_post_with_cover else TG_MESSAGE_LIMIT
+    if len(text) > limit:
+        raise ValueError(f"Текст {len(text)} символов — лимит Telegram {limit}.")
     if dry_run:
-        if cover and len(text) <= TG_CAPTION_LIMIT:
-            mode = "фото+текст"
-        elif cover and long_post_with_cover:
-            mode = f"фото+reply ({len(text)} зн.)"
-        else:
-            mode = "текст"
+        mode = "фото+текст" if has_cover and len(text) <= TG_CAPTION_LIMIT else (
+            "обложка+полный текст одним сообщением" if has_cover and long_post_with_cover else "текст")
         preview = text[:400] + ("…" if len(text) > 400 else "")
-        fmt = f", {parse_mode}" if parse_mode else ""
-        return PublishResult("telegram", True, f"[dry-run] → {channel_id} ({mode}{fmt})\n{preview}")
-
-    msg_extra: dict[str, Any] = {}
-    if parse_mode:
-        msg_extra["parse_mode"] = parse_mode
-
-    if cover and cover.exists() and len(text) <= TG_CAPTION_LIMIT:
-        data_payload: dict[str, Any] = {"chat_id": channel_id, "caption": text, **msg_extra}
-        with cover.open("rb") as f:
-            resp = requests.post(
+        return PublishResult("telegram", True, f"[dry-run] → {channel_id} ({mode})\n{preview}")
+    extra = {"parse_mode": parse_mode} if parse_mode else {}
+    if has_cover and len(text) <= TG_CAPTION_LIMIT:
+        with cover.open("rb") as photo:
+            response = requests.post(
                 f"https://api.telegram.org/bot{token}/sendPhoto",
-                data=data_payload,
-                files={"photo": f},
-                timeout=120,
+                data={"chat_id": channel_id, "caption": text, **extra},
+                files={"photo": photo}, timeout=120,
             )
-        data = resp.json()
+        data = response.json()
         if not data.get("ok"):
-            raise TelegramRejectedError(data.get("description", data))
+            raise TelegramRejectedError(data.get("description", "Telegram отклонил фото"))
         return PublishResult("telegram", True, "Фото + текст", data["result"]["message_id"])
-
-    reply_to: int | None = None
-    if cover and cover.exists() and len(text) > TG_CAPTION_LIMIT:
-        if long_post_with_cover:
-            with cover.open("rb") as f:
-                resp = requests.post(
-                    f"https://api.telegram.org/bot{token}/sendPhoto",
-                    data={"chat_id": channel_id},
-                    files={"photo": f},
-                    timeout=120,
-                )
-            data = resp.json()
-            if not data.get("ok"):
-                raise TelegramRejectedError(data.get("description", data))
-            reply_to = data["result"]["message_id"]
-        else:
-            print("⚠ Текст >1024 — публикуем без обложки.", file=sys.stderr)
-
-    payload: dict[str, Any] = {
-        "chat_id": channel_id,
-        "text": text,
-        "disable_web_page_preview": False,
-        **msg_extra,
-    }
-    if reply_to:
-        payload["reply_to_message_id"] = reply_to
-    data = telegram_api("sendMessage", payload, token)
-    mode = "Фото + длинный текст (reply)" if reply_to else "Текст опубликован"
-    return PublishResult("telegram", True, mode, data["result"]["message_id"])
+    if has_cover and long_post_with_cover:
+        return publish_telegram_rich_photo(text, channel_id, token, cover, parse_mode=parse_mode)
+    data = telegram_api("sendMessage", {"chat_id": channel_id, "text": text,
+                        "disable_web_page_preview": False, **extra}, token)
+    return PublishResult("telegram", True, "Текст опубликован", data["result"]["message_id"])
 
 
 def publish_telegram_media_group(
@@ -1325,51 +1308,49 @@ def record_tg_post_stage(post_id: str, phase: str, state: str, message_id: int |
 
 
 def publish_long_standalone_tg(post_id: str, text: str, channel: str, token: str, cover: Path, *, dry_run: bool) -> PublishResult:
+    """Historical name; new deliveries use one message and one receipt."""
+    if not cover.is_file():
+        raise ValueError("Нет готовой обложки для единого TG-поста")
     if dry_run:
         return publish_telegram(text, channel, token, cover=cover, dry_run=True, parse_mode="HTML")
-    if len(text) > TG_MESSAGE_LIMIT:
-        raise ValueError(f"Текст {len(text)} символов — лимит Telegram {TG_MESSAGE_LIMIT}.")
+    if len(text) > TG_RICH_MESSAGE_LIMIT:
+        raise ValueError(f"Текст {len(text)} символов — лимит Telegram {TG_RICH_MESSAGE_LIMIT}.")
     posts = load_posts_queue()
     item = find_posts_item(posts, post_id)
     if not item:
         raise RuntimeError(f"Нет поста {post_id} для сохранения результата TG")
-    digest = hashlib.sha256(text.encode("utf-8") + cover.read_bytes()).hexdigest()
+    legacy_started = any(item.get(f"tg_{phase}_{key}") for phase in ("cover", "text") for key in ("message_id", "send_state"))
+    if legacy_started:
+        digest = hashlib.sha256(text.encode("utf-8") + cover.read_bytes()).hexdigest()
+        if item.get("tg_content_sha256") and item["tg_content_sha256"] != digest:
+            raise RuntimeError("Материал TG изменён после начала отправки; требуется проверка канала")
+        if all(item.get(f"tg_{phase}_message_id") and item.get(f"tg_{phase}_send_state") == "confirmed" for phase in ("cover", "text")):
+            return PublishResult("telegram", True, "Прежняя публикация уже подтверждена", item["tg_text_message_id"])
+        raise RuntimeError("Прежняя отправка TG уже начата; сначала проверьте канал, новую публикацию не создаём")
+    digest = hashlib.sha256(b"single-message-v1\0" + text.encode("utf-8") + b"\0" + cover.read_bytes()).hexdigest()
     if item.get("tg_content_sha256") and item["tg_content_sha256"] != digest:
         raise RuntimeError("Материал TG изменён после начала отправки; требуется проверка канала")
-    # Persist before sending: an interrupted request must never be retried blindly.
-    for phase in ("cover", "text"):
-        if not item.get(f"tg_{phase}_message_id") and item.get(f"tg_{phase}_send_state") in ("inflight", "unknown"):
-            raise RuntimeError(f"Результат TG {phase} неизвестен; сначала проверьте канал")
+    if item.get("tg_post_message_id") and item.get("tg_post_send_state") == "confirmed":
+        return PublishResult("telegram", True, "Единый TG-пост уже подтверждён", item["tg_post_message_id"])
+    if item.get("tg_post_message_id") or item.get("tg_post_send_state") in ("inflight", "unknown"):
+        raise RuntimeError("Результат единого TG-поста неизвестен; сначала проверьте канал")
     item["tg_content_sha256"] = digest
+    item["tg_delivery_format"] = "single_message"
     save_posts_queue(posts)
-    for phase in ("cover", "text"):
-        item = find_posts_item(load_posts_queue(), post_id) or {}
-        if item.get(f"tg_{phase}_message_id"):
-            continue
-        record_tg_post_stage(post_id, phase, "inflight")
-        try:
-            if phase == "cover":
-                result = publish_telegram("", channel, token, cover=cover)
-                if not result.ok or not result.message_id:
-                    raise ValueError("Нет подтверждённого номера обложки TG")
-                message_id = result.message_id
-            else:
-                payload = {"chat_id": channel, "text": text, "parse_mode": "HTML",
-                           "disable_web_page_preview": False,
-                           "reply_parameters": {"message_id": item["tg_cover_message_id"]}}
-                result = telegram_api("sendMessage", payload, token)
-                message_id = result["result"]["message_id"]
-                if not message_id:
-                    raise ValueError("Нет подтверждённого номера текста TG")
-        except TelegramRejectedError:
-            record_tg_post_stage(post_id, phase, "rejected")
-            raise
-        except Exception as exc:
-            record_tg_post_stage(post_id, phase, "unknown")
-            raise RuntimeError(f"Результат TG {phase} неизвестен; сначала проверьте канал. {redacted_error(exc)}") from None
-        record_tg_post_stage(post_id, phase, "confirmed", message_id)
-    item = find_posts_item(load_posts_queue(), post_id) or {}
-    return PublishResult("telegram", True, "Фото + полный текст; оба результата сохранены", item["tg_text_message_id"])
+    # Persist before the only request, so an interrupted send cannot be retried blindly.
+    record_tg_post_stage(post_id, "post", "inflight")
+    try:
+        result = publish_telegram(text, channel, token, cover=cover, parse_mode="HTML")
+        if not result.ok or not result.message_id:
+            raise ValueError("Нет подтверждённого номера единого TG-поста")
+    except TelegramRejectedError:
+        record_tg_post_stage(post_id, "post", "rejected")
+        raise
+    except Exception as exc:
+        record_tg_post_stage(post_id, "post", "unknown")
+        raise RuntimeError(f"Результат единого TG-поста неизвестен; сначала проверьте канал. {redacted_error(exc)}") from None
+    record_tg_post_stage(post_id, "post", "confirmed", result.message_id)
+    return result
 
 
 def publish_standalone_tg(post_id: str, *, dry_run: bool, force: bool) -> int:
@@ -1398,7 +1379,7 @@ def publish_standalone_tg(post_id: str, *, dry_run: bool, force: bool) -> int:
     if not dry_run and (not token or not ch):
         raise SystemExit("Заполните TELEGRAM_BOT_TOKEN и TELEGRAM_MAIN_CHANNEL_ID")
     cover = resolve_cover_path(post_item or {}) or resolve_standalone_cover(post_id)
-    if post_item and cover and len(text) > TG_CAPTION_LIMIT:
+    if post_item and cover:
         r = publish_long_standalone_tg(post_id, text, ch or "@dry-run", token or "dry", cover, dry_run=dry_run)
     else:
         r = publish_telegram(text, ch or "@dry-run", token or "dry", cover=cover, dry_run=dry_run, parse_mode="HTML")
