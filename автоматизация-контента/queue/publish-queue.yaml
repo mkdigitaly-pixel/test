@@ -404,9 +404,9 @@ items:
   standalone_post_ids:
   - daily-ai-meta-factcheck-tg
   - daily-ai-meta-factcheck-vk
-  fact_checked_at: '2026-10-15'
-  fact_review_due: '2026-11-05'
+  fact_checked_at: '2026-11-04'
   replaces_draft_id: regional-lead-quality
+  blog_published_at: '2026-11-04T07:25:00.279065+00:00'
 - id: ai-content-labels
   status: approved
   topic: 'Нужна ли специальная маркировка ИИ-текстов: как проверять SEO-новости'
