@@ -6,7 +6,7 @@ main_keyword: "проверка title и description"
 lsi: ["SEO", "проверка title и description"]
 utm_campaign: "ai_meta_factcheck"
 platform: "dzen"
-fact_checked_at: "2026-10-15"
+fact_checked_at: "2026-11-04"
 editorial_topic_id: "P04"
 topic_approval: "Мария, 15 октября 2026"
 teasers_enabled: false
@@ -58,7 +58,7 @@ teasers_enabled: false
 
 ## Источники и дата проверки
 
-Материал подготовлен на основе источников, проверенных 15 октября 2026 года. Описания функций нужно сверять с актуальной документацией перед применением. Примеры с пометкой «условный» не являются кейсами Марии.
+Материал подготовлен на основе источников, проверенных 4 ноября 2026 года. Описания функций нужно сверять с актуальной документацией перед применением. Примеры с пометкой «условный» не являются кейсами Марии.
 
 - [ИИ-контент и метаданные](https://developers.google.com/search/docs/fundamentals/using-gen-ai-content)
 - [Заголовки ссылок в Google](https://developers.google.com/search/docs/appearance/title-link)

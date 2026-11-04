@@ -677,7 +677,10 @@ slots:
   time: '12:00'
   action: publish_dzen
   campaign_id: ai-meta-factcheck
-  status: scheduled
+  status: done
+  completed_at: '2026-11-04T12:25:10.415265+05:00'
+  completion_reason: Разовый тест публикаций на новом VPS по поручению Марии от 4
+    ноября 2026
 - date: '2026-11-06'
   time: '14:00'
   action: publish_teasers
@@ -1085,12 +1088,18 @@ slots:
   time: '18:00'
   action: publish_tg_post
   post_id: daily-direct-product-catalog-tg
-  status: scheduled
+  status: done
+  completed_at: '2026-11-04T12:24:58.202137+05:00'
+  completion_reason: Разовый тест публикаций на новом VPS по поручению Марии от 4
+    ноября 2026
 - date: '2026-11-04'
   time: '18:00'
   action: publish_vk_post
   post_id: daily-direct-product-catalog-vk
-  status: scheduled
+  status: done
+  completed_at: '2026-11-04T12:25:00.242296+05:00'
+  completion_reason: Разовый тест публикаций на новом VPS по поручению Марии от 4
+    ноября 2026
 - date: '2026-11-05'
   time: '18:00'
   action: publish_tg_post
