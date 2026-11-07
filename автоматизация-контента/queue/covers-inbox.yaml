@@ -407,13 +407,14 @@ items:
   requested_at: '2026-11-03T13:00:07Z'
 - id: daily-direct-product-catalog-vk
   slug: direct-product-catalog
-  status: waiting_codex
+  status: ready
   platforms:
   - vk
-  headline: Рекламировали товар. Какие страницы теперь попадают в объявления ЕПК?
-  subline: vk
-  out_landscape: assets/covers/direct-product-catalog.jpg
-  out_vk: assets/covers/direct-product-catalog-vk.jpg
-  brief: briefs/covers/direct-product-catalog.md
+  headline: Товар или каталог? Проверьте ЕПК
+  subline: Яндекс Директ
+  out_landscape: assets/covers/direct-product-catalog.png
+  out_vk: assets/covers/direct-product-catalog.png
+  brief: briefs/covers/2026-11-d04-direct-product-catalog.md
   vk_post_id: 252
   requested_at: '2026-11-04T07:25:00Z'
+  ready_at: '2026-11-07T06:52:21.322942+00:00'
