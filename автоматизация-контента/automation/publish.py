@@ -18,6 +18,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import html as html_lib
 import json
 import os
@@ -25,6 +26,7 @@ import re
 import sys
 import time
 import urllib.request
+from functools import wraps
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -48,6 +50,7 @@ DZEN_CHANNEL_SLUG = "klientyandtrafik"
 
 TG_CAPTION_LIMIT = 1024
 TG_MESSAGE_LIMIT = 4096
+TG_RICH_MESSAGE_LIMIT = 32768
 DZEN_TITLE_LIMIT = 140
 
 
@@ -66,6 +69,10 @@ class PublishResult:
     ok: bool
     message: str
     message_id: int | None = None
+
+
+class TelegramRejectedError(RuntimeError):
+    """Telegram explicitly rejected the request without creating a message."""
 
 
 def load_env() -> None:
@@ -428,11 +435,14 @@ def load_queue() -> list[dict[str, Any]]:
 
 
 def save_queue(items: list[dict[str, Any]]) -> None:
-    QUEUE_FILE.parent.mkdir(parents=True, exist_ok=True)
-    QUEUE_FILE.write_text(
-        yaml.dump({"items": items}, allow_unicode=True, sort_keys=False),
-        encoding="utf-8",
-    )
+    write_yaml_atomic(QUEUE_FILE, {"items": items})
+
+
+def write_yaml_atomic(path: Path, data: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp = path.with_name(path.name + ".tmp")
+    temp.write_text(yaml.dump(data, allow_unicode=True, sort_keys=False), encoding="utf-8")
+    temp.replace(path)
 
 
 def load_posts_queue() -> list[dict[str, Any]]:
@@ -443,11 +453,7 @@ def load_posts_queue() -> list[dict[str, Any]]:
 
 
 def save_posts_queue(items: list[dict[str, Any]]) -> None:
-    POSTS_QUEUE_FILE.parent.mkdir(parents=True, exist_ok=True)
-    POSTS_QUEUE_FILE.write_text(
-        yaml.dump({"items": items}, allow_unicode=True, sort_keys=False),
-        encoding="utf-8",
-    )
+    write_yaml_atomic(POSTS_QUEUE_FILE, {"items": items})
 
 
 def find_posts_item(items: list[dict[str, Any]], item_id: str) -> dict[str, Any] | None:
@@ -494,81 +500,63 @@ def telegram_api(method: str, payload: dict[str, Any], token: str) -> dict[str, 
     resp = requests.post(url, json=payload, timeout=60)
     data = resp.json()
     if not data.get("ok"):
-        raise RuntimeError(f"Telegram API {method}: {data.get('description', data)}")
+        raise TelegramRejectedError(f"Telegram API {method}: {data.get('description', data)}")
     return data
 
 
+def publish_telegram_rich_photo(text: str, channel_id: str, token: str, cover: Path, *, parse_mode: str = "") -> PublishResult:
+    """Upload the cover and complete text in one Telegram rich message."""
+    if parse_mode not in ("", "HTML"):
+        raise ValueError("Единый TG-пост поддерживает HTML или обычный текст")
+    content = text if parse_mode == "HTML" else html_lib.escape(text)
+    paragraphs = re.split(r"\n\s*\n", content.strip())
+    rich_html = '<img src="tg://photo?id=cover"/>\n' + "\n".join(
+        "<p>" + paragraph.replace("\n", "<br/>") + "</p>" for paragraph in paragraphs if paragraph
+    )
+    rich = {"html": rich_html, "media": [{"id": "cover", "media": {"type": "photo", "media": "attach://cover"}}]}
+    with cover.open("rb") as photo:
+        response = requests.post(
+            f"https://api.telegram.org/bot{token}/sendRichMessage",
+            data={"chat_id": channel_id, "rich_message": json.dumps(rich, ensure_ascii=False)},
+            files={"cover": photo}, timeout=120,
+        )
+    data = response.json()
+    if not data.get("ok"):
+        raise TelegramRejectedError(data.get("description", "Telegram отклонил единый пост"))
+    return PublishResult("telegram", True, "Обложка и полный текст одним сообщением", data["result"]["message_id"])
+
+
 def publish_telegram(
-    text: str,
-    channel_id: str,
-    token: str,
-    *,
-    cover: Path | None = None,
-    dry_run: bool = False,
-    parse_mode: str = "",
-    long_post_with_cover: bool = True,
+    text: str, channel_id: str, token: str, *, cover: Path | None = None,
+    dry_run: bool = False, parse_mode: str = "", long_post_with_cover: bool = True,
 ) -> PublishResult:
-    """TG: до 4096 знаков (Premium). Фото+длинный текст — reply к обложке."""
-    if len(text) > TG_MESSAGE_LIMIT:
-        raise ValueError(f"Текст {len(text)} символов — лимит Telegram {TG_MESSAGE_LIMIT}.")
-
+    """A photo with caption, or a single rich message for longer text."""
+    has_cover = cover is not None and cover.is_file()
+    limit = TG_RICH_MESSAGE_LIMIT if has_cover and long_post_with_cover else TG_MESSAGE_LIMIT
+    if len(text) > limit:
+        raise ValueError(f"Текст {len(text)} символов — лимит Telegram {limit}.")
     if dry_run:
-        if cover and len(text) <= TG_CAPTION_LIMIT:
-            mode = "фото+текст"
-        elif cover and long_post_with_cover:
-            mode = f"фото+reply ({len(text)} зн.)"
-        else:
-            mode = "текст"
+        mode = "фото+текст" if has_cover and len(text) <= TG_CAPTION_LIMIT else (
+            "обложка+полный текст одним сообщением" if has_cover and long_post_with_cover else "текст")
         preview = text[:400] + ("…" if len(text) > 400 else "")
-        fmt = f", {parse_mode}" if parse_mode else ""
-        return PublishResult("telegram", True, f"[dry-run] → {channel_id} ({mode}{fmt})\n{preview}")
-
-    msg_extra: dict[str, Any] = {}
-    if parse_mode:
-        msg_extra["parse_mode"] = parse_mode
-
-    if cover and cover.exists() and len(text) <= TG_CAPTION_LIMIT:
-        data_payload: dict[str, Any] = {"chat_id": channel_id, "caption": text, **msg_extra}
-        with cover.open("rb") as f:
-            resp = requests.post(
+        return PublishResult("telegram", True, f"[dry-run] → {channel_id} ({mode})\n{preview}")
+    extra = {"parse_mode": parse_mode} if parse_mode else {}
+    if has_cover and len(text) <= TG_CAPTION_LIMIT:
+        with cover.open("rb") as photo:
+            response = requests.post(
                 f"https://api.telegram.org/bot{token}/sendPhoto",
-                data=data_payload,
-                files={"photo": f},
-                timeout=120,
+                data={"chat_id": channel_id, "caption": text, **extra},
+                files={"photo": photo}, timeout=120,
             )
-        data = resp.json()
+        data = response.json()
         if not data.get("ok"):
-            raise RuntimeError(data.get("description", data))
+            raise TelegramRejectedError(data.get("description", "Telegram отклонил фото"))
         return PublishResult("telegram", True, "Фото + текст", data["result"]["message_id"])
-
-    reply_to: int | None = None
-    if cover and cover.exists() and len(text) > TG_CAPTION_LIMIT:
-        if long_post_with_cover:
-            with cover.open("rb") as f:
-                resp = requests.post(
-                    f"https://api.telegram.org/bot{token}/sendPhoto",
-                    data={"chat_id": channel_id},
-                    files={"photo": f},
-                    timeout=120,
-                )
-            data = resp.json()
-            if not data.get("ok"):
-                raise RuntimeError(data.get("description", data))
-            reply_to = data["result"]["message_id"]
-        else:
-            print("⚠ Текст >1024 — публикуем без обложки.", file=sys.stderr)
-
-    payload: dict[str, Any] = {
-        "chat_id": channel_id,
-        "text": text,
-        "disable_web_page_preview": False,
-        **msg_extra,
-    }
-    if reply_to:
-        payload["reply_to_message_id"] = reply_to
-    data = telegram_api("sendMessage", payload, token)
-    mode = "Фото + длинный текст (reply)" if reply_to else "Текст опубликован"
-    return PublishResult("telegram", True, mode, data["result"]["message_id"])
+    if has_cover and long_post_with_cover:
+        return publish_telegram_rich_photo(text, channel_id, token, cover, parse_mode=parse_mode)
+    data = telegram_api("sendMessage", {"chat_id": channel_id, "text": text,
+                        "disable_web_page_preview": False, **extra}, token)
+    return PublishResult("telegram", True, "Текст опубликован", data["result"]["message_id"])
 
 
 def publish_telegram_media_group(
@@ -1028,7 +1016,8 @@ def publish_vk(
     resp = requests.post("https://api.vk.com/method/wall.post", data=payload, timeout=60)
     data = resp.json()
     if "error" in data:
-        raise RuntimeError(f"VK API wall.post: {data['error']}")
+        err = data["error"]
+        raise RuntimeError(f"VK API wall.post: {err.get('error_code')} {err.get('error_msg')}")
     post_id = data["response"]["post_id"]
     kind = "текст+фото" if attachment else "текст"
     return PublishResult("vk", True, f"Пост #{post_id} ({kind})", post_id)
@@ -1064,43 +1053,22 @@ def resolve_post_path(post_id: str, platform: str) -> Path:
 
 
 def ensure_post_cover(post_id: str, post_path: Path, *, dry_run: bool) -> None:
-    if dry_run:
-        return
-    posts = load_posts_queue()
-    item = find_posts_item(posts, post_id)
-    if item and item.get("cover"):
-        cover = ROOT / item["cover"]
-        if cover.exists():
-            vk_cover = cover.with_name(f"{cover.stem}-vk{cover.suffix}")
-            if item.get("platform") == "vk" and not vk_cover.exists():
-                try:
-                    from generate_cover import ensure_covers
-
-                    headline = item.get("cover_headline", "")
-                    subline = item.get("cover_subline", "")
-                    if not headline:
-                        from generate_cover import _headline_from_post
-
-                        headline, subline = _headline_from_post(post_path)
-                    ensure_covers(cover.stem.replace("-vk", ""), headline, subline)
-                except Exception as exc:
-                    print(f"⚠ обложка VK: {exc}", file=sys.stderr)
-            return
-    try:
-        from generate_cover import ensure_cover_for_post
-
-        ensure_cover_for_post(post_id, post_path)
-    except Exception as exc:
-        print(f"⚠ обложка {post_id}: {exc}", file=sys.stderr)
+    # Scheduled publishing consumes reviewed assets; it never generates substitutes.
+    item = find_posts_item(load_posts_queue(), post_id) or {}
+    if item.get("cover") and not (ROOT / item["cover"]).is_file():
+        raise RuntimeError(f"Обложка не готова: {post_id}")
+    return
 
 
-def mark_post_published(post_id: str) -> None:
+def mark_post_published(post_id: str, message_id: int | None = None) -> None:
     posts = load_posts_queue()
     item = find_posts_item(posts, post_id)
     if not item:
         return
     item["status"] = "published"
     item["published_at"] = datetime.now(timezone.utc).isoformat()
+    if message_id:
+        item["message_id"] = message_id
     for i, it in enumerate(posts):
         if it.get("id") == post_id:
             posts[i] = item
@@ -1121,14 +1089,10 @@ def resolve_cover_path(item: dict[str, Any], *, vk: bool = False) -> Path | None
 
 
 def ensure_campaign_covers(campaign_id: str, *, dry_run: bool) -> None:
-    try:
-        from generate_cover import ensure_cover_for_queue_id
-
-        path = ensure_cover_for_queue_id(campaign_id)
-        if path:
-            print(f"Обложка: {path.relative_to(ROOT)}")
-    except Exception as exc:
-        print(f"⚠ не удалось сгенерировать обложку: {exc}", file=sys.stderr)
+    item = find_queue_item(load_queue(), campaign_id) or {}
+    if not resolve_cover_path(item):
+        raise RuntimeError(f"Обложка не готова: {campaign_id}")
+    return
 
 
 def resolve_standalone_cover(post_id: str, *, vk: bool = False) -> Path | None:
@@ -1145,19 +1109,13 @@ def ensure_standalone_cover(post_id: str, path: Path) -> Path | None:
     cover = resolve_standalone_cover(post_id)
     if cover:
         return cover
-    try:
-        from generate_cover import ensure_cover_for_post
-
-        return ensure_cover_for_post(post_id, path)
-    except Exception as exc:
-        print(f"⚠ обложка для {post_id}: {exc}", file=sys.stderr)
-        return None
+    return None
 
 
 def publish_dzen_article(
     item: dict[str, Any], *, dry_run: bool, token: str, channel: str
 ) -> None:
-    from dzen_rss import FEED_FILE, FEED_LINK, cover_public_url, deploy_rss_public, rss_draft_mode, upsert_article_item
+    from dzen_rss import FEED_FILE, FEED_LINK, cover_public_url, deploy_rss_public, rss_draft_mode, upsert_article_item, _item_pub_raw
 
     rel = article_path(item)
     if not rel:
@@ -1216,6 +1174,12 @@ def publish_dzen_article(
     draft = rss_draft_mode()
     deployed: list[str] = []
     if not dry_run:
+        item['blog_published_at'] = _item_pub_raw(item) or datetime.now(timezone.utc).isoformat()
+        current_items = load_queue()
+        current = find_queue_item(current_items, item['id'])
+        if current:
+            current['blog_published_at'] = item['blog_published_at']
+            save_queue(current_items)
         deployed = deploy_rss_public(campaign_id=item["id"], cover_rel=cover_rel or None, dry_run=dry_run)
 
     print("Дзен: RSS + HTML (автоматически, с разметкой)")
@@ -1256,17 +1220,20 @@ def publish_dzen_article(
 def publish_dzen_teasers(
     item: dict[str, Any], *, dry_run: bool, token: str, main_ch: str, vk_token: str, vk_group: str
 ) -> None:
+    if item.get("teasers_enabled") is False:
+        print("Тизеры отключены: тема раскрыта самостоятельным постом")
+        return
     url = item.get("dzen_url", "")
     if not url and not dry_run:
         url = sync_dzen_url(item["id"])
     if not url and not dry_run:
-        print("⚠ dzen_url ещё нет — schedule повторит тизеры автоматически", file=sys.stderr)
+        raise RuntimeError("dzen_url ещё нет — pending")
 
     cover_tg = resolve_cover_path(item)
     cover_vk = resolve_cover_path(item, vk=True) or cover_tg
 
     tg_path = teaser_tg_path(item)
-    if tg_path and (dry_run or (main_ch and token)):
+    if tg_path and not item.get("tg_teaser_published_at") and (dry_run or (main_ch and token)):
         text = replace_dzen_url(load_tg_post(resolve_path(tg_path)), url or "https://dzen.ru/…")
         r = publish_telegram(
             text,
@@ -1277,8 +1244,12 @@ def publish_dzen_teasers(
             parse_mode="HTML",
         )
         print(f"TG тизер ({main_ch or 'dry-run'}): {r.message}")
+        if not dry_run:
+            record_teaser_receipt(item, "tg", r.message_id)
 
     vk_path = teaser_vk_path(item)
+    if item.get("vk_teaser_published_at"):
+        return
     if vk_path and not vk_publish_allowed() and not dry_run:
         print("ℹ VK тизер пропущен (VK_PUBLISH=off) — посты в VK на паузе")
     elif vk_path and (dry_run or (vk_token and vk_group)):
@@ -1293,10 +1264,25 @@ def publish_dzen_teasers(
             dry_run=dry_run,
         )
         print(f"VK тизер: {r.message}")
+        if not dry_run:
+            record_teaser_receipt(item, "vk", r.message_id)
         if not dry_run and r.message_id and not vk_photos_allowed():
             _request_codex_cover(item["id"], vk_post_id=r.message_id)
     elif vk_path and not dry_run:
-        print("ℹ VK: задайте VK_ACCESS_TOKEN и VK_GROUP_ID в .env")
+        raise RuntimeError("Заполните VK_ACCESS_TOKEN и VK_GROUP_ID")
+
+
+def record_teaser_receipt(item: dict[str, Any], platform: str, message_id: int | None) -> None:
+    stamp = datetime.now(timezone.utc).isoformat()
+    item[f"{platform}_teaser_published_at"] = stamp
+    item[f"{platform}_teaser_message_id"] = message_id
+    items = load_queue()
+    current = find_queue_item(items, item["id"])
+    if current is None:
+        raise RuntimeError("Кампания отсутствует при сохранении результата")
+    current[f"{platform}_teaser_published_at"] = stamp
+    current[f"{platform}_teaser_message_id"] = message_id
+    save_queue(items)
 
 
 def _request_codex_cover(item_id: str, *, vk_post_id: int | None = None) -> None:
@@ -1309,9 +1295,70 @@ def _request_codex_cover(item_id: str, *, vk_post_id: int | None = None) -> None
     except Exception as exc:  # noqa: BLE001
         print(f"ℹ covers request ({item_id}): {exc}", file=sys.stderr)
 
+def record_tg_post_stage(post_id: str, phase: str, state: str, message_id: int | None = None) -> None:
+    posts = load_posts_queue()
+    item = find_posts_item(posts, post_id)
+    if not item:
+        raise RuntimeError(f"Нет поста {post_id} для сохранения результата TG")
+    item[f"tg_{phase}_send_state"] = state
+    if message_id:
+        item[f"tg_{phase}_message_id"] = message_id
+        item[f"tg_{phase}_published_at"] = datetime.now(timezone.utc).isoformat()
+    save_posts_queue(posts)
+
+
+def publish_long_standalone_tg(post_id: str, text: str, channel: str, token: str, cover: Path, *, dry_run: bool) -> PublishResult:
+    """Historical name; new deliveries use one message and one receipt."""
+    if not cover.is_file():
+        raise ValueError("Нет готовой обложки для единого TG-поста")
+    if dry_run:
+        return publish_telegram(text, channel, token, cover=cover, dry_run=True, parse_mode="HTML")
+    if len(text) > TG_RICH_MESSAGE_LIMIT:
+        raise ValueError(f"Текст {len(text)} символов — лимит Telegram {TG_RICH_MESSAGE_LIMIT}.")
+    posts = load_posts_queue()
+    item = find_posts_item(posts, post_id)
+    if not item:
+        raise RuntimeError(f"Нет поста {post_id} для сохранения результата TG")
+    legacy_started = any(item.get(f"tg_{phase}_{key}") for phase in ("cover", "text") for key in ("message_id", "send_state"))
+    if legacy_started:
+        digest = hashlib.sha256(text.encode("utf-8") + cover.read_bytes()).hexdigest()
+        if item.get("tg_content_sha256") and item["tg_content_sha256"] != digest:
+            raise RuntimeError("Материал TG изменён после начала отправки; требуется проверка канала")
+        if all(item.get(f"tg_{phase}_message_id") and item.get(f"tg_{phase}_send_state") == "confirmed" for phase in ("cover", "text")):
+            return PublishResult("telegram", True, "Прежняя публикация уже подтверждена", item["tg_text_message_id"])
+        raise RuntimeError("Прежняя отправка TG уже начата; сначала проверьте канал, новую публикацию не создаём")
+    digest = hashlib.sha256(b"single-message-v1\0" + text.encode("utf-8") + b"\0" + cover.read_bytes()).hexdigest()
+    if item.get("tg_content_sha256") and item["tg_content_sha256"] != digest:
+        raise RuntimeError("Материал TG изменён после начала отправки; требуется проверка канала")
+    if item.get("tg_post_message_id") and item.get("tg_post_send_state") == "confirmed":
+        return PublishResult("telegram", True, "Единый TG-пост уже подтверждён", item["tg_post_message_id"])
+    if item.get("tg_post_message_id") or item.get("tg_post_send_state") in ("inflight", "unknown"):
+        raise RuntimeError("Результат единого TG-поста неизвестен; сначала проверьте канал")
+    item["tg_content_sha256"] = digest
+    item["tg_delivery_format"] = "single_message"
+    save_posts_queue(posts)
+    # Persist before the only request, so an interrupted send cannot be retried blindly.
+    record_tg_post_stage(post_id, "post", "inflight")
+    try:
+        result = publish_telegram(text, channel, token, cover=cover, parse_mode="HTML")
+        if not result.ok or not result.message_id:
+            raise ValueError("Нет подтверждённого номера единого TG-поста")
+    except TelegramRejectedError:
+        record_tg_post_stage(post_id, "post", "rejected")
+        raise
+    except Exception as exc:
+        record_tg_post_stage(post_id, "post", "unknown")
+        raise RuntimeError(f"Результат единого TG-поста неизвестен; сначала проверьте канал. {redacted_error(exc)}") from None
+    record_tg_post_stage(post_id, "post", "confirmed", result.message_id)
+    return result
+
+
 def publish_standalone_tg(post_id: str, *, dry_run: bool, force: bool) -> int:
     posts = load_posts_queue()
     post_item = find_posts_item(posts, post_id)
+    if post_item and post_item.get("status") == "published":
+        print(f"TG {post_id}: уже опубликовано")
+        return 0
     require_post_approved(post_item, post_id, force)
 
     campaign_items = load_queue()
@@ -1331,17 +1378,23 @@ def publish_standalone_tg(post_id: str, *, dry_run: bool, force: bool) -> int:
     ch = os.getenv("TELEGRAM_MAIN_CHANNEL_ID", "")
     if not dry_run and (not token or not ch):
         raise SystemExit("Заполните TELEGRAM_BOT_TOKEN и TELEGRAM_MAIN_CHANNEL_ID")
-    cover = resolve_standalone_cover(post_id) or ensure_standalone_cover(post_id, resolved)
-    r = publish_telegram(text, ch or "@dry-run", token or "dry", cover=cover, dry_run=dry_run, parse_mode="HTML")
+    cover = resolve_cover_path(post_item or {}) or resolve_standalone_cover(post_id)
+    if post_item and cover:
+        r = publish_long_standalone_tg(post_id, text, ch or "@dry-run", token or "dry", cover, dry_run=dry_run)
+    else:
+        r = publish_telegram(text, ch or "@dry-run", token or "dry", cover=cover, dry_run=dry_run, parse_mode="HTML")
     print(f"TG пост ({ch or 'dry-run'}): {r.message}")
     if not dry_run and post_item:
-        mark_post_published(post_id)
+        mark_post_published(post_id, r.message_id)
     return 0
 
 
 def publish_standalone_vk(post_id: str, *, dry_run: bool, force: bool) -> int:
     posts = load_posts_queue()
     post_item = find_posts_item(posts, post_id)
+    if post_item and post_item.get("status") == "published":
+        print(f"VK {post_id}: уже опубликовано")
+        return 0
     require_post_approved(post_item, post_id, force)
 
     campaign_items = load_queue()
@@ -1359,7 +1412,7 @@ def publish_standalone_vk(post_id: str, *, dry_run: bool, force: bool) -> int:
     resolved = resolve_path(path)
     ensure_post_cover(post_id, resolved, dry_run=dry_run)
     text = load_plain_post(resolved)
-    cover = resolve_standalone_cover(post_id, vk=True) or resolve_standalone_cover(post_id)
+    cover = resolve_cover_path(post_item or {}, vk=True) or resolve_standalone_cover(post_id, vk=True)
     if not cover:
         cover = ensure_standalone_cover(post_id, resolved)
     user_token = os.getenv("VK_USER_TOKEN", "")
@@ -1377,7 +1430,7 @@ def publish_standalone_vk(post_id: str, *, dry_run: bool, force: bool) -> int:
     )
     print(f"VK пост: {r.message}")
     if not dry_run and post_item:
-        mark_post_published(post_id)
+        mark_post_published(post_id, r.message_id)
     if not dry_run and r.message_id and not vk_photos_allowed():
         _request_codex_cover(post_id, vk_post_id=r.message_id)
     return 0
@@ -1453,16 +1506,20 @@ def load_schedule() -> dict[str, Any]:
 
 
 def save_schedule(data: dict[str, Any]) -> None:
-    SCHEDULE_FILE.parent.mkdir(parents=True, exist_ok=True)
-    SCHEDULE_FILE.write_text(yaml.dump(data, allow_unicode=True, sort_keys=False), encoding="utf-8")
+    write_yaml_atomic(SCHEDULE_FILE, data)
 
 
 def now_msk() -> datetime:
-    return datetime.now(MSK)
+    return datetime.now(schedule_timezone())
+
+
+def schedule_timezone():
+    return ZoneInfo(load_schedule().get("timezone", "Europe/Moscow"))
 
 
 def slot_when(slot: dict[str, Any]) -> datetime:
-    return datetime.strptime(f"{slot['date']} {slot['time']}", "%Y-%m-%d %H:%M").replace(tzinfo=MSK)
+    tz = ZoneInfo(slot["timezone"]) if slot.get("timezone") else schedule_timezone()
+    return datetime.strptime(f"{slot['date']} {slot['time']}", "%Y-%m-%d %H:%M").replace(tzinfo=tz)
 
 
 def schedule_uses_live_publish() -> bool:
@@ -1543,6 +1600,8 @@ def execute_schedule_slot(slot: dict[str, Any], *, dry_run: bool) -> tuple[bool,
         item = find_queue_item(items, cid)
         if not item:
             return False, f"нет кампании {cid}"
+        if item.get("dzen_url") or item.get("dzen_rss_pending") or item.get("dzen_published_at"):
+            return True, f"dzen {cid}: уже передано / опубликовано"
         if item.get("status") not in ("approved", "published") and not dry_run:
             return False, f"статус {item.get('status')} — нужен approved"
         ensure_campaign_covers(cid, dry_run=dry_run)
@@ -1558,16 +1617,17 @@ def execute_schedule_slot(slot: dict[str, Any], *, dry_run: bool) -> tuple[bool,
         return True, f"dzen {cid}"
 
     if action == "publish_teasers":
-        sync_dzen_url(cid)
         items = load_queue()
         item = find_queue_item(items, cid)
         if not item:
             return False, f"нет кампании {cid}"
+        if item.get("teasers_enabled") is False:
+            return True, f"teasers {cid}: отключены, тема раскрыта самостоятельным постом"
+        if not dry_run:
+            sync_dzen_url(cid)
+            item = find_queue_item(load_queue(), cid) or item
         if not item.get("dzen_url") and not dry_run:
-            burst = int(os.getenv("DZEN_URL_POLL_BURST_MINUTES", "15"))
-            url = wait_for_dzen_url(cid, max_minutes=burst)
-            if not url:
-                return False, f"dzen_url ещё нет — pending (автоповтор schedule)"
+            return False, "dzen_url ещё нет — pending (повтор через 5 минут)"
         ensure_campaign_covers(cid, dry_run=dry_run)
         cmd_publish("teasers", cid, dry_run=dry_run, force=True)
         return True, f"teasers {cid}"
@@ -1603,9 +1663,32 @@ def execute_schedule_slot(slot: dict[str, Any], *, dry_run: bool) -> tuple[bool,
     return False, f"неизвестное действие {action}"
 
 
+def serialized_schedule(func):
+    @wraps(func)
+    def wrapped(*args, **kwargs):
+        import fcntl
+        with (ROOT / "queue" / ".schedule.lock").open("a") as lock:
+            try:
+                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError:
+                print("Расписание уже выполняется — пропуск")
+                return 0
+            return func(*args, **kwargs)
+    return wrapped
+
+
+def redacted_error(exc) -> str:
+    message = str(exc)
+    for name, value in os.environ.items():
+        if value and len(value) > 8 and any(word in name for word in ("TOKEN", "SECRET", "PASSWORD", "API_KEY")):
+            message = message.replace(value, "[скрыто]")
+    return message
+
+
+@serialized_schedule
 def cmd_schedule_run(args: argparse.Namespace) -> int:
     load_env()
-    dry = args.dry_run or (not schedule_uses_live_publish())
+    dry = args.dry_run or env_bool("DRY_RUN", True) or (not schedule_uses_live_publish())
     if dry and not args.dry_run:
         print("ℹ AUTO_PUBLISH не включён — dry-run. Задайте AUTO_PUBLISH=true в .env")
 
@@ -1623,6 +1706,11 @@ def cmd_schedule_run(args: argparse.Namespace) -> int:
         if status not in ("scheduled", "pending"):
             continue
         when = slot_when(slot)
+        if not args.date and now - when > timedelta(hours=data.get("catchup_hours", 24)):
+            if not dry:
+                slot["status"] = "expired"
+                slot["error"] = "Пропущен допустимый период публикации; требуется перенос"
+            continue
         # Сегодня + просроченные (catch-up). Будущие дни — только через --date.
         if when.date() > day:
             continue
@@ -1634,9 +1722,9 @@ def cmd_schedule_run(args: argparse.Namespace) -> int:
         try:
             ok, msg = execute_schedule_slot(slot, dry_run=dry)
         except SystemExit as exc:
-            ok, msg = False, str(exc) or "SystemExit"
+            ok, msg = False, redacted_error(exc) or "SystemExit"
         except Exception as exc:
-            ok, msg = False, str(exc)
+            ok, msg = False, redacted_error(exc)
 
         print(f"  {'✓' if ok else '✗'} {msg}")
         if ok:
@@ -1659,9 +1747,6 @@ def cmd_schedule_run(args: argparse.Namespace) -> int:
         elif "VK пауза" in msg:
             slot.pop("error", None)
             print("  ↻ VK пауза — слот остаётся scheduled")
-        elif status == "scheduled" and slot.get("action") == "publish_teasers":
-            slot["status"] = "pending"
-            print("  ↻ pending — повтор при следующем запуске")
         elif "dzen_url ещё нет" in msg:
             slot["status"] = "pending"
             print("  ↻ pending — повтор при следующем запуске")
@@ -1669,7 +1754,8 @@ def cmd_schedule_run(args: argparse.Namespace) -> int:
             slot["status"] = "failed"
             slot["error"] = msg
 
-    save_schedule(data)
+    if not dry:
+        save_schedule(data)
     print(f"\nГотово: {ran} слотов" + (" (dry-run)" if dry else ""))
     return 0
 
@@ -1769,6 +1855,7 @@ def cmd_dzen_rss_setup(args: argparse.Namespace) -> int:
     return 0
 
 
+@serialized_schedule
 def cmd_schedule_sync_urls(_args: argparse.Namespace) -> int:
     load_env()
     items = load_queue()
@@ -1785,7 +1872,11 @@ def cmd_schedule_sync_urls(_args: argparse.Namespace) -> int:
         if sync_dzen_url(item["id"]):
             n += 1
     if n:
-        save_queue(items)
+        fresh = load_queue()
+        for item in fresh:
+            if item.get("dzen_url"):
+                item["dzen_rss_pending"] = False
+        save_queue(fresh)
     print(f"Обновлено dzen_url: {n}")
     return 0
 

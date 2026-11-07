@@ -1,0 +1,51 @@
+{
+  "request": "Мария, 22 октября: убрать ссылки на источники в постах TG/VK",
+  "new_messages_sent": 0,
+  "edits": [
+    {
+      "id": "daily-ai-blog-editor-tg",
+      "message_id": 157,
+      "status": "confirmed",
+      "url": "https://t.me/mariyaprodirect/157",
+      "edit_date": 1792651916,
+      "content_sha256": "eae77dac0f4713ebf116a3104fb245a0e6dfb1bf7b4164141be5084f1f9f82b1",
+      "checked_at": "2026-10-22T06:51:57.009777+00:00"
+    },
+    {
+      "id": "daily-market-benchmark-check-tg",
+      "message_id": 159,
+      "status": "confirmed",
+      "url": "https://t.me/mariyaprodirect/159",
+      "edit_date": 1792651922,
+      "content_sha256": "38ed65dfa54dae05a02f981e349584a59b06e81320fb1ca2e44be52f7244c184",
+      "checked_at": "2026-10-22T06:52:02.460578+00:00"
+    },
+    {
+      "id": "daily-safari-attribution-tg",
+      "message_id": 165,
+      "status": "confirmed",
+      "url": "https://t.me/mariyaprodirect/165",
+      "edit_date": 1792651928,
+      "content_sha256": "d3469b1502551a5d129867f505e334a4aa080ce60ab62f670f5605c09b8f7ae0",
+      "checked_at": "2026-10-22T06:52:08.730638+00:00"
+    },
+    {
+      "id": "daily-max-direct-test-tg",
+      "message_id": 161,
+      "status": "confirmed",
+      "url": "https://t.me/mariyaprodirect/161",
+      "edit_date": 1792651934,
+      "content_sha256": "2aa8cc3975e0a578788c2222ef18083c24662d76f2778f219ea326a360b2c1ed",
+      "checked_at": "2026-10-22T06:52:14.986480+00:00"
+    },
+    {
+      "id": "daily-llms-txt-limits-tg",
+      "message_id": 163,
+      "status": "confirmed",
+      "url": "https://t.me/mariyaprodirect/163",
+      "edit_date": 1792651940,
+      "content_sha256": "0c935afd398cf5a7c13703ef1c0c7e331618e8a80e6f3333459c26dd04ccc5e6",
+      "checked_at": "2026-10-22T06:52:20.285355+00:00"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "checked_at": "2026-10-27T09:06:32.913681+05:00",
+  "items": [
+    "b2b-long-sales-cycle-tg",
+    "b2b-long-sales-cycle-vk",
+    "b2b-wholesale-retail"
+  ],
+  "sources": [
+    {
+      "url": "https://yandex.ru/support/direct/ru/impression-criteria/autotargeting",
+      "http": 200,
+      "sha256": "ea4c91a881b2970b91212c9c48b38a5a774c620866bcc066bffdcf92e1fd206f",
+      "checked_at": "2026-10-27T09:06:32.913681+05:00"
+    },
+    {
+      "url": "https://yandex.ru/support/direct/ru/troubleshooting/shows",
+      "http": 200,
+      "sha256": "5f2ee31a22f87e9478b43565a8f33729ed74ad83c60f073af276710bd6013954",
+      "checked_at": "2026-10-27T09:06:32.913681+05:00"
+    },
+    {
+      "url": "https://yandex.ru/support/metrica/ru/special-mode",
+      "http": 200,
+      "sha256": "316f0bfdbcb1511018e50c4e1bb8a6cb4973fe8f5edd5139461f85ce5249e975",
+      "checked_at": "2026-10-27T09:06:32.913681+05:00"
+    },
+    {
+      "url": "https://yandex.ru/support/metrica/ru/crm/about",
+      "http": 200,
+      "sha256": "fc10e0dd9846bc96db3e6a800446cf7724c3396e6a25de989b437989b0f4654f",
+      "checked_at": "2026-10-27T09:06:32.913681+05:00"
+    },
+    {
+      "url": "https://avedesign.ru/stati/keys-b2b-krepezh.php",
+      "http": 200,
+      "sha256": "c8a92db7100616ace60db3c00619cfbea63da34d78d8653972a678ecb0408ac6",
+      "checked_at": "2026-10-27T09:06:32.913681+05:00"
+    }
+  ],
+  "body_changes": false,
+  "result": "claims_confirmed_with_current_limits"
+}

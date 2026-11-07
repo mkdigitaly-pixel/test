@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-10-10T07:11:17.710020+00:00",
+  "support_response": "Some third-party applications can be restricted; use official supported access and review connected applications.",
+  "support_response_is_generic": true,
+  "specific_flood_cause_confirmed": false,
+  "user_token_active": false,
+  "vk_photos_mode": "manual",
+  "vk_text_publication": "on",
+  "community_token_preserved": true,
+  "new_vk_requests": 0,
+  "application_authorization_revocation": "user_action_required_in_vk_id"
+}

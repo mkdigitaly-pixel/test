@@ -1,0 +1,79 @@
+{
+  "checked_at": "2026-11-03T09:20:55.196138+05:00",
+  "fact_reviewed_items": [
+    {
+      "id": "daily-direct-product-catalog-tg",
+      "path": "articles/tg/2026-11-04-direct-product-catalog.md",
+      "body_sha256": "d27704f8243b420704de366655d8f8b3ed502eec4f7a546f1cb61993dea0598f",
+      "body_unchanged": true
+    },
+    {
+      "id": "daily-direct-product-catalog-vk",
+      "path": "articles/vk/2026-11-04-direct-product-catalog.md",
+      "body_sha256": "bf442225a1d1a73064204bfbac94d7f44ede7a9baee95f4901191d9222d1529e",
+      "body_unchanged": true
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://b2b.yandex.ru/adv/news/obnovlenie-tovarnyh-obyavleniy",
+      "final_url": "https://b2b.yandex.ru/adv/news/obnovlenie-tovarnyh-obyavleniy",
+      "http_status": 200,
+      "retrieved_at": "2026-11-03T09:20:55.734018+05:00",
+      "sha256": "d70e68b7e2ccce91b4de98146a472675986e25b3b31f74809b17a31313c67d12",
+      "checks": {
+        "2026": true,
+        "21": true,
+        "только товары или только страницы каталога": true
+      }
+    },
+    {
+      "url": "https://yandex.ru/support/direct/ru/unified-performance-campaign/create-product",
+      "final_url": "https://yandex.ru/support/direct/ru/unified-performance-campaign/create-product",
+      "http_status": 200,
+      "retrieved_at": "2026-11-03T09:20:56.440879+05:00",
+      "sha256": "55dec4c6b2707f5d5f307abc6e41fb8a958e37068775c6561eed22671a62ec96",
+      "checks": {
+        "товары, и каталоги": true,
+        "CSV": true,
+        "Каталоги": true
+      }
+    }
+  ],
+  "body_changes": false,
+  "schedule_sha256": "3668cbb5c11512a52f5cc139aa2774b5a48d28958cda076b67a94828dd6e02ad",
+  "article_queue_sha256": "d514f2360bdadbe2f89bb0e714182fee8f968d846465496f309022b4013a6bd5",
+  "confirmed_receipts": {
+    "tg": {
+      "id": "daily-direct-strategy-changes-tg",
+      "cover_message_id": 189,
+      "text_message_id": 190,
+      "both_confirmed": true
+    },
+    "vk": {
+      "id": "daily-direct-strategy-changes-vk",
+      "message_id": 250,
+      "source": "saved_server_receipt_only"
+    }
+  },
+  "new_telegram_format": {
+    "commit": "64e4d80",
+    "real_send_verified": false,
+    "first_scheduled_verification": "2026-11-03T18:00:00+05:00"
+  },
+  "approved_stock": {
+    "tg": 6,
+    "vk": 6,
+    "through": "2026-11-08",
+    "full_14_day_stock": false
+  },
+  "pending_approval": {
+    "topics": [
+      "B06",
+      "B07",
+      "B08"
+    ],
+    "first_requested_on": "2026-10-27",
+    "repeated_request_sent": false
+  }
+}
