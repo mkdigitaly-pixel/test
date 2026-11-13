@@ -5,7 +5,7 @@ content_type: standalone
 editorial_topic_id: D07
 topic_approved_at: '2026-10-19'
 fact_checked_at: "2026-11-13"
-cover: assets/covers/seo-redesign-pages.png
+cover: assets/covers/seo-redesign-pages-site.png
 ---
 
 **Новый сайт уже почти готов. Список страниц, которые важно сохранить, кто-нибудь собрал?**

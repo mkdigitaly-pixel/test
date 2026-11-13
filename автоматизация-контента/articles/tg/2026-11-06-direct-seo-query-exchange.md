@@ -5,7 +5,7 @@ content_type: standalone
 editorial_topic_id: D06
 topic_approved_at: '2026-10-19'
 fact_checked_at: "2026-11-13"
-cover: assets/covers/direct-seo-query-exchange.png
+cover: assets/covers/direct-seo-query-exchange-site.png
 ---
 
 **У директолога уже есть реальные поисковые запросы. А SEO все еще собирает гипотезы отдельно?**

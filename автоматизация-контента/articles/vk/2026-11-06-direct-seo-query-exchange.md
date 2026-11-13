@@ -5,7 +5,7 @@ content_type: standalone
 editorial_topic_id: D06
 topic_approved_at: '2026-10-19'
 fact_checked_at: "2026-11-13"
-cover: assets/covers/direct-seo-query-exchange.png
+cover: assets/covers/direct-seo-query-exchange-site.png
 ---
 
 **SEO и Директ работают с одним предложением компании. Почему наблюдения о запросах часто остаются у каждого свои?**

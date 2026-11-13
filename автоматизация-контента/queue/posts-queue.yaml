@@ -290,7 +290,7 @@ items:
   approval_source: 'Мария: согласовано, темы T1–T4'
   replaces_draft_id: vk-practice-2026-10-31
   post: articles/vk/2026-10-31-product-data-seo.md
-  cover: assets/covers/product-data-seo.jpg
+  cover: assets/covers/product-data-seo-site.png
   notes: Самостоятельный SEO-пост, без связи с Дзеном. Обложка готова; VK публикует
     текст.
   rescheduled_from: '2026-11-08T14:00:00+05:00'
@@ -798,7 +798,7 @@ items:
   editorial_topic_id: P17
   scheduled: '2026-11-16T18:00:00+05:00'
   post: articles/tg/2026-10-30-impressions-without-clicks.md
-  cover: assets/covers/impressions-without-clicks-v2.png
+  cover: assets/covers/impressions-without-clicks-site.png
   approved_at: '2026-10-17T17:15:45.043186+00:00'
   topic_approved_at: '2026-10-17'
   approval_source: 'Мария: «1 и 3» — P17 и P19, 17 октября 2026'
@@ -1028,7 +1028,7 @@ items:
   topic: Два направления бизнеса — одна кампания? Разбираем B2B-кейс Директа
   scheduled: '2026-11-13T18:00:00+05:00'
   post: articles/tg/2026-11-05-direct-b2b-directions.md
-  cover: assets/covers/direct-b2b-directions.png
+  cover: assets/covers/direct-b2b-directions-site.png
   fact_checked_at: '2026-11-13'
   topic_approved_at: '2026-10-19'
   approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
@@ -1046,7 +1046,7 @@ items:
   topic: Два направления бизнеса — одна кампания? Разбираем B2B-кейс Директа
   scheduled: '2026-11-13T18:00:00+05:00'
   post: articles/vk/2026-11-05-direct-b2b-directions.md
-  cover: assets/covers/direct-b2b-directions.png
+  cover: assets/covers/direct-b2b-directions-site.png
   fact_checked_at: '2026-11-13'
   topic_approved_at: '2026-10-19'
   approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
@@ -1063,7 +1063,7 @@ items:
   topic: Директ уже проверил спрос. Почему SEO начинает с нуля?
   scheduled: '2026-11-14T18:00:00+05:00'
   post: articles/tg/2026-11-06-direct-seo-query-exchange.md
-  cover: assets/covers/direct-seo-query-exchange.png
+  cover: assets/covers/direct-seo-query-exchange-site.png
   fact_checked_at: '2026-11-13'
   topic_approved_at: '2026-10-19'
   approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
@@ -1081,7 +1081,7 @@ items:
   topic: Директ уже проверил спрос. Почему SEO начинает с нуля?
   scheduled: '2026-11-14T18:00:00+05:00'
   post: articles/vk/2026-11-06-direct-seo-query-exchange.md
-  cover: assets/covers/direct-seo-query-exchange.png
+  cover: assets/covers/direct-seo-query-exchange-site.png
   fact_checked_at: '2026-11-13'
   topic_approved_at: '2026-10-19'
   approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
@@ -1098,7 +1098,7 @@ items:
   topic: Редизайн согласовали. А страницы, которые приводили клиентов, сохранили?
   scheduled: '2026-11-15T18:00:00+05:00'
   post: articles/tg/2026-11-07-seo-redesign-pages.md
-  cover: assets/covers/seo-redesign-pages.png
+  cover: assets/covers/seo-redesign-pages-site.png
   fact_checked_at: '2026-11-13'
   topic_approved_at: '2026-10-19'
   approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
@@ -1116,7 +1116,7 @@ items:
   topic: Редизайн согласовали. А страницы, которые приводили клиентов, сохранили?
   scheduled: '2026-11-15T18:00:00+05:00'
   post: articles/vk/2026-11-07-seo-redesign-pages.md
-  cover: assets/covers/seo-redesign-pages.png
+  cover: assets/covers/seo-redesign-pages-site.png
   fact_checked_at: '2026-11-13'
   topic_approved_at: '2026-10-19'
   approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября

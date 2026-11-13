@@ -5,7 +5,7 @@ content_type: standalone
 editorial_topic_id: D05
 topic_approved_at: '2026-10-19'
 fact_checked_at: "2026-11-13"
-cover: assets/covers/direct-b2b-directions.png
+cover: assets/covers/direct-b2b-directions-site.png
 ---
 
 **У бизнеса два направления. Обязательно ли складывать их в одну рекламную кампанию?**

@@ -5,7 +5,7 @@ content_type: standalone
 editorial_topic_id: P17
 topic_approved_at: '2026-10-17'
 fact_checked_at: "2026-11-13"
-cover: assets/covers/impressions-without-clicks-v2.png
+cover: assets/covers/impressions-without-clicks-site.png
 ---
 
 **Показы растут, а посетителей больше не стало. Это хорошая новость или мы радуемся не тем цифрам?**

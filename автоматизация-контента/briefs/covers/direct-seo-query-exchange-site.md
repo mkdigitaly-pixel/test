@@ -1,0 +1,6 @@
+# Обложка direct-seo-query-exchange-site
+
+Источник стиля: https://mkekspert.ru/. Создано встроенной генерацией 13 ноября 2026.
+
+Design one premium editorial cover for the Russian B2B marketing brand mkekspert.ru, format square 1:1. Recreate the CURRENT LIGHT website's restrained editorial design, matte warm ivory #FDFBF7, graphite #292B2E, terracotta #A85A32, soft sand #D4A373 and small optional sage #E8EFE6 / forest green #2A6F4C. Generous blank space and careful alignment. Only text on image, proofread exactly: small brand wordmark “МК ЭКСПЕРТ” at top left, “МК” terracotta and “ЭКСПЕРТ” graphite, using bold wide geometric Unbounded-like Cyrillic as in the site header, with no symbol or tagline. Below it a large, legible Cyrillic headline exactly “ЧТО ДИРЕКТ
+ПОДСКАЖЕТ SEO?” in geometric Unbounded-like bold graphite; use type rather than calligraphy, 9 percent outer safe margins. Integrate this image concept in lower half or on right outside the headline: two tactile sheets on a light desk, one a terracotta-accented search report with abstract marks, one a sage-accented wireframe for a site page, one finely drawn line connecting them. No microtype or text in props. Make professional, restrained, striking at phone size. The headline and wordmark are the only typography. No letter Ё or ё, no watermark, no decorative lettering or extra text.
