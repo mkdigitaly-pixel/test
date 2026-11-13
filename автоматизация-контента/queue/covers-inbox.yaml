@@ -418,3 +418,16 @@ items:
   vk_post_id: 252
   requested_at: '2026-11-04T07:25:00Z'
   ready_at: '2026-11-07T06:52:21.322942+00:00'
+- id: daily-direct-b2b-directions-vk
+  slug: direct-b2b-directions-site
+  status: ready
+  platforms:
+  - vk
+  headline: Два направления бизнеса — одна кампания? Разбираем B2B-кейс Директа
+  subline: vk
+  out_landscape: assets/covers/direct-b2b-directions-site.png
+  out_vk: assets/covers/direct-b2b-directions-site.png
+  vk_post_id: 253
+  requested_at: '2026-11-13T13:00:06Z'
+  brief: briefs/covers/direct-b2b-directions-site.md
+  ready_at: '2026-11-13T13:00:06Z'
