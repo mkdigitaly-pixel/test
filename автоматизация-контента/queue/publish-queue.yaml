@@ -663,3 +663,60 @@ items:
   dzen_html_path: articles/dzen/html/2026-10-30-b2b-long-sales-cycle.html
   dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
   dzen_published_at: '2026-10-30T12:00:10.390268+05:00'
+- id: factory-direct
+  status: approved
+  topic: Как производственной компании найти клиентов через Яндекс Директ
+  editorial_topic_id: CM01
+  cover: assets/covers/factory-direct-wide.jpg
+  approved_at: '2026-11-13T10:56:27.968720+00:00'
+  topic_approved_at: '2026-11-13'
+  approval_source: Мария, ответ «норм» на три темы, заголовки и обложки 13 ноября
+    2026
+  fact_checked_at: '2026-11-13'
+  dzen_url: ''
+  dzen_article: articles/dzen/articles/2026-12-22-factory-direct.md
+  scheduled_dzen: '2026-12-22T12:00:00+05:00'
+  fact_review_due: '2026-12-21'
+  teasers_enabled: false
+  teasers_disabled_reason: Тема раскрыта в самостоятельных постах Telegram и VK.
+  standalone_post_ids:
+  - daily-factory-direct-tg
+  - daily-factory-direct-vk
+- id: direct-no-leads
+  status: approved
+  topic: Яндекс Директ работает, а заявок нет. Что проверить в первую очередь
+  editorial_topic_id: CM02
+  cover: assets/covers/direct-no-leads-wide.jpg
+  approved_at: '2026-11-13T10:56:27.968720+00:00'
+  topic_approved_at: '2026-11-13'
+  approval_source: Мария, ответ «норм» на три темы, заголовки и обложки 13 ноября
+    2026
+  fact_checked_at: '2026-11-13'
+  dzen_url: ''
+  dzen_article: articles/dzen/articles/2026-12-25-direct-no-leads.md
+  scheduled_dzen: '2026-12-25T12:00:00+05:00'
+  fact_review_due: '2026-12-24'
+  teasers_enabled: false
+  teasers_disabled_reason: Тема раскрыта в самостоятельных постах Telegram и VK.
+  standalone_post_ids:
+  - daily-direct-no-leads-tg
+  - daily-direct-no-leads-vk
+- id: direct-first-budget
+  status: approved
+  topic: Как посчитать бюджет на первый запуск Яндекс Директа
+  editorial_topic_id: CM03
+  cover: assets/covers/direct-first-budget-wide.jpg
+  approved_at: '2026-11-13T10:56:27.968720+00:00'
+  topic_approved_at: '2026-11-13'
+  approval_source: Мария, ответ «норм» на три темы, заголовки и обложки 13 ноября
+    2026
+  fact_checked_at: '2026-11-13'
+  dzen_url: ''
+  dzen_article: articles/dzen/articles/2026-12-29-direct-first-budget.md
+  scheduled_dzen: '2026-12-29T12:00:00+05:00'
+  fact_review_due: '2026-12-28'
+  teasers_enabled: false
+  teasers_disabled_reason: Тема раскрыта в самостоятельных постах Telegram и VK.
+  standalone_post_ids:
+  - daily-direct-first-budget-tg
+  - daily-direct-first-budget-vk

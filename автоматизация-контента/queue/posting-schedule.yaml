@@ -1228,6 +1228,51 @@ slots:
   status: scheduled
   rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
   rescheduled_from: '2026-11-08T14:00:00+05:00'
+- date: '2026-11-17'
+  time: '18:00'
+  action: publish_tg_post
+  status: scheduled
+  post_id: daily-factory-direct-tg
+- date: '2026-11-17'
+  time: '18:00'
+  action: publish_vk_post
+  status: scheduled
+  post_id: daily-factory-direct-vk
+- date: '2026-12-22'
+  time: '12:00'
+  action: publish_dzen
+  status: scheduled
+  campaign_id: factory-direct
+- date: '2026-11-18'
+  time: '18:00'
+  action: publish_tg_post
+  status: scheduled
+  post_id: daily-direct-no-leads-tg
+- date: '2026-11-18'
+  time: '18:00'
+  action: publish_vk_post
+  status: scheduled
+  post_id: daily-direct-no-leads-vk
+- date: '2026-12-25'
+  time: '12:00'
+  action: publish_dzen
+  status: scheduled
+  campaign_id: direct-no-leads
+- date: '2026-11-19'
+  time: '18:00'
+  action: publish_tg_post
+  status: scheduled
+  post_id: daily-direct-first-budget-tg
+- date: '2026-11-19'
+  time: '18:00'
+  action: publish_vk_post
+  status: scheduled
+  post_id: daily-direct-first-budget-vk
+- date: '2026-12-29'
+  time: '12:00'
+  action: publish_dzen
+  status: scheduled
+  campaign_id: direct-first-budget
 catchup_hours: 24
 daily_social_transition:
   approved_on: '2026-10-15'
