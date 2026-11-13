@@ -694,7 +694,8 @@ slots:
   time: '12:00'
   action: publish_dzen
   campaign_id: ai-content-labels
-  status: scheduled
+  status: cancelled
+  cancel_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
 - date: '2026-11-10'
   time: '14:00'
   action: publish_teasers
@@ -708,7 +709,8 @@ slots:
   time: '12:00'
   action: publish_dzen
   campaign_id: market-benchmark-check
-  status: scheduled
+  status: cancelled
+  cancel_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
 - date: '2026-11-13'
   time: '14:00'
   action: publish_teasers
@@ -813,22 +815,26 @@ slots:
   time: '14:00'
   action: publish_tg_post
   post_id: tg-practice-2026-11-11
-  status: scheduled
+  status: cancelled
+  cancel_reason: Черновой слот без готового материала при возобновлении.
 - date: '2026-11-14'
   time: '14:00'
   action: publish_vk_post
   post_id: vk-practice-2026-11-14
-  status: scheduled
+  status: cancelled
+  cancel_reason: Черновой слот без готового материала при возобновлении.
 - date: '2026-11-18'
   time: '14:00'
   action: publish_tg_post
   post_id: tg-practice-2026-11-18
-  status: scheduled
+  status: cancelled
+  cancel_reason: Черновой слот без готового материала при возобновлении.
 - date: '2026-11-21'
   time: '14:00'
   action: publish_vk_post
   post_id: vk-practice-2026-11-21
-  status: scheduled
+  status: cancelled
+  cancel_reason: Черновой слот без готового материала при возобновлении.
 - date: '2026-11-24'
   time: '12:00'
   action: publish_dzen
@@ -1104,46 +1110,124 @@ slots:
   time: '18:00'
   action: publish_tg_post
   post_id: daily-direct-b2b-directions-tg
-  status: scheduled
+  status: cancelled
+  cancel_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
 - date: '2026-11-05'
   time: '18:00'
   action: publish_vk_post
   post_id: daily-direct-b2b-directions-vk
-  status: scheduled
+  status: cancelled
+  cancel_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
 - date: '2026-11-06'
   time: '18:00'
   action: publish_tg_post
   post_id: daily-direct-seo-query-exchange-tg
-  status: scheduled
+  status: cancelled
+  cancel_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
 - date: '2026-11-06'
   time: '18:00'
   action: publish_vk_post
   post_id: daily-direct-seo-query-exchange-vk
-  status: scheduled
+  status: cancelled
+  cancel_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
 - date: '2026-11-07'
   time: '18:00'
   action: publish_tg_post
   post_id: daily-seo-redesign-pages-tg
-  status: scheduled
+  status: cancelled
+  cancel_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
 - date: '2026-11-07'
   time: '18:00'
   action: publish_vk_post
   post_id: daily-seo-redesign-pages-vk
-  status: scheduled
+  status: cancelled
+  cancel_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
 - date: '2026-11-08'
   time: '18:00'
   action: publish_tg_post
   post_id: daily-impressions-without-clicks-tg
-  status: scheduled
+  status: cancelled
   rescheduled_reason: Сохранён утверждённый материал вне недели, освобождённой для
     B2B; поддержан запас на 14 дней
+  cancel_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
 - date: '2026-11-08'
   time: '14:00'
   action: publish_vk_post
   post_id: product-data-seo
-  status: scheduled
+  status: cancelled
   rescheduled_reason: Сохранён утверждённый материал вне недели, освобождённой для
     B2B; поддержан запас на 14 дней
+  cancel_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
+- date: '2026-12-15'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: ai-content-labels
+  status: scheduled
+  rescheduled_from: '2026-11-10T12:00:00+05:00'
+  rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
+- date: '2026-12-18'
+  time: '12:00'
+  action: publish_dzen
+  campaign_id: market-benchmark-check
+  status: scheduled
+  rescheduled_from: '2026-11-13T12:00:00+05:00'
+  rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
+- date: '2026-11-13'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-direct-b2b-directions-tg
+  status: scheduled
+  rescheduled_from: '2026-11-05T18:00:00+05:00'
+  rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
+- date: '2026-11-13'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-direct-b2b-directions-vk
+  status: scheduled
+  rescheduled_from: '2026-11-05T18:00:00+05:00'
+  rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
+- date: '2026-11-14'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-direct-seo-query-exchange-tg
+  status: scheduled
+  rescheduled_from: '2026-11-06T18:00:00+05:00'
+  rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
+- date: '2026-11-14'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-direct-seo-query-exchange-vk
+  status: scheduled
+  rescheduled_from: '2026-11-06T18:00:00+05:00'
+  rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
+- date: '2026-11-15'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-seo-redesign-pages-tg
+  status: scheduled
+  rescheduled_from: '2026-11-07T18:00:00+05:00'
+  rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
+- date: '2026-11-15'
+  time: '18:00'
+  action: publish_vk_post
+  post_id: daily-seo-redesign-pages-vk
+  status: scheduled
+  rescheduled_from: '2026-11-07T18:00:00+05:00'
+  rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
+- date: '2026-11-16'
+  time: '18:00'
+  action: publish_tg_post
+  post_id: daily-impressions-without-clicks-tg
+  status: scheduled
+  rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
+  rescheduled_from: '2026-11-08T18:00:00+05:00'
+- date: '2026-11-16'
+  time: '14:00'
+  action: publish_vk_post
+  post_id: product-data-seo
+  status: scheduled
+  rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
+  rescheduled_from: '2026-11-08T14:00:00+05:00'
 catchup_hours: 24
 daily_social_transition:
   approved_on: '2026-10-15'

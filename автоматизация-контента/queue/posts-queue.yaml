@@ -284,7 +284,7 @@ items:
   platform: vk
   status: approved
   topic: 'База товаров для SEO: что проверить до подготовки каталога и фида'
-  scheduled: '2026-11-08T14:00:00+05:00'
+  scheduled: '2026-11-16T14:00:00+05:00'
   approved_at: '2026-10-13T06:29:27.141965+00:00'
   topic_approved_at: '2026-10-13'
   approval_source: 'Мария: согласовано, темы T1–T4'
@@ -293,10 +293,9 @@ items:
   cover: assets/covers/product-data-seo.jpg
   notes: Самостоятельный SEO-пост, без связи с Дзеном. Обложка готова; VK публикует
     текст.
-  rescheduled_from: '2026-10-31T14:00:00+05:00'
-  rescheduled_reason: Сохранён утверждённый материал вне недели, освобождённой для
-    B2B; поддержан запас на 14 дней
-  fact_review_due: '2026-11-07'
+  rescheduled_from: '2026-11-08T14:00:00+05:00'
+  rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
+  fact_checked_at: '2026-11-13'
 - id: tg-practice-2026-11-04
   platform: tg
   status: cancelled
@@ -797,19 +796,17 @@ items:
   status: approved
   topic: Показы растут, а переходов больше не стало. Мы точно радуемся тем цифрам?
   editorial_topic_id: P17
-  scheduled: '2026-11-08T18:00:00+05:00'
+  scheduled: '2026-11-16T18:00:00+05:00'
   post: articles/tg/2026-10-30-impressions-without-clicks.md
-  cover: assets/covers/impressions-without-clicks.jpg
+  cover: assets/covers/impressions-without-clicks-v2.png
   approved_at: '2026-10-17T17:15:45.043186+00:00'
   topic_approved_at: '2026-10-17'
   approval_source: 'Мария: «1 и 3» — P17 и P19, 17 октября 2026'
-  fact_checked_at: '2026-10-17'
-  fact_review_due: '2026-11-07'
+  fact_checked_at: '2026-11-13'
   notes: 'Самостоятельный пост без связи с Дзеном. VK публикует текст, обложка для
     ручного прикрепления. Telegram: обложка и полный текст одним сообщением.'
-  rescheduled_from: '2026-10-30T18:00:00+05:00'
-  rescheduled_reason: Сохранён утверждённый материал вне недели, освобождённой для
-    B2B; поддержан запас на 14 дней
+  rescheduled_from: '2026-11-08T18:00:00+05:00'
+  rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
   tg_delivery_format: single_message
 - id: daily-impressions-without-clicks-vk
   platform: vk
@@ -1029,11 +1026,10 @@ items:
   platform: tg
   editorial_topic_id: D05
   topic: Два направления бизнеса — одна кампания? Разбираем B2B-кейс Директа
-  scheduled: '2026-11-05T18:00:00+05:00'
+  scheduled: '2026-11-13T18:00:00+05:00'
   post: articles/tg/2026-11-05-direct-b2b-directions.md
   cover: assets/covers/direct-b2b-directions.png
-  fact_checked_at: '2026-10-19'
-  fact_review_due: '2026-11-04'
+  fact_checked_at: '2026-11-13'
   topic_approved_at: '2026-10-19'
   approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
     2026'
@@ -1042,15 +1038,16 @@ items:
   status: approved
   approved_at: '2026-10-19T04:48:49.435012+00:00'
   tg_delivery_format: single_message
+  rescheduled_from: '2026-11-05T18:00:00+05:00'
+  rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
 - id: daily-direct-b2b-directions-vk
   platform: vk
   editorial_topic_id: D05
   topic: Два направления бизнеса — одна кампания? Разбираем B2B-кейс Директа
-  scheduled: '2026-11-05T18:00:00+05:00'
+  scheduled: '2026-11-13T18:00:00+05:00'
   post: articles/vk/2026-11-05-direct-b2b-directions.md
   cover: assets/covers/direct-b2b-directions.png
-  fact_checked_at: '2026-10-19'
-  fact_review_due: '2026-11-04'
+  fact_checked_at: '2026-11-13'
   topic_approved_at: '2026-10-19'
   approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
     2026'
@@ -1058,15 +1055,16 @@ items:
     VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
   status: approved
   approved_at: '2026-10-19T04:48:49.435012+00:00'
+  rescheduled_from: '2026-11-05T18:00:00+05:00'
+  rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
 - id: daily-direct-seo-query-exchange-tg
   platform: tg
   editorial_topic_id: D06
   topic: Директ уже проверил спрос. Почему SEO начинает с нуля?
-  scheduled: '2026-11-06T18:00:00+05:00'
+  scheduled: '2026-11-14T18:00:00+05:00'
   post: articles/tg/2026-11-06-direct-seo-query-exchange.md
   cover: assets/covers/direct-seo-query-exchange.png
-  fact_checked_at: '2026-10-19'
-  fact_review_due: '2026-11-05'
+  fact_checked_at: '2026-11-13'
   topic_approved_at: '2026-10-19'
   approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
     2026'
@@ -1075,15 +1073,16 @@ items:
   status: approved
   approved_at: '2026-10-19T04:48:49.435012+00:00'
   tg_delivery_format: single_message
+  rescheduled_from: '2026-11-06T18:00:00+05:00'
+  rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
 - id: daily-direct-seo-query-exchange-vk
   platform: vk
   editorial_topic_id: D06
   topic: Директ уже проверил спрос. Почему SEO начинает с нуля?
-  scheduled: '2026-11-06T18:00:00+05:00'
+  scheduled: '2026-11-14T18:00:00+05:00'
   post: articles/vk/2026-11-06-direct-seo-query-exchange.md
   cover: assets/covers/direct-seo-query-exchange.png
-  fact_checked_at: '2026-10-19'
-  fact_review_due: '2026-11-05'
+  fact_checked_at: '2026-11-13'
   topic_approved_at: '2026-10-19'
   approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
     2026'
@@ -1091,15 +1090,16 @@ items:
     VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
   status: approved
   approved_at: '2026-10-19T04:48:49.435012+00:00'
+  rescheduled_from: '2026-11-06T18:00:00+05:00'
+  rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
 - id: daily-seo-redesign-pages-tg
   platform: tg
   editorial_topic_id: D07
   topic: Редизайн согласовали. А страницы, которые приводили клиентов, сохранили?
-  scheduled: '2026-11-07T18:00:00+05:00'
+  scheduled: '2026-11-15T18:00:00+05:00'
   post: articles/tg/2026-11-07-seo-redesign-pages.md
   cover: assets/covers/seo-redesign-pages.png
-  fact_checked_at: '2026-10-19'
-  fact_review_due: '2026-11-06'
+  fact_checked_at: '2026-11-13'
   topic_approved_at: '2026-10-19'
   approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
     2026'
@@ -1108,15 +1108,16 @@ items:
   status: approved
   approved_at: '2026-10-19T04:48:49.435012+00:00'
   tg_delivery_format: single_message
+  rescheduled_from: '2026-11-07T18:00:00+05:00'
+  rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
 - id: daily-seo-redesign-pages-vk
   platform: vk
   editorial_topic_id: D07
   topic: Редизайн согласовали. А страницы, которые приводили клиентов, сохранили?
-  scheduled: '2026-11-07T18:00:00+05:00'
+  scheduled: '2026-11-15T18:00:00+05:00'
   post: articles/vk/2026-11-07-seo-redesign-pages.md
   cover: assets/covers/seo-redesign-pages.png
-  fact_checked_at: '2026-10-19'
-  fact_review_due: '2026-11-06'
+  fact_checked_at: '2026-11-13'
   topic_approved_at: '2026-10-19'
   approval_source: 'Мария: «согласовано», прямой ответ на подборку D01–D07 от 19 октября
     2026'
@@ -1124,6 +1125,8 @@ items:
     VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
   status: approved
   approved_at: '2026-10-19T04:48:49.435012+00:00'
+  rescheduled_from: '2026-11-07T18:00:00+05:00'
+  rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
 - id: b2b-wholesale-retail-tg
   platform: tg
   status: published

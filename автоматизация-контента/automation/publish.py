@@ -1604,6 +1604,9 @@ def execute_schedule_slot(slot: dict[str, Any], *, dry_run: bool) -> tuple[bool,
             return True, f"dzen {cid}: уже передано / опубликовано"
         if item.get("status") not in ("approved", "published") and not dry_run:
             return False, f"статус {item.get('status')} — нужен approved"
+        due = item.get("fact_review_due")
+        if not dry_run and due and str(due) <= now_msk().date().isoformat():
+            return False, "Нужна проверка фактов перед публикацией"
         ensure_campaign_covers(cid, dry_run=dry_run)
         cmd_publish("dzen", cid, dry_run=dry_run, force=True)
         if not dry_run:
@@ -1747,6 +1750,9 @@ def cmd_schedule_run(args: argparse.Namespace) -> int:
         elif "VK пауза" in msg:
             slot.pop("error", None)
             print("  ↻ VK пауза — слот остаётся scheduled")
+        elif msg == "Нужна проверка фактов перед публикацией":
+            slot.pop("error", None)
+            print("  ↻ ждем проверки фактов")
         elif "dzen_url ещё нет" in msg:
             slot["status"] = "pending"
             print("  ↻ pending — повтор при следующем запуске")
