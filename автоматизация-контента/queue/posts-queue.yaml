@@ -1078,11 +1078,17 @@ items:
     2026'
   notes: 'Самостоятельный полный пост. TG: обложка и полный текст одним сообщением;
     VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
-  status: approved
+  status: published
   approved_at: '2026-10-19T04:48:49.435012+00:00'
   tg_delivery_format: single_message
   rescheduled_from: '2026-11-06T18:00:00+05:00'
   rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
+  tg_content_sha256: 1ef9188010fe5e9b0496bc9fd1e2c0ce20fa4cda7f8bb238aa25c32c6c925244
+  tg_post_send_state: confirmed
+  tg_post_message_id: 194
+  tg_post_published_at: '2026-11-14T13:00:04.393064+00:00'
+  published_at: '2026-11-14T13:00:04.498305+00:00'
+  message_id: 194
 - id: daily-direct-seo-query-exchange-vk
   platform: vk
   editorial_topic_id: D06
@@ -1096,10 +1102,12 @@ items:
     2026'
   notes: 'Самостоятельный полный пост. TG: обложка и полный текст отдельным ответом;
     VK_PHOTOS=manual, текст и обложка для ручного прикрепления.'
-  status: approved
+  status: published
   approved_at: '2026-10-19T04:48:49.435012+00:00'
   rescheduled_from: '2026-11-06T18:00:00+05:00'
   rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
+  published_at: '2026-11-14T13:00:05.525103+00:00'
+  message_id: 254
 - id: daily-seo-redesign-pages-tg
   platform: tg
   editorial_topic_id: D07
