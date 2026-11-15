@@ -1132,6 +1132,8 @@ items:
   tg_post_published_at: '2026-11-15T13:00:03.984583+00:00'
   published_at: '2026-11-15T13:00:04.081420+00:00'
   message_id: 195
+  tg_post_edited_at: '2026-11-15T13:06:32+00:00'
+  tg_post_edited_content_sha256: b6fe906235e93001d8fcd687c5edc4090ce573767044024f60d0367943ce79e4
 - id: daily-seo-redesign-pages-vk
   platform: vk
   editorial_topic_id: D07
