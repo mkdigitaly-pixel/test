@@ -444,3 +444,16 @@ items:
   requested_at: '2026-11-14T13:00:05Z'
   brief: briefs/covers/direct-seo-query-exchange-site.md
   ready_at: '2026-11-14T13:00:05Z'
+- id: daily-seo-redesign-pages-vk
+  slug: seo-redesign-pages-site
+  status: ready
+  platforms:
+  - vk
+  headline: Редизайн согласовали. А страницы, которые приводили клиентов, сохранили?
+  subline: vk
+  out_landscape: assets/covers/seo-redesign-pages-site.png
+  out_vk: assets/covers/seo-redesign-pages-site.png
+  vk_post_id: 255
+  requested_at: '2026-11-15T13:00:06Z'
+  brief: briefs/covers/seo-redesign-pages-site.md
+  ready_at: '2026-11-15T13:00:06Z'

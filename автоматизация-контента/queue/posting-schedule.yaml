@@ -1208,16 +1208,18 @@ slots:
   time: '18:00'
   action: publish_tg_post
   post_id: daily-seo-redesign-pages-tg
-  status: scheduled
+  status: done
   rescheduled_from: '2026-11-07T18:00:00+05:00'
   rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
+  completed_at: '2026-11-15T18:00:01.488211+05:00'
 - date: '2026-11-15'
   time: '18:00'
   action: publish_vk_post
   post_id: daily-seo-redesign-pages-vk
-  status: scheduled
+  status: done
   rescheduled_from: '2026-11-07T18:00:00+05:00'
   rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
+  completed_at: '2026-11-15T18:00:01.488211+05:00'
 - date: '2026-11-16'
   time: '18:00'
   action: publish_tg_post
