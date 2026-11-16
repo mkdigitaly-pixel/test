@@ -282,7 +282,7 @@ items:
   message_id: 180
 - id: product-data-seo
   platform: vk
-  status: approved
+  status: published
   topic: 'База товаров для SEO: что проверить до подготовки каталога и фида'
   scheduled: '2026-11-16T14:00:00+05:00'
   approved_at: '2026-10-13T06:29:27.141965+00:00'
@@ -296,6 +296,8 @@ items:
   rescheduled_from: '2026-11-08T14:00:00+05:00'
   rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
   fact_checked_at: '2026-11-13'
+  published_at: '2026-11-16T09:00:04.607375+00:00'
+  message_id: 256
 - id: tg-practice-2026-11-04
   platform: tg
   status: cancelled

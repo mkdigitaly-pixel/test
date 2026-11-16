@@ -457,3 +457,16 @@ items:
   requested_at: '2026-11-15T13:00:06Z'
   brief: briefs/covers/seo-redesign-pages-site.md
   ready_at: '2026-11-15T13:00:06Z'
+- id: product-data-seo
+  slug: product-data-seo-site
+  status: ready
+  platforms:
+  - vk
+  headline: 'База товаров для SEO: что проверить до подготовки каталога и фида'
+  subline: vk
+  out_landscape: assets/covers/product-data-seo-site.png
+  out_vk: assets/covers/product-data-seo-site.png
+  vk_post_id: 256
+  requested_at: '2026-11-16T09:00:04Z'
+  brief: briefs/covers/product-data-seo-site.md
+  ready_at: '2026-11-16T09:00:04Z'

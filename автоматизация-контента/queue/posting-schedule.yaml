@@ -1231,9 +1231,10 @@ slots:
   time: '14:00'
   action: publish_vk_post
   post_id: product-data-seo
-  status: scheduled
+  status: done
   rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
   rescheduled_from: '2026-11-08T14:00:00+05:00'
+  completed_at: '2026-11-16T14:00:01.670416+05:00'
 - date: '2026-11-17'
   time: '18:00'
   action: publish_tg_post
