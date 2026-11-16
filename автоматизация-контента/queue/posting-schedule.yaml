@@ -1224,9 +1224,10 @@ slots:
   time: '18:00'
   action: publish_tg_post
   post_id: daily-impressions-without-clicks-tg
-  status: scheduled
+  status: done
   rescheduled_reason: Пауза с 3 по 13 ноября 2026. Материал перенесен на будущий слот.
   rescheduled_from: '2026-11-08T18:00:00+05:00'
+  completed_at: '2026-11-16T18:00:01.984339+05:00'
 - date: '2026-11-16'
   time: '14:00'
   action: publish_vk_post
