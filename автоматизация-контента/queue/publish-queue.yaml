@@ -473,6 +473,7 @@ items:
   - daily-safari-attribution-vk
   fact_checked_at: '2026-11-13'
   replaces_draft_id: sales-delay-report
+  blog_published_at: '2026-11-17T07:00:02+00:00'
 - id: max-direct-test
   status: approved
   topic: 'Реклама в MAX через Директ: что проверить до первого теста'
