@@ -1397,7 +1397,7 @@ items:
   published_at: '2026-10-31T09:00:05.156269+00:00'
   message_id: 248
 - id: daily-factory-direct-tg
-  status: approved
+  status: published
   topic: С чего начать рекламу производства, если заявки нужны от компаний?
   editorial_topic_id: CM01
   cover: assets/covers/factory-direct-social.png
@@ -1410,8 +1410,14 @@ items:
   post: articles/tg/2026-11-17-factory-direct.md
   scheduled: '2026-11-17T18:00:00+05:00'
   tg_delivery_format: single_message
+  tg_content_sha256: 2129d038f6be381f2aadd6bb69b2ca8d663d1578ed452bedef7ba4dff3e52c99
+  tg_post_send_state: confirmed
+  tg_post_message_id: 197
+  tg_post_published_at: '2026-11-17T13:01:08.649336+00:00'
+  published_at: '2026-11-17T13:01:08.748720+00:00'
+  message_id: 197
 - id: daily-factory-direct-vk
-  status: approved
+  status: published
   topic: С чего начать рекламу производства, если заявки нужны от компаний?
   editorial_topic_id: CM01
   cover: assets/covers/factory-direct-social.png
@@ -1423,6 +1429,8 @@ items:
   platform: vk
   post: articles/vk/2026-11-17-factory-direct.md
   scheduled: '2026-11-17T18:00:00+05:00'
+  published_at: '2026-11-17T13:01:10.833699+00:00'
+  message_id: 257
 - id: daily-direct-no-leads-tg
   status: approved
   topic: На сайт заходят с рекламы. Почему никто не оставляет заявку?

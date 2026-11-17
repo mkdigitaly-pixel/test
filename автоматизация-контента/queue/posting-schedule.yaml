@@ -1240,13 +1240,15 @@ slots:
 - date: '2026-11-17'
   time: '18:00'
   action: publish_tg_post
-  status: scheduled
+  status: done
   post_id: daily-factory-direct-tg
+  completed_at: '2026-11-17T18:00:01.358711+05:00'
 - date: '2026-11-17'
   time: '18:00'
   action: publish_vk_post
-  status: scheduled
+  status: done
   post_id: daily-factory-direct-vk
+  completed_at: '2026-11-17T18:00:01.358711+05:00'
 - date: '2026-12-22'
   time: '12:00'
   action: publish_dzen

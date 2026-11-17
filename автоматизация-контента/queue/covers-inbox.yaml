@@ -470,3 +470,15 @@ items:
   requested_at: '2026-11-16T09:00:04Z'
   brief: briefs/covers/product-data-seo-site.md
   ready_at: '2026-11-16T09:00:04Z'
+- id: daily-factory-direct-vk
+  slug: factory-direct-social
+  status: ready
+  platforms:
+  - vk
+  headline: С чего начать рекламу производства, если заявки нужны от компаний?
+  subline: vk
+  out_landscape: assets/covers/factory-direct-social.png
+  out_vk: assets/covers/factory-direct-social.png
+  vk_post_id: 257
+  requested_at: '2026-11-17T13:01:10Z'
+  ready_at: '2026-11-17T13:01:10Z'
