@@ -1257,13 +1257,19 @@ slots:
 - date: '2026-11-18'
   time: '18:00'
   action: publish_tg_post
-  status: scheduled
+  status: cancelled
   post_id: daily-direct-no-leads-tg
+  cancelled_reason: Личный пост вместо рекламного в 18:00 по прямому выбору Марии
+    18 ноября 2026
+  replaced_by_post_id: personal-two-busy-days-2026-11-18-tg
 - date: '2026-11-18'
   time: '18:00'
   action: publish_vk_post
-  status: scheduled
+  status: cancelled
   post_id: daily-direct-no-leads-vk
+  cancelled_reason: Личный пост вместо рекламного в 18:00 по прямому выбору Марии
+    18 ноября 2026
+  replaced_by_post_id: personal-two-busy-days-2026-11-18-vk
 - date: '2026-12-25'
   time: '12:00'
   action: publish_dzen
@@ -1284,6 +1290,33 @@ slots:
   action: publish_dzen
   status: scheduled
   campaign_id: direct-first-budget
+- date: '2026-11-18'
+  time: '18:00'
+  timezone: Asia/Yekaterinburg
+  action: publish_tg_post
+  status: scheduled
+  post_id: personal-two-busy-days-2026-11-18-tg
+  approval_source: 'Мария: «размести на каналах моих»; «Личный вместо рекламного сегодня
+    в 18:00», 18 ноября 2026'
+- date: '2026-11-18'
+  time: '18:00'
+  timezone: Asia/Yekaterinburg
+  action: publish_vk_post
+  status: scheduled
+  post_id: personal-two-busy-days-2026-11-18-vk
+  approval_source: 'Мария: «размести на каналах моих»; «Личный вместо рекламного сегодня
+    в 18:00», 18 ноября 2026'
+- date: '2026-11-18'
+  time: '18:00'
+  timezone: Asia/Yekaterinburg
+  action: publish_dzen
+  status: on_hold
+  campaign_id: personal-two-busy-days-2026-11-18
+  approval_source: 'Мария: «размести на каналах моих»; «Личный вместо рекламного сегодня
+    в 18:00», 18 ноября 2026'
+  notes: Разовая личная публикация; без тизеров.
+  hold_reason: Ожидается явное разрешение Марии на размещение личного фотопортрета
+    в открытом GitHub, используемом RSS. Публикация в каналах уже согласована.
 catchup_hours: 24
 daily_social_transition:
   approved_on: '2026-10-15'

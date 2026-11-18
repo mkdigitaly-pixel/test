@@ -1432,7 +1432,7 @@ items:
   published_at: '2026-11-17T13:01:10.833699+00:00'
   message_id: 257
 - id: daily-direct-no-leads-tg
-  status: approved
+  status: postponed
   topic: На сайт заходят с рекламы. Почему никто не оставляет заявку?
   editorial_topic_id: CM02
   cover: assets/covers/direct-no-leads-social.png
@@ -1443,10 +1443,13 @@ items:
   fact_checked_at: '2026-11-13'
   platform: tg
   post: articles/tg/2026-11-18-direct-no-leads.md
-  scheduled: '2026-11-18T18:00:00+05:00'
   tg_delivery_format: single_message
+  postponed_from: '2026-11-18T18:00:00+05:00'
+  postponed_at: '2026-11-18T10:55:34.036081+00:00'
+  postponed_reason: Мария выбрала личный пост вместо рекламного сегодня в 18:00; исходный
+    материал сохранен без новой даты.
 - id: daily-direct-no-leads-vk
-  status: approved
+  status: postponed
   topic: На сайт заходят с рекламы. Почему никто не оставляет заявку?
   editorial_topic_id: CM02
   cover: assets/covers/direct-no-leads-social.png
@@ -1457,7 +1460,10 @@ items:
   fact_checked_at: '2026-11-13'
   platform: vk
   post: articles/vk/2026-11-18-direct-no-leads.md
-  scheduled: '2026-11-18T18:00:00+05:00'
+  postponed_from: '2026-11-18T18:00:00+05:00'
+  postponed_at: '2026-11-18T10:55:34.036081+00:00'
+  postponed_reason: Мария выбрала личный пост вместо рекламного сегодня в 18:00; исходный
+    материал сохранен без новой даты.
 - id: daily-direct-first-budget-tg
   status: approved
   topic: Сколько денег заложить на первый месяц рекламы?
@@ -1485,3 +1491,34 @@ items:
   platform: vk
   post: articles/vk/2026-11-19-direct-first-budget.md
   scheduled: '2026-11-19T18:00:00+05:00'
+- id: personal-two-busy-days-2026-11-18-tg
+  platform: tg
+  status: approved
+  topic: Два дня получились какие-то сонно-тошные. А событий за них куча.
+  editorial_topic_id: PERSONAL-2026-11-18
+  scheduled: '2026-11-18T18:00:00+05:00'
+  post: articles/tg/2026-11-18-personal-two-busy-days.md
+  cover: assets/covers/maria-working-2026-11-18-v2.png
+  topic_approved_at: '2026-11-18'
+  fact_checked_at: '2026-11-18'
+  approved_at: '2026-11-18T10:55:34.036081+00:00'
+  approval_source: 'Мария: «размести на каналах моих»; «Личный вместо рекламного сегодня
+    в 18:00», 18 ноября 2026'
+  notes: 'Личный пост по рассказу Марии. Исправленный фотопортрет v2; TG: фото и весь
+    текст одним сообщением. VK: текст, фото Мария прикрепляет вручную.'
+  tg_delivery_format: single_message
+- id: personal-two-busy-days-2026-11-18-vk
+  platform: vk
+  status: approved
+  topic: Два дня получились какие-то сонно-тошные. А событий за них куча.
+  editorial_topic_id: PERSONAL-2026-11-18
+  scheduled: '2026-11-18T18:00:00+05:00'
+  post: articles/vk/2026-11-18-personal-two-busy-days.md
+  cover: assets/covers/maria-working-2026-11-18-v2.png
+  topic_approved_at: '2026-11-18'
+  fact_checked_at: '2026-11-18'
+  approved_at: '2026-11-18T10:55:34.036081+00:00'
+  approval_source: 'Мария: «размести на каналах моих»; «Личный вместо рекламного сегодня
+    в 18:00», 18 ноября 2026'
+  notes: 'Личный пост по рассказу Марии. Исправленный фотопортрет v2; TG: фото и весь
+    текст одним сообщением. VK: текст, фото Мария прикрепляет вручную.'
