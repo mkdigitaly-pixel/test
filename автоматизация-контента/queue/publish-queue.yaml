@@ -726,7 +726,7 @@ items:
   - daily-direct-first-budget-tg
   - daily-direct-first-budget-vk
 - id: personal-two-busy-days-2026-11-18
-  status: approved
+  status: published
   topic: Два дня получились какие-то сонно-тошные. А событий за них куча.
   editorial_topic_id: PERSONAL-2026-11-18
   dzen_url: ''
@@ -750,3 +750,7 @@ items:
     GitHub: «Да, можно сохранить исправленное фото в GitHub», 18 ноября 2026.'
   public_image_repository_consented_at: '2026-11-18T11:22:09.063732+00:00'
   blog_published_at: '2026-11-18T13:00:06+00:00'
+  dzen_rss_pending: true
+  dzen_html_path: articles/dzen/html/2026-11-18-personal-two-busy-days.html
+  dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
+  dzen_published_at: '2026-11-18T18:00:14.782039+05:00'

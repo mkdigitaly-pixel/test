@@ -1498,7 +1498,7 @@ items:
   scheduled: '2026-11-19T18:00:00+05:00'
 - id: personal-two-busy-days-2026-11-18-tg
   platform: tg
-  status: approved
+  status: published
   topic: Два дня получились какие-то сонно-тошные. А событий за них куча.
   editorial_topic_id: PERSONAL-2026-11-18
   scheduled: '2026-11-18T18:00:00+05:00'
@@ -1512,9 +1512,15 @@ items:
   notes: 'Личный пост по рассказу Марии. Исправленный фотопортрет v2; TG: фото и весь
     текст одним сообщением. VK: текст, фото Мария прикрепляет вручную.'
   tg_delivery_format: single_message
+  tg_content_sha256: 3f60914f9b8c3e23523afce1b682f66d1a83c4b0a81b679ba63380fb023aac2e
+  tg_post_send_state: confirmed
+  tg_post_message_id: 198
+  tg_post_published_at: '2026-11-18T13:00:04.237784+00:00'
+  published_at: '2026-11-18T13:00:04.336555+00:00'
+  message_id: 198
 - id: personal-two-busy-days-2026-11-18-vk
   platform: vk
-  status: approved
+  status: published
   topic: Два дня получились какие-то сонно-тошные. А событий за них куча.
   editorial_topic_id: PERSONAL-2026-11-18
   scheduled: '2026-11-18T18:00:00+05:00'
@@ -1527,3 +1533,5 @@ items:
     в 18:00», 18 ноября 2026'
   notes: 'Личный пост по рассказу Марии. Исправленный фотопортрет v2; TG: фото и весь
     текст одним сообщением. VK: текст, фото Мария прикрепляет вручную.'
+  published_at: '2026-11-18T13:00:05.991847+00:00'
+  message_id: 258

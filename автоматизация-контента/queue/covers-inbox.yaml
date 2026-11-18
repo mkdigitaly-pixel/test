@@ -482,3 +482,15 @@ items:
   vk_post_id: 257
   requested_at: '2026-11-17T13:01:10Z'
   ready_at: '2026-11-17T13:01:10Z'
+- id: personal-two-busy-days-2026-11-18-vk
+  slug: maria-working-2026-11-18-v2
+  status: ready
+  platforms:
+  - vk
+  headline: Два дня получились какие-то сонно-тошные. А событий за них куча.
+  subline: vk
+  out_landscape: assets/covers/maria-working-2026-11-18-v2.png
+  out_vk: assets/covers/maria-working-2026-11-18-v2.png
+  vk_post_id: 258
+  requested_at: '2026-11-18T13:00:06Z'
+  ready_at: '2026-11-18T13:00:06Z'
