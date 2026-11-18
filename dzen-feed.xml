@@ -8,9 +8,35 @@
     <title>mkekspert — Дзен</title>
     <link>https://blog.mkekspert.ru</link>
     <language>ru</language>
-    <lastBuildDate>Tue, 17 Nov 2026 07:00:02 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 18 Nov 2026 13:00:06 +0000</lastBuildDate>
     <atom:link href="https://blog.mkekspert.ru/dzen-feed.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>Два дня получились какие-то сонно-тошные. А событий за них куча.</title>
+      <link>https://blog.mkekspert.ru/articles/personal-two-busy-days-2026-11-18.html</link>
+      <guid isPermaLink="false">mkekspert-dzen-personal-two-busy-days-2026-11-18</guid>
+      <pubDate>Wed, 18 Nov 2026 13:00:06 +0000</pubDate>
+      <description>Запустили два новых направления у двух клиентов. А между всем этим отлетели два сервера.</description>
+      <category>format-article</category>
+      <category>index</category>
+      <category>comment-none</category>
+      <enclosure url="https://blog.mkekspert.ru/covers/maria-working-2026-11-18-v2.jpg" type="image/jpeg"/>
+      <content:encoded><![CDATA[<figure><img src="https://blog.mkekspert.ru/covers/maria-working-2026-11-18-v2.jpg"/></figure>
+<h1>Два дня получились какие-то сонно-тошные. А событий за них куча.</h1>
+<p>Запустили два новых направления у двух клиентов. Еще один тоже хочет новое направление, завтра созвон, будем все согласовывать.</p>
+<p>Оформила три поста в Дзене на разных каналах. Один на клиентском, два на своих. Еще создала себе новый канал. Хочу попробовать его монетизировать, посмотрим, что получится.</p>
+<p>А между всем этим отлетели два сервера.</p>
+<p>Посоветовалась с ребятами, купила новый сервак в Казахстане. Его будут тестить. На то, чтобы приобрести новый, ушло, наверное, часа четыре.</p>
+<p>Парсер работает, собирает базу данных с переменным успехом из-за этих отвалившихся серверов.</p>
+<p>Короче, проблемки.</p>
+<p>С Яндекс Картами тоже все оформилось. Для услуг клиента оформила Яндекс Бизнес и Яндекс Услуги.</p>
+<p><b>И вот спросите меня, где здесь контекстная реклама.</b></p>
+<p>А фиг его знает, где здесь контекстная реклама.</p>
+<p>С нейросетью у меня к настройке рекламы прибавилась куча сопутствующих дел, которых раньше вообще не было.</p>
+<p>Теперь знаю, что такое VLESS, терминалы, Happ и как развернуть VPN на сервере. И еще много новых слов, которые я даже не запомнила.</p>
+]]></content:encoded>
+      <media:rating scheme="urn:simple">nonadult</media:rating>
+    </item>
+<item>
       <title>Почему повторная покупка с iPhone может менять картину эффективности SEO</title>
       <link>https://blog.mkekspert.ru/articles/safari-attribution.html</link>
       <guid isPermaLink="false">mkekspert-dzen-safari-attribution</guid>
