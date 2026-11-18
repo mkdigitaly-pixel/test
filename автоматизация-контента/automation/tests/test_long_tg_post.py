@@ -1,5 +1,8 @@
 import hashlib
+import html
+from html.parser import HTMLParser
 import json
+import re
 import sys
 import tempfile
 import unittest
@@ -8,6 +11,22 @@ from unittest.mock import Mock, patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import publish as pub
+
+
+def render_rich_text(source):
+    """Read inline line breaks, without relying on paragraph margins in a client."""
+    class Reader(HTMLParser):
+        def __init__(self):
+            super().__init__(convert_charrefs=True)
+            self.parts = []
+        def handle_data(self, data):
+            self.parts.append(data)
+        def handle_starttag(self, tag, attrs):
+            if tag == "br":
+                self.parts.append("\n")
+    parser = Reader()
+    parser.feed(source)
+    return "".join(parser.parts).strip()
 
 
 class SingleTelegramPostTests(unittest.TestCase):
@@ -58,9 +77,28 @@ class SingleTelegramPostTests(unittest.TestCase):
         self.assertEqual(rich["media"], [{"id": "cover", "media": {"type": "photo", "media": "attach://cover"}}])
         self.assertEqual(set(call.kwargs["files"]), {"cover"})
         self.assertIn('<img src="tg://photo?id=cover"/>', rich["html"])
-        for paragraph in self.text.split("\n\n"):
-            self.assertIn("<p>" + paragraph + "</p>", rich["html"])
+        self.assertEqual(render_rich_text(rich["html"]), html.unescape(re.sub(r"<[^>]+>", "", self.text)))
         self.assertNotIn("reply_parameters", payload)
+
+    def test_rich_photo_preserves_visible_blank_lines_and_inline_formatting(self):
+        text = "<b>Заголовок</b>\n\nПервый абзац.\nПродолжение.\n\n<i>Пример.</i>\n\n<b>Вопрос?</b>"
+        with patch.object(pub.requests, "post", return_value=self.response()) as request:
+            pub.publish_telegram_rich_photo(text, "channel", "test", self.cover, parse_mode="HTML")
+        rich = json.loads(request.call_args.kwargs["data"]["rich_message"])
+        self.assertEqual(render_rich_text(rich["html"]), "Заголовок\n\nПервый абзац.\nПродолжение.\n\nПример.\n\nВопрос?")
+        self.assertIn("<b>Заголовок</b>", rich["html"])
+        self.assertIn("<i>Пример.</i>", rich["html"])
+        request.assert_called_once()
+
+    def test_plain_rich_photo_preserves_crlf_paragraphs_and_escapes_markup(self):
+        text = "Сравнение A < B & C\r\n\r\nВторой абзац."
+        with patch.object(pub.requests, "post", return_value=self.response()) as request:
+            pub.publish_telegram_rich_photo(text, "channel", "test", self.cover)
+        rich = json.loads(request.call_args.kwargs["data"]["rich_message"])
+        self.assertEqual(render_rich_text(rich["html"]), "Сравнение A < B & C\n\nВторой абзац.")
+        self.assertIn("&lt;", rich["html"])
+        self.assertIn("&amp;", rich["html"])
+        self.assertNotIn("\r", rich["html"])
 
     def test_short_post_keeps_photo_and_caption_in_one_request(self):
         with patch.object(pub.requests, "post", return_value=self.response(102)) as request:

@@ -1416,6 +1416,11 @@ items:
   tg_post_published_at: '2026-11-17T13:01:08.649336+00:00'
   published_at: '2026-11-17T13:01:08.748720+00:00'
   message_id: 197
+  tg_post_spacing_edit_state: confirmed
+  tg_post_edited_at: '2026-11-18T11:26:56.367364+00:00'
+  tg_post_edited_content_sha256: 2129d038f6be381f2aadd6bb69b2ca8d663d1578ed452bedef7ba4dff3e52c99
+  tg_post_rich_html_sha256: 774f7bfd3d3c6804735f5b5ef16c62d45c7e8c7795ec341c76e6d032f6e86cf8
+  tg_post_spacing_verified: true
 - id: daily-factory-direct-vk
   status: published
   topic: С чего начать рекламу производства, если заявки нужны от компаний?

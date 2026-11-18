@@ -509,10 +509,9 @@ def publish_telegram_rich_photo(text: str, channel_id: str, token: str, cover: P
     if parse_mode not in ("", "HTML"):
         raise ValueError("Единый TG-пост поддерживает HTML или обычный текст")
     content = text if parse_mode == "HTML" else html_lib.escape(text)
-    paragraphs = re.split(r"\n\s*\n", content.strip())
-    rich_html = '<img src="tg://photo?id=cover"/>\n' + "\n".join(
-        "<p>" + paragraph.replace("\n", "<br/>") + "</p>" for paragraph in paragraphs if paragraph
-    )
+    # Preserve blank lines explicitly; adjacent paragraph blocks can render without gaps.
+    content = content.strip().replace("\r\n", "\n").replace("\r", "\n")
+    rich_html = '<img src="tg://photo?id=cover"/>\n<p>' + content.replace("\n", "<br/>") + "</p>"
     rich = {"html": rich_html, "media": [{"id": "cover", "media": {"type": "photo", "media": "attach://cover"}}]}
     with cover.open("rb") as photo:
         response = requests.post(
