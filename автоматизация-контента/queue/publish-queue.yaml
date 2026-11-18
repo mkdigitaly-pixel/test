@@ -726,7 +726,7 @@ items:
   - daily-direct-first-budget-tg
   - daily-direct-first-budget-vk
 - id: personal-two-busy-days-2026-11-18
-  status: on_hold
+  status: approved
   topic: Два дня получились какие-то сонно-тошные. А событий за них куча.
   editorial_topic_id: PERSONAL-2026-11-18
   dzen_url: ''
@@ -746,5 +746,6 @@ items:
   - personal-two-busy-days-2026-11-18-vk
   notes: Разовое размещение личного поста по прямому поручению Марии. Штатный RSS
     в канал klientyandtrafik; клиентские каналы не затрагиваются.
-  hold_reason: Ожидается явное разрешение Марии на размещение личного фотопортрета
-    в открытом GitHub, используемом RSS. Публикация в каналах уже согласована.
+  public_image_repository_consent: 'Мария явно разрешила исправленный портрет в открытом
+    GitHub: «Да, можно сохранить исправленное фото в GitHub», 18 ноября 2026.'
+  public_image_repository_consented_at: '2026-11-18T11:22:09.063732+00:00'

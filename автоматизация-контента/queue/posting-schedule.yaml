@@ -1310,13 +1310,11 @@ slots:
   time: '18:00'
   timezone: Asia/Yekaterinburg
   action: publish_dzen
-  status: on_hold
+  status: scheduled
   campaign_id: personal-two-busy-days-2026-11-18
   approval_source: 'Мария: «размести на каналах моих»; «Личный вместо рекламного сегодня
     в 18:00», 18 ноября 2026'
   notes: Разовая личная публикация; без тизеров.
-  hold_reason: Ожидается явное разрешение Марии на размещение личного фотопортрета
-    в открытом GitHub, используемом RSS. Публикация в каналах уже согласована.
 catchup_hours: 24
 daily_social_transition:
   approved_on: '2026-10-15'
