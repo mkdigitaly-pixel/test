@@ -749,3 +749,4 @@ items:
   public_image_repository_consent: 'Мария явно разрешила исправленный портрет в открытом
     GitHub: «Да, можно сохранить исправленное фото в GitHub», 18 ноября 2026.'
   public_image_repository_consented_at: '2026-11-18T11:22:09.063732+00:00'
+  blog_published_at: '2026-11-18T13:00:06+00:00'
