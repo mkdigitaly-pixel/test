@@ -1,0 +1,65 @@
+{
+  "checked_at": "2026-11-19T05:17:24.207729+00:00",
+  "article_id": "max-direct-test",
+  "article_title": "Реклама в MAX через Директ: что проверить до первого теста",
+  "scheduled_dzen": "2026-11-20T12:00:00+05:00",
+  "before_sha256": "b1018993185cd4934cb9f8f60402b9d6cef8889b5dcfa95dea595d9d5b7160b5",
+  "after_sha256": "de3f91da61edbeef322012cfd26b4f304af6f2b1deb12178cfceb1e7e8afce1b",
+  "sources": [
+    {
+      "url": "https://b2b.yandex.ru/adv/news/novyy-format-i-scenariy-prodvizheniya-v-maks-cherez-direkt",
+      "event_date": "2026-10-07",
+      "checked_at": "2026-11-19",
+      "confirmed": [
+        "Дата анонса — 7 октября 2026 года. В статье не подается как новая ноябрьская новость."
+      ]
+    },
+    {
+      "url": "https://yandex.ru/support/direct/ru/efficiency/messengers-ads",
+      "checked_at": "2026-11-19",
+      "confirmed": [
+        "Виды размещения разграничены. У объявлений и автоподбора нативных постов оплата за клики, у ручного выбора нативных каналов за показы.",
+        "Для MAX показы только в России; объявление размещается в специальном блоке публичного канала."
+      ]
+    },
+    {
+      "url": "https://yandex.ru/support/direct/ru/messengers-ads/create-promo",
+      "checked_at": "2026-11-19",
+      "confirmed": [
+        "В формате рекламных объявлений MAX поддерживаются сайт, публичный канал или публикация MAX; приложения и каналы Telegram/YouTube не поддерживаются.",
+        "В этом формате при рекламе сайта доступен Максимум кликов. Ограничения не распространены на все нативные размещения."
+      ]
+    },
+    {
+      "url": "https://yandex.ru/support/direct/ru/messengers-ads/create",
+      "checked_at": "2026-11-19",
+      "confirmed": [
+        "Отдельная инструкция нативного формата с автоподбором; условия разных видов размещения не смешаны."
+      ]
+    }
+  ],
+  "editorial_review": "ПРОШЛО: новый агент сверил исходник, актуальные входные факты и чистовик; блокирующих замечаний нет.",
+  "personal_publication": {
+    "id": "personal-two-busy-days-2026-11-18",
+    "exact_title": "Два дня получились какие-то сонно-тошные. А событий за них куча.",
+    "dzen_url": "https://dzen.ru/a/av2hg6CL2QDF_lC6",
+    "confirmation_url": "https://dzen.ru/api/v3/launcher/export?channel_name=klientyandtrafik",
+    "publication_timestamp": 1795006806,
+    "blog_url": "https://blog.mkekspert.ru/articles/personal-two-busy-days-2026-11-18.html",
+    "rss_pubdate": "Wed, 18 Nov 2026 13:00:06 +0000",
+    "telegram_message_id": 198,
+    "vk_message_id": 258,
+    "verified_at": "2026-11-19T05:17:24.207729+00:00"
+  },
+  "cover": {
+    "png": "assets/covers/max-direct-test-site.png",
+    "jpeg": "assets/covers/max-direct-test-site.jpg",
+    "png_sha256": "9642d56972f6a3363cf91b392208f7421f2b7fab807287d5d8674f9fe816ba6f",
+    "size": [
+      1672,
+      941
+    ],
+    "mode": "built-in imagegen",
+    "jpeg_conversion": "encoding only; unchanged geometry"
+  }
+}
