@@ -1470,7 +1470,7 @@ items:
   postponed_reason: Мария выбрала личный пост вместо рекламного сегодня в 18:00; исходный
     материал сохранен без новой даты.
 - id: daily-direct-first-budget-tg
-  status: approved
+  status: published
   topic: Сколько денег заложить на первый месяц рекламы?
   editorial_topic_id: CM03
   cover: assets/covers/direct-first-budget-social.png
@@ -1483,8 +1483,14 @@ items:
   post: articles/tg/2026-11-19-direct-first-budget.md
   scheduled: '2026-11-19T18:00:00+05:00'
   tg_delivery_format: single_message
+  tg_content_sha256: f1693e87d3b9d584fb8ea2c1c13c940be72a887fe9b6f901aadf67f906353139
+  tg_post_send_state: confirmed
+  tg_post_message_id: 199
+  tg_post_published_at: '2026-11-19T13:00:05.474142+00:00'
+  published_at: '2026-11-19T13:00:05.590407+00:00'
+  message_id: 199
 - id: daily-direct-first-budget-vk
-  status: approved
+  status: published
   topic: Сколько денег заложить на первый месяц рекламы?
   editorial_topic_id: CM03
   cover: assets/covers/direct-first-budget-social.png
@@ -1496,6 +1502,8 @@ items:
   platform: vk
   post: articles/vk/2026-11-19-direct-first-budget.md
   scheduled: '2026-11-19T18:00:00+05:00'
+  published_at: '2026-11-19T13:00:08.493316+00:00'
+  message_id: 259
 - id: personal-two-busy-days-2026-11-18-tg
   platform: tg
   status: published

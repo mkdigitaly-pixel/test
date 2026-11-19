@@ -494,3 +494,15 @@ items:
   vk_post_id: 258
   requested_at: '2026-11-18T13:00:06Z'
   ready_at: '2026-11-18T13:00:06Z'
+- id: daily-direct-first-budget-vk
+  slug: direct-first-budget-social
+  status: ready
+  platforms:
+  - vk
+  headline: Сколько денег заложить на первый месяц рекламы?
+  subline: vk
+  out_landscape: assets/covers/direct-first-budget-social.png
+  out_vk: assets/covers/direct-first-budget-social.png
+  vk_post_id: 259
+  requested_at: '2026-11-19T13:00:08Z'
+  ready_at: '2026-11-19T13:00:08Z'

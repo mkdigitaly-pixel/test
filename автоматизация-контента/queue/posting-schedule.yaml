@@ -1278,13 +1278,15 @@ slots:
 - date: '2026-11-19'
   time: '18:00'
   action: publish_tg_post
-  status: scheduled
+  status: done
   post_id: daily-direct-first-budget-tg
+  completed_at: '2026-11-19T18:00:01.652763+05:00'
 - date: '2026-11-19'
   time: '18:00'
   action: publish_vk_post
-  status: scheduled
+  status: done
   post_id: daily-direct-first-budget-vk
+  completed_at: '2026-11-19T18:00:01.652763+05:00'
 - date: '2026-12-29'
   time: '12:00'
   action: publish_dzen
