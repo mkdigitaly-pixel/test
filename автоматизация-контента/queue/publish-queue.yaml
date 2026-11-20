@@ -502,6 +502,7 @@ items:
   last_fact_review_due: '2026-11-19'
   fact_review_brief: briefs/2026-11-19-fact-review.md
   fact_review_sources: briefs/sources/2026-11-19-fact-review.json
+  blog_published_at: '2026-11-20T07:00:01+00:00'
 - id: crm-audience-data
   status: approved
   topic: База клиентов есть. Почему из неё ещё не получается аудитория для рекламы?
