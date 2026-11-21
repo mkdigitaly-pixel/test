@@ -1,0 +1,627 @@
+{
+  "requested_on": "2026-10-22",
+  "request": "убери ссылки на источники в постах ВК и ТГ",
+  "purpose": "Редакционные источники для проверки фактов; в социальные посты не выводить",
+  "items": [
+    {
+      "id": "query-description-seo",
+      "platform": "tg",
+      "status": "approved",
+      "post": "articles/tg/2026-10-28-query-description-seo.md",
+      "sources": [
+        "https://b2b.yandex.ru/adv/news/obnovlenie-targetingov-epk",
+        "https://www.yandex.ru/support/direct/ru/efficiency/description-queries"
+      ],
+      "removed": [
+        "Источники: [анонс и кейс Яндекса](https://b2b.yandex.ru/adv/news/obnovlenie-targetingov-epk), [справка по описанию запросов](https://www.yandex.ru/support/direct/ru/efficiency/description-queries)."
+      ],
+      "old_sha256": "97cac0a721dc2ef89b3e942519c78a605aaaf3b836d684fad6e4938d7cbc17ff",
+      "new_sha256": "38fb575fb22a3c196af510c2bd4c7be2b3093cd14d12e8d55c11fe33809d402d"
+    },
+    {
+      "id": "product-data-seo",
+      "platform": "vk",
+      "status": "approved",
+      "post": "articles/vk/2026-10-31-product-data-seo.md",
+      "sources": [
+        "https://b2b.yandex.ru/adv/news/prodavczy-u-kotorykh-poka-net-sajta-teper-mogut-samostoyatelno-podklyuchit-prodazhi-iz-poiska-i-alisy-ai"
+      ],
+      "removed": [
+        "Источник нового сценария Яндекса:\nhttps://b2b.yandex.ru/adv/news/prodavczy-u-kotorykh-poka-net-sajta-teper-mogut-samostoyatelno-podklyuchit-prodazhi-iz-poiska-i-alisy-ai"
+      ],
+      "old_sha256": "473dc1d3c33cbbe84acb48558ad2c56de43132532b22f38fcf379e1c0bf5278a",
+      "new_sha256": "bdfaa0d33b4b13416e88c59ac2fe51d4d13f744c9485dec08bd5d765ede9aa47"
+    },
+    {
+      "id": "daily-ai-blog-editor-tg",
+      "platform": "tg",
+      "status": "published",
+      "post": "articles/tg/2026-10-16-ai-blog-editor.md",
+      "sources": [
+        "https://developers.google.com/search/docs/fundamentals/using-gen-ai-content",
+        "https://developers.google.com/search/docs/fundamentals/creating-helpful-content"
+      ],
+      "removed": [
+        "Источники:\n- [Рекомендации Google по ИИ-контенту](https://developers.google.com/search/docs/fundamentals/using-gen-ai-content)\n- [Оценка полезности контента](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)"
+      ],
+      "old_sha256": "bc6d2a0197551d65cf29d4fd936a9230e558e20a13706f53bee8542d7eb7b402",
+      "new_sha256": "a57e44e626473927c39dfc85160780600c474477119b68f6859cf6cdc01a9c46"
+    },
+    {
+      "id": "daily-ai-blog-editor-vk",
+      "platform": "vk",
+      "status": "published",
+      "post": "articles/vk/2026-10-16-ai-blog-editor.md",
+      "sources": [
+        "https://developers.google.com/search/docs/fundamentals/using-gen-ai-content",
+        "https://developers.google.com/search/docs/fundamentals/creating-helpful-content"
+      ],
+      "removed": [
+        "Источники:\n- [Рекомендации Google по ИИ-контенту](https://developers.google.com/search/docs/fundamentals/using-gen-ai-content)\n- [Оценка полезности контента](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)"
+      ],
+      "old_sha256": "cc3f0441ca43b1d225b8f48cafdb5e5ca9d8ddb5ebc1572d3efd3b969d1b1bff",
+      "new_sha256": "5c00b68ee187deb3d5852408cf8155707e24e3db4dbbd87568f2d4d702a0c48f"
+    },
+    {
+      "id": "daily-ai-meta-factcheck-tg",
+      "platform": "tg",
+      "status": "approved",
+      "post": "articles/tg/2026-10-24-ai-meta-factcheck.md",
+      "sources": [
+        "https://developers.google.com/search/docs/fundamentals/using-gen-ai-content",
+        "https://developers.google.com/search/docs/appearance/title-link",
+        "https://developers.google.com/search/docs/appearance/structured-data/sd-policies"
+      ],
+      "removed": [
+        "Источники:\n- [ИИ-контент и метаданные](https://developers.google.com/search/docs/fundamentals/using-gen-ai-content)\n- [Заголовки ссылок в Google](https://developers.google.com/search/docs/appearance/title-link)\n- [Правила структурированных данных](https://developers.google.com/search/docs/appearance/structured-data/sd-policies)"
+      ],
+      "old_sha256": "9adaed6ca9b606e0e0496aec0e22f73a7ece5e29785ee1c349a1ac77e8a6c9f8",
+      "new_sha256": "963231f594e07179b9c7f7d4605ebb32e33b38425ecc22ba00ee052e6a3c53a7"
+    },
+    {
+      "id": "daily-ai-meta-factcheck-vk",
+      "platform": "vk",
+      "status": "approved",
+      "post": "articles/vk/2026-10-25-ai-meta-factcheck.md",
+      "sources": [
+        "https://developers.google.com/search/docs/fundamentals/using-gen-ai-content",
+        "https://developers.google.com/search/docs/appearance/title-link",
+        "https://developers.google.com/search/docs/appearance/structured-data/sd-policies"
+      ],
+      "removed": [
+        "Источники:\n- ИИ-контент и метаданные: https://developers.google.com/search/docs/fundamentals/using-gen-ai-content\n- Заголовки ссылок в Google: https://developers.google.com/search/docs/appearance/title-link\n- Правила структурированных данных: https://developers.google.com/search/docs/appearance/structured-data/sd-policies"
+      ],
+      "old_sha256": "9eb29666de7f9c3f5281c1588122ba80b18b7712e45d769d434aa705cc6de98a",
+      "new_sha256": "62c9a63e555a0ea491102cf530dd085a69a2d0677324eb505a9d36e464a961be"
+    },
+    {
+      "id": "daily-ai-content-labels-tg",
+      "platform": "tg",
+      "status": "approved",
+      "post": "articles/tg/2026-10-29-ai-content-labels.md",
+      "sources": [
+        "https://developers.google.com/search/docs/fundamentals/using-gen-ai-content",
+        "https://developers.google.com/search/updates"
+      ],
+      "removed": [
+        "Источники:\n- [Руководство Google об ИИ-контенте](https://developers.google.com/search/docs/fundamentals/using-gen-ai-content)\n- [Журнал обновлений Search Central](https://developers.google.com/search/updates)"
+      ],
+      "old_sha256": "4ea22d7261847bfc8a9a5474bdf52f26484b17e5bfd93d12811446ad7a765917",
+      "new_sha256": "ec5475c0331dd5894fd16e20a781163439c1b6fa89b6876a3de971236e01aa1e"
+    },
+    {
+      "id": "daily-ai-content-labels-vk",
+      "platform": "vk",
+      "status": "approved",
+      "post": "articles/vk/2026-10-29-ai-content-labels.md",
+      "sources": [
+        "https://developers.google.com/search/docs/fundamentals/using-gen-ai-content",
+        "https://developers.google.com/search/updates"
+      ],
+      "removed": [
+        "Источники:\n- Руководство Google об ИИ-контенте: https://developers.google.com/search/docs/fundamentals/using-gen-ai-content\n- Журнал обновлений Search Central: https://developers.google.com/search/updates"
+      ],
+      "old_sha256": "7bee0ff3f260036644b5f71b7cefee5160f553165960285f8536d3591267d5b0",
+      "new_sha256": "5188751325b81a9713ad0bf13a7ebec06d92ee2d6066f4252beba8044580a781"
+    },
+    {
+      "id": "daily-market-benchmark-check-tg",
+      "platform": "tg",
+      "status": "published",
+      "post": "articles/tg/2026-10-17-market-benchmark-check.md",
+      "sources": [
+        "https://b2b.yandex.ru/adv/news/benchmarki-po-industriyam-v-metrike"
+      ],
+      "removed": [
+        "Источники:\n- [Бенчмарки по индустриям в Метрике](https://b2b.yandex.ru/adv/news/benchmarki-po-industriyam-v-metrike)"
+      ],
+      "old_sha256": "36fdfc37f054d94d918a5de33d0ab0039d0a1c4d3820f871814967ec2c6d1b04",
+      "new_sha256": "3bb5f2150f955013a0dbb6d9b420017fe9b3aa34d4c5ca32ad60cca097603598"
+    },
+    {
+      "id": "daily-market-benchmark-check-vk",
+      "platform": "vk",
+      "status": "published",
+      "post": "articles/vk/2026-10-18-market-benchmark-check.md",
+      "sources": [
+        "https://b2b.yandex.ru/adv/news/benchmarki-po-industriyam-v-metrike"
+      ],
+      "removed": [
+        "Источники:\n- [Бенчмарки по индустриям в Метрике](https://b2b.yandex.ru/adv/news/benchmarki-po-industriyam-v-metrike)"
+      ],
+      "old_sha256": "6b41e60e4983549e291c538781bdee8a7d2060ef0214b20362e90fed5bad9b94",
+      "new_sha256": "0344eae768d6a201f6c0127a503ebb9a1b124acbc100b79add3708afdd0b637a"
+    },
+    {
+      "id": "daily-safari-attribution-tg",
+      "platform": "tg",
+      "status": "published",
+      "post": "articles/tg/2026-10-20-safari-attribution.md",
+      "sources": [
+        "https://yandex.ru/support/metrica/ru/general/counter-general",
+        "https://b2b.yandex.ru/adv/edu/materials/analitika-vizitov-s-ustrojstv-apple"
+      ],
+      "removed": [
+        "Источники:\n- [Настройки счётчика Метрики](https://yandex.ru/support/metrica/ru/general/counter-general)\n- [Материал Яндекса об аналитике устройств Apple](https://b2b.yandex.ru/adv/edu/materials/analitika-vizitov-s-ustrojstv-apple)"
+      ],
+      "old_sha256": "850953a06706dc5f413b19c28fae675b53939c8121be5572c404dfb106de7db1",
+      "new_sha256": "c5914958b3512991fbc70abebdd5e1c9f884d18a9b024a9450e76709f1b2c189"
+    },
+    {
+      "id": "daily-safari-attribution-vk",
+      "platform": "vk",
+      "status": "published",
+      "post": "articles/vk/2026-10-21-safari-attribution.md",
+      "sources": [
+        "https://yandex.ru/support/metrica/ru/general/counter-general",
+        "https://b2b.yandex.ru/adv/edu/materials/analitika-vizitov-s-ustrojstv-apple"
+      ],
+      "removed": [
+        "Источники:\n- Настройки счётчика Метрики: https://yandex.ru/support/metrica/ru/general/counter-general\n- Материал Яндекса об аналитике устройств Apple: https://b2b.yandex.ru/adv/edu/materials/analitika-vizitov-s-ustrojstv-apple"
+      ],
+      "old_sha256": "496f6fa15e68f5e928d553e18f6f08dbfb02ef6f288dff4f141eaa1bd9a643f4",
+      "new_sha256": "adac40ac089db34931ba4a0f18dca8f20b1c50de788817e3957682e29944d78a"
+    },
+    {
+      "id": "daily-max-direct-test-tg",
+      "platform": "tg",
+      "status": "published",
+      "post": "articles/tg/2026-10-18-max-direct-test.md",
+      "sources": [
+        "https://b2b.yandex.ru/adv/news/novyy-format-i-scenariy-prodvizheniya-v-maks-cherez-direkt"
+      ],
+      "removed": [
+        "Источники:\n- [Форматы продвижения MAX через Директ](https://b2b.yandex.ru/adv/news/novyy-format-i-scenariy-prodvizheniya-v-maks-cherez-direkt)"
+      ],
+      "old_sha256": "1e80bf9516ba0f4f47b2fa26951869a2c22a9b2a8b43e921ae2da86cd2161107",
+      "new_sha256": "c9e2d0861458d490a19854b203f28874136aba5e3fd3d2356e0d37b78b88c93d"
+    },
+    {
+      "id": "daily-max-direct-test-vk",
+      "platform": "vk",
+      "status": "published",
+      "post": "articles/vk/2026-10-19-max-direct-test.md",
+      "sources": [
+        "https://b2b.yandex.ru/adv/news/novyy-format-i-scenariy-prodvizheniya-v-maks-cherez-direkt"
+      ],
+      "removed": [
+        "Источники:\n- [Форматы продвижения MAX через Директ](https://b2b.yandex.ru/adv/news/novyy-format-i-scenariy-prodvizheniya-v-maks-cherez-direkt)"
+      ],
+      "old_sha256": "09635aa44132251186dd0ccad82cd1b58118c527e679167b0385a562b6e71313",
+      "new_sha256": "bf602f86e00108924cb023a8259aea6640bd57351e03725293d1617f3e317abe"
+    },
+    {
+      "id": "daily-crm-audience-data-tg",
+      "platform": "tg",
+      "status": "approved",
+      "post": "articles/tg/2026-10-25-crm-audience-data.md",
+      "sources": [
+        "https://b2b.yandex.ru/adv/news/universalnyy-segment-yandex-auditorii"
+      ],
+      "removed": [
+        "Источники:\n- [Универсальный формат Яндекс Аудиторий](https://b2b.yandex.ru/adv/news/universalnyy-segment-yandex-auditorii)"
+      ],
+      "old_sha256": "07d31f3377cdd8bb69c96ec0114a7d933b6e9bae9f936550c4ba692b8f8f9f76",
+      "new_sha256": "a1a80a910970c600bf10afdaebdca9a93a7f3c454d63bfa7ddc5a26e221d736a"
+    },
+    {
+      "id": "daily-crm-audience-data-vk",
+      "platform": "vk",
+      "status": "approved",
+      "post": "articles/vk/2026-10-26-crm-audience-data.md",
+      "sources": [
+        "https://b2b.yandex.ru/adv/news/universalnyy-segment-yandex-auditorii"
+      ],
+      "removed": [
+        "Источники:\n- Универсальный формат Яндекс Аудиторий: https://b2b.yandex.ru/adv/news/universalnyy-segment-yandex-auditorii"
+      ],
+      "old_sha256": "7bce3062a449777d9ac89241cd622289ebb6785806ccb9058f86ebf2f5a7e707",
+      "new_sha256": "16a8980221ab3856487ef9a712083c59a760d809baf294eae12b676dfbaded6c"
+    },
+    {
+      "id": "daily-ozon-reviews-site-tg",
+      "platform": "tg",
+      "status": "approved",
+      "post": "articles/tg/2026-10-23-ozon-reviews-site.md",
+      "sources": [
+        "https://b2b.yandex.ru/adv/news/v-yandeks-kit-poyavilsya-import-otzyvov-s-ozon"
+      ],
+      "removed": [
+        "Источники:\n- [Импорт отзывов Ozon в Яндекс KIT](https://b2b.yandex.ru/adv/news/v-yandeks-kit-poyavilsya-import-otzyvov-s-ozon)"
+      ],
+      "old_sha256": "de67636c69d29849433a57e6b92025938f9c7328f791ac9fcd2fd468edcdbd17",
+      "new_sha256": "3779c989950d054d21e9f42b27bd1570422554e5b699ad4bf3388d574c7087c3"
+    },
+    {
+      "id": "daily-ozon-reviews-site-vk",
+      "platform": "vk",
+      "status": "approved",
+      "post": "articles/vk/2026-10-23-ozon-reviews-site.md",
+      "sources": [
+        "https://b2b.yandex.ru/adv/news/v-yandeks-kit-poyavilsya-import-otzyvov-s-ozon"
+      ],
+      "removed": [
+        "Источники:\n- Импорт отзывов Ozon в Яндекс KIT: https://b2b.yandex.ru/adv/news/v-yandeks-kit-poyavilsya-import-otzyvov-s-ozon"
+      ],
+      "old_sha256": "7b0fd392fae7f682221daa63459e6d366cd7e8e8548752d3a936f27df3bf0d8e",
+      "new_sha256": "7facd6f47a5ff013294b3b41eeeaacd7c8fe4193d940a7e263280edbb248a9c8"
+    },
+    {
+      "id": "daily-ugc-fresh-data-tg",
+      "platform": "tg",
+      "status": "approved",
+      "post": "articles/tg/2026-10-26-ugc-fresh-data.md",
+      "sources": [
+        "https://developers.google.com/search/docs/appearance/ugc-fresh-data-program",
+        "https://developers.google.com/search/updates"
+      ],
+      "removed": [
+        "Источники:\n- [Условия UGC Fresh Data Program](https://developers.google.com/search/docs/appearance/ugc-fresh-data-program)\n- [Журнал документации Google](https://developers.google.com/search/updates)"
+      ],
+      "old_sha256": "87235105fcffa07f7a7adb110627f47f3c907ae7a77e8e5d759f8cf50fda19e1",
+      "new_sha256": "bba559a9cfe6f511eeb6b216832f9630b28c5cc1f33fe13ee2e12ea213a3d24d"
+    },
+    {
+      "id": "daily-ugc-fresh-data-vk",
+      "platform": "vk",
+      "status": "approved",
+      "post": "articles/vk/2026-10-27-ugc-fresh-data.md",
+      "sources": [
+        "https://developers.google.com/search/docs/appearance/ugc-fresh-data-program",
+        "https://developers.google.com/search/updates"
+      ],
+      "removed": [
+        "Источники:\n- Условия UGC Fresh Data Program: https://developers.google.com/search/docs/appearance/ugc-fresh-data-program\n- Журнал документации Google: https://developers.google.com/search/updates"
+      ],
+      "old_sha256": "615bf5c82e348e1386724852fae512dca30187a87379f701d8f437894de49839",
+      "new_sha256": "458328340d1a915eeb95f349ee76e818b2071da40855890a6d9662e54d1c8f2f"
+    },
+    {
+      "id": "daily-video-author-markup-tg",
+      "platform": "tg",
+      "status": "approved",
+      "post": "articles/tg/2026-10-27-video-author-markup.md",
+      "sources": [
+        "https://developers.google.com/search/docs/appearance/structured-data/video",
+        "https://developers.google.com/search/updates"
+      ],
+      "removed": [
+        "Источники:\n- [Документация VideoObject](https://developers.google.com/search/docs/appearance/structured-data/video)\n- [Изменения документации Google](https://developers.google.com/search/updates)"
+      ],
+      "old_sha256": "7145873080ef094dd54def28f8439ac37bb43fa631a951344e24c2a4d514156c",
+      "new_sha256": "9640e708b286759ceb4db0165cc669f8f846f53d00a0e7ed920bf27eb5a37d13"
+    },
+    {
+      "id": "daily-video-author-markup-vk",
+      "platform": "vk",
+      "status": "approved",
+      "post": "articles/vk/2026-10-28-video-author-markup.md",
+      "sources": [
+        "https://developers.google.com/search/docs/appearance/structured-data/video",
+        "https://developers.google.com/search/updates"
+      ],
+      "removed": [
+        "Источники:\n- Документация VideoObject: https://developers.google.com/search/docs/appearance/structured-data/video\n- Изменения документации Google: https://developers.google.com/search/updates"
+      ],
+      "old_sha256": "dbeaffaca7fa6d000636e5c82f85450bdc8adea150c3240a13698072fa03181d",
+      "new_sha256": "d7da9523232fd414c801e9e65794c54087dad484757c9cf7b4c4c28e40a87602"
+    },
+    {
+      "id": "daily-maps-new-customers-tg",
+      "platform": "tg",
+      "status": "approved",
+      "post": "articles/tg/2026-10-22-maps-new-customers.md",
+      "sources": [
+        "https://b2b.yandex.ru/adv/solutions/cases/prodvizhenie-v-yandeks-kartah-dostavki-sushi-i-rollov-mybox"
+      ],
+      "removed": [
+        "Источники:\n- [Опубликованный кейс MYBOX](https://b2b.yandex.ru/adv/solutions/cases/prodvizhenie-v-yandeks-kartah-dostavki-sushi-i-rollov-mybox)"
+      ],
+      "old_sha256": "d9dd73a2b21b7373488d890bc5d08208122bb7c5a7a43fc24cc8f7e0d158fd6b",
+      "new_sha256": "1aba46338bf2ecd44d1bfd7a2fdd8af5b88092e8d56654c93677ceac5ecae3e5"
+    },
+    {
+      "id": "daily-maps-new-customers-vk",
+      "platform": "vk",
+      "status": "approved",
+      "post": "articles/vk/2026-10-22-maps-new-customers.md",
+      "sources": [
+        "https://b2b.yandex.ru/adv/solutions/cases/prodvizhenie-v-yandeks-kartah-dostavki-sushi-i-rollov-mybox"
+      ],
+      "removed": [
+        "Источники:\n- Опубликованный кейс MYBOX: https://b2b.yandex.ru/adv/solutions/cases/prodvizhenie-v-yandeks-kartah-dostavki-sushi-i-rollov-mybox"
+      ],
+      "old_sha256": "150619fcd4b083fd95ac8ac8116feed7772c15a0e755fd5cc85e76e7390d94e9",
+      "new_sha256": "617691be310647b3705b8ec82ed18d66ef1e2d97fed4cf0db44dda32575b6e55"
+    },
+    {
+      "id": "daily-llms-txt-limits-tg",
+      "platform": "tg",
+      "status": "published",
+      "post": "articles/tg/2026-10-19-llms-txt-limits.md",
+      "sources": [
+        "https://developers.google.com/search/docs/fundamentals/ai-optimization-guide"
+      ],
+      "removed": [
+        "Источники:\n- [Руководство Google по генеративному поиску](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)"
+      ],
+      "old_sha256": "3b43eb48439892eb2f0315f7500759d175770ef78c5122b0135da9f949c3e1d5",
+      "new_sha256": "b72237ea2e393c884b7c0da7efb91edf049df0c5a90489be86ce49addd9a836b"
+    },
+    {
+      "id": "daily-llms-txt-limits-vk",
+      "platform": "vk",
+      "status": "published",
+      "post": "articles/vk/2026-10-20-llms-txt-limits.md",
+      "sources": [
+        "https://developers.google.com/search/docs/fundamentals/ai-optimization-guide"
+      ],
+      "removed": [
+        "Источники:\n- Руководство Google по генеративному поиску: https://developers.google.com/search/docs/fundamentals/ai-optimization-guide"
+      ],
+      "old_sha256": "a8fe9c45094dec15f9a23f122cffbe3f5d76c96105be5a6d5f7e49fef64d0b68",
+      "new_sha256": "3ca7c00f756e844a905323749731737b52ee45d13207a758fc9cc41a80782de8"
+    },
+    {
+      "id": "daily-impressions-without-clicks-tg",
+      "platform": "tg",
+      "status": "approved",
+      "post": "articles/tg/2026-10-30-impressions-without-clicks.md",
+      "sources": [
+        "https://support.google.com/webmasters/answer/7576553?hl=ru"
+      ],
+      "removed": [
+        "[Справка Google о показателях Search Console](https://support.google.com/webmasters/answer/7576553?hl=ru)"
+      ],
+      "old_sha256": "f7eb45820f93236691480274354c62350e2f75500df68ab87eb855db52e57e3a",
+      "new_sha256": "5d308f4abdfcb34b3f057e613f6fc36512dc88be5f265c04a538c0e6b9ba3a46"
+    },
+    {
+      "id": "daily-impressions-without-clicks-vk",
+      "platform": "vk",
+      "status": "approved",
+      "post": "articles/vk/2026-10-30-impressions-without-clicks.md",
+      "sources": [
+        "https://support.google.com/webmasters/answer/7576553?hl=ru"
+      ],
+      "removed": [
+        "Справка Google о показателях Search Console:\nhttps://support.google.com/webmasters/answer/7576553?hl=ru"
+      ],
+      "old_sha256": "b926c5084677006bdfaf0259d17f43fc84d17d61409a7245f6ebe44b161a5fba",
+      "new_sha256": "6dce4d369cf18e8fb86fc5f9d356c40619f69ad25c637a049442e92dc95ba894"
+    },
+    {
+      "id": "daily-alice-purchase-site-role-tg",
+      "platform": "tg",
+      "status": "approved",
+      "post": "articles/tg/2026-10-31-alice-purchase-site-role.md",
+      "sources": [
+        "https://b2b.yandex.ru/adv/news/prodavczy-u-kotorykh-poka-net-sajta-teper-mogut-samostoyatelno-podklyuchit-prodazhi-iz-poiska-i-alisy-ai"
+      ],
+      "removed": [
+        "[Новость Яндекса от 24 сентября](https://b2b.yandex.ru/adv/news/prodavczy-u-kotorykh-poka-net-sajta-teper-mogut-samostoyatelno-podklyuchit-prodazhi-iz-poiska-i-alisy-ai)"
+      ],
+      "old_sha256": "c50a6a7502db90e9969e0684c4a3ed475e7be81b5d451c4cd69cb3509e5447f7",
+      "new_sha256": "b530af4093f94b9e73b569bfd87f8bf4c6b5874c81bdf92ce2167234fa585009"
+    },
+    {
+      "id": "daily-direct-click-lead-cost-tg",
+      "platform": "tg",
+      "status": "approved",
+      "post": "articles/tg/2026-11-01-direct-click-lead-cost.md",
+      "sources": [
+        "https://yandex.ru/support/direct/ru/statistics/performance-stat-guide"
+      ],
+      "removed": [
+        "[Как оценивать performance-кампанию — справка Яндекса](https://yandex.ru/support/direct/ru/statistics/performance-stat-guide)"
+      ],
+      "old_sha256": "1faab4ad1bd6466b4eeda0be2eb85c2387393f04a61ab307e28a382e106e63a7",
+      "new_sha256": "913d21b683ad46636cd04515f80d57d80c10296bd81251667ff004137316eb6c"
+    },
+    {
+      "id": "daily-direct-click-lead-cost-vk",
+      "platform": "vk",
+      "status": "approved",
+      "post": "articles/vk/2026-11-01-direct-click-lead-cost.md",
+      "sources": [
+        "https://yandex.ru/support/direct/ru/statistics/performance-stat-guide"
+      ],
+      "removed": [
+        "Рекомендации Яндекса по оценке кампании: https://yandex.ru/support/direct/ru/statistics/performance-stat-guide"
+      ],
+      "old_sha256": "913190250ebb2bc2a6e2bb88406f2542c94db3901ae83b5b80c5a547c68b0658",
+      "new_sha256": "405c86387d4b86d100004948df807f8458ae5292d3a1ec48f2ecb69ab0d42d1f"
+    },
+    {
+      "id": "daily-direct-strategy-changes-tg",
+      "platform": "tg",
+      "status": "approved",
+      "post": "articles/tg/2026-11-02-direct-strategy-changes.md",
+      "sources": [
+        "https://yandex.ru/support/direct/ru/strategies/average-cpa"
+      ],
+      "removed": [
+        "[О работе стратегии «Максимум конверсий» — Яндекс](https://yandex.ru/support/direct/ru/strategies/average-cpa)"
+      ],
+      "old_sha256": "0127a153f146ccb8567317632ba33d50bf0d17023c50b7c3ef76ec09bfa3c9da",
+      "new_sha256": "6dc6f9c3db21f23c12de8cdf57e2150082fb71e10d11e40cfbde156f8f0c9b33"
+    },
+    {
+      "id": "daily-direct-strategy-changes-vk",
+      "platform": "vk",
+      "status": "approved",
+      "post": "articles/vk/2026-11-02-direct-strategy-changes.md",
+      "sources": [
+        "https://yandex.ru/support/direct/ru/strategies/average-cpa"
+      ],
+      "removed": [
+        "Справка Яндекса о стратегии: https://yandex.ru/support/direct/ru/strategies/average-cpa"
+      ],
+      "old_sha256": "740e7bd948fb1ca89be259d87d73ac977ef19a4a8ffeacc8d8014fb1f5927368",
+      "new_sha256": "b2bbc6320938480b75c577f1114e9f68421fbc9bdf6646fb0df9c16c240ffd6b"
+    },
+    {
+      "id": "daily-direct-brand-demand-tg",
+      "platform": "tg",
+      "status": "approved",
+      "post": "articles/tg/2026-11-03-direct-brand-demand.md",
+      "sources": [
+        "https://yandex.ru/support/direct/ru/statistics/library/search-queries"
+      ],
+      "removed": [
+        "[Поисковые запросы в Директе — справка Яндекса](https://yandex.ru/support/direct/ru/statistics/library/search-queries)"
+      ],
+      "old_sha256": "338de575401a1c09cefca0876de7d6e44a0910b12dad827a7005367780c61f93",
+      "new_sha256": "6b812fba6358e3f5d014e80595ece6a37c224a470d287248c3105a9b3f4b675e"
+    },
+    {
+      "id": "daily-direct-brand-demand-vk",
+      "platform": "vk",
+      "status": "approved",
+      "post": "articles/vk/2026-11-03-direct-brand-demand.md",
+      "sources": [
+        "https://yandex.ru/support/direct/ru/statistics/library/search-queries",
+        "https://yandex.ru/support/direct/ru/impression-criteria/autotargeting"
+      ],
+      "removed": [
+        "Отчёт Директа по запросам: https://yandex.ru/support/direct/ru/statistics/library/search-queries\nУпоминание бренда в автотаргетинге: https://yandex.ru/support/direct/ru/impression-criteria/autotargeting"
+      ],
+      "old_sha256": "b6f34a8e640ced0dfbe5a636441522fc213ebf463eb6dc0817c51c12942e3616",
+      "new_sha256": "b6379f67aedcdfe7cb5dde3d900b1d9e7466bdafbe6d31eeeb84addbc4ab5bef"
+    },
+    {
+      "id": "daily-direct-product-catalog-tg",
+      "platform": "tg",
+      "status": "approved",
+      "post": "articles/tg/2026-11-04-direct-product-catalog.md",
+      "sources": [
+        "https://b2b.yandex.ru/adv/news/obnovlenie-tovarnyh-obyavleniy"
+      ],
+      "removed": [
+        "[Официальное обновление товарных объявлений ЕПК — Яндекс](https://b2b.yandex.ru/adv/news/obnovlenie-tovarnyh-obyavleniy)"
+      ],
+      "old_sha256": "4764ae0dce03372498ab05e435263f39ca6b7fe538ef1cd3fc62454569ee1bb6",
+      "new_sha256": "271e003dd6ac54032e2454da8cc0207fa8a9d18dd53aefcb400608769e45ffb9"
+    },
+    {
+      "id": "daily-direct-product-catalog-vk",
+      "platform": "vk",
+      "status": "approved",
+      "post": "articles/vk/2026-11-04-direct-product-catalog.md",
+      "sources": [
+        "https://b2b.yandex.ru/adv/news/obnovlenie-tovarnyh-obyavleniy"
+      ],
+      "removed": [
+        "Сообщение Яндекса об обновлении ЕПК: https://b2b.yandex.ru/adv/news/obnovlenie-tovarnyh-obyavleniy"
+      ],
+      "old_sha256": "95df21b8f6d7060aa6ea03bc10d2803a078e8041d22ca9e9da85affe71b106e9",
+      "new_sha256": "97cc6d1a9a02d23ee53423b44c4ec075175350c0b4266191b062b1cd4f8e7bfc"
+    },
+    {
+      "id": "daily-direct-b2b-directions-tg",
+      "platform": "tg",
+      "status": "approved",
+      "post": "articles/tg/2026-11-05-direct-b2b-directions.md",
+      "sources": [
+        "https://ppc.world/articles/my-vystroili-prodvizhenie-s-nulya-i-poluchili-70-konversiy-za-pervyy-mesyac-keys-b2b-proekta-so-slozhnym-ciklom-sdelki/"
+      ],
+      "removed": [
+        "[Внешний кейс Qmedia: источник разбора](https://ppc.world/articles/my-vystroili-prodvizhenie-s-nulya-i-poluchili-70-konversiy-za-pervyy-mesyac-keys-b2b-proekta-so-slozhnym-ciklom-sdelki/)"
+      ],
+      "old_sha256": "f8181575ddece16285fc61f0e519a4a53a1fc814b16cc666852d79cb5a85df7b",
+      "new_sha256": "35dd70b80e9dfa69e3ad8814b2cae3b90c7fa071247495e0e0b952d6a87b0546"
+    },
+    {
+      "id": "daily-direct-b2b-directions-vk",
+      "platform": "vk",
+      "status": "approved",
+      "post": "articles/vk/2026-11-05-direct-b2b-directions.md",
+      "sources": [
+        "https://ppc.world/articles/my-vystroili-prodvizhenie-s-nulya-i-poluchili-70-konversiy-za-pervyy-mesyac-keys-b2b-proekta-so-slozhnym-ciklom-sdelki/"
+      ],
+      "removed": [
+        "Кейс Qmedia — первичный материал автора: https://ppc.world/articles/my-vystroili-prodvizhenie-s-nulya-i-poluchili-70-konversiy-za-pervyy-mesyac-keys-b2b-proekta-so-slozhnym-ciklom-sdelki/"
+      ],
+      "old_sha256": "ace5c0e596d700bec6a21436dbcbf93922542864f640a6e76ea537ae13806b2e",
+      "new_sha256": "5384dde09bf6b87a7a676471dc24bcad89161979ef8b1802d9fd539f676cd19a"
+    },
+    {
+      "id": "daily-direct-seo-query-exchange-tg",
+      "platform": "tg",
+      "status": "approved",
+      "post": "articles/tg/2026-11-06-direct-seo-query-exchange.md",
+      "sources": [
+        "https://yandex.ru/support/direct/ru/statistics/library/search-queries",
+        "https://yandex.ru/support/webmaster/ru/service/statistics"
+      ],
+      "removed": [
+        "[Отчёт по запросам Директа](https://yandex.ru/support/direct/ru/statistics/library/search-queries)\n[Статистика запросов Вебмастера](https://yandex.ru/support/webmaster/ru/service/statistics)"
+      ],
+      "old_sha256": "66548d6310d782092d6ca8c71c8b1c3deb3b46c95fc44dce3315d410d039955f",
+      "new_sha256": "28808fc9e1b7e7824fbae3688a5c87337a3999f4b42f84f27c835606c5dd53d5"
+    },
+    {
+      "id": "daily-direct-seo-query-exchange-vk",
+      "platform": "vk",
+      "status": "approved",
+      "post": "articles/vk/2026-11-06-direct-seo-query-exchange.md",
+      "sources": [
+        "https://yandex.ru/support/direct/ru/statistics/library/search-queries",
+        "https://yandex.ru/support/webmaster/ru/service/statistics"
+      ],
+      "removed": [
+        "Запросы в Директе: https://yandex.ru/support/direct/ru/statistics/library/search-queries\nСтатистика Вебмастера: https://yandex.ru/support/webmaster/ru/service/statistics"
+      ],
+      "old_sha256": "98ae5dcc7b46fdb9ccb74222d564eb27915ec5d6bff921f736e98a8319bab3c1",
+      "new_sha256": "4d31df9a67c0a04855cd5eaec330444f61e8bcfdc0a17b7bff9af1b12977d717"
+    },
+    {
+      "id": "daily-seo-redesign-pages-tg",
+      "platform": "tg",
+      "status": "approved",
+      "post": "articles/tg/2026-11-07-seo-redesign-pages.md",
+      "sources": [
+        "https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes"
+      ],
+      "removed": [
+        "[Рекомендации Google по смене адресов сайта](https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes)"
+      ],
+      "old_sha256": "ccff4814b6e65e6e5c4816c9b1472d56fba922cce607e0a8c0188e04d150ff6b",
+      "new_sha256": "9b8aca6e13096a1c0e133d05d3e1d896d624fd0e86b6b8761d46224aae4d7b0d"
+    },
+    {
+      "id": "daily-seo-redesign-pages-vk",
+      "platform": "vk",
+      "status": "approved",
+      "post": "articles/vk/2026-11-07-seo-redesign-pages.md",
+      "sources": [
+        "https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes"
+      ],
+      "removed": [
+        "Документация Google о смене URL: https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes"
+      ],
+      "old_sha256": "c65508acb8e3f18014d9d25bf90dd9d2286ce6f32bc5574700c07d7c306fc446",
+      "new_sha256": "27b1b9a98354c8c04e6be31071a8c9ab87970b838847843b559ddc13c821dfa7"
+    }
+  ]
+}

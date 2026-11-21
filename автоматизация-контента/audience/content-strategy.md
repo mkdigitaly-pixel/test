@@ -1,5 +1,7 @@
 # Контент-стратегия под JTBD
 
+New materials follow the [client search query map](client-search-queries.md) and the current [editorial workflow](../briefs/editorial-workflow.md). The examples below are historical.
+
 > Каждый пост/статья должны закрывать конкретную "работу" конкретного сегмента.
 
 ---

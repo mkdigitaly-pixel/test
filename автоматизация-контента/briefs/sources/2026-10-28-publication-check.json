@@ -1,0 +1,49 @@
+{
+  "checked_at": "2026-10-28T08:59:05.225485+05:00",
+  "fact_reviewed_items": [
+    "query-description-seo",
+    "b2b-catalog-retargeting-tg",
+    "b2b-catalog-retargeting-vk"
+  ],
+  "sources": [
+    {
+      "url": "https://yandex.ru/support/direct/ru/impression-criteria/retargeting-lists",
+      "checked_at": "2026-10-28T08:59:05.225485+05:00",
+      "http": 200,
+      "sha256": "bfee6ff7183a04f1441bede5fd294318c3a81bbdc07a874e13395a6f53b1f742"
+    },
+    {
+      "url": "https://b2b.yandex.ru/adv/news/obnovlenie-targetingov-epk",
+      "checked_at": "2026-10-28T08:59:05.225485+05:00",
+      "http": 200,
+      "sha256": "92fc8961ee6ae4a76f552ed90d7cf45fa7a8475e1e2d6e9f7a5985237ba732fe"
+    }
+  ],
+  "body_changes": false,
+  "dzen_confirmation": {
+    "id": "b2b-wholesale-retail",
+    "title": "В рекламе — опт, в заявках — одна штука. Что проверить в Яндекс Директе",
+    "url": "https://dzen.ru/a/auBMgIwtABJAWLPT",
+    "exact_export_matches": 1,
+    "changed_fields": {
+      "dzen_rss_pending": [
+        true,
+        false
+      ],
+      "dzen_url": [
+        "",
+        "https://dzen.ru/a/auBMgIwtABJAWLPT"
+      ]
+    }
+  },
+  "approved_stock": {
+    "tg": 12,
+    "vk": 12,
+    "through": "2026-11-08",
+    "unfilled_window_days": [
+      "2026-11-09",
+      "2026-11-10"
+    ]
+  },
+  "pending_approval": "B06–B08 first requested 2026-10-27; not repeated"
+}
