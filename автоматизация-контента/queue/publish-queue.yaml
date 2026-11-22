@@ -510,7 +510,7 @@ items:
   dzen_url_verified_at: '2026-11-21T05:59:37.025858+00:00'
 - id: crm-audience-data
   status: approved
-  topic: База клиентов есть. Почему из неё ещё не получается аудитория для рекламы?
+  topic: База клиентов есть. Почему из нее еще не получается аудитория для рекламы?
   editorial_topic_id: P09
   dzen_url: ''
   dzen_article: articles/dzen/articles/2026-11-24-crm-audience-data.md
@@ -525,8 +525,9 @@ items:
   standalone_post_ids:
   - daily-crm-audience-data-tg
   - daily-crm-audience-data-vk
-  fact_checked_at: '2026-10-15'
-  fact_review_due: '2026-11-23'
+  fact_checked_at: '2026-11-22'
+  fact_review_note: Проверка перед 24 ноября выполнена 22 ноября по актуальной справке
+    Яндекса; анонс сентября не выдается за новую новость.
 - id: ozon-reviews-site
   status: approved
   topic: Отзывы остались на Ozon. Как использовать их на своём сайте?

@@ -7,14 +7,17 @@ $env:PYTHONUTF8 = '1'
 $env:PYTHONIOENCODING = 'utf-8'
 $OutputEncoding = [System.Text.UTF8Encoding]::new($false)
 [Console]::OutputEncoding = $OutputEncoding
-$gitCandidates = @('C:\Program Files\Git\cmd\git.exe')
+$gitCandidates = @((Join-Path $RuntimeRoot 'tools\git\cmd\git.exe'), 'C:\Program Files\Git\cmd\git.exe')
 $gitCommand = Get-Command git.exe -ErrorAction SilentlyContinue
 if ($gitCommand) { $gitCandidates += $gitCommand.Source }
-$packages = Get-AppxPackage -Name 'OpenAI.CodexPrimaryRuntime*' -ErrorAction SilentlyContinue | Sort-Object Version -Descending
-foreach ($package in $packages) {
-    $gitCandidates += Join-Path $package.InstallLocation 'dependencies\native\git\cmd\git.exe'
-}
 $gitExe = $gitCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+if (-not $gitExe) {
+    $packages = Get-AppxPackage -Name 'OpenAI.CodexPrimaryRuntime*' -ErrorAction SilentlyContinue | Sort-Object Version -Descending
+    foreach ($package in $packages) {
+        $gitCandidates += Join-Path $package.InstallLocation 'dependencies\native\git\cmd\git.exe'
+    }
+    $gitExe = $gitCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+}
 if (-not $gitExe) { throw 'Git is not installed or cannot be located' }
 $env:PATH = (Split-Path -Parent $gitExe) + ';' + $env:PATH
 $pythonExe = Join-Path $RuntimeRoot '.venv\Scripts\python.exe'
