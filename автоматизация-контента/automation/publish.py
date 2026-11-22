@@ -1211,7 +1211,7 @@ def publish_dzen_article(
 
     if not dry_run:
         item["dzen_rss_pending"] = not draft
-        item["dzen_html_path"] = str(html_path.relative_to(ROOT))
+        item["dzen_html_path"] = html_path.relative_to(ROOT).as_posix()
         item["dzen_feed_url"] = FEED_LINK
         print("  → Дзен заберёт RSS автоматически; dzen_url подтянется через schedule sync-urls")
 
@@ -1668,14 +1668,13 @@ def execute_schedule_slot(slot: dict[str, Any], *, dry_run: bool) -> tuple[bool,
 def serialized_schedule(func):
     @wraps(func)
     def wrapped(*args, **kwargs):
-        import fcntl
-        with (ROOT / "queue" / ".schedule.lock").open("a") as lock:
-            try:
-                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-            except BlockingIOError:
-                print("Расписание уже выполняется — пропуск")
-                return 0
-            return func(*args, **kwargs)
+        from runtime_lock import LockBusy, exclusive_lock
+        try:
+            with exclusive_lock(ROOT / "queue" / ".schedule.lock"):
+                return func(*args, **kwargs)
+        except LockBusy:
+            print("Расписание уже выполняется — пропуск")
+            return 0
     return wrapped
 
 

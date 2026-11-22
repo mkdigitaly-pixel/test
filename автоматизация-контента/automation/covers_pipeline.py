@@ -171,7 +171,7 @@ def cmd_request(args: argparse.Namespace) -> int:
     if cover and file_ok(cover):
         out_landscape = cover
         cover_path = Path(cover)
-        vk_variant = str(cover_path.with_name(f"{cover_path.stem}-vk{cover_path.suffix}"))
+        vk_variant = cover_path.with_name(f"{cover_path.stem}-vk{cover_path.suffix}").as_posix()
         out_vk = next((path for path in (vk_variant, out_vk, cover) if file_ok(path)), cover)
 
     outputs = {"dzen": out_landscape, "tg": out_landscape, "vk": out_vk}
@@ -195,7 +195,7 @@ def cmd_request(args: argparse.Namespace) -> int:
         "requested_at": now_iso(),
     }
     if brief.is_file():
-        row["brief"] = str(brief.relative_to(ROOT))
+        row["brief"] = brief.relative_to(ROOT).as_posix()
     if ready:
         row["ready_at"] = (existing or {}).get("ready_at") or now_iso()
     if existing:
