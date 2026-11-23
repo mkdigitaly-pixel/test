@@ -6,12 +6,14 @@ $taskName = 'mkekspert-content'
 $existing = Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue
 if ($existing) { throw 'Task already exists; inspect it instead of creating a duplicate' }
 $checkout = Join-Path $RuntimeRoot 'repo'
-$projects = @(Get-ChildItem -LiteralPath $checkout -Directory | Where-Object { Test-Path -LiteralPath (Join-Path $_.FullName 'automation\run-windows.ps1') })
+$projects = @(Get-ChildItem -LiteralPath $checkout -Directory | Where-Object { Test-Path -LiteralPath (Join-Path $_.FullName 'automation\run_windowless.py') })
 if ($projects.Count -ne 1) { throw 'Expected exactly one content project with the Windows launcher' }
-$entry = Join-Path $projects[0].FullName 'automation\run-windows.ps1'
+$entry = Join-Path $projects[0].FullName 'automation\run_windowless.py'
 $quote = [char]34
-$arguments = '-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File ' + $quote + $entry + $quote + ' -RuntimeRoot ' + $quote + $RuntimeRoot + $quote
-$action = New-ScheduledTaskAction -Execute "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe" -Argument $arguments
+$arguments = $quote + $entry + $quote + ' --runtime-root ' + $quote + $RuntimeRoot + $quote
+$pythonw = Join-Path $RuntimeRoot '.venv\Scripts\pythonw.exe'
+if (-not (Test-Path -LiteralPath $pythonw)) { throw 'Windowless Python runtime is missing' }
+$action = New-ScheduledTaskAction -Execute $pythonw -Argument $arguments -WorkingDirectory $RuntimeRoot
 $trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddMinutes(1) -RepetitionInterval (New-TimeSpan -Minutes 5)
 $identity = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
 $logonTrigger = New-ScheduledTaskTrigger -AtLogOn -User $identity
