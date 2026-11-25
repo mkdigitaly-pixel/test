@@ -841,8 +841,9 @@ slots:
   time: '12:00'
   action: publish_dzen
   campaign_id: crm-audience-data
-  status: failed
-  error: 'GitHub Pages: публикация не подтверждена'
+  status: scheduled
+  recovered_from_error: 'GitHub Pages: публикация не подтверждена'
+  recovery_queued_at: '2026-11-25T04:42:16.374879+00:00'
 - date: '2026-11-27'
   time: '12:00'
   action: publish_dzen

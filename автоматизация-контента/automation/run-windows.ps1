@@ -5,6 +5,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $env:PYTHONUTF8 = '1'
 $env:PYTHONIOENCODING = 'utf-8'
+$env:PYTHONUNBUFFERED = '1'
 $OutputEncoding = [System.Text.UTF8Encoding]::new($false)
 [Console]::OutputEncoding = $OutputEncoding
 $gitCandidates = @((Join-Path $RuntimeRoot 'tools\git\cmd\git.exe'), 'C:\Program Files\Git\cmd\git.exe')
@@ -30,6 +31,14 @@ if ((Test-Path -LiteralPath $logPath) -and (Get-Item -LiteralPath $logPath).Leng
 }
 $argsList = @($entry, '--runtime-root', $RuntimeRoot)
 if ($DryRun) { $argsList += '--dry-run' }
-& $pythonExe @argsList 2>&1 | Out-File -LiteralPath $logPath -Append -Encoding utf8
-$runExitCode = $LASTEXITCODE
+# Windows PowerShell 5.1 wraps native stderr as ErrorRecord. Git progress
+# and warnings are not failures; the native exit code remains authoritative.
+$nativePreference = $ErrorActionPreference
+try {
+    $ErrorActionPreference = 'Continue'
+    & $pythonExe @argsList 2>&1 | ForEach-Object { $_.ToString() } | Out-File -LiteralPath $logPath -Append -Encoding utf8 -ErrorAction Stop
+    $runExitCode = $LASTEXITCODE
+} finally {
+    $ErrorActionPreference = $nativePreference
+}
 if ($runExitCode -ne 0) { throw "Local publisher exited with code $runExitCode; see $logPath" }

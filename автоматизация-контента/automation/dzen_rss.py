@@ -957,13 +957,7 @@ def deploy_gh_pages(*, campaign_id: str = "", dry_run: bool = False) -> str:
                 capture_output=True,
                 text=True,
             )
-            subprocess.run(
-                ["git", "checkout", "-B", "gh-pages"],
-                cwd=worktree,
-                check=True,
-                capture_output=True,
-                text=True,
-            )
+            # Keep the checkout detached: gh-pages may belong to another worktree.
         else:
             subprocess.run(
                 ["git", "worktree", "add", "--orphan", "-b", "gh-pages", str(worktree)],
