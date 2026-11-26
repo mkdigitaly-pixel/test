@@ -1328,10 +1328,11 @@ slots:
   time: '18:00'
   timezone: Asia/Yekaterinburg
   action: publish_tg_post
-  status: scheduled
+  status: done
   post_id: agency-kpi-sales-2026-11-26-tg
   approval_source: 'Мария: «сделай картинку и на всех площадках размести», 26 ноября
     2026; затем «в ВК я руками опубликовала».'
+  completed_at: '2026-11-26T18:04:31.463151+05:00'
 - date: '2026-11-26'
   time: '14:18'
   timezone: Asia/Yekaterinburg
@@ -1346,12 +1347,13 @@ slots:
   time: '18:00'
   timezone: Asia/Yekaterinburg
   action: publish_dzen
-  status: scheduled
+  status: done
   campaign_id: agency-kpi-sales-2026-11-26
   approval_source: 'Мария: «сделай картинку и на всех площадках размести», 26 ноября
     2026; затем «в ВК я руками опубликовала».'
   notes: Разовый выход по поручению на всех площадках; регулярная статья 27 ноября
     12:00 сохранена.
+  completed_at: '2026-11-26T18:04:31.463151+05:00'
 catchup_hours: 24
 daily_social_transition:
   approved_on: '2026-10-15'

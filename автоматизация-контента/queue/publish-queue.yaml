@@ -777,7 +777,7 @@ items:
   dzen_published_at: '2026-11-18T18:00:14.782039+05:00'
   dzen_url_verified_at: '2026-11-19T05:17:24.207729+00:00'
 - id: agency-kpi-sales-2026-11-26
-  status: approved
+  status: published
   topic: Крупное агентство, многомиллионные бюджеты. А где продажи?
   editorial_topic_id: CASE-2026-11-26-AGENCY
   dzen_url: ''
@@ -799,3 +799,7 @@ items:
     Время 18:00 выбрано по действующему часу новых постов и сообщено в чате. Другие
     каналы и Tilda не затрагиваются. Личный рассказ автора, компании не названы.
   blog_published_at: '2026-11-26T13:04:38+00:00'
+  dzen_rss_pending: true
+  dzen_html_path: articles/dzen/html/2026-11-26-agency-kpi-sales.html
+  dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
+  dzen_published_at: '2026-11-26T18:05:33.302827+05:00'
