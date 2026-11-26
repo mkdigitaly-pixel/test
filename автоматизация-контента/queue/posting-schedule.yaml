@@ -1324,6 +1324,34 @@ slots:
     в 18:00», 18 ноября 2026'
   notes: Разовая личная публикация; без тизеров.
   completed_at: '2026-11-18T18:00:01.882946+05:00'
+- date: '2026-11-26'
+  time: '18:00'
+  timezone: Asia/Yekaterinburg
+  action: publish_tg_post
+  status: scheduled
+  post_id: agency-kpi-sales-2026-11-26-tg
+  approval_source: 'Мария: «сделай картинку и на всех площадках размести», 26 ноября
+    2026; затем «в ВК я руками опубликовала».'
+- date: '2026-11-26'
+  time: '14:18'
+  timezone: Asia/Yekaterinburg
+  action: publish_vk_post
+  status: done
+  post_id: agency-kpi-sales-2026-11-26-vk
+  completion_source: user_report
+  reported_at: '2026-11-26T14:18:34.619833+05:00'
+  notes: Время получения сообщения о ручной публикации, не установленное время выхода.
+    Автоматической отправки не было и не требуется.
+- date: '2026-11-26'
+  time: '18:00'
+  timezone: Asia/Yekaterinburg
+  action: publish_dzen
+  status: scheduled
+  campaign_id: agency-kpi-sales-2026-11-26
+  approval_source: 'Мария: «сделай картинку и на всех площадках размести», 26 ноября
+    2026; затем «в ВК я руками опубликовала».'
+  notes: Разовый выход по поручению на всех площадках; регулярная статья 27 ноября
+    12:00 сохранена.
 catchup_hours: 24
 daily_social_transition:
   approved_on: '2026-10-15'

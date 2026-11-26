@@ -776,3 +776,21 @@ items:
   dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
   dzen_published_at: '2026-11-18T18:00:14.782039+05:00'
   dzen_url_verified_at: '2026-11-19T05:17:24.207729+00:00'
+- id: agency-kpi-sales-2026-11-26
+  status: approved
+  topic: Крупное агентство, многомиллионные бюджеты. А где продажи?
+  editorial_topic_id: CASE-2026-11-26-AGENCY
+  dzen_url: ''
+  dzen_article: articles/dzen/articles/2026-11-26-agency-kpi-sales.md
+  cover: assets/covers/agency-kpi-sales-2026-11-26.jpg
+  scheduled_dzen: '2026-11-26T18:00:00+05:00'
+  topic_approved_at: '2026-11-26'
+  fact_checked_at: '2026-11-26'
+  approved_at: '2026-11-26T14:18:34.619833+05:00'
+  approval_source: 'Мария: «сделай картинку и на всех площадках размести», 26 ноября 2026; затем «в ВК я руками опубликовала».'
+  teasers_enabled: false
+  teasers_disabled_reason: Тот же разбор выходит самостоятельным постом TG и уже размещен Марией в VK.
+  standalone_post_ids:
+  - agency-kpi-sales-2026-11-26-tg
+  - agency-kpi-sales-2026-11-26-vk
+  notes: Разовое размещение по прямому поручению Марии на всех собственных площадках. Время 18:00 выбрано по действующему часу новых постов и сообщено в чате. Другие каналы и Tilda не затрагиваются. Личный рассказ автора, компании не названы.
