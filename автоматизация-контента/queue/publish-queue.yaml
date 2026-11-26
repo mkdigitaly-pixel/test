@@ -540,7 +540,7 @@ items:
   dzen_url_verified_at: '2026-11-25T04:48:11.419356+00:00'
 - id: ozon-reviews-site
   status: approved
-  topic: Отзывы остались на Ozon. Как использовать их на своём сайте?
+  topic: Отзывы остались на Ozon. Как использовать их на своем сайте?
   editorial_topic_id: P10
   dzen_url: ''
   dzen_article: articles/dzen/articles/2026-11-27-ozon-reviews-site.md
@@ -555,8 +555,8 @@ items:
   standalone_post_ids:
   - daily-ozon-reviews-site-tg
   - daily-ozon-reviews-site-vk
-  fact_checked_at: '2026-10-15'
-  fact_review_due: '2026-11-26'
+  fact_checked_at: '2026-11-26'
+  fact_review_note: briefs/2026-11-26-fact-review.md
 - id: ugc-fresh-data
   status: approved
   topic: 'UGC Fresh Data: кому подходит программа Google для пользовательского контента'
