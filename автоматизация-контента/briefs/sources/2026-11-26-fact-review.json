@@ -1,0 +1,38 @@
+{
+  "checked_at": "2026-11-26",
+  "campaign_id": "ozon-reviews-site",
+  "scheduled_dzen": "2026-11-27T12:00:00+05:00",
+  "sources": [
+    {
+      "url": "https://yandex.ru/support/kit/ru/settings/reviews",
+      "type": "official_current_documentation",
+      "verified": [
+        "Импорт Ozon поддерживается; учтены правила сопоставления, срок первой выборки, обновления и анонимность.",
+        "Условие о подписке отмечено как изменяемое."
+      ]
+    },
+    {
+      "url": "https://yandex.ru/support/kit/ru/settings/product/data-source/ozon",
+      "type": "official_current_documentation",
+      "verified": "Подключение выполняется через разрешение Ozon Seller."
+    },
+    {
+      "url": "https://b2b.yandex.ru/adv/news/v-yandeks-kit-poyavilsya-import-otzyvov-s-ozon",
+      "type": "official_announcement",
+      "verified": "Исторический анонс; не используется вместо действующей справки."
+    }
+  ],
+  "changes": [
+    "Обновлена дата проверки; выполненный due снят.",
+    "Уточнены условия импорта и приемки; без обещаний SEO-эффекта.",
+    "Убраны повторяющиеся «я бы», использована е."
+  ],
+  "teasers_enabled": false,
+  "published_early": false,
+  "article_sha256": "4977f5729323cbd50c0fdc30c6dc71c605ca95f7d4a3db104ed975b9890888ed",
+  "verification": {
+    "network_free_dry_run": "passed",
+    "queues_and_rss_unchanged": true,
+    "article_and_cover_files": "verified"
+  }
+}
