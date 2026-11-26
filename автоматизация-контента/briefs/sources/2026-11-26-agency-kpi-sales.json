@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-26",
+  "topic_id": "CASE-2026-11-26-AGENCY",
+  "source_type": "first_hand_user_account",
+  "source": "Личный рассказ Марии в этом чате, 26 ноября 2026",
+  "independent_verification": false,
+  "approval_source": "Мария: «сделай картинку и на всех площадках размести», 26 ноября 2026; затем «в ВК я руками опубликовала».",
+  "post_body_sha256": "7175a9aa39860973fac1457c2178a8e81a419659930b570ac901c625e48215ed",
+  "cover_png_sha256": "dce0f7869e9df4dcd304418557d290bb1af256f19ecbb79d9275221de029b514",
+  "scheduled_tg_and_dzen": "2026-11-26T18:00:00+05:00",
+  "vk_status": "manual_reported_without_url",
+  "teasers_enabled": false,
+  "verification": {
+    "offline_dry_runs": [
+      "tg",
+      "dzen_rss"
+    ],
+    "previous_slots_preserved": true,
+    "tg_single_rich_message": true,
+    "tg_blank_lines": 15,
+    "actual_network_sends": 0
+  }
+}
