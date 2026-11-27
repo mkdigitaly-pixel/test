@@ -849,7 +849,8 @@ slots:
   time: '12:00'
   action: publish_dzen
   campaign_id: ozon-reviews-site
-  status: scheduled
+  status: done
+  completed_at: '2026-11-27T12:04:31.773997+05:00'
 - date: '2026-12-01'
   time: '12:00'
   action: publish_dzen
