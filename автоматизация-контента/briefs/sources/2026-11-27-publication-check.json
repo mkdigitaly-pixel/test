@@ -1,0 +1,49 @@
+{
+  "checked_at": "2026-11-27T04:02:35.415654+00:00",
+  "campaign_id": "agency-kpi-sales-2026-11-26",
+  "title": "Крупное агентство, многомиллионные бюджеты. А где продажи?",
+  "telegram": {
+    "url": "https://t.me/mariyaprodirect/200",
+    "http_status": 200,
+    "message_id": 200,
+    "receipt_state": "confirmed",
+    "public_full_text_matches": null,
+    "public_text_chars": null,
+    "photo_blocks": null,
+    "public_blank_lines": null,
+    "public_embed_supported": false,
+    "public_embed_limitation": "Telegram widget returns text_not_supported_wrap/message_media_not_supported for this rich message; receipt and saved payload verify delivery.",
+    "saved_payload_sha256_matches": true,
+    "confirmed_at": "2026-11-26T13:04:37.509205+00:00",
+    "delivery_format": "single_message",
+    "saved_blank_lines": 15
+  },
+  "blog": {
+    "url": "https://blog.mkekspert.ru/articles/agency-kpi-sales-2026-11-26.html",
+    "http_status": 200,
+    "title_matches": true,
+    "publication_date": "2026-11-26",
+    "blog_published_at": "2026-11-26T13:04:38+00:00"
+  },
+  "rss": {
+    "url": "https://blog.mkekspert.ru/dzen-feed.xml",
+    "http_status": 200,
+    "matching_items": 1,
+    "guid": "mkekspert-dzen-agency-kpi-sales-2026-11-26",
+    "pubDate": "Thu, 26 Nov 2026 13:04:38 +0000"
+  },
+  "dzen": {
+    "url": "https://dzen.ru/a/awgu4iaAsBK9JlAL",
+    "export_url": "https://dzen.ru/api/v3/launcher/export?channel_name=klientyandtrafik",
+    "http_status": 200,
+    "exact_title_match": true
+  },
+  "vk": {
+    "status": "manual_reported",
+    "user_report_date": "2026-11-26",
+    "numeric_post_id_received": false,
+    "cover_already_delivered": true
+  },
+  "new_sends": 0,
+  "teasers_enabled": false
+}
