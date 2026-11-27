@@ -557,6 +557,7 @@ items:
   - daily-ozon-reviews-site-vk
   fact_checked_at: '2026-11-26'
   fact_review_note: briefs/2026-11-26-fact-review.md
+  blog_published_at: '2026-11-27T07:04:32+00:00'
 - id: ugc-fresh-data
   status: approved
   topic: 'UGC Fresh Data: кому подходит программа Google для пользовательского контента'
