@@ -542,7 +542,7 @@ items:
   status: published
   topic: Отзывы остались на Ozon. Как использовать их на своем сайте?
   editorial_topic_id: P10
-  dzen_url: ''
+  dzen_url: https://dzen.ru/a/awkr_cd-fTJLozv_
   dzen_article: articles/dzen/articles/2026-11-27-ozon-reviews-site.md
   cover: assets/covers/ozon-reviews-site.jpg
   scheduled_dzen: '2026-11-27T12:00:00+05:00'
@@ -558,10 +558,12 @@ items:
   fact_checked_at: '2026-11-26'
   fact_review_note: briefs/2026-11-26-fact-review.md
   blog_published_at: '2026-11-27T07:04:32+00:00'
-  dzen_rss_pending: true
+  dzen_rss_pending: false
   dzen_html_path: articles/dzen/html/2026-11-27-ozon-reviews-site.html
   dzen_feed_url: https://blog.mkekspert.ru/dzen-feed.xml
   dzen_published_at: '2026-11-27T12:05:22.774476+05:00'
+  dzen_url_verified_at: '2026-11-28T07:34:37.026483+00:00'
+
 - id: ugc-fresh-data
   status: approved
   topic: 'UGC Fresh Data: кому подходит программа Google для пользовательского контента'
