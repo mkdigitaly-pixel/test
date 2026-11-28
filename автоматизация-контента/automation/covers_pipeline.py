@@ -111,15 +111,15 @@ def write_brief(item: dict[str, Any], *, vk_post_id: int | None = None) -> Path:
         f"# Codex brief: обложка `{slug}`",
         "",
         "Сделай **файлы в этом репозитории** (не только превью в чате).",
-        "Если JPG уже лежит в `assets/covers/` — **перезапиши** новой качественной версией.",
-        "Стиль: **как в Telegram / brand-visual** — тёмный фон `#181818`, акцент зелёный `#4EAF4E`, жёлтый `#FFCC4A`.",
-        "**Нельзя:** claymorphism / пластилин / ivory 3D.",
-        "Референс: `assets/covers/tg-week5.jpg` (тот же стиль, для VK — квадрат).",
+        "Готовый согласованный файл используй повторно. Новую версию сохраняй отдельно.",
+        "Стиль главной mkekspert.ru: молочный фон `#FDFBF7`, графит `#292B2E`, терракота `#A85A32`.",
+        "Встроенная генерация. Читаемый заголовок из согласованного материала.",
+        "Референс: `assets/covers/direct-b2b-directions-site.png`. Для VK — квадрат.",
         "",
         "## Текст на обложке",
         f"- Заголовок: **{headline}**",
         f"- Подзаголовок: **{subline}**",
-        "- Бренд внизу: `Мария Ковалева · mkekspert.ru`",
+        "- Фирменная надпись сверху: `МК ЭКСПЕРТ` из шапки сайта, «МК» терракотовым.",
         "",
         "## Файлы (обязательно оба пути, если платформа нужна)",
     ]
@@ -136,13 +136,13 @@ def write_brief(item: dict[str, Any], *, vk_post_id: int | None = None) -> Path:
         "## Промпт (можно уточнить объект, но не стиль)",
         "",
         "```",
-        f"Flat bold social media cover for Yandex Direct B2B expert Maria Kovaleva, "
-        f"same style as Telegram channel covers. Headline «{headline}», subline «{subline}», "
-        "footer «Мария Ковалева · mkekspert.ru». Dark charcoal background #181818, "
-        "bright green #4EAF4E left stripe, golden yellow #FFCC4A bottom stripe, "
-        "white headline, yellow subline, green brand line. Abstract bar chart and upward arrow "
-        "accents on the right. Clean sans-serif typography, high contrast, mobile feed ready. "
-        "No claymorphism, no plasticine, no 3D clay, no ivory background, no terracotta blobs.",
+        f"Light editorial cover for Yandex Direct B2B expert Maria Kovaleva. "
+        f"Use exact headline «{headline}» and approved subline only if needed. "
+        "Wordmark «МК ЭКСПЕРТ» with terracotta «МК» and graphite «ЭКСПЕРТ». "
+        "Warm ivory #FDFBF7, graphite #292B2E, terracotta #A85A32, sand #D4A373. "
+        "Choose imagery grounded in the topic. "
+        "Geometric Cyrillic typography, high contrast, mobile feed ready. "
+        "Use е throughout. No extra lettering or invented logo.",
         "```",
         "",
         "## Когда готово",
@@ -164,31 +164,50 @@ def write_brief(item: dict[str, Any], *, vk_post_id: int | None = None) -> Path:
 def cmd_request(args: argparse.Namespace) -> int:
     item = find_content(args.id)
     slug = slug_of(item)
-    brief = write_brief(item, vk_post_id=args.vk_post_id)
+    platforms = platforms_of(item)
+    out_landscape = f"assets/covers/{slug}.jpg"
+    out_vk = f"assets/covers/{slug}-vk.jpg"
+    cover = item.get("cover")
+    if cover and file_ok(cover):
+        out_landscape = cover
+        cover_path = Path(cover)
+        vk_variant = cover_path.with_name(f"{cover_path.stem}-vk{cover_path.suffix}").as_posix()
+        out_vk = next((path for path in (vk_variant, out_vk, cover) if file_ok(path)), cover)
+
+    outputs = {"dzen": out_landscape, "tg": out_landscape, "vk": out_vk}
+    ready = all(file_ok(outputs[platform]) for platform in platforms)
+    brief = BRIEFS / f"{slug}.md"
+    if not ready:
+        brief = write_brief(item, vk_post_id=args.vk_post_id)
+
     inbox = load_inbox()
     existing = next((x for x in inbox if x.get("id") == args.id or x.get("slug") == slug), None)
     row = {
         "id": args.id,
         "slug": slug,
-        "status": "waiting_codex",
-        "platforms": platforms_of(item),
+        "status": "ready" if ready else "waiting_codex",
+        "platforms": platforms,
         "headline": headline_of(item),
         "subline": subline_of(item),
-        "out_landscape": f"assets/covers/{slug}.jpg",
-        "out_vk": f"assets/covers/{slug}-vk.jpg",
-        "brief": str(brief.relative_to(ROOT)),
+        "out_landscape": out_landscape,
+        "out_vk": out_vk,
         "vk_post_id": args.vk_post_id,
         "requested_at": now_iso(),
     }
+    if brief.is_file():
+        row["brief"] = brief.relative_to(ROOT).as_posix()
+    if ready:
+        row["ready_at"] = (existing or {}).get("ready_at") or now_iso()
     if existing:
         existing.update(row)
-        # keep ready_at if any
     else:
         inbox.append(row)
     save_inbox(inbox)
-    print(f"✓ inbox ← {args.id} (waiting_codex)")
-    print(f"  brief: {brief.relative_to(ROOT)}")
-    print("  Codex на ПК: открой brief и сохрани JPG в assets/covers/")
+    print(f"✓ inbox ← {args.id} ({row['status']})")
+    if ready:
+        print(f"  VK вручную: {out_vk}")
+    else:
+        print(f"  brief: {brief.relative_to(ROOT)}")
     return 0
 
 

@@ -1,0 +1,61 @@
+{
+  "tests": 32,
+  "future_posts": [
+    {
+      "id": "daily-impressions-without-clicks-tg",
+      "characters": 2447,
+      "one_request": true,
+      "full_text": true
+    },
+    {
+      "id": "daily-direct-brand-demand-tg",
+      "characters": 2196,
+      "one_request": true,
+      "full_text": true
+    },
+    {
+      "id": "daily-direct-product-catalog-tg",
+      "characters": 2216,
+      "one_request": true,
+      "full_text": true
+    },
+    {
+      "id": "daily-direct-b2b-directions-tg",
+      "characters": 2245,
+      "one_request": true,
+      "full_text": true
+    },
+    {
+      "id": "daily-direct-seo-query-exchange-tg",
+      "characters": 2210,
+      "one_request": true,
+      "full_text": true
+    },
+    {
+      "id": "daily-seo-redesign-pages-tg",
+      "characters": 2275,
+      "one_request": true,
+      "full_text": true
+    }
+  ],
+  "network_disabled": true,
+  "installed_at": "2026-11-03T09:17:19.859734+05:00",
+  "requested_on": "2026-11-02",
+  "delivery_format": "single_message",
+  "real_send_verified": false,
+  "first_scheduled_verification": "2026-11-03T18:00:00+05:00",
+  "schedule_sha256": "3668cbb5c11512a52f5cc139aa2774b5a48d28958cda076b67a94828dd6e02ad",
+  "article_queue_sha256": "d514f2360bdadbe2f89bb0e714182fee8f968d846465496f309022b4013a6bd5",
+  "unchanged_post_files": {
+    "daily-impressions-without-clicks-tg": "5d308f4abdfcb34b3f057e613f6fc36512dc88be5f265c04a538c0e6b9ba3a46",
+    "daily-direct-brand-demand-tg": "2e12249f59983a8420514c0330aaa8b6fc72eee1755686109cec32433069fe6b",
+    "daily-direct-product-catalog-tg": "271e003dd6ac54032e2454da8cc0207fa8a9d18dd53aefcb400608769e45ffb9",
+    "daily-direct-b2b-directions-tg": "35dd70b80e9dfa69e3ad8814b2cae3b90c7fa071247495e0e0b952d6a87b0546",
+    "daily-direct-seo-query-exchange-tg": "28808fc9e1b7e7824fbae3688a5c87337a3999f4b42f84f27c835606c5dd53d5",
+    "daily-seo-redesign-pages-tg": "9b8aca6e13096a1c0e133d05d3e1d896d624fd0e86b6b8761d46224aae4d7b0d"
+  },
+  "public_sources": [
+    "https://core.telegram.org/bots/api#sendrichmessage",
+    "https://core.telegram.org/bots/api#inputrichmessage"
+  ]
+}

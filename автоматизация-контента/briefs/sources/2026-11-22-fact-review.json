@@ -1,0 +1,25 @@
+{
+  "checked_at": "2026-11-22",
+  "campaign_id": "crm-audience-data",
+  "scheduled_dzen": "2026-11-24T12:00:00+05:00",
+  "sources": [
+    {
+      "url": "https://yandex.ru/support/audience/ru/segments/create-from-file",
+      "type": "official_current_documentation",
+      "verified": "Универсальный сегмент поддерживает разные типы идентификаторов в одной загрузке; возможности сервиса не подменяют отбор данных."
+    },
+    {
+      "url": "https://b2b.yandex.ru/adv/news/universalnyy-segment-yandex-auditorii",
+      "event_date": "2026-09-24",
+      "type": "official_announcement",
+      "verified": "Анонс универсального формата относится к сентябрю; не выдавать его за ноябрьскую новость."
+    }
+  ],
+  "changes": [
+    "Обновлена дата проверки и добавлена актуальная справка.",
+    "Историческое «появился» заменено описанием текущей поддержки.",
+    "В тексте использована е по поручению Марии; тема и назначенный слот сохранены."
+  ],
+  "teasers_enabled": false,
+  "published_early": false
+}

@@ -1,0 +1,23 @@
+{
+  "checked_at": "2026-11-25T04:48:11.419356+00:00",
+  "campaign_id": "crm-audience-data",
+  "scheduled_at": "2026-11-24T12:00:00+05:00",
+  "blog_published_at": "2026-11-25T04:44:31+00:00",
+  "blog_url": "https://blog.mkekspert.ru/articles/crm-audience-data.html",
+  "blog_http": 200,
+  "rss_url": "https://blog.mkekspert.ru/dzen-feed.xml",
+  "rss_http": 200,
+  "rss_matching_items": 1,
+  "rss_guid": "mkekspert-dzen-crm-audience-data",
+  "existing_article_pages_unchanged": true,
+  "github_blog_changed_files": [
+    "articles/crm-audience-data.html (added)",
+    "dzen-feed.xml",
+    "index.html",
+    "sitemap.xml"
+  ],
+  "dzen_export_http": 200,
+  "dzen_url": "https://dzen.ru/a/awZogiaAsBK9G_-4",
+  "dzen_confirmed": true,
+  "tests_passed": 44
+}

@@ -1,0 +1,29 @@
+{
+  "checked_at": "2026-11-28T07:33:18.902740+00:00",
+  "campaign_id": "ozon-reviews-site",
+  "title": "Отзывы остались на Ozon. Как использовать их на своем сайте?",
+  "blog": {
+    "url": "https://blog.mkekspert.ru/articles/ozon-reviews-site.html",
+    "http_status": 200,
+    "full_title_match": true,
+    "blog_published_at": "2026-11-27T07:04:32+00:00",
+    "date_preserved": true
+  },
+  "rss": {
+    "url": "https://blog.mkekspert.ru/dzen-feed.xml",
+    "http_status": 200,
+    "matching_items": 1,
+    "guid": "mkekspert-dzen-ozon-reviews-site",
+    "pubDate": "Fri, 27 Nov 2026 07:04:32 +0000"
+  },
+  "dzen": {
+    "export_url": "https://dzen.ru/api/v3/launcher/export?channel_name=klientyandtrafik",
+    "http_status": 200,
+    "exact_title_matches": 1,
+    "url": "https://dzen.ru/a/awkr_cd-fTJLozv_",
+    "dzen_rss_pending": false,
+    "verified_at": "2026-11-28T07:34:37.026483+00:00"
+  },
+  "new_sends": 0,
+  "teasers_enabled": false
+}

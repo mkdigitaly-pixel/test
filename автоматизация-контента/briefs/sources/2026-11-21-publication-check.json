@@ -1,0 +1,38 @@
+{
+  "checked_at": "2026-11-21T05:59:37.025858+00:00",
+  "campaign_id": "max-direct-test",
+  "exact_title": "Реклама в MAX через Директ: что проверить до первого теста",
+  "dzen_url": "https://dzen.ru/a/av_wUMd-fTJLbyVq",
+  "confirmation_url": "https://dzen.ru/api/v3/launcher/export?channel_name=klientyandtrafik",
+  "publication_timestamp": "1795158001",
+  "publication_time_utc": "2026-11-20T07:00:01+00:00",
+  "blog_url": "https://blog.mkekspert.ru/articles/max-direct-test.html",
+  "blog_http_status": 200,
+  "rss_http_status": 200,
+  "rss_pubdate": "Fri, 20 Nov 2026 07:00:01 +0000",
+  "dates_preserved": {
+    "blog_published_at": "2026-11-20T07:00:01+00:00",
+    "dzen_published_at": "2026-11-20T12:00:10.806423+05:00",
+    "scheduled_dzen": "2026-11-20T12:00:00+05:00",
+    "fact_checked_at": "2026-11-19",
+    "cover": "assets/covers/max-direct-test-site.jpg",
+    "teasers_enabled": false
+  },
+  "stock_window": [
+    "2026-11-21",
+    "2026-12-04"
+  ],
+  "ready_counts": {
+    "tg": 0,
+    "vk": 0,
+    "article_files": 4
+  },
+  "next_fact_review_due": {
+    "id": "crm-audience-data",
+    "due": "2026-11-23"
+  },
+  "new_errors": false,
+  "new_vk_covers": false,
+  "pending_topic_proposal": "2026-11-14-client-topics-proposal.md",
+  "pending_status": "awaiting_topic_and_headline_approval"
+}
